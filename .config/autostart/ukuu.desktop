@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=sh "/home/voznik/.config/ukuu-notify.sh"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_IN]=Ukuu Notification
+Name=Ukuu Notification
+Comment[en_IN]=Ukuu Notification
+Comment=Ukuu Notification

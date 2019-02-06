@@ -81,3 +81,14 @@ shopt -s cdspell
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# https://gnunn1.github.io/tilix-web/manual/vteconfig/
+# if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+#     source /etc/profile.d/vte.sh
+# fi
+
+###-tns-completion-start-###
+if [ -f /home/voznik/.tnsrc ]; then
+    source /home/voznik/.tnsrc
+fi
+###-tns-completion-end-###
+

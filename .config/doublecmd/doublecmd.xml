@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doublecmd DCVersion="0.8.2 beta" ConfigVersion="10">
+  <Configuration Save="True" SortOrder="0">
+    <UseConfigInProgramDir>False</UseConfigInProgramDir>
+  </Configuration>
+  <Colors>
+    <FileFilters>
+      <Filter>
+        <Name>Pascal sources</Name>
+        <FileMasks>*.pas;*.pp</FileMasks>
+        <Color>32768</Color>
+        <Attributes/>
+      </Filter>
+      <Filter>
+        <Name>Pascal binaries</Name>
+        <FileMasks>*.ppu;*.o;*.dcu</FileMasks>
+        <Color>16711680</Color>
+        <Attributes/>
+      </Filter>
+      <Filter>
+        <Name>Specified Executables</Name>
+        <FileMasks>*</FileMasks>
+        <Color>55758</Color>
+        <Attributes>-rwxrwxr*x</Attributes>
+      </Filter>
+      <Filter>
+        <Name>Executables</Name>
+        <FileMasks>*</FileMasks>
+        <Color>32768</Color>
+        <Attributes>-*x*</Attributes>
+      </Filter>
+    </FileFilters>
+    <UseCursorBorder>False</UseCursorBorder>
+    <CursorBorderColor>-2147483635</CursorBorderColor>
+    <UseFrameCursor>False</UseFrameCursor>
+    <Foreground>-2147483640</Foreground>
+    <Background>-2147483643</Background>
+    <Background2>-2147483643</Background2>
+    <Cursor>-2147483635</Cursor>
+    <CursorText>-2147483634</CursorText>
+    <Mark>255</Mark>
+    <InactiveCursor>-2147483645</InactiveCursor>
+    <InactiveMark>128</InactiveMark>
+    <UseInvertedSelection>False</UseInvertedSelection>
+    <UseInactiveSelColor>False</UseInactiveSelColor>
+    <AllowOverColor>True</AllowOverColor>
+    <gBorderFrameWidth>1</gBorderFrameWidth>
+    <InactivePanelBrightness>100</InactivePanelBrightness>
+    <FreeSpaceIndicator>
+      <UseGradient>True</UseGradient>
+      <ForeColor>0</ForeColor>
+      <BackColor>16777215</BackColor>
+    </FreeSpaceIndicator>
+  </Colors>
+  <Plugins>
+    <WlxPlugins>
+      <WlxPlugin Enabled="True">
+        <Name>wlxMplayer</Name>
+        <Path>%COMMANDER_PATH%/plugins/wlx/wlxmplayer/wlxmplayer.wlx</Path>
+        <DetectString>(EXT="MPG")|(EXT="AVI")|(EXT="MPEG")|(EXT="FLV")</DetectString>
+      </WlxPlugin>
+    </WlxPlugins>
+    <DsxPlugins/>
+    <WcxPlugins>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>zip</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>735</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>jar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>990</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>223</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>bz2</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tbz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>gz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tgz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>lzma</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>1</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tlz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>xz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>txz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>zipx</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>223</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>cpio</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/cpio/cpio.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>deb</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/deb/deb.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>rpm</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/rpm/rpm.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>rar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/unrar/unrar.wcx</Path>
+        <Flags>68</Flags>
+      </WcxPlugin>
+    </WcxPlugins>
+    <WdxPlugins>
+      <WdxPlugin>
+        <Name>deb_wdx</Name>
+        <Path>%COMMANDER_PATH%/plugins/wdx/deb_wdx/deb_wdx.wdx</Path>
+        <DetectString>EXT="DEB"</DetectString>
+      </WdxPlugin>
+      <WdxPlugin>
+        <Name>rpm_wdx</Name>
+        <Path>%COMMANDER_PATH%/plugins/wdx/rpm_wdx/rpm_wdx.wdx</Path>
+        <DetectString>EXT="RPM"</DetectString>
+      </WdxPlugin>
+      <WdxPlugin>
+        <Name>audioinfo</Name>
+        <Path>%COMMANDER_PATH%/plugins/wdx/audioinfo/audioinfo.wdx</Path>
+        <DetectString>(EXT="MP3") | (EXT="MP2") | (EXT="MP1") | (EXT="OGG") | (EXT="WMA") | (EXT="WAV") | (EXT="VQF") | (EXT="AAC") | (EXT="APE") | (EXT="MPC") | (EXT="FLAC") | (EXT="CDA") | (EXT="TTA") | (EXT="AC3") | (EXT="DTS") | (EXT="WV") | (EXT="WVC") | (EXT="OFR") | (EXT="OFS") | (EXT="M4A") | (EXT="MP4")</DetectString>
+      </WdxPlugin>
+    </WdxPlugins>
+    <WfxPlugins>
+      <WfxPlugin Enabled="True">
+        <Name>FTP</Name>
+        <Path>%commander_path%/plugins/wfx/ftp/ftp.wfx</Path>
+      </WfxPlugin>
+      <WfxPlugin Enabled="True">
+        <Name>Windows Network</Name>
+        <Path>%commander_path%/plugins/wfx/samba/samba.wfx</Path>
+      </WfxPlugin>
+    </WfxPlugins>
+  </Plugins>
+  <Toolbars>
+    <MainToolbar>
+      <Row>
+        <Command>
+          <ID>{284E51F9-6920-4C9C-8819-0200E414B4A8}</ID>
+          <Icon>cm_refresh</Icon>
+          <Command>cm_Refresh</Command>
+        </Command>
+        <Command>
+          <ID>{20A2989F-4E82-453E-BEF0-4D3311634DD9}</ID>
+          <Icon>cm_runterm</Icon>
+          <Command>cm_RunTerm</Command>
+        </Command>
+        <Command>
+          <ID>{0A9FA6EB-4EA6-4222-844C-AC0C52A9185B}</ID>
+          <Icon>cm_options</Icon>
+          <Command>cm_Options</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{A80809D6-C67F-4633-B85D-976082EBB638}</ID>
+          <Icon>cm_briefview</Icon>
+          <Command>cm_BriefView</Command>
+        </Command>
+        <Command>
+          <ID>{8DD31098-44FD-4E3A-B9B1-B223B974AF0D}</ID>
+          <Icon>cm_columnsview</Icon>
+          <Command>cm_ColumnsView</Command>
+        </Command>
+        <Command>
+          <ID>{B37B7CFF-B143-4703-92BB-4D07E15E9443}</ID>
+          <Icon>cm_thumbnailsview</Icon>
+          <Command>cm_ThumbnailsView</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{62C5810C-9549-4FD7-A280-085C67CCE1B0}</ID>
+          <Icon>cm_flatview</Icon>
+          <Command>cm_FlatView</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{E6283F20-8BE0-4959-9724-7B2883537461}</ID>
+          <Icon>cm_viewhistoryprev</Icon>
+          <Command>cm_ViewHistoryPrev</Command>
+        </Command>
+        <Command>
+          <ID>{7FF752FD-A599-4482-ACB8-2A9F88B12F88}</ID>
+          <Icon>cm_viewhistorynext</Icon>
+          <Command>cm_ViewHistoryNext</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{53FFF248-6614-4BB5-84FE-7AF3F944F987}</ID>
+          <Icon>cm_markplus</Icon>
+          <Command>cm_MarkPlus</Command>
+        </Command>
+        <Command>
+          <ID>{2C058565-FB53-4D65-B856-A306E3F0142E}</ID>
+          <Icon>cm_markminus</Icon>
+          <Command>cm_MarkMinus</Command>
+        </Command>
+        <Command>
+          <ID>{F2363313-E1C5-4D26-A9E7-54E7C63FCB49}</ID>
+          <Icon>cm_markinvert</Icon>
+          <Command>cm_MarkInvert</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{AD7AF5E0-D64B-42CC-8003-8362948FC749}</ID>
+          <Icon>cm_packfiles</Icon>
+          <Command>cm_PackFiles</Command>
+        </Command>
+        <Command>
+          <ID>{61ECB48B-15C1-46F2-976D-869D5915C95F}</ID>
+          <Icon>cm_extractfiles</Icon>
+          <Command>cm_ExtractFiles</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{B8CB74D2-A291-4640-9C2D-8BCB604D1003}</ID>
+          <Icon>cm_search</Icon>
+          <Command>cm_Search</Command>
+        </Command>
+        <Command>
+          <ID>{D1F06DD6-F33D-44EC-AC47-0E7002F4540D}</ID>
+          <Icon>cm_multirename</Icon>
+          <Command>cm_MultiRename</Command>
+        </Command>
+        <Command>
+          <ID>{B11E5AB4-A37D-40DF-A077-372F70B0A87F}</ID>
+          <Icon>cm_syncdirs</Icon>
+          <Command>cm_SyncDirs</Command>
+        </Command>
+        <Command>
+          <ID>{CC458D4A-5AE9-4BB5-AC5C-2D94951630C4}</ID>
+          <Icon>cm_copyfullnamestoclip</Icon>
+          <Command>cm_CopyFullNamesToClip</Command>
+        </Command>
+      </Row>
+    </MainToolbar>
+  </Toolbars>
+  <MainWindow>
+    <Position>
+      <Maximized>True</Maximized>
+      <Splitter>50</Splitter>
+      <Left>278</Left>
+      <Top>126</Top>
+      <Width>1431</Width>
+      <Height>868</Height>
+      <PixelsPerInch>96</PixelsPerInch>
+    </Position>
+  </MainWindow>
+  <Tabs>
+    <OpenedTabs>
+      <Left>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>2</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="backintime">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/backintime/</Path>
+                  <Path Filename="bleachbit">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/bleachbit/</Path>
+                  <Path Filename="budgie-welcome">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/budgie-welcome/</Path>
+                  <Path Filename="calibre">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/calibre/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="extassoc.xml">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="fish">/home/voznik/.config/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="config.fish">/home/voznik/.config/fish/</Path>
+                  <Path Filename="Clementine">/home/voznik/.config/</Path>
+                  <Path Filename=".ssh">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.ssh/</Path>
+                  <Path Filename=".sublime">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.sublime/</Path>
+                  <Path Filename=".tilix">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.tilix/</Path>
+                  <Path Filename=".themes">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.themes/</Path>
+                  <Path Filename=".themes">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.themes/</Path>
+                  <Path Filename=".vscode">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.vscode/</Path>
+                  <Path Filename=".wine">/home/voznik/</Path>
+                  <Path Filename="drive_c">/home/voznik/.wine/</Path>
+                  <Path Filename="Downloads">/home/voznik/</Path>
+                  <Path Filename="SA_Launcher_winunx (1).zip">/home/voznik/Downloads/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="share">/home/voznik/.local/</Path>
+                  <Path Filename="applications">/home/voznik/.local/share/</Path>
+                  <Path Filename="franz.desktop">/home/voznik/.local/share/applications/</Path>
+                  <Path Filename="applications">/home/voznik/.local/share/</Path>
+                  <Path Filename="share">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/</Path>
+                  <Path Filename="voznik">/home/</Path>
+                  <Path Filename="usr">/</Path>
+                  <Path Filename="lib">/usr/</Path>
+                  <Path Filename="jvm">/usr/lib/</Path>
+                  <Path Filename="jdk1.8.0_192">/usr/lib/jvm/</Path>
+                  <Path Filename="..">/usr/lib/jvm/jdk1.8.0_192/</Path>
+                  <Path Filename="jdk1.8.0">/usr/lib/jvm/</Path>
+                  <Path Filename="bin">/usr/lib/jvm/jdk1.8.0/</Path>
+                  <Path Filename="..">/usr/lib/jvm/jdk1.8.0/bin/</Path>
+                  <Path Filename="Downloads">/home/voznik/</Path>
+                  <Path Filename="">/home/voznik/Downloads/</Path>
+                  <Path Filename="">/home/voznik/Keys/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>12</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="serviceAccountKey.json">/home/voznik/workspace/firestore-import-export/</Path>
+                  <Path Filename="fff">/home/voznik/workspace/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/fff/</Path>
+                  <Path Filename="..">/home/voznik/workspace/fff/functions/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/fff/</Path>
+                  <Path Filename="..">/home/voznik/workspace/fff/functions/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/fff/</Path>
+                  <Path Filename="src">/home/voznik/workspace/fff/functions/</Path>
+                  <Path Filename="index.ts">/home/voznik/workspace/fff/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/fff/functions/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/fff/</Path>
+                  <Path Filename="flameresume">/home/voznik/workspace/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/flameresume/</Path>
+                  <Path Filename="src">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="serviceAccountKey.json">/home/voznik/workspace/flameresume/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/flameresume/</Path>
+                  <Path Filename="src">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="index (1).js">/home/voznik/workspace/flameresume/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="index (1).js">/home/voznik/workspace/flameresume/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/functions/src/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/functions/</Path>
+                  <Path Filename="app">/home/voznik/workspace/flameresume/</Path>
+                  <Path Filename="modules">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/modules/</Path>
+                  <Path Filename="store">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="modules">/home/voznik/workspace/flameresume/app/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/store/modules/</Path>
+                  <Path Filename="modules">/home/voznik/workspace/flameresume/app/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/store/modules/</Path>
+                  <Path Filename="README.md">/home/voznik/workspace/flameresume/app/store/</Path>
+                  <Path Filename="store">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="app">/home/voznik/workspace/flameresume/</Path>
+                  <Path Filename="components">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="shared">/home/voznik/workspace/flameresume/app/components/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/components/shared/</Path>
+                  <Path Filename="shared">/home/voznik/workspace/flameresume/app/components/</Path>
+                  <Path Filename="Logo.vue">/home/voznik/workspace/flameresume/app/components/shared/</Path>
+                  <Path Filename="shared">/home/voznik/workspace/flameresume/app/components/</Path>
+                  <Path Filename="pages">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/pages/</Path>
+                  <Path Filename="typings">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/typings/</Path>
+                  <Path Filename="modules">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/modules/</Path>
+                  <Path Filename="..">/home/voznik/workspace/flameresume/app/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/flameresume/</Path>
+                  <Path Filename="node_modules">/home/voznik/workspace/flameresume/functions/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+      </Left>
+      <Right>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>2</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="audio">/home/voznik/Documents/1_7_backup/media/</Path>
+                  <Path Filename="zedge">/home/voznik/Documents/1_7_backup/</Path>
+                  <Path Filename="wallpapers">/home/voznik/Documents/1_7_backup/zedge/</Path>
+                  <Path Filename="Abstract Wall_11.jpg">/home/voznik/Documents/1_7_backup/zedge/wallpapers/</Path>
+                  <Path Filename="ringtones">/home/voznik/Documents/1_7_backup/zedge/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/zedge/ringtones/</Path>
+                  <Path Filename="notifications">/home/voznik/Documents/1_7_backup/zedge/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/zedge/notifications/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/zedge/</Path>
+                  <Path Filename="bluetooth">/home/voznik/Documents/1_7_backup/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/bluetooth/</Path>
+                  <Path Filename="bluetooth">/home/voznik/Documents/1_7_backup/</Path>
+                  <Path Filename="2016-03-10_073014.vcf">/home/voznik/Documents/1_7_backup/bluetooth/</Path>
+                  <Path Filename="media">/home/voznik/Documents/1_7_backup/</Path>
+                  <Path Filename="audio">/home/voznik/Documents/1_7_backup/media/</Path>
+                  <Path Filename="alarms">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/media/audio/alarms/</Path>
+                  <Path Filename="notifications">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/media/audio/notifications/</Path>
+                  <Path Filename="notifications">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/media/audio/notifications/</Path>
+                  <Path Filename="ringtones">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/media/audio/ringtones/</Path>
+                  <Path Filename="ui">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="..">/home/voznik/Documents/1_7_backup/media/audio/ui/</Path>
+                  <Path Filename="ringtones">/home/voznik/Documents/1_7_backup/media/audio/</Path>
+                  <Path Filename="audio">/home/voznik/Documents/1_7_backup/media/</Path>
+                  <Path Filename="media">/home/voznik/Documents/1_7_backup/</Path>
+                  <Path Filename="1_7_backup">/home/voznik/Documents/</Path>
+                  <Path Filename="workspace">/home/voznik/</Path>
+                  <Path Filename="buefy-shop">/home/voznik/workspace/</Path>
+                  <Path Filename="LICENSE">/home/voznik/workspace/buefy-shop/</Path>
+                  <Path Filename="..">/home/voznik/workspace/</Path>
+                  <Path Filename="prod.env.js">/home/voznik/workspace/vfsn/config/</Path>
+                  <Path Filename="config">/home/voznik/workspace/vfsn/</Path>
+                  <Path Filename="www">/home/voznik/workspace/</Path>
+                  <Path Filename="dipp">/home/voznik/workspace/www/</Path>
+                  <Path Filename="controllers">/home/voznik/workspace/www/dipp/</Path>
+                  <Path Filename="grav">/home/voznik/workspace/www/</Path>
+                  <Path Filename="backup">/home/voznik/workspace/www/grav/</Path>
+                  <Path Filename="..">/home/voznik/workspace/www/grav/backup/</Path>
+                  <Path Filename="backup">/home/voznik/workspace/www/grav/</Path>
+                  <Path Filename="grav">/home/voznik/workspace/www/</Path>
+                  <Path Filename="buefy-shop">/home/voznik/workspace/</Path>
+                  <Path Filename="components">/home/voznik/workspace/buefy-shop/</Path>
+                  <Path Filename="..">/home/voznik/workspace/buefy-shop/components/</Path>
+                  <Path Filename="components">/home/voznik/workspace/buefy-shop/</Path>
+                  <Path Filename="buefy-shop">/home/voznik/workspace/</Path>
+                  <Path Filename="Downloads">/home/voznik/</Path>
+                  <Path Filename="grub-theme-vimix.tar.xz">/home/voznik/Downloads/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="..">/home/voznik/workspace/vfsn/src/router/</Path>
+                  <Path Filename="store">/home/voznik/workspace/vfsn/src/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vfsn/src/store/</Path>
+                  <Path Filename="components">/home/voznik/workspace/vfsn/src/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vfsn/src/components/</Path>
+                  <Path Filename="components">/home/voznik/workspace/vfsn/src/</Path>
+                  <Path Filename="firebase.json">/home/voznik/workspace/vfsn/</Path>
+                  <Path Filename="vwts">/home/voznik/workspace/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vwts/src/</Path>
+                  <Path Filename="config">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vwts/config/</Path>
+                  <Path Filename="config">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vwts/config/</Path>
+                  <Path Filename="environment">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vwts/environment/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="components">/home/voznik/workspace/vwts/src/</Path>
+                  <Path Filename="about">/home/voznik/workspace/vwts/src/components/</Path>
+                  <Path Filename="about.spec.ts">/home/voznik/workspace/vwts/src/components/about/</Path>
+                  <Path Filename="about">/home/voznik/workspace/vwts/src/components/</Path>
+                  <Path Filename="components">/home/voznik/workspace/vwts/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vwts/</Path>
+                  <Path Filename="vtvf">/home/voznik/workspace/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/vtvf/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vtvf/functions/</Path>
+                  <Path Filename="index.ts">/home/voznik/workspace/vtvf/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vtvf/functions/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vtvf/</Path>
+                  <Path Filename="store">/home/voznik/workspace/vtvf/src/</Path>
+                  <Path Filename="shared">/home/voznik/workspace/vtvf/src/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/src/store/shared/</Path>
+                  <Path Filename="todos">/home/voznik/workspace/vtvf/src/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/src/store/todos/</Path>
+                  <Path Filename="user">/home/voznik/workspace/vtvf/src/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/src/store/user/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/src/store/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/src/</Path>
+                  <Path Filename="dist">/home/voznik/workspace/vtvf/</Path>
+                  <Path Filename="static">/home/voznik/workspace/vtvf/dist/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/dist/static/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/dist/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/vtvf/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vtvf/functions/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vtvf/functions/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/vtvf/functions/</Path>
+                  <Path Filename="functions">/home/voznik/workspace/vtvf/</Path>
+                  <Path Filename="firestore-import-export">/home/voznik/workspace/</Path>
+                  <Path Filename="serviceAccountKey.json">/home/voznik/workspace/firestore-import-export/</Path>
+                  <Path Filename=".Xmodmap">/home/voznik/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="..">/home/voznik/snap/</Path>
+                  <Path Filename=".steam">/home/voznik/</Path>
+                  <Path Filename="steam">/home/voznik/.steam/</Path>
+                  <Path Filename="appcache">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="..">/home/voznik/.steam/steam/appcache/</Path>
+                  <Path Filename="html5app">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="steam">/home/voznik/.steam/</Path>
+                  <Path Filename="config">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="..">/home/voznik/.steam/steam/config/</Path>
+                  <Path Filename="package">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="..">/home/voznik/.steam/steam/package/</Path>
+                  <Path Filename="package">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="steam">/home/voznik/.steam/</Path>
+                  <Path Filename=".steam">/home/voznik/</Path>
+                  <Path Filename="voznik">/home/</Path>
+                  <Path Filename=".config">/home/voznik/</Path>
+                  <Path Filename="fish">/home/voznik/.config/</Path>
+                  <Path Filename="config.fish">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/</Path>
+                  <Path Filename="enpass-145.png">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/images/</Path>
+                  <Path Filename="ui">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/</Path>
+                  <Path Filename="..">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/ui/</Path>
+                  <Path Filename="styles">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/</Path>
+                  <Path Filename="..">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/styles/</Path>
+                  <Path Filename="icons">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/</Path>
+                  <Path Filename="..">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/icons/</Path>
+                  <Path Filename="manifest.json">/home/voznik/.config/google-chrome-unstable/Default/Extensions/kmcfomidfpdkfieipokbalgegidffkal/6.0.0.2_0/</Path>
+                  <Path Filename="Documents">/home/voznik/</Path>
+                  <Path Filename="Enpass">/home/voznik/Documents/</Path>
+                  <Path Filename="Backups">/home/voznik/Documents/Enpass/</Path>
+                  <Path Filename="..">/home/voznik/Documents/Enpass/Backups/</Path>
+                  <Path Filename="..">/home/voznik/Documents/Enpass/</Path>
+                  <Path Filename="lst.csv">/home/voznik/Documents/</Path>
+                  <Path Filename=".pgp">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.pgp/</Path>
+                  <Path Filename=".pgp">/home/voznik/</Path>
+                  <Path Filename="nps.enpasskey">/home/voznik/.pgp/</Path>
+                  <Path Filename="">/home/voznik/Downloads/</Path>
+                  <Path Filename="..">/home/voznik/workspace/Iconfirm/App/</Path>
+                  <Path Filename="..">/home/voznik/workspace/Iconfirm/</Path>
+                  <Path Filename="vue-json-ui-editor">/home/voznik/workspace/</Path>
+                  <Path Filename="static">/home/voznik/workspace/vue-json-ui-editor/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vue-json-ui-editor/static/</Path>
+                  <Path Filename="example">/home/voznik/workspace/vue-json-ui-editor/</Path>
+                  <Path Filename="schema">/home/voznik/workspace/vue-json-ui-editor/example/</Path>
+                  <Path Filename="..">/home/voznik/workspace/vue-json-ui-editor/example/schema/</Path>
+                  <Path Filename="schema">/home/voznik/workspace/vue-json-ui-editor/example/</Path>
+                  <Path Filename="Documents">/home/voznik/</Path>
+                  <Path Filename="Resume">/home/voznik/Documents/</Path>
+                  <Path Filename="fresh-resume-schema_1.0.0-beta.json">/home/voznik/Documents/Resume/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+      </Right>
+    </OpenedTabs>
+    <Options>54033</Options>
+    <CharacterLimit>32</CharacterLimit>
+    <Position>0</Position>
+    <ActionOnDoubleClick>2</ActionOnDoubleClick>
+  </Tabs>
+  <Language>
+    <POFileName>doublecmd.en.po</POFileName>
+  </Language>
+  <Behaviours>
+    <GoToRoot>False</GoToRoot>
+    <RunInTerminalStayOpenCmd>x-terminal-emulator</RunInTerminalStayOpenCmd>
+    <RunInTerminalStayOpenParams>-e sh -c '{command}; echo -n Press ENTER to exit... ; read a'</RunInTerminalStayOpenParams>
+    <RunInTerminalCloseCmd>x-terminal-emulator</RunInTerminalCloseCmd>
+    <RunInTerminalCloseParams>-e sh -c {command}</RunInTerminalCloseParams>
+    <JustRunTerminal>x-terminal-emulator</JustRunTerminal>
+    <JustRunTermParams/>
+    <OnlyOneAppInstance>False</OnlyOneAppInstance>
+    <LynxLike>True</LynxLike>
+    <FileSizeFormat>0</FileSizeFormat>
+    <FileSizeDigits>1</FileSizeDigits>
+    <MinimizeToTray>False</MinimizeToTray>
+    <AlwaysShowTrayIcon>False</AlwaysShowTrayIcon>
+    <Mouse>
+      <Selection Enabled="True">
+        <Button>0</Button>
+      </Selection>
+      <SingleClickStart>0</SingleClickStart>
+      <ScrollMode>1</ScrollMode>
+      <WheelScrollLines>3</WheelScrollLines>
+    </Mouse>
+    <AutoFillColumns>False</AutoFillColumns>
+    <AutoSizeColumn>1</AutoSizeColumn>
+    <CustomColumnsChangeAllColumns>False</CustomColumnsChangeAllColumns>
+    <BriefViewFileExtAligned>False</BriefViewFileExtAligned>
+    <DateTimeFormat>dd.mm.yy hh:nn:ss</DateTimeFormat>
+    <CutTextToColumnWidth>True</CutTextToColumnWidth>
+    <ExtendCellWidth>False</ExtendCellWidth>
+    <ShowSystemFiles>True</ShowSystemFiles>
+    <ListFilesInThread>True</ListFilesInThread>
+    <LoadIconsSeparately>True</LoadIconsSeparately>
+    <DelayLoadingTabs>True</DelayLoadingTabs>
+    <HighlightUpdatedFiles>True</HighlightUpdatedFiles>
+    <DriveBlackList/>
+    <DriveBlackListUnmounted>False</DriveBlackListUnmounted>
+  </Behaviours>
+  <Tools>
+    <Viewer Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+    </Viewer>
+    <Editor Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+    </Editor>
+    <Differ Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+      <FramePosAfterComp>0</FramePosAfterComp>
+    </Differ>
+  </Tools>
+  <Fonts>
+    <Main>
+      <Name>default</Name>
+      <Size>10</Size>
+      <Style>1</Style>
+      <Quality>0</Quality>
+    </Main>
+    <Editor>
+      <Name>Monospace</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Editor>
+    <Viewer>
+      <Name>Monospace</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Viewer>
+    <OptionsTree>
+      <Name>default</Name>
+      <Size>10</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </OptionsTree>
+    <OptionsMain>
+      <Name>default</Name>
+      <Size>10</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </OptionsMain>
+    <SearchResults>
+      <Name>default</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </SearchResults>
+    <PathEdit>
+      <Name>default</Name>
+      <Size>8</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </PathEdit>
+    <FunctionButtons>
+      <Name>default</Name>
+      <Size>8</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </FunctionButtons>
+    <Log>
+      <Name>Monospace</Name>
+      <Size>12</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Log>
+    <ViewerBook>
+      <Name>default</Name>
+      <Size>16</Size>
+      <Style>1</Style>
+      <Quality>0</Quality>
+    </ViewerBook>
+    <Console>
+      <Name>Monospace</Name>
+      <Size>12</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Console>
+  </Fonts>
+  <ToolTips>
+    <ShowToolTipMode>True</ShowToolTipMode>
+    <CustomFields/>
+  </ToolTips>
+  <Layout>
+    <MainMenu>True</MainMenu>
+    <ButtonBar Enabled="True">
+      <FlatIcons>True</FlatIcons>
+      <ButtonHeight>24</ButtonHeight>
+      <IconSize>16</IconSize>
+      <ReportErrorWithCommands>False</ReportErrorWithCommands>
+    </ButtonBar>
+    <DriveBar1>True</DriveBar1>
+    <DriveBar2>True</DriveBar2>
+    <DriveBarFlat>True</DriveBarFlat>
+    <DrivesListButton Enabled="True">
+      <ShowLabel>True</ShowLabel>
+      <ShowFileSystem>True</ShowFileSystem>
+      <ShowFreeSpace>True</ShowFreeSpace>
+    </DrivesListButton>
+    <SeparateTree>False</SeparateTree>
+    <DirectoryTabs>True</DirectoryTabs>
+    <CurrentDirectory>True</CurrentDirectory>
+    <TabHeader>True</TabHeader>
+    <StatusBar>True</StatusBar>
+    <CmdLine>True</CmdLine>
+    <LogWindow>False</LogWindow>
+    <TermWindow>False</TermWindow>
+    <KeyButtons>True</KeyButtons>
+    <InterfaceFlat>True</InterfaceFlat>
+    <DriveFreeSpace>True</DriveFreeSpace>
+    <DriveIndicator>False</DriveIndicator>
+    <ProgressInMenuBar>False</ProgressInMenuBar>
+    <PanelOfOperationsInBackground>True</PanelOfOperationsInBackground>
+    <HorizontalFilePanels>False</HorizontalFilePanels>
+    <ShortFormatDriveInfo>True</ShortFormatDriveInfo>
+  </Layout>
+  <FilesViews>
+    <Sorting>
+      <CaseSensitivity>0</CaseSensitivity>
+      <NaturalSorting>False</NaturalSorting>
+      <SortFolderMode>0</SortFolderMode>
+      <NewFilesPosition>2</NewFilesPosition>
+      <UpdatedFilesPosition>2</UpdatedFilesPosition>
+    </Sorting>
+    <ColumnsView>
+      <AutoSaveWidth>True</AutoSaveWidth>
+      <TitleStyle>1</TitleStyle>
+    </ColumnsView>
+    <BriefView>
+      <FileExtAligned>False</FileExtAligned>
+      <Columns>
+        <FixedWidth>100</FixedWidth>
+        <FixedCount>2</FixedCount>
+        <AutoSize>2</AutoSize>
+      </Columns>
+    </BriefView>
+    <ExtraLineSpan>2</ExtraLineSpan>
+  </FilesViews>
+  <Keyboard>
+    <Typing>
+      <Actions>
+        <NoModifier>2</NoModifier>
+        <Alt>0</Alt>
+        <CtrlAlt>3</CtrlAlt>
+      </Actions>
+    </Typing>
+  </Keyboard>
+  <FileOperations>
+    <BufferSize>524288</BufferSize>
+    <HashBufferSize>8388608</HashBufferSize>
+    <UseMmapInSearch>False</UseMmapInSearch>
+    <PartialNameSearch>True</PartialNameSearch>
+    <InitiallyClearFileMask>True</InitiallyClearFileMask>
+    <NewSearchClearFiltersAction>0</NewSearchClearFiltersAction>
+    <ShowMenuBarInFindFiles>True</ShowMenuBarInFindFiles>
+    <WipePassNumber>1</WipePassNumber>
+    <DropReadOnlyFlag>False</DropReadOnlyFlag>
+    <ProcessComments>False</ProcessComments>
+    <RenameSelOnlyName>False</RenameSelOnlyName>
+    <ShowCopyTabSelectPanel>False</ShowCopyTabSelectPanel>
+    <UseTrash>True</UseTrash>
+    <SkipFileOpError>False</SkipFileOpError>
+    <TypeOfDuplicatedRename>0</TypeOfDuplicatedRename>
+    <ShowDialogOnDragDrop>False</ShowDialogOnDragDrop>
+    <DragAndDropTextRichtextDesireLevel>0</DragAndDropTextRichtextDesireLevel>
+    <DragAndDropTextHtmlDesireLevel>1</DragAndDropTextHtmlDesireLevel>
+    <DragAndDropTextUnicodeDesireLevel>2</DragAndDropTextUnicodeDesireLevel>
+    <DragAndDropTextSimpletextDesireLevel>3</DragAndDropTextSimpletextDesireLevel>
+    <DragAndDropAskFormatEachTime>False</DragAndDropAskFormatEachTime>
+    <DragAndDropTextAutoFilename>False</DragAndDropTextAutoFilename>
+    <DragAndDropSaveUnicodeTextInUFT8>True</DragAndDropSaveUnicodeTextInUFT8>
+    <NtfsHourTimeDelay>False</NtfsHourTimeDelay>
+    <AutoExtractOpenMask/>
+    <SearchDefaultTemplate/>
+    <ProgressKind>0</ProgressKind>
+    <Confirmations>15</Confirmations>
+    <Options>
+      <Symlink>0</Symlink>
+      <CorrectLinks>False</CorrectLinks>
+      <FileExists>0</FileExists>
+      <DirectoryExists>0</DirectoryExists>
+      <SetPropertyError>0</SetPropertyError>
+      <ReserveSpace>False</ReserveSpace>
+      <CheckFreeSpace>True</CheckFreeSpace>
+      <CopyAttributes>True</CopyAttributes>
+      <Verify>False</Verify>
+      <CopyTime>True</CopyTime>
+      <CopyOwnership>False</CopyOwnership>
+      <CopyPermissions>False</CopyPermissions>
+      <ExcludeEmptyTemplateDirectories>True</ExcludeEmptyTemplateDirectories>
+    </Options>
+  </FileOperations>
+  <Log Enabled="False" LogFileWithDateInName="False">
+    <FileName>%DC_CONFIG_PATH%/doublecmd.log</FileName>
+    <Options>1023</Options>
+  </Log>
+  <History>
+    <SearchReplaceHistory Save="True"/>
+    <DirHistory Save="True"/>
+    <CmdLineHistory Save="True"/>
+    <FileMaskHistory Save="True"/>
+  </History>
+  <QuickSearch>
+    <MatchBeginning>True</MatchBeginning>
+    <MatchEnding>True</MatchEnding>
+    <Case>1</Case>
+    <Items>2</Items>
+  </QuickSearch>
+  <QuickFilter>
+    <AutoHide>True</AutoHide>
+    <SaveSessionModifications>False</SaveSessionModifications>
+  </QuickFilter>
+  <Miscellaneous>
+    <GridVertLine>False</GridVertLine>
+    <GridHorzLine>False</GridHorzLine>
+    <ShowWarningMessages>True</ShowWarningMessages>
+    <SpaceMovesDown>False</SpaceMovesDown>
+    <DirBrackets>True</DirBrackets>
+    <InplaceRename>False</InplaceRename>
+    <DblClickToParent>False</DblClickToParent>
+    <HotDirAddTargetOrNot>False</HotDirAddTargetOrNot>
+    <HotDirFullExpandOrNot>False</HotDirFullExpandOrNot>
+    <ShowPathInPopup>False</ShowPathInPopup>
+    <ShowOnlyValidEnv>True</ShowOnlyValidEnv>
+    <WhereToAddNewHotDir>2</WhereToAddNewHotDir>
+  </Miscellaneous>
+  <Thumbnails Save="True">
+    <Width>128</Width>
+    <Height>128</Height>
+  </Thumbnails>
+  <Description>
+    <CreateNewUnicode>True</CreateNewUnicode>
+    <DefaultEncoding>2</DefaultEncoding>
+    <CreateNewEncoding>3</CreateNewEncoding>
+  </Description>
+  <AutoRefresh>
+    <Options>3</Options>
+    <ExcludeDirs/>
+    <Mode>1</Mode>
+  </AutoRefresh>
+  <Icons>
+    <Theme>dctheme</Theme>
+    <ShowMode>3</ShowMode>
+    <ShowOverlays>False</ShowOverlays>
+    <Size>32</Size>
+    <DiskSize>16</DiskSize>
+    <DiskAlpha>50</DiskAlpha>
+    <Exclude>False</Exclude>
+    <ExcludeDirs/>
+    <CustomIcons>0</CustomIcons>
+    <PixelsPerInch>96</PixelsPerInch>
+    <ShowInMenus Enabled="False">
+      <Size>16</Size>
+    </ShowInMenus>
+    <ShowButtonGlyphs>0</ShowButtonGlyphs>
+  </Icons>
+  <IgnoreList Enabled="False">
+    <IgnoreListFile>%DC_CONFIG_PATH%/ignorelist.txt</IgnoreListFile>
+  </IgnoreList>
+  <DirectoryHotList>
+    <HotDir Name=".config" Path="/home/voznik/.config"/>
+    <HotDir Name="Downloads" Path="/home/voznik/Downloads"/>
+  </DirectoryHotList>
+  <Viewer>
+    <PreviewVisible>False</PreviewVisible>
+    <ImageStretch>False</ImageStretch>
+    <ImageExifRotate>True</ImageExifRotate>
+    <ImageStretchLargeOnly>False</ImageStretchLargeOnly>
+    <ImageCenter>True</ImageCenter>
+    <CopyMovePath1/>
+    <CopyMovePath2/>
+    <CopyMovePath3/>
+    <CopyMovePath4/>
+    <CopyMovePath5/>
+    <PaintMode>Pen</PaintMode>
+    <PaintWidth>5</PaintWidth>
+    <NumberOfColumns>1</NumberOfColumns>
+    <ViewerMode>1</ViewerMode>
+    <PaintColor>255</PaintColor>
+    <BackgroundColor>0</BackgroundColor>
+    <FontColor>16777215</FontColor>
+    <TextPosition>0</TextPosition>
+  </Viewer>
+  <Editor>
+    <EditWaitTime>2000</EditWaitTime>
+    <SynEditOptions>856075</SynEditOptions>
+  </Editor>
+  <SyncDirs>
+    <Subdirs>False</Subdirs>
+    <ByContent>False</ByContent>
+    <IgnoreDate>False</IgnoreDate>
+    <FilterCopyRight>True</FilterCopyRight>
+    <FilterEqual>True</FilterEqual>
+    <FilterNotEqual>True</FilterNotEqual>
+    <FilterCopyLeft>True</FilterCopyLeft>
+    <FilterDuplicates>True</FilterDuplicates>
+    <FilterSingles>True</FilterSingles>
+    <FileMask>*</FileMask>
+  </SyncDirs>
+  <InternalAssociations>
+    <OfferToAddNewFileType>False</OfferToAddNewFileType>
+    <LastCustomAction>Custom action</LastCustomAction>
+    <ExpandedContextMenu>False</ExpandedContextMenu>
+    <ExecuteViaShell>False</ExecuteViaShell>
+    <OpenSystemWithTerminalClose>False</OpenSystemWithTerminalClose>
+    <OpenSystemWithTerminalStayOpen>False</OpenSystemWithTerminalStayOpen>
+    <IncludeFileAssociation>False</IncludeFileAssociation>
+  </InternalAssociations>
+  <TreeViewMenu>
+    <UseTVMDirectoryHotlistFMC>False</UseTVMDirectoryHotlistFMC>
+    <UseTVMDirectoryHotlistFDC>False</UseTVMDirectoryHotlistFDC>
+    <UseTVMFavoriteTabsFMC>False</UseTVMFavoriteTabsFMC>
+    <UseTVMFavoriteTabsFDC>False</UseTVMFavoriteTabsFDC>
+    <UseTVMDirHistory>False</UseTVMDirHistory>
+    <UseTVMViewHistory>False</UseTVMViewHistory>
+    <UseTVMCommandLineHistory>False</UseTVMCommandLineHistory>
+    <TreeViewMenuShortcutExit>True</TreeViewMenuShortcutExit>
+    <TreeViewMenuSingleClickExit>True</TreeViewMenuSingleClickExit>
+    <TreeViewMenuDoubleClickExit>True</TreeViewMenuDoubleClickExit>
+    <Context00>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context00>
+    <Context01>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context01>
+    <Context02>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context02>
+    <Context03>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context03>
+    <Context04>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context04>
+    <Context05>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context05>
+    <Context06>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context06>
+    <TreeViewMenuUseKeyboardShortcut>True</TreeViewMenuUseKeyboardShortcut>
+    <BackgroundColor>-2147483617</BackgroundColor>
+    <ShortcutColor>255</ShortcutColor>
+    <NormalTextColor>-2147483640</NormalTextColor>
+    <SecondaryTextColor>-2147483642</SecondaryTextColor>
+    <FoundTextColor>-2147483635</FoundTextColor>
+    <UnselectableTextColor>-2147483631</UnselectableTextColor>
+    <CursorColor>-2147483635</CursorColor>
+    <ShortcutUnderCursor>-2147483634</ShortcutUnderCursor>
+    <NormalTextUnderCursor>-2147483634</NormalTextUnderCursor>
+    <SecondaryTextUnderCursor>-2147483628</SecondaryTextUnderCursor>
+    <FoundTextUnderCursor>65535</FoundTextUnderCursor>
+    <UnselectableUnderCursor>-2147483631</UnselectableUnderCursor>
+  </TreeViewMenu>
+  <FavoriteTabsOptions>
+    <FavoriteTabsUseRestoreExtraOptions>False</FavoriteTabsUseRestoreExtraOptions>
+    <WhereToAdd>1</WhereToAdd>
+    <Expand>True</Expand>
+    <GotoConfigAftSav>False</GotoConfigAftSav>
+    <GotoConfigAftReSav>False</GotoConfigAftReSav>
+    <DfltLeftGoTo>0</DfltLeftGoTo>
+    <DfltRightGoTo>1</DfltRightGoTo>
+    <DfltKeep>5</DfltKeep>
+    <DfltSaveDirHistory>False</DfltSaveDirHistory>
+    <FavTabsLastUniqueID>{6E7ED791-33FD-4806-9F51-A5D88425FBCA}</FavTabsLastUniqueID>
+  </FavoriteTabsOptions>
+  <Lua>
+    <PathToLibrary>liblua5.1.so.0</PathToLibrary>
+  </Lua>
+  <NameShortcutFile>shortcuts.scf</NameShortcutFile>
+  <HotKeySortOrder>0</HotKeySortOrder>
+  <UseEnterToCloseHotKeyEditor>True</UseEnterToCloseHotKeyEditor>
+  <LastUsedPacker>zip</LastUsedPacker>
+  <UseShellForFileOperations>False</UseShellForFileOperations>
+  <LastDoAnyCommand>cm_Refresh</LastDoAnyCommand>
+  <MarkMaskCaseSensitive>False</MarkMaskCaseSensitive>
+  <MarkMaskIgnoreAccents>False</MarkMaskIgnoreAccents>
+  <MarkMaskFilterWindows>False</MarkMaskFilterWindows>
+  <MarkShowWantedAttribute>False</MarkShowWantedAttribute>
+  <MarkDefaultWantedAttribute/>
+  <MarkLastWantedAttribute/>
+  <SearchTemplates/>
+  <ColumnsSets DefaultTitleHash="540805403">
+    <ColumnsSet UseFrameCursor="False">
+      <Name>Default</Name>
+      <CustomView>False</CustomView>
+      <PixelsPerInch>96</PixelsPerInch>
+      <CursorBorder Enabled="False">
+        <Color>0</Color>
+      </CursorBorder>
+      <Columns>
+        <Column>
+          <Title>Name</Title>
+          <FuncString>[DC().GETFILENAMENOEXT{}]</FuncString>
+          <Width>523</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>default</Name>
+            <Size>10</Size>
+            <Style>1</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>128</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Ext</Title>
+          <FuncString>[DC().GETFILEEXT{}]</FuncString>
+          <Width>50</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>default</Name>
+            <Size>10</Size>
+            <Style>1</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>128</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Size</Title>
+          <FuncString>[DC().GETFILESIZE{}]</FuncString>
+          <Width>70</Width>
+          <Align>1</Align>
+          <Font>
+            <Name>default</Name>
+            <Size>10</Size>
+            <Style>1</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>128</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Date</Title>
+          <FuncString>[DC().GETFILETIME{}]</FuncString>
+          <Width>140</Width>
+          <Align>1</Align>
+          <Font>
+            <Name>default</Name>
+            <Size>10</Size>
+            <Style>1</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>128</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Attr</Title>
+          <FuncString>[DC().GETFILEATTR{}]</FuncString>
+          <Width>100</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>default</Name>
+            <Size>10</Size>
+            <Style>1</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>128</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+      </Columns>
+    </ColumnsSet>
+  </ColumnsSets>
+</doublecmd>

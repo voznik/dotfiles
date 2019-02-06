@@ -39,7 +39,7 @@ PACKAGES=(
   # ---------------
   # Ecma Abilities
   # ---------------
-  # cross-env               # (Use per-project)
+  cross-env               # (Use per-project)
 
   # ---------------
   # Linters/Helpers
@@ -54,10 +54,10 @@ PACKAGES=(
   # eslint-loader           # (Use per-project/webpack)
   eslint-plugin-babel       # (Use per-project/webpack)
   eslint-plugin-html        # (Use per-project/webpack)
-  eslint-plugin-react       # (Use per-project/webpack)
+  # eslint-plugin-react       # (Use per-project/webpack)
 
-  jshint
-  jslint
+  # jshint
+  # jslint
   stylelint
   stylelint-config-recommended
   prettier
@@ -70,9 +70,11 @@ PACKAGES=(
   # Testing/Coverage
   # ---------------
   ndb
-  chai
-  mocha
-  sinon
+  protractor
+  cypres
+  # chai
+  # mocha
+  # sinon
 
   # ---------------
   # Debug Server / System Runner
@@ -86,19 +88,20 @@ PACKAGES=(
   # ---------------
   tsutils
   typescript
+  nativescript
 
 
   # ---------------
   # CLI Tools
   # ---------------
-  @feathersjs/feathers
-  @gridsome/cli           # (Vue Page Builder) Much like Gatsby
-  gatsby                  # (React Page Builder) Gatsby is Awesome
+  # @feathersjs/feathers
+  # @gridsome/cli           # (Vue Page Builder) Much like Gatsby
+  # gatsby                  # (React Page Builder) Gatsby is Awesome
   generator-generator     # yeoman helper custom generator
-  grunt-cli
+  # grunt-cli
   gulp-cli
-  strapi@alpha
-  types-installer         # types-installer | types-installer install
+  # strapi@alpha
+  # types-installer         # types-installer | types-installer install
   yo                      # yeoman
   npm-ls-scripts          # Read package.json scripts ( $ ls-scripts )
 
@@ -106,11 +109,11 @@ PACKAGES=(
   # Runners & Bundlers
   # ---------------
   gulp
-  poi                     # bundler
+  # poi                     # bundler
   parcel-bundler          # bundler
-  rollup                  # bundler
+  # rollup                  # bundler
   webpack-cli             # bundler
-  webpack@next            # bundler
+  # webpack@next            # bundler
   # webpack-dev-server    # bundler (Use per-project)
 
   # ---------------
@@ -121,9 +124,9 @@ PACKAGES=(
   @vue/cli-init
   @vue/cli-service-global
   #vuepress
-  vuejs-webpack-project
-  create-react-app
-  create-next-app
+  # vuejs-webpack-project
+  # create-react-app
+  create-nuxt-app
   jscodeshift         # Make changes to code nicely
 
   # ---------------

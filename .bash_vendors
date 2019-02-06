@@ -14,9 +14,14 @@ fi
 # ╠═════════════════════════════════════════════════════════════════╣
 # ╚═════════════════════════════════════════════════════════════════╝
 
-if [ -d "/opt/jdk1.8" ]; then
-  export JAVA_HOME="/opt/jdk1.8"
-  export PATH=$PATH:$JAVA_HOME/bin
+if [ -d "/usr/lib/jvm" ]; then
+# if [ -d "/opt/jdk1.8" ]; then
+  # export JAVA_HOME="/opt/jdk1.8"
+  # export PATH=$PATH:$JAVA_HOME/bin
+
+  export JAVA_HOME="/usr/lib/jvm/jdk1.8.0"
+  export JDK_HOME="/usr/lib/jvm/jdk1.8.0"
+  export JRE_HOME="/usr/lib/jvm/jdk1.8.0/jre"
 fi
 
 if [ -d "$HOME/Android/Sdk" ]; then
@@ -178,3 +183,9 @@ if hash grc &>/dev/null; then
 fi
 
 
+export EDITOR="/bin/nano"
+export CONFIGDIR=$HOME/.config
+
+export NPM_PACKAGES="$HOME/.npm-packages"
+# export NODE_PATH="$NPM_PACKAGES/lib/node_modules${NODE_PATH:+:$NODE_PATH}" #bash!
+export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"

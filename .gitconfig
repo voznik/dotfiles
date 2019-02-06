@@ -1,15 +1,24 @@
 [user]
-  name = Jesse Boyer
-  email = imboyus@gmail.com
-  IdentityFile = ~/.ssh/jream_rsa
+  name = Vadym Parakonnyi
+  email = v.parakonnyi@gmail.com
+  # IdentityFile = ~/.ssh/sombra_rsa
+[core]
+  editor = code
+  compression = 9
+[branch]
+  autosetuprebase = always
 [push]
   default = simple
 [apply]
   # Detect whitespace errors when applying a patch
   whitespace = fix
+[rebase]
+  autoStash = true
 [credential]
   helper = cache -- timeout=3600
 [color]
+  showbranch = auto
+  status = auto
   ui = auto
 [color "branch"]
   current = yellow reverse
@@ -30,7 +39,14 @@
 [merge]
   tool = meld
 [mergetool]
-  keepBackup = false
+  keepBackup =
+[mergetool "meld"]
+  cmd = meld "$BASE $LOCAL $REMOTE $MERGED"
+  trustExitCode = false
+[diff]
+  tool = meld
+[difftool "meld"]
+  cmd = meld "$LOCAL $REMOTE"
 [alias]
   # List Aliases
   la = git alias
@@ -39,6 +55,9 @@
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   fl = log -u
   filelog = log -u
+  lol = log --oneline --graph --decorate
+  lag = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  list = diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT
 
   # Quickies
   ra = remote add origin
