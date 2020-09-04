@@ -2,7 +2,7 @@
 Name=Mailspring
 Comment=The best email app for people and teams at work
 GenericName=Mailspring
-Exec=/usr/bin/mailspring --background %U
+Exec=/snap/bin/mailspring --background %U
 Icon=mailspring
 Type=Application
 StartupNotify=true

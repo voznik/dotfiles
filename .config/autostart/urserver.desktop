@@ -6,4 +6,4 @@ Type=Application
 Categories=Network;
 Icon=urserver
 Exec=/opt/urserver/urserver-start --no-manager
-X-GNOME-Autostart-enabled=false
+X-GNOME-Autostart-enabled=true

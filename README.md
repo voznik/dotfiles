@@ -30,7 +30,7 @@ git config --global user.name "Yourname"
 git config --global user.email "youremail@somewhere.com"
 
 # If your main SSH key is id_rsa set it like below, otherwise replace the name.
-git config --global user.IdentityFile "~/.ssh/id_rsa" 
+git config --global user.IdentityFile "~/.ssh/id_rsa"
 ```
 
 A Few shortcuts (See `~/.gitconfig`) for more:
@@ -50,11 +50,11 @@ A Few shortcuts (See `~/.gitconfig`) for more:
 | `git st` | `git status` |
 
 > Note: This adds the shortcut in your `./git/config` file project as the short
-version so be aware of that when creating a new project. 
+version so be aware of that when creating a new project.
 
 ## Virtualhost Folder
 
-This is a nice CLI utility a fellow made (See his README) which is very easy to 
+This is a nice CLI utility a fellow made (See his README) which is very easy to
 use to instantly create/delete an Nginx or Apache2 VHost on the fly; This includes
 a record in `/etc/hosts`. I simply run:
 
@@ -77,7 +77,7 @@ sudo ln -s $HOME/virtualhost/virtualhost.sh /usr/local/bin/virtualhost
 
 This is found in the `.bash_aliases` file.
 
-- **Bash PS1 Display** 
+- **Bash PS1 Display**
   - `username@host[~/path]:~$`
   - `username@host[~/path (master)]:~$` _(Git Branches)_
 
@@ -152,8 +152,8 @@ This is found in the `.bash_aliases` file.
 | `ngtest`     |                                          | Config Test                       |
 | `ngpath`     |                                          | Go to Nginx Config Path           |
 
-
 ### Utility Shortcuts
+
 | Alias     | Actual Command | Description                       |
 | --------- | -------------- | --------------------------------- |
 | `df`      |                | improvement (`apt insttall pydf`) |
@@ -171,6 +171,7 @@ This is found in the `.bash_aliases` file.
 | `grep`  | `grep --color=auto`  | Color to grep     |
 
 ### Misc Shortcuts
+
 | Alias            | Actual Command    | Description                              |
 | ---------------- | ----------------- | ---------------------------------------- |
 | `h`              | `history`         | View Bash History                        |
@@ -190,13 +191,13 @@ This is found in the `.bash_aliases` file.
 
 ---
 
-##Handy Commands
+## Handy Commands
 
 ### Loop Dir & Run Any Command
 
 - **loopdircmd <cmd>**
   - **Description**: Run any command on every directory one level up.
-  - **Example**: 
+  - **Example**:
     - `loopdircmd git checkout development`
     - `loopdircmd git add . && git commit -m "Update" && git push`
 
@@ -204,8 +205,8 @@ This is found in the `.bash_aliases` file.
 
 - **findinfile <text|text2> <path|default: $PWD>**
   - **Description**: Find contents in a file recursively.
-  - **Example**: 
-    - `findinfile helloworld `
+  - **Example**:
+    - `findinfile helloworld`
     - `findinfile help|assist ~/projects/game/*.txt`
 
 ---
@@ -241,12 +242,12 @@ vim +PluginInstall +qall
 
 You will see an error with the color scheme, but when you reload VIM it will fix itself.
 
-
 # (Depricated) Dev Environment Setup
 
 **No longer using `direnv`, Mainly NVM**
 
 I have used the following:
+
 - Node: `8.1.0`
 - NPM: `5.0.3`
 - OS:
@@ -260,11 +261,13 @@ I like to use use NVM, it's up to you.
 ### Linux: Install Environment Essentials
 
 DirEnv uses `.envrc` files
+
 ```sh
 sudo apt install direnv
 ```
 
 Add DirEnv to detect `.envrc` in `.bashrc`:
+
 ```sh
 # This should be near the end, or the end of your .bashrc file
 if type direnv 2>/dev/null; then
@@ -277,11 +280,13 @@ fi
 ## Get Node/NVM/Update NPM
 
 Download NVM
+
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 ```
 
 ### Install Node and Update NPM
+
 ```
 nvm install 8.1.0
 nvm use 8.1.0
@@ -289,12 +294,15 @@ npm install -g npm
 ```
 
 If you need to force a version, make an `.nvmrc` alongside an `.envrc` below with:
+
 ```
 8.1.0
 ```
 
 ### Force Enviroment Versions
+
 The `.envrc` contains:
+
 ```
 nvmrc=~/.nvm/nvm.sh
 if [ -e $nvmrc ]; then
@@ -307,6 +315,7 @@ PATH_add node_modules/.bin
 ```
 
 ## Ubuntu XML Linter
+
 For XML Linting, add the following:
 
 ```
@@ -314,6 +323,7 @@ sudo apt install libxml2-utils
 ```
 
 ## PHP
+
 ```sh
 composer global require friendsofphp/php-cs-fixer \
   squizlabs/php_codesniffer \
@@ -328,9 +338,7 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 ```
 
 > Global Windows NPM Location: `C:\Users\inno\AppData\Roaming\npm`
-
 > Global Windows Composer Location: `C:\Users\inno\AppData\Roaming\Composer\vendor`
-
 
 ## Python Linters
 
@@ -339,6 +347,7 @@ pip install pep8 pylint flake8 pydocstyle prospector pylint_django ansible-lint
 ```
 
 If you have Py3.X installed also add:
+
 ```sh
 pip3 install mypy-lang
 ```
@@ -349,6 +358,7 @@ pip3 install mypy-lang
 packages installed globally, so run: `npm list` to see.
 
 ### Dependencies First
+
 Add many items to be the most compatible, you can also use `yarn` if you have it installed.
 
 **This is only tested on Node 6+**
@@ -424,7 +434,6 @@ The item `mdl` is Markdown Lint, `compass` is no longer supported.
 sudo gem install markdown mdl bundler rake rainbow nokogiri
 ```
 
-
 # Configure PHP Settings for IDE
 
 > Path to phpcs for editors: `/home/jesse/.composer/vendor/bin/phpcs`
@@ -489,6 +498,7 @@ which php
 ```
 
 Using MingGW64 (Git Bash from GitSCM) I get:
+
 ```
 /c/laragon/bin/php/php-7.1.5-Win32-VC14-x64/php
 ```
@@ -533,6 +543,7 @@ public function register()
 ```
 
 Generate Docs:
+
 ```
 php artisan ide-helper:generate
 php artisan ide-helper:meta
@@ -561,6 +572,7 @@ Now edit your currently active theme, it ends with `.tmTheme`. Add the following
 
 You will add this, and you can adjust the `#525252` to any color you want, don't
 worry about the `foreground` word:
+
 ```xml
 <dict>
     <key>name</key>
@@ -590,5 +602,3 @@ The above creates a file in `Users/bh_core.sublime-settings`.
 Disclaimer: Not all Features are flawless, many things are experimental and change often.
 
 License: Open Source MIT
-
-(C) 2017 Jesse Boyer <[JREAM LLC](https://jream.com)>

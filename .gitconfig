@@ -1,9 +1,10 @@
 [user]
   name = Vadym Parakonnyi
   email = v.parakonnyi@gmail.com
-  # IdentityFile = ~/.ssh/sombra_rsa
+  username = voznik
+  IdentityFile = ~/.ssh/id_rsa
 [core]
-  editor = code
+  editor = code --wait
   compression = 9
 [branch]
   autosetuprebase = always

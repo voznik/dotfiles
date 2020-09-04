@@ -6,5 +6,5 @@ NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name[en_US]=Terminal
 Name=Terminal
-Comment[en_US]=--session ~/dip.json
+Comment[en_US]=--session "~/work.json"
 Comment=terminal to workspace

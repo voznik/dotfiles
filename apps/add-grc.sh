@@ -12,5 +12,6 @@ echo 'if hash grc &>/dev/null; then
   fi
 fi'
 echo ''
-echo "[!] If using Jesse/JREAM's dotfiles its already set in ~/.bash_vendors"
+echo "[!] Add to ~/.config/fish/config.fish or in a new file in ~/.config/fish/conf.d/:"
+echo "source /usr/local/etc/grc.fish"
 echo ''

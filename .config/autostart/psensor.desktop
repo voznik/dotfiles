@@ -12,3 +12,5 @@ Categories=System;Monitor;
 X-GNOME-Autostart-Delay=30
 StartupNotify=true
 
+X-GNOME-Autostart-enabled=false
+

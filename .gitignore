@@ -11,8 +11,19 @@ grc
 .private_exports
 .private-exports
 
+.env
 .bash_history
-.bash_logout
+!.bash_logout
+log/*.log
+/tmp
+tmp/**/*
+.bundle
+.env
+.git/
+
+# Lots of junk goes in here.
+/caches/
+/backups/
 
 # Apple
 .DS_Store
@@ -78,3 +89,19 @@ fish/fish_history
 
 # random
 shilocation
+
+# Top secret stuff!
+.ssh/id_*
+.ssh/*.pem
+.ssh/known_hosts*
+.ssh/environment*
+.ssh/master/*
+
+# Ignore any file with LOCAL in the name (good for per-machine vars/functions)
+*LOCAL*
+
+# Config
+.config/gcloud
+
+.config/doublecmd/history.xml
+.config/doublecmd/doublecmd.err

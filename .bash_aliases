@@ -285,19 +285,6 @@ alias apache2ctl='sudo apache2ctl'
 
 # ___________________________________________________________________
 #
-#                           PHP FPM
-# ___________________________________________________________________
-
-PHPFPM_VERSION='7.2'
-alias fpm="sudo php$PHPFPM_VERSION-fpm"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
-alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
-
-# ___________________________________________________________________
-#
 #                           GIT
 # ___________________________________________________________________
 
@@ -398,6 +385,20 @@ calc() {
   else
     awk "BEGIN { print $* }"
   fi
+}
+
+# Removes old revisions of snaps
+# CLOSE ALL SNAPS BEFORE RUNNING THIS
+cleanupsnapd() {
+  set -eu
+
+  snap list --all | awk '/disabled/{print $1, $3}' |
+      while read snapname revision; do
+          if [ "$revision" != "stable" ]; then
+              snap remove "$snapname" --revision="$revision"
+          fi
+      done
+
 }
 
 # End of File

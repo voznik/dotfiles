@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=bash "/home/voznik/.config/mainline/notify-loop.sh" --autostart
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=mainline notification
+Comment=mainline notification

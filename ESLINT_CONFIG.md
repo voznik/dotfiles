@@ -16,6 +16,7 @@ These are my preferred configurations.
 # Config: ESLint
 
 **.eslintrc**
+
 ```json
 {
   "root": true,
@@ -118,14 +119,17 @@ These are my preferred configurations.
     eslint-plugin-import \
     eslint-plugin-node@^6.0.1
 ```
+
 ## Babel
 
 **.babelrc**
+
 ```sh
     echo '{`presets": ['env']}' > .babelrc
 ```
 
 You may also do the following:
+
 ```json
   "scripts": {
     "start": "babel-node file.js"
@@ -144,7 +148,7 @@ yarn add -D mocha \
 
 > Gecko is FireFox
 
-http://nightwatchjs.org/gettingstarted/#browser-drivers-setup
+<http://nightwatchjs.org/gettingstarted/#browser-drivers-setup>
 
 ```sh
 yarn add -D nightwatch \
@@ -325,5 +329,3 @@ module.exports = {
 
 ---
 MIT
-
-(c) 2019 / Jesse Boyer <JREAM>

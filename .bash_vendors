@@ -9,6 +9,11 @@ if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
+export EDITOR="/bin/nano"
+export CONFIGDIR=$HOME/.config
+# android
+export WORKSPACE=$HOME/workspace
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
 # ╠═════════════════════════════════════════════════════════════════╣
@@ -24,20 +29,12 @@ if [ -d "/usr/lib/jvm" ]; then
   export JRE_HOME="/usr/lib/jvm/jdk1.8.0/jre"
 fi
 
-if [ -d "$HOME/Android/Sdk" ]; then
-  export ANDROID_HOME=$HOME/Android/Sdk
+if [ -d "$HOME/Programs/Android/Sdk" ]; then
+  export ANDROID_HOME=$HOME/Programs/Android/Sdk
   export PATH=$PATH:$ANDROID_HOME/tools
   export PATH=$PATH:$ANDROID_HOME/tools/bin
   export PATH=$PATH:$ANDROID_HOME/platform-tools
   export PATH=$PATH:$ANDROID_HOME/emulator
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Miniconda                                            │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d "$HOME/miniconda3/bin" ]; then
-  export PATH=$HOME/miniconda3/bin:$PATH
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -46,17 +43,6 @@ fi
 # └─────────────────────────────────────────────────────────────────┘
 if (( $+commands[kubectl] )) >/dev/null 2>&1; then
   source <(kubectl completion bash)
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PHP Composer Related                                    │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# Include local composer folder if exists
-export COMPOSER_HOME="$HOME/.composer/vendor/bin"
-if [ -d ~/.composer/vendor/bin ]; then
-  PATH=~/.composer/vendor/bin:$PATH
-  export COMPOSER_HOME=`composer config -g home`
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -122,7 +108,7 @@ fi
 
 if [ -d ~/.virtualenvs ]; then
   export WORKON_HOME=~/.virtualenvs
-  export PROJECT_HOME=~/py-projects
+  export PROJECT_HOME="$WORKSPACE/py-projects"
   export PIP_VIRTUALENV_BASE=~/.virtualenvs
 
   eval "$(pyenv init -)"
@@ -182,10 +168,18 @@ if hash grc &>/dev/null; then
   fi
 fi
 
-
-export EDITOR="/bin/nano"
-export CONFIGDIR=$HOME/.config
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) NPM (Node Global Packages Manager)                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
 
 export NPM_PACKAGES="$HOME/.npm-packages"
-# export NODE_PATH="$NPM_PACKAGES/lib/node_modules${NODE_PATH:+:$NODE_PATH}" #bash!
 export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"
+# Unset manpath so we can inherit from /etc/manpath via the `manpath`
+# command
+export PATH="$PATH:$NPM_PACKAGES/bin"
+###-tns-completion-start-###
+if [ -f /home/voznik/.tnsrc ]; then
+    source /home/voznik/.tnsrc
+fi
+###-tns-completion-end-###

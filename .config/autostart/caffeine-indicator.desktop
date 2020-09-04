@@ -9,3 +9,4 @@ Categories=Utility;TrayIcon;
 Keywords=Screensaver,Power,Saving,Blank
 OnlyShowIn=GNOME;KDE;LXDE;LXQt;MATE;Razor;ROX;TDE;Unity;XFCE;EDE;Cinnamon;Pantheon;
 StartupNotify=false
+X-GNOME-Autostart-enabled=true

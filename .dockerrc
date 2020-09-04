@@ -75,12 +75,6 @@ MY_NGINX_NAME="local-nginx"
 MY_NGINX_PORT="83"             # 80 is default
 IMAGE_NGINX="nginx:1-alpine"
 
-MY_ELK_NAME="local-elk"
-MY_ELK_PORT_KIBANA=5601              # 5601 is default
-MY_ELK_PORT_ELASTICSEARCH=9200              # 9200 is default
-MY_ELK_PORT_LOGSTASH=5044              # 9200 is default
-IMAGE_ELK="sebp/elk:600"
-
 MY_REDIS_NAME="local-redis"
 MY_REDIS_PORT=6300              # 6379 is default
 IMAGE_REDIS="redis:3-alpine"
@@ -88,18 +82,6 @@ IMAGE_REDIS="redis:3-alpine"
 MY_MONGO_NAME="local-mongo"
 MY_MONGO_PORT=27000              # 27017 is default
 IMAGE_MONGO="mongo:4"
-
-MY_MYSQL_NAME="local-mysql"
-MY_MYSQL_PORT=3300              # 3306 is default
-MY_MYSQL_ROOT_PASSWORD="root"   # root Password
-IMAGE_MYSQL="mysql:5.7"         # You could swap w/Percona, Maria, Mysql.
-
-MY_NATS_NAME="local-nats"
-MY_NATS_PORT=8220              # 8222 is default
-MY_NATS_PORT_CLIENT=4220       # 4222 is default
-#MY_NATS_PORT_CLUSTER=6220     # 6222 is default (Not Used)
-IMAGE_NATS="nats:1.1.0"
-
 # Simple way to keep track
 RUNNING=()
 RUNNING[PORTAINER]='off'
@@ -457,55 +439,6 @@ function mysql-restart() {
 
 function mysql-connect() {
     docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYSQL_ROOT_PASSWORD
-}
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ NATS                                                            │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ @desc  Message Queue                                            │
-# └─────────────────────────────────────────────────────────────────┘
-function nats-create() {
-    docker run -d --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
-}
-
-function nats-up() {
-    docker start $MY_NATS_NAME
-}
-
-function nats-stop() {
-    docker stop $MY_NATS_NAME
-}
-
-function nats-restart() {
-    docker restart $MY_NATS_NAME
-}
-
-function nats-connect() {
-    docker exec -it $MY_NATS_NAME
-}
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ ELK                                                             │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ @desc  ElasticSearch, Logsstash, Kibana UI                      │
-# └─────────────────────────────────────────────────────────────────┘
-function elk-create() {
-    docker run -d --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
-}
-
-function elk-up() {
-    docker start $MY_ELK_NAME
-}
-
-function elk-stop() {
-    docker stop $MY_ELK_NAME
-}
-
-function elk-restart() {
-    docker restart $MY_ELK_NAME
-}
-
-function nats-connect() {
-    docker exec -it $MY_NATS_NAME
 }
 
 # End of File

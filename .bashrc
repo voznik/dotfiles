@@ -9,6 +9,7 @@
 # ___________________________________________________________________
 [ -z "$PS1" ] && return
 
+export LANG=en_US.UTF-8
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
@@ -64,6 +65,11 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Bash Completion                                                 │
@@ -80,15 +86,4 @@ shopt -s cdspell
 # Make less more friendly for non-text input files, see lesspipe(1)
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# https://gnunn1.github.io/tilix-web/manual/vteconfig/
-# if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-#     source /etc/profile.d/vte.sh
-# fi
-
-###-tns-completion-start-###
-if [ -f /home/voznik/.tnsrc ]; then
-    source /home/voznik/.tnsrc
-fi
-###-tns-completion-end-###
 
