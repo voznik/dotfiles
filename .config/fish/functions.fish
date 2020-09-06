@@ -1,28 +1,5 @@
 # thx to https://github.com/mduvall/config/
 
-function subl --description 'Open Sublime Text'
-  if test -d "/Applications/Sublime Text.app"
-    "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" $argv
-  else if test -d "/Applications/Sublime Text 2.app"
-    "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $argv
-  else if test -x "/opt/sublime_text/sublime_text"
-    "/opt/sublime_text/sublime_text" $argv
-  else if test -x "/opt/sublime_text_3/sublime_text"
-    "/opt/sublime_text_3/sublime_text" $argv
-  else
-    echo "No Sublime Text installation found"
-  end
-end
-
-function loc --description "zfz with locatef"
-  glocate --database=(brew --prefix)/var/locate/locatedb --all --ignore-case --null $argv | ggrep --null --invert-match --extended-regexp '~$' | fzf --read0 -0 -1 -m
-end
-
-function killf
-  if ps -ef | sed 1d | fzf -m | awk '{print $2}' > $TMPDIR/fzf.result
-    kill -9 (cat $TMPDIR/fzf.result)
-  end
-end
 
 function clone --description "clone something, cd into it. install it."
     git clone --depth=1 $argv[1]
@@ -60,9 +37,6 @@ function shellswitch
 	chsh -s (brew --prefix)/bin/$argv
 end
 
-function code
-  env VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" --args $argv
-end
 
 function upgradeyarn
   curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -99,13 +73,3 @@ function server -d 'Start a HTTP server in the current dir, optionally specifyin
     statikk --port "$port" .
 end
 
-
-function emptytrash -d 'Empty the Trash on all mounted volumes and the main HDD. then clear the useless sleepimage'
-    sudo rm -rfv "/Volumes/*/.Trashes"
-    grm -rf "~/.Trash/*"
-    rm -rfv "/Users/paulirish/Library/Application Support/stremio/Cache"
-    rm -rfv "/Users/paulirish/Library/Application Support/stremio/stremio-cache"
-    rm -rfv "~/Library/Application Support/Spotify/PersistentCache/Update/*.tbz"
-    rm -rfv ~/Library/Caches/com.spotify.client/Data
-    rm -rfv ~/Library/Caches/Firefox/Profiles/98ne80k7.dev-edition-default/cache2
-end

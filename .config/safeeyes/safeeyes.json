@@ -1,7 +1,7 @@
 {
     "allow_postpone": false,
-    "break_interval": 20,
     "long_break_duration": 60,
+    "long_break_interval": 75,
     "long_breaks": [
         {
             "name": "Walk for a while"
@@ -11,9 +11,8 @@
         }
     ],
     "meta": {
-        "config_version": "6.0.0"
+        "config_version": "6.0.1"
     },
-    "no_of_short_breaks_per_long_break": 5,
     "persist_state": true,
     "plugins": [
         {
@@ -36,14 +35,16 @@
             "enabled": true,
             "id": "audiblealert",
             "settings": {
+                "post_break_alert": true,
                 "pre_break_alert": true
             },
-            "version": "0.0.2"
+            "version": "0.0.3"
         },
         {
             "enabled": true,
             "id": "trayicon",
             "settings": {
+                "allow_disabling": true,
                 "disable_options": [
                     {
                         "time": 30,
@@ -64,16 +65,17 @@
                 ],
                 "show_time_in_tray": false
             },
-            "version": "0.0.1"
+            "version": "0.0.3"
         },
         {
             "enabled": true,
             "id": "smartpause",
             "settings": {
                 "idle_time": 3,
-                "interpret_idle_as_break": false
+                "interpret_idle_as_break": false,
+                "postpone_if_active": false
             },
-            "version": "0.0.2"
+            "version": "0.0.3"
         },
         {
             "enabled": false,
@@ -82,11 +84,19 @@
                 "command": "",
                 "min_seconds": 3
             },
-            "version": "0.0.1"
+            "version": "0.0.2"
         },
         {
             "enabled": true,
             "id": "healthstats",
+            "settings": {
+                "statistics_reset_interval": 24
+            },
+            "version": "0.0.2"
+        },
+        {
+            "enabled": false,
+            "id": "mediacontrol",
             "version": "0.0.1"
         }
     ],
@@ -94,6 +104,7 @@
     "pre_break_warning_time": 15,
     "rpc_port": 7200,
     "short_break_duration": 15,
+    "short_break_interval": 15,
     "short_breaks": [
         {
             "name": "Tightly close your eyes"

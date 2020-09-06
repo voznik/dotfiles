@@ -85,6 +85,8 @@ skin=modarcon16root-defbg
 
 safe_overwrite=false
 
+filepos_max_saved_entries=1024
+
 [Layout]
 message_visible=true
 keybar_visible=true

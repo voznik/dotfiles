@@ -1,0 +1,6 @@
+[Command]
+Command=copyq: menu()
+GlobalShortcut=meta+ctrl+menu
+Icon=\xf01c
+IsGlobalShortcut=true
+Name=Show the tray menu

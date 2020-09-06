@@ -55,22 +55,6 @@ set -g fish_color_valid_path --underline
 set -g fish_color_dimmed 555
 set -g fish_color_separator 999
 
-# Git prompt status
-set -g __fish_git_prompt_showdirtystate 'yes'
-set -g __fish_git_prompt_showupstream auto
-set -g pure_git_untracked_dirty false
-
-# Status Chars
-#set __fish_git_prompt_char_dirtystate '*'
-set __fish_git_prompt_char_upstream_equal ''
-set __fish_git_prompt_char_upstream_ahead '↑'
-set __fish_git_prompt_char_upstream_behind '↓'
-set __fish_git_prompt_color_branch yellow
-set __fish_git_prompt_color_dirtystate 'red'
-
-set __fish_git_prompt_color_upstream_ahead ffb90f
-set __fish_git_prompt_color_upstream_behind blue
-
 # Local prompt customization
 set -e fish_greeting
 
@@ -90,21 +74,13 @@ set -gx LESS_TERMCAP_so \e'[38;5;246m'    # begin standout-mode - info box
 set -gx LESS_TERMCAP_ue \e'[0m'           # end underline
 set -gx LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 
-
-# this currently messes with newlines in my prompt. lets debug it later.
-# test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-
-# tabtab source for yarn package
-# uninstall by removing these lines or running `tabtab uninstall yarn`
-[ -f /Users/paulirish/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish ]; and . /Users/paulirish/.config/yarn/global/node_modules/tabtab/.completions/yarn.fish
-
 # rvm default
 
 # REUSE ENVIRONMENT VARIABLES FROM ~/.bash_profile
 # https://github.com/albertz/dotfiles/blob/master/.config/fish/config.fish
 # Fish shell
 
-egrep "^export " ~/.bash_profile | while read e
+egrep "^export " ~/.bash_vendors | while read e
   set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
   set value (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\2/")
 
@@ -127,21 +103,3 @@ egrep "^export " ~/.bash_profile | while read e
   #echo "set -xg '$var' '$value' (via '$e')"
   set -xg $var $value
 end
-
-# https://github.com/fish-shell/fish-shell/blob/master/share/functions/export.fish
-# function export --description 'Set global variable. Alias for set -gx, made for bash compatibility'
-#     if test -z "$argv"
-#         set
-#         return 0
-#     end
-#     for arg in $argv
-#         set -l v (string split -m 1 "=" -- $arg)
-#         switch (count $v)
-#             case 1
-#                 set -gx $v $$v
-#             case 2
-#                 set -gx $v[1] $v[2]
-#         end
-#     end
-# end
-

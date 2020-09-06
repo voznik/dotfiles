@@ -1,15 +1,16 @@
-
-export default {
-  bracketSpacing: true,
-  jsxBrackets: true,
+module.exports = {
   arrowParens: 'always',
-  // Optional:
-  //filepath: "src/index.js",
-  //parser: "babylon(default)|flow|typescript|css|scss|less|json|...|vue|yaml",
-  parser: babylon,
-  trailingComma: 'all',
-  tabs: false,
-  tabWidth: 2,
+  bracketSpacing: true,
+  printWidth: 120,
   semi: true,
-  singleQuote: true
+  singleQuote: true,
+  trailingComma: 'all',
+  overrides: [
+    {
+      files: 'package*.json',
+      options: {
+        printWidth: 1000,
+      },
+    },
+  ],
 };
