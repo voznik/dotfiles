@@ -85,6 +85,7 @@ __pycache__/
 # fish shell
 fishd.*
 .config/fish/fish_history
+.config/fish/fish_variables
 fish/fish_history
 
 # random

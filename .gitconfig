@@ -76,7 +76,9 @@
   st = status
 
   # Diff
-  diff  = diff --word-diff
+  dift = difftool -d
+  diff = diff -d
+  difw = diff --word-diff
   ds = diff --stat
   dc = diff --cached
   dlc = diff --cached HEAD^

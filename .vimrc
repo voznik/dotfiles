@@ -3,12 +3,33 @@
 set nocompatible
 filetype off
 
+if has('nvim')
+  let vimplugdir='~/.config/nvim/plugged'
+  let vimautoloaddir='~/.config/nvim/autoload'
+  " TODO: pip2 install neovim
+  " TODO: pip3 install neovim
+else
+  let vimplugdir='~/.vim/plugged'
+  let vimautoloaddir='~/.vim/autoload'
+endif
+
 " Use Bash shell, Avoid zsh/fish shell issues
 set shell=/bin/bash
 
 """"""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""
+
+try
+call plug#begin(vimplugdir)
+
+" Neovim is sensible by default
+if !has('nvim')
+  Plug 'tpope/vim-sensible'
+endif
+if has('python')
+  Plug 'neilagabriel/vim-geeknote'
+endif
 
 " vundle plugins
 set rtp+=~/.vim/bundle/Vundle.vim
