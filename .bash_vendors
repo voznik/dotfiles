@@ -9,7 +9,7 @@ if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
-export EDITOR="/bin/nano"
+export EDITOR="/usr/bin/mcedit"
 export CONFIGDIR=$HOME/.config
 # android
 export WORKSPACE=$HOME/workspace
