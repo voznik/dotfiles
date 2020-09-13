@@ -73,3 +73,25 @@ function server -d 'Start a HTTP server in the current dir, optionally specifyin
     statikk --port "$port" .
 end
 
+#-------------------------------------------------------------
+# Process/system related functions:
+#-------------------------------------------------------------
+
+function my_ps
+  ps $argv[1] -u $USER -o pid,%cpu,%mem,bsdtime,command
+end
+
+function ps_mem
+#  ps -eo size,pid,user,command --sort -size | awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' | awk '{total=total + $1} END {print total}''
+  ps $argv[1] -u $USER -o pid,%cpu,%mem,bsdtime,command
+end
+
+function mmr -d 'calc mem by process name'
+    # If no argument is passed, open current dir
+    if [ (count $argv) -eq 0 ]
+        smem -t -k -c pss -P slack | tail -n 1
+    else
+        smem -t -k -c pss -P $argv | tail -n 1
+    end
+end
+

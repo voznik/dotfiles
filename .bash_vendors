@@ -81,6 +81,8 @@ if [ -d /usr/local/go ]; then
   export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 fi
 
+export PATH=$PATH:$HOME/.cargo/bin
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) PyEnv (Python Version Manager)                       │
 # ├─────────────────────────────────────────────────────────────────┤

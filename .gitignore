@@ -104,5 +104,7 @@ shilocation
 # Config
 .config/gcloud
 
-.config/doublecmd/history.xml
-.config/doublecmd/doublecmd.err
+.config/doublecmd/*
+!.config/doublecmd/doublecmd.xml
+.config/copyq/*
+!.config/copyq/copyq.conf
