@@ -1,0 +1,15 @@
+#!/bin/sh
+
+system_type=$(uname -s)
+
+if [ "$system_type" = "Linux" ]; then
+
+  # possibly add something here to ensure iTerm2 is installed using Homebrew
+  # cask like in the previous example
+
+  if [ -d "$HOME/.config/tilix" ]; then
+    echo "Setting Tilix preferences"
+    dconf load /com/gexperts/Tilix/ < "$HOME/.config/tilix/tilix.dconf"
+  fi
+
+fi
