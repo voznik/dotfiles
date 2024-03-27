@@ -1,0 +1,2033 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doublecmd DCVersion="0.9.9 beta" ConfigVersion="10">
+  <Toolbars>
+    <MainToolbar>
+      <Row>
+        <Command>
+          <ID>{3E9061FE-3D27-48A4-8B08-F315A908C62C}</ID>
+          <Icon>cm_refresh</Icon>
+          <Command>cm_Refresh</Command>
+        </Command>
+        <Command>
+          <ID>{895C427D-9085-4B25-94A6-0DEC714EA8C7}</ID>
+          <Icon>cm_runterm</Icon>
+          <Command>cm_RunTerm</Command>
+        </Command>
+        <Command>
+          <ID>{D8E8BB63-3C1B-4B94-A586-EACBD6715F14}</ID>
+          <Icon>cm_options</Icon>
+          <Command>cm_Options</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{D5792353-47AB-47FA-92D9-BAD6E991DB63}</ID>
+          <Icon>cm_briefview</Icon>
+          <Command>cm_BriefView</Command>
+        </Command>
+        <Command>
+          <ID>{D4B1425E-51E0-4002-97FB-049552B2D9E6}</ID>
+          <Icon>cm_columnsview</Icon>
+          <Command>cm_ColumnsView</Command>
+        </Command>
+        <Command>
+          <ID>{2D6529DE-FFEE-4038-B405-E6578C774A92}</ID>
+          <Icon>cm_thumbnailsview</Icon>
+          <Command>cm_ThumbnailsView</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{A904499D-8978-4ED5-90E9-6CC3A5F6748D}</ID>
+          <Icon>cm_flatview</Icon>
+          <Command>cm_FlatView</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{91899091-FDD1-4F05-A7F1-30921BA286D2}</ID>
+          <Icon>cm_viewhistoryprev</Icon>
+          <Command>cm_ViewHistoryPrev</Command>
+        </Command>
+        <Command>
+          <ID>{EE26045F-3552-472F-B280-8E4F142C0D9C}</ID>
+          <Icon>cm_viewhistorynext</Icon>
+          <Command>cm_ViewHistoryNext</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{A184E54D-CC96-4CC6-8D07-2DD5A2753647}</ID>
+          <Icon>cm_markplus</Icon>
+          <Command>cm_MarkPlus</Command>
+        </Command>
+        <Command>
+          <ID>{F884F4DA-B7F4-49EE-ABF2-098E93A3AE4C}</ID>
+          <Icon>cm_markminus</Icon>
+          <Command>cm_MarkMinus</Command>
+        </Command>
+        <Command>
+          <ID>{45FED493-A830-4BDE-8F41-6F61B81ECAB4}</ID>
+          <Icon>cm_markinvert</Icon>
+          <Command>cm_MarkInvert</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{08F55D9B-EB63-495B-9592-8BDD7170B347}</ID>
+          <Icon>cm_packfiles</Icon>
+          <Command>cm_PackFiles</Command>
+        </Command>
+        <Command>
+          <ID>{E0DF7E28-FFBD-42C0-8898-764E506A51D0}</ID>
+          <Icon>cm_extractfiles</Icon>
+          <Command>cm_ExtractFiles</Command>
+        </Command>
+        <Separator/>
+        <Command>
+          <ID>{27063204-87E9-4D30-8555-6B90F22EDB5E}</ID>
+          <Icon>cm_search</Icon>
+          <Command>cm_Search</Command>
+        </Command>
+        <Command>
+          <ID>{D4D749F4-5ACD-4922-A5F2-3420D63B00E5}</ID>
+          <Icon>cm_multirename</Icon>
+          <Command>cm_MultiRename</Command>
+        </Command>
+        <Command>
+          <ID>{DD5F9A83-380D-41CB-8077-FC6BDD31C90C}</ID>
+          <Icon>cm_syncdirs</Icon>
+          <Command>cm_SyncDirs</Command>
+        </Command>
+        <Command>
+          <ID>{B78BFBD4-F239-41E9-B243-8AAE85D750BC}</ID>
+          <Icon>cm_copyfullnamestoclip</Icon>
+          <Command>cm_CopyFullNamesToClip</Command>
+        </Command>
+      </Row>
+    </MainToolbar>
+  </Toolbars>
+  <MainWindow>
+    <Position Save="True">
+      <Left>283</Left>
+      <Top>34</Top>
+      <Width>960</Width>
+      <Height>1018</Height>
+      <PixelsPerInch>96</PixelsPerInch>
+      <Maximized>True</Maximized>
+      <Splitter>50</Splitter>
+    </Position>
+  </MainWindow>
+  <Tabs>
+    <OpenedTabs>
+      <Left>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <FileView Type="columns">
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="dock1">/home/voznik/.dotfiles/.config/plank/</Path>
+                  <Path Filename="theme_index">/home/voznik/.dotfiles/.config/plank/dock1/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/plank/dock1/theme_index/</Path>
+                  <Path Filename="themes-repo">/home/voznik/.dotfiles/.config/plank/dock1/</Path>
+                  <Path Filename="Themes">/home/voznik/.dotfiles/.config/plank/dock1/themes-repo/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/plank/dock1/themes-repo/Themes/</Path>
+                  <Path Filename="Themes">/home/voznik/.dotfiles/.config/plank/dock1/themes-repo/</Path>
+                  <Path Filename="launchers">/home/voznik/.dotfiles/.config/plank/dock1/</Path>
+                  <Path Filename="selektor.dockitem">/home/voznik/.dotfiles/.config/plank/dock1/launchers/</Path>
+                  <Path Filename="launchers">/home/voznik/.dotfiles/.config/plank/dock1/</Path>
+                  <Path Filename="dock1">/home/voznik/.dotfiles/.config/plank/</Path>
+                  <Path Filename="plank">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename="data">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="helpers">/home/voznik/.dotfiles/data/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/data/helpers/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/data/</Path>
+                  <Path Filename=".aws">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.aws/</Path>
+                  <Path Filename=".config">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename=".ssh">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.ssh/</Path>
+                  <Path Filename=".bashrc">/home/voznik/.dotfiles/</Path>
+                  <Path Filename=".xinitrc">/home/voznik/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="fish">/home/voznik/.config/</Path>
+                  <Path Filename="functions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="z.fish">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="conf.d">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/conf.d/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="functions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="scmpuff_status.fish">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="functions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename=".travis.yml">/home/voznik/.config/omf/</Path>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename="bundle">/home/voznik/.config/omf/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/omf/</Path>
+                  <Path Filename="tilix">/home/voznik/.config/</Path>
+                  <Path Filename="">/home/voznik/.config/tilix/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>1</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="fonts">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/fonts/</Path>
+                  <Path Filename="data">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/data/</Path>
+                  <Path Filename=".aws">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.aws/</Path>
+                  <Path Filename="apps">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="vhost">/home/voznik/.dotfiles/apps/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/apps/vhost/</Path>
+                  <Path Filename="vhost">/home/voznik/.dotfiles/apps/</Path>
+                  <Path Filename=".virtualenvs">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.virtualenvs/</Path>
+                  <Path Filename=".config">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="mc">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/mc/</Path>
+                  <Path Filename="fish">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/fish/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename="extassoc.xml">/home/voznik/.dotfiles/.config/doublecmd/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename="fonts.conf">/home/voznik/.dotfiles/.config/fontconfig/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename=".fonts">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.fonts/</Path>
+                  <Path Filename="apps">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/apps/</Path>
+                  <Path Filename=".config">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/.config/</Path>
+                  <Path Filename=".fonts">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="Ubuntu Mono derivative Powerline.ttf">/home/voznik/.dotfiles/.fonts/</Path>
+                  <Path Filename="apps">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="..">/home/voznik/.dotfiles/apps/</Path>
+                  <Path Filename=".git">/home/voznik/.dotfiles/</Path>
+                  <Path Filename="config">/home/voznik/.dotfiles/.git/</Path>
+                  <Path Filename=".android">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.android/</Path>
+                  <Path Filename=".config">/home/voznik/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="session.ini">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="sinew.in">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/sinew.in/</Path>
+                  <Path Filename="Skype">/home/voznik/.config/</Path>
+                  <Path Filename="Dictionaries">/home/voznik/.config/Skype/</Path>
+                  <Path Filename="..">/home/voznik/.config/Skype/Dictionaries/</Path>
+                  <Path Filename="Dictionaries">/home/voznik/.config/Skype/</Path>
+                  <Path Filename="..">/home/voznik/.config/Skype/Dictionaries/</Path>
+                  <Path Filename="Dictionaries">/home/voznik/.config/Skype/</Path>
+                  <Path Filename="enchant">/home/voznik/.config/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>1</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="share">/home/voznik/.local/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename=".uuid">/home/voznik/.local/share/fonts/</Path>
+                  <Path Filename="omf">/home/voznik/.local/share/</Path>
+                  <Path Filename="themes">/home/voznik/.local/share/omf/</Path>
+                  <Path Filename="agnoster">/home/voznik/.local/share/omf/themes/</Path>
+                  <Path Filename="fish_prompt.fish">/home/voznik/.local/share/omf/themes/agnoster/</Path>
+                  <Path Filename="agnoster">/home/voznik/.local/share/omf/themes/</Path>
+                  <Path Filename="themes">/home/voznik/.local/share/omf/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename=".uuid">/home/voznik/.local/share/fonts/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/bin/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="fish">/home/voznik/.local/etc/</Path>
+                  <Path Filename="completions">/home/voznik/.local/etc/fish/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/fish/completions/</Path>
+                  <Path Filename="completions">/home/voznik/.local/etc/fish/</Path>
+                  <Path Filename="bash_completion.d">/home/voznik/.local/etc/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/bash_completion.d/</Path>
+                  <Path Filename="bash_completion.d">/home/voznik/.local/etc/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename="ytdl">/home/voznik/.local/bin/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename=".fonts">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.fonts/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="voznik">/home/</Path>
+                  <Path Filename="vmlinuz.old">/</Path>
+                  <Path Filename="resources">/usr/share/tilix/</Path>
+                  <Path Filename="..">/usr/share/tilix/resources/</Path>
+                  <Path Filename="schemes">/usr/share/tilix/</Path>
+                  <Path Filename="..">/usr/share/tilix/schemes/</Path>
+                  <Path Filename="scripts">/usr/share/tilix/</Path>
+                  <Path Filename="tilix_int.sh">/usr/share/tilix/scripts/</Path>
+                  <Path Filename="scripts">/usr/share/tilix/</Path>
+                  <Path Filename="tilix">/usr/share/</Path>
+                  <Path Filename="share">/usr/</Path>
+                  <Path Filename="usr">/</Path>
+                  <Path Filename=".ssh">/home/voznik/</Path>
+                  <Path Filename="">/home/voznik/.ssh/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>1</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename="bundle">/home/voznik/.config/omf/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/</Path>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/omf/</Path>
+                  <Path Filename="omf">/home/voznik/.config/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="share">/home/voznik/.local/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename=".uuid">/home/voznik/.local/share/fonts/</Path>
+                  <Path Filename="omf">/home/voznik/.local/share/</Path>
+                  <Path Filename="themes">/home/voznik/.local/share/omf/</Path>
+                  <Path Filename="agnoster">/home/voznik/.local/share/omf/themes/</Path>
+                  <Path Filename="fish_prompt.fish">/home/voznik/.local/share/omf/themes/agnoster/</Path>
+                  <Path Filename="agnoster">/home/voznik/.local/share/omf/themes/</Path>
+                  <Path Filename="themes">/home/voznik/.local/share/omf/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename=".uuid">/home/voznik/.local/share/fonts/</Path>
+                  <Path Filename="fonts">/home/voznik/.local/share/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/bin/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="fish">/home/voznik/.local/etc/</Path>
+                  <Path Filename="completions">/home/voznik/.local/etc/fish/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/fish/completions/</Path>
+                  <Path Filename="completions">/home/voznik/.local/etc/fish/</Path>
+                  <Path Filename="bash_completion.d">/home/voznik/.local/etc/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/bash_completion.d/</Path>
+                  <Path Filename="bash_completion.d">/home/voznik/.local/etc/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename="ytdl">/home/voznik/.local/bin/</Path>
+                  <Path Filename="bin">/home/voznik/.local/</Path>
+                  <Path Filename=".fonts">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.fonts/</Path>
+                  <Path Filename=".local">/home/voznik/</Path>
+                  <Path Filename="etc">/home/voznik/.local/</Path>
+                  <Path Filename="..">/home/voznik/.local/etc/</Path>
+                  <Path Filename="voznik">/home/</Path>
+                  <Path Filename="etc">/</Path>
+                  <Path Filename="fonts">/etc/</Path>
+                  <Path Filename="fonts.conf">/etc/fonts/</Path>
+                  <Path Filename="fonts">/etc/</Path>
+                  <Path Filename="">/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+      </Left>
+      <Right>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>2</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="..">/home/voznik/workspace/archive/</Path>
+                  <Path Filename="clarity">/home/voznik/workspace/</Path>
+                  <Path Filename="src">/home/voznik/workspace/clarity/</Path>
+                  <Path Filename="website">/home/voznik/workspace/clarity/src/</Path>
+                  <Path Filename="src">/home/voznik/workspace/clarity/src/website/</Path>
+                  <Path Filename="assets">/home/voznik/workspace/clarity/src/website/src/</Path>
+                  <Path Filename="images">/home/voznik/workspace/clarity/src/website/src/assets/</Path>
+                  <Path Filename="home">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="ic_reliable.svg">/home/voznik/workspace/clarity/src/website/src/assets/images/home/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="icon-192x192.png">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="sketch.png">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="get-started">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="device_support.png">/home/voznik/workspace/clarity/src/website/src/assets/images/get-started/</Path>
+                  <Path Filename="documentation">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="alerts">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/</Path>
+                  <Path Filename="alerts_app_level.png">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/alerts/</Path>
+                  <Path Filename="alerts">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/</Path>
+                  <Path Filename="bugs">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="core.png">/home/voznik/workspace/clarity/src/website/src/assets/images/bugs/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="team">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/team/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="">/home/voznik/</Path>
+                  <Path Filename="scmpuff_status.fish">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="killall.fish">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="conf.d">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/conf.d/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/</Path>
+                  <Path Filename="fish">/home/voznik/.config/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="functions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.config/</Path>
+                  <Path Filename="fonts.conf">/home/voznik/.config/fontconfig/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="multiarc.ini">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.config/</Path>
+                  <Path Filename="fonts.conf">/home/voznik/.config/fontconfig/</Path>
+                  <Path Filename="">/home/voznik/.config/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+          <Options>3</Options>
+          <LockPath>/home/voznik/.config/</LockPath>
+          <Title>.config</Title>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>1</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="apps">/home/voznik/.gnome/</Path>
+                  <Path Filename="chrome-pjkljhegncpnkpknbcohdijeoejaedia-Default.desktop">/home/voznik/.gnome/apps/</Path>
+                  <Path Filename="apps">/home/voznik/.gnome/</Path>
+                  <Path Filename=".gnupg">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.gnupg/</Path>
+                  <Path Filename=".gvfs">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.gvfs/</Path>
+                  <Path Filename="Keys">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/Keys/</Path>
+                  <Path Filename=".log">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.log/</Path>
+                  <Path Filename=".lwsm">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.lwsm/</Path>
+                  <Path Filename=".m2">/home/voznik/</Path>
+                  <Path Filename="repository">/home/voznik/.m2/</Path>
+                  <Path Filename="..">/home/voznik/.m2/repository/</Path>
+                  <Path Filename="repository">/home/voznik/.m2/</Path>
+                  <Path Filename="output_Mon_Feb__3_21_10_38_2020">/home/voznik/</Path>
+                  <Path Filename="bmp">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="..">/home/voznik/output_Mon_Feb__3_21_10_38_2020/bmp/</Path>
+                  <Path Filename="dll">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="..">/home/voznik/output_Mon_Feb__3_21_10_38_2020/dll/</Path>
+                  <Path Filename="exe">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="..">/home/voznik/output_Mon_Feb__3_21_10_38_2020/exe/</Path>
+                  <Path Filename="gif">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="..">/home/voznik/output_Mon_Feb__3_21_10_38_2020/gif/</Path>
+                  <Path Filename="htm">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="..">/home/voznik/output_Mon_Feb__3_21_10_38_2020/htm/</Path>
+                  <Path Filename="pdf">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="12921104.pdf">/home/voznik/output_Mon_Feb__3_21_10_38_2020/pdf/</Path>
+                  <Path Filename="png">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename="25527536.png">/home/voznik/output_Mon_Feb__3_21_10_38_2020/png/</Path>
+                  <Path Filename="png">/home/voznik/output_Mon_Feb__3_21_10_38_2020/</Path>
+                  <Path Filename=".paradoxlauncher">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.paradoxlauncher/</Path>
+                  <Path Filename=".pyenv">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.pyenv/</Path>
+                  <Path Filename=".ssh">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.ssh/</Path>
+                  <Path Filename=".ssh">/home/voznik/</Path>
+                  <Path Filename="voznik">/home/</Path>
+                  <Path Filename=".steam">/home/voznik/</Path>
+                  <Path Filename="steam">/home/voznik/.steam/</Path>
+                  <Path Filename="steamapps">/home/voznik/.steam/steam/</Path>
+                  <Path Filename="common">/home/voznik/.steam/steam/steamapps/</Path>
+                  <Path Filename="X4 Foundations">/home/voznik/.steam/steam/steamapps/common/</Path>
+                  <Path Active="True" Filename="X4">/home/voznik/.steam/steam/steamapps/common/X4 Foundations/</Path>
+                  <Path Filename="ego_dlc_split">/home/voznik/.steam/steam/steamapps/common/X4 Foundations/extensions/</Path>
+                  <Path Filename="ext_02.cat">/home/voznik/.steam/steam/steamapps/common/X4 Foundations/extensions/ego_dlc_split/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>2</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="Keybase">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/Keybase/</Path>
+                  <Path Filename="keybase">/home/voznik/.config/</Path>
+                  <Path Filename="config.json">/home/voznik/.config/keybase/</Path>
+                  <Path Filename="mc">/home/voznik/.config/</Path>
+                  <Path Filename="mcedit">/home/voznik/.config/mc/</Path>
+                  <Path Filename="..">/home/voznik/.config/mc/mcedit/</Path>
+                  <Path Filename="hotlist.bak">/home/voznik/.config/mc/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="doublecmd.err">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="tilix">/home/voznik/.config/</Path>
+                  <Path Filename="schemes">/home/voznik/.config/tilix/</Path>
+                  <Path Filename="..">/home/voznik/.config/tilix/schemes/</Path>
+                  <Path Filename="schemes">/home/voznik/.config/tilix/</Path>
+                  <Path Filename="autostart">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/autostart/</Path>
+                  <Path Filename="yarn">/home/voznik/.config/</Path>
+                  <Path Filename="global">/home/voznik/.config/yarn/</Path>
+                  <Path Filename="..">/home/voznik/.config/yarn/global/</Path>
+                  <Path Filename="link">/home/voznik/.config/yarn/</Path>
+                  <Path Filename="..">/home/voznik/.config/yarn/link/</Path>
+                  <Path Filename="link">/home/voznik/.config/yarn/</Path>
+                  <Path Filename="upstart">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/upstart/</Path>
+                  <Path Filename="Unknown Organization">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/Unknown Organization/</Path>
+                  <Path Filename="systemd">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/systemd/</Path>
+                  <Path Filename="sublime-text-3">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/sublime-text-3/</Path>
+                  <Path Filename="stacer">/home/voznik/.config/</Path>
+                  <Path Filename="..">/home/voznik/.config/stacer/</Path>
+                  <Path Filename="stacer">/home/voznik/.config/</Path>
+                  <Path Filename="settings.ini">/home/voznik/.config/stacer/</Path>
+                  <Path Filename="plank">/home/voznik/.config/</Path>
+                  <Path Filename="dock1">/home/voznik/.config/plank/</Path>
+                  <Path Filename="launchers">/home/voznik/.config/plank/dock1/</Path>
+                  <Path Filename="..">/home/voznik/.config/plank/dock1/launchers/</Path>
+                  <Path Filename="launchers">/home/voznik/.config/plank/dock1/</Path>
+                  <Path Filename="dock1">/home/voznik/.config/plank/</Path>
+                  <Path Filename="plank">/home/voznik/.config/</Path>
+                  <Path Filename=".ssh">/home/voznik/</Path>
+                  <Path Filename="..">/home/voznik/.ssh/</Path>
+                  <Path Filename=".dotfiles">/home/voznik/</Path>
+                  <Path Filename=".npmrc">/home/voznik/.dotfiles/</Path>
+                  <Path Filename=".config">/home/voznik/</Path>
+                  <Path Filename="">/home/voznik/.config/</Path>
+                  <Path Filename="fish_prompt.fish.bak">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="Downloads">/home/voznik/</Path>
+                  <Path Filename="">/home/voznik/Downloads/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>2</Direction>
+                <Function>7</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="home">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="ic_reliable.svg">/home/voznik/workspace/clarity/src/website/src/assets/images/home/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="icon-192x192.png">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="sketch.png">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="get-started">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="device_support.png">/home/voznik/workspace/clarity/src/website/src/assets/images/get-started/</Path>
+                  <Path Filename="documentation">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="alerts">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/</Path>
+                  <Path Filename="alerts_app_level.png">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/alerts/</Path>
+                  <Path Filename="alerts">/home/voznik/workspace/clarity/src/website/src/assets/images/documentation/</Path>
+                  <Path Filename="bugs">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="core.png">/home/voznik/workspace/clarity/src/website/src/assets/images/bugs/</Path>
+                  <Path Filename="logos">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/logos/</Path>
+                  <Path Filename="team">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/team/</Path>
+                  <Path Filename="icons">/home/voznik/workspace/clarity/src/website/src/assets/images/</Path>
+                  <Path Filename="..">/home/voznik/workspace/clarity/src/website/src/assets/images/icons/</Path>
+                  <Path Filename="">/home/voznik/</Path>
+                  <Path Filename="scmpuff_status.fish">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="killall.fish">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="conf.d">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/conf.d/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/</Path>
+                  <Path Filename="fish">/home/voznik/.config/</Path>
+                  <Path Filename="completions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/completions/</Path>
+                  <Path Filename="functions">/home/voznik/.config/fish/</Path>
+                  <Path Filename="..">/home/voznik/.config/fish/functions/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.config/</Path>
+                  <Path Filename="fonts.conf">/home/voznik/.config/fontconfig/</Path>
+                  <Path Filename="doublecmd">/home/voznik/.config/</Path>
+                  <Path Filename="multiarc.ini">/home/voznik/.config/doublecmd/</Path>
+                  <Path Filename="fontconfig">/home/voznik/.config/</Path>
+                  <Path Filename="fonts.conf">/home/voznik/.config/fontconfig/</Path>
+                  <Path Filename="">/home/voznik/.config/</Path>
+                  <Path Filename="schemes">/home/voznik/.config/tilix/</Path>
+                  <Path Filename="..">/home/voznik/.config/tilix/schemes/</Path>
+                  <Path Filename="schemes">/home/voznik/.config/tilix/</Path>
+                  <Path Filename="..">/home/voznik/.config/tilix/schemes/</Path>
+                  <Path Filename="..">/home/voznik/.config/tilix/</Path>
+                  <Path Filename="dconf">/home/voznik/.config/</Path>
+                  <Path Filename="">/home/voznik/.config/dconf/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+      </Right>
+    </OpenedTabs>
+    <Options>54033</Options>
+    <CharacterLimit>32</CharacterLimit>
+    <Position>0</Position>
+    <ActionOnDoubleClick>2</ActionOnDoubleClick>
+  </Tabs>
+  <Configuration Save="True" SortOrder="1" TreeType="1">
+    <UseConfigInProgramDir>False</UseConfigInProgramDir>
+    <FolderTabs Save="True"/>
+  </Configuration>
+  <Language>
+    <POFileName>doublecmd.en.po</POFileName>
+  </Language>
+  <Behaviours>
+    <GoToRoot>False</GoToRoot>
+    <ActiveRight>False</ActiveRight>
+    <RunInTerminalStayOpenCmd>xterm</RunInTerminalStayOpenCmd>
+    <RunInTerminalStayOpenParams>-e sh -c '{command}; echo -n Press ENTER to exit... ; read a'</RunInTerminalStayOpenParams>
+    <RunInTerminalCloseCmd>xterm</RunInTerminalCloseCmd>
+    <RunInTerminalCloseParams>-e sh -c {command}</RunInTerminalCloseParams>
+    <JustRunTerminal>xterm</JustRunTerminal>
+    <JustRunTermParams/>
+    <OnlyOneAppInstance>False</OnlyOneAppInstance>
+    <LynxLike>True</LynxLike>
+    <FileSizeFormat>0</FileSizeFormat>
+    <OperationSizeFormat>0</OperationSizeFormat>
+    <HeaderFooterSizeFormat>0</HeaderFooterSizeFormat>
+    <FileSizeDigits>1</FileSizeDigits>
+    <HeaderFooterDigits>1</HeaderFooterDigits>
+    <OperationSizeDigits>1</OperationSizeDigits>
+    <PersonalizedByte>B</PersonalizedByte>
+    <PersonalizedKilo>KB</PersonalizedKilo>
+    <PersonalizedMega>MB</PersonalizedMega>
+    <PersonalizedGiga>GB</PersonalizedGiga>
+    <PersonalizedTera>TB</PersonalizedTera>
+    <MinimizeToTray>False</MinimizeToTray>
+    <AlwaysShowTrayIcon>False</AlwaysShowTrayIcon>
+    <Mouse>
+      <Selection Enabled="True">
+        <Button>0</Button>
+        <IconClick>0</IconClick>
+      </Selection>
+      <SingleClickStart>0</SingleClickStart>
+      <ScrollMode>1</ScrollMode>
+      <WheelScrollLines>3</WheelScrollLines>
+    </Mouse>
+    <AutoFillColumns>False</AutoFillColumns>
+    <AutoSizeColumn>1</AutoSizeColumn>
+    <CustomColumnsChangeAllColumns>False</CustomColumnsChangeAllColumns>
+    <BriefViewFileExtAligned>False</BriefViewFileExtAligned>
+    <DateTimeFormat>dd.mm.yy hh:nn:ss</DateTimeFormat>
+    <CutTextToColumnWidth>True</CutTextToColumnWidth>
+    <ExtendCellWidth>False</ExtendCellWidth>
+    <ShowSystemFiles>True</ShowSystemFiles>
+    <ListFilesInThread>True</ListFilesInThread>
+    <LoadIconsSeparately>True</LoadIconsSeparately>
+    <DelayLoadingTabs>True</DelayLoadingTabs>
+    <HighlightUpdatedFiles>True</HighlightUpdatedFiles>
+    <DriveBlackList/>
+    <DriveBlackListUnmounted>False</DriveBlackListUnmounted>
+  </Behaviours>
+  <Tools>
+    <Viewer Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+    </Viewer>
+    <Editor Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+    </Editor>
+    <Differ Enabled="False">
+      <Path/>
+      <Parameters/>
+      <RunInTerminal>False</RunInTerminal>
+      <KeepTerminalOpen>False</KeepTerminalOpen>
+      <FramePosAfterComp>0</FramePosAfterComp>
+    </Differ>
+  </Tools>
+  <Fonts>
+    <Main>
+      <Name>Ubuntu Mono derivative Powerline</Name>
+      <Size>11</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Main>
+    <Editor>
+      <Name>Monospace</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Editor>
+    <Viewer>
+      <Name>Monospace</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Viewer>
+    <OptionsTree>
+      <Name>default</Name>
+      <Size>10</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </OptionsTree>
+    <OptionsMain>
+      <Name>default</Name>
+      <Size>10</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </OptionsMain>
+    <SearchResults>
+      <Name>default</Name>
+      <Size>14</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </SearchResults>
+    <PathEdit>
+      <Name>default</Name>
+      <Size>8</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </PathEdit>
+    <FunctionButtons>
+      <Name>default</Name>
+      <Size>8</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </FunctionButtons>
+    <Log>
+      <Name>Monospace</Name>
+      <Size>11</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Log>
+    <ViewerBook>
+      <Name>default</Name>
+      <Size>16</Size>
+      <Style>1</Style>
+      <Quality>0</Quality>
+    </ViewerBook>
+    <Console>
+      <Name>Monospace</Name>
+      <Size>11</Size>
+      <Style>0</Style>
+      <Quality>0</Quality>
+    </Console>
+  </Fonts>
+  <Colors>
+    <FileFilters>
+      <Filter>
+        <Name>*=.mp3;*=.ogg;*=.flac;*=.wav;*.d;*.internal;</Name>
+        <FileMasks>*=.mp3;*=.ogg;*=.flac;*=.wav;*.d;*.internal;</FileMasks>
+        <Color>10049581</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*--.mp3;*--.ogg;*--.flac;*--.wav;cmakelists.txt;transl;*.cmake;</Name>
+        <FileMasks>*--.mp3;*--.ogg;*--.flac;*--.wav;cmakelists.txt;transl;*.cmake;</FileMasks>
+        <Color>11959092</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>cmake*.txt;cmake;CMakeFiles;*.make;*.*cache;</Name>
+        <FileMasks>cmake*.txt;cmake;CMakeFiles;*.make;*.*cache;</FileMasks>
+        <Color>12617325</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*-.mp3;*-.ogg;*-.flac;*-.wav;*.pdb;dist*;network*;</Name>
+        <FileMasks>*-.mp3;*-.ogg;*-.flac;*-.wav;*.pdb;dist*;network*;</FileMasks>
+        <Color>15439440</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*`.mp3;*`.ogg;*`.flac;*`.wav;*.part;css;</Name>
+        <FileMasks>*`.mp3;*`.ogg;*`.flac;*`.wav;*.part;css;</FileMasks>
+        <Color>16690294</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*^.mp3;*^.ogg;*^.flac;*^.wav;tpl;</Name>
+        <FileMasks>*^.mp3;*^.ogg;*^.flac;*^.wav;tpl;</FileMasks>
+        <Color>16692869</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*~.mp3;*~.ogg;*~.flac;*~.wav;home;</Name>
+        <FileMasks>*~.mp3;*~.ogg;*~.flac;*~.wav;home;</FileMasks>
+        <Color>16695708</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*+.mp3;*+.ogg;*+.flac;*+.wav;*.ino;*.vcproj;*.vcxproj;</Name>
+        <FileMasks>*+.mp3;*+.ogg;*+.flac;*+.wav;*.ino;*.vcproj;*.vcxproj;</FileMasks>
+        <Color>16769226</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*#.mp3;*#.ogg;*#.flac;*#.wav;</Name>
+        <FileMasks>*#.mp3;*#.ogg;*#.flac;*#.wav;</FileMasks>
+        <Color>16773350</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*`*.jpg;images;</Name>
+        <FileMasks>*`*.jpg;images;</FileMasks>
+        <Color>16759778</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*~*.jpg;</Name>
+        <FileMasks>*~*.jpg;</FileMasks>
+        <Color>16752091</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*+*.jpg;</Name>
+        <FileMasks>*+*.jpg;</FileMasks>
+        <Color>16676552</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*+*.avi;*+*.mpg;*+*.mpeg;*+*.wmv;*+*.mp4;*+*.flv;*+*.mkv;*+*.webm;</Name>
+        <FileMasks>*+*.avi;*+*.mpg;*+*.mpeg;*+*.wmv;*+*.mp4;*+*.flv;*+*.mkv;*+*.webm;</FileMasks>
+        <Color>16763611</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*~*.avi;*~*.mpg;*~*.mpeg;*~*.wmv;*~*.mp4;*~*.flv;*~*.mkv;*~*.webm;</Name>
+        <FileMasks>*~*.avi;*~*.mpg;*~*.mpeg;*~*.wmv;*~*.mp4;*~*.flv;*~*.mkv;*~*.webm;</FileMasks>
+        <Color>16752066</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*`*.avi;*`*.mpg;*`*.mpeg;*`*.wmv;*`*.mp4;*`*.flv;*`*.mkv;vid*;*`*.webm;</Name>
+        <FileMasks>*`*.avi;*`*.mpg;*`*.mpeg;*`*.wmv;*`*.mp4;*`*.flv;*`*.mkv;vid*;*`*.webm;</FileMasks>
+        <Color>16676518</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.iso;*.nrg;*.img;*.bin;*+.pdf;display;</Name>
+        <FileMasks>*.iso;*.nrg;*.img;*.bin;*+.pdf;display;</FileMasks>
+        <Color>13565928</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.ttf;*.plo;*`.pdf;*.dae;</Name>
+        <FileMasks>*.ttf;*.plo;*`.pdf;*.dae;</FileMasks>
+        <Color>9958143</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.pdf;depend*;proj*;*.bullet;objects*;</Name>
+        <FileMasks>*.pdf;depend*;proj*;*.bullet;objects*;</FileMasks>
+        <Color>326143</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.fx;*.psh;*.vsh;*.hlsl;*.cg;*.glsl;*.shd;*.shader;*.frag;*.vert;</Name>
+        <FileMasks>*.fx;*.psh;*.vsh;*.hlsl;*.cg;*.glsl;*.shd;*.shader;*.frag;*.vert;</FileMasks>
+        <Color>1170431</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.program;media;data;shade*;effect*;</Name>
+        <FileMasks>*.program;media;data;shade*;effect*;</FileMasks>
+        <Color>1825532</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.in;*.rb;*.sta;boost*;addons;</Name>
+        <FileMasks>*.in;*.rb;*.sta;boost*;addons;</FileMasks>
+        <Color>7918334</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.hlp;*.chm;*.chi;*.chq;*.chw;gui*;run*;</Name>
+        <FileMasks>*.hlp;*.chm;*.chi;*.chq;*.chw;gui*;run*;</FileMasks>
+        <Color>2993151</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.sql;*.ppt;*.pps;*rck*;*rock*;road*;</Name>
+        <FileMasks>*.sql;*.ppt;*.pps;*rck*;*rock*;road*;</FileMasks>
+        <Color>9150168</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.cnt;*.diz;*.dm2;ardu*;</Name>
+        <FileMasks>*.cnt;*.diz;*.dm2;ardu*;</FileMasks>
+        <Color>8170200</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dsp;*.dsw;*.bpr;*.stw;*.cbp;*.workspace;*.desktop;*.eep;</Name>
+        <FileMasks>*.dsp;*.dsw;*.bpr;*.stw;*.cbp;*.workspace;*.desktop;*.eep;</FileMasks>
+        <Color>7171420</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.bak;*.tmp;Test*;*.vspscc;*.vssscc;*.dmp;*.map;*.sym;tmp;*.bash;</Name>
+        <FileMasks>*.bak;*.tmp;Test*;*.vspscc;*.vssscc;*.dmp;*.map;*.sym;tmp;*.bash;</FileMasks>
+        <Color>8421504</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.old;*.default;st*;list*;font*;tinyxml;makefile*;*.mk;*st;</Name>
+        <FileMasks>*.old;*.default;st*;list*;font*;tinyxml;makefile*;*.mk;*st;</FileMasks>
+        <Color>10395294</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.sln;sdk*;*.dev;</Name>
+        <FileMasks>*.sln;sdk*;*.dev;</FileMasks>
+        <Color>16771827</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.url;adr*;*.rdp;descript.ion;</Name>
+        <FileMasks>*.url;adr*;*.rdp;descript.ion;</FileMasks>
+        <Color>16768185</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.csproj;*.sldprt;tools;home;cyg*;</Name>
+        <FileMasks>*.csproj;*.sldprt;tools;home;cyg*;</FileMasks>
+        <Color>16765098</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.obj;*.class;*.fpt;obj;*.o;*.elf;*.less;</Name>
+        <FileMasks>*.obj;*.class;*.fpt;obj;*.o;*.elf;*.less;</FileMasks>
+        <Color>12875833</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.m3u*;*.cue;*.plc;*.pls;</Name>
+        <FileMasks>*.m3u*;*.cue;*.plc;*.pls;</FileMasks>
+        <Color>16087391</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.h;include;*.cuh;*.hpp;*Designer.cs;inc;</Name>
+        <FileMasks>*.h;include;*.cuh;*.hpp;*Designer.cs;inc;</FileMasks>
+        <Color>16742777</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.cpp;*.c;source;src;*.cu;*.c++;src*.lnk;*.ino;*goth*;</Name>
+        <FileMasks>*.cpp;*.c;source;src;*.cu;*.c++;src*.lnk;*.ino;*goth*;</FileMasks>
+        <Color>16755400</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.asp;*.aspx;*.ascx;*.php;htdocs;</Name>
+        <FileMasks>*.asp;*.aspx;*.ascx;*.php;htdocs;</FileMasks>
+        <Color>14910145</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.cs;*.java;*.vbs;vc*;*.py;</Name>
+        <FileMasks>*.cs;*.java;*.vbs;vc*;*.py;</FileMasks>
+        <Color>16747689</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.lib;lib;Properties;lib*;*.ld;</Name>
+        <FileMasks>*.lib;lib;Properties;lib*;*.ld;</FileMasks>
+        <Color>15369373</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.rm;*.asf;*.wmv;*.mov;*.mp4;*.rmvb;*.flv;cache;*.3gp;*.webm;</Name>
+        <FileMasks>*.rm;*.asf;*.wmv;*.mov;*.mp4;*.rmvb;*.flv;cache;*.3gp;*.webm;</FileMasks>
+        <Color>11500154</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.mkv;*.ts;*.vob;*.a;*.la;</Name>
+        <FileMasks>*.mkv;*.ts;*.vob;*.a;*.la;</FileMasks>
+        <Color>14443402</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.avi;*.mpg;*.mpeg;*.mpe;</Name>
+        <FileMasks>*.avi;*.mpg;*.mpeg;*.mpe;</FileMasks>
+        <Color>13266052</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.user;*.suo;*.idb;*.exp;*.aps;*.sbr;cvs;*.linkinfo;thumbs.db;.svn;.hg*;.git*;*.filters;*.opensdf;</Name>
+        <FileMasks>*.user;*.suo;*.idb;*.exp;*.aps;*.sbr;cvs;*.linkinfo;thumbs.db;.svn;.hg*;.git*;*.filters;*.opensdf;</FileMasks>
+        <Color>10702928</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.ncb;*.pch;*.ilk;*.sdf;ipch;</Name>
+        <FileMasks>*.ncb;*.pch;*.ilk;*.sdf;ipch;</FileMasks>
+        <Color>11154783</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.rc;*.resx;*.inl;*.resources;*.blend?;</Name>
+        <FileMasks>*.rc;*.resx;*.inl;*.resources;*.blend?;</FileMasks>
+        <Color>10369155</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.ico;*.cur;*.ani;*.xcf;</Name>
+        <FileMasks>*.ico;*.cur;*.ani;*.xcf;</FileMasks>
+        <Color>2697664</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.x;*.mesh;*.x_t;model*;</Name>
+        <FileMasks>*.x;*.mesh;*.x_t;model*;</FileMasks>
+        <Color>8388863</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.max;*.3ds;*.scn;*.blend;</Name>
+        <FileMasks>*.max;*.3ds;*.scn;*.blend;</FileMasks>
+        <Color>11293183</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dds;texture*;</Name>
+        <FileMasks>*.dds;texture*;</FileMasks>
+        <Color>16213751</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.bmp;*.pcx;*.tga;*.rgb;*power*;</Name>
+        <FileMasks>*.bmp;*.pcx;*.tga;*.rgb;*power*;</FileMasks>
+        <Color>12616447</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.gif;*.tif;*.psd;*.svg;*.pdn;anim*;</Name>
+        <FileMasks>*.gif;*.tif;*.psd;*.svg;*.pdn;anim*;</FileMasks>
+        <Color>6776798</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.png;*.scntoc;preview*;admin;</Name>
+        <FileMasks>*.png;*.scntoc;preview*;admin;</FileMasks>
+        <Color>12093879</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.jpg;*.jpeg;*.jpe;sample*;example*;scre*;scr;*demo*;</Name>
+        <FileMasks>*.jpg;*.jpeg;*.jpe;sample*;example*;scre*;scr;*demo*;</FileMasks>
+        <Color>16765695</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.flac;*.ape;*.wv;*.sound;</Name>
+        <FileMasks>*.flac;*.ape;*.wv;*.sound;</FileMasks>
+        <Color>16756906</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.wav;wav;common;sound*;</Name>
+        <FileMasks>*.wav;wav;common;sound*;</FileMasks>
+        <Color>16748945</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.mod;*.it;*.xm;*.stm;*.s3m;*script*;_*;bullet*;*.lst;*.lss;</Name>
+        <FileMasks>*.mod;*.it;*.xm;*.stm;*.s3m;*script*;_*;bullet*;*.lst;*.lss;</FileMasks>
+        <Color>13998956</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.mp3;skin*;theme*;sky*;mantis;</Name>
+        <FileMasks>*.mp3;skin*;theme*;sky*;mantis;</FileMasks>
+        <Color>16756250</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.ogg;*.mpc;sdl*;sfml*;tee*;</Name>
+        <FileMasks>*.ogg;*.mpc;sdl*;sfml*;tee*;</FileMasks>
+        <Color>14325046</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.wma</Name>
+        <FileMasks>*.wma</FileMasks>
+        <Color>12549154</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.htm;*.html;*.shtml;*.mht;</Name>
+        <FileMasks>*.htm;*.html;*.shtml;*.mht;</FileMasks>
+        <Color>16284673</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.js;*.css;</Name>
+        <FileMasks>*.js;*.css;</FileMasks>
+        <Color>13264128</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.set;*.sav;*.settings;set*;conf*;*.conf;layout*;</Name>
+        <FileMasks>*.set;*.sav;*.settings;set*;conf*;*.conf;layout*;</FileMasks>
+        <Color>16760704</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.xml;*.layout;*.car;</Name>
+        <FileMasks>*.xml;*.layout;*.car;</FileMasks>
+        <Color>16763788</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.xsd;*.xdr;user*;usr;</Name>
+        <FileMasks>*.xsd;*.xdr;user*;usr;</FileMasks>
+        <Color>13421568</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.vssettings;*.m;*.cfg;*.out;*.config;*.scheme;*.tlh;*.def;*.idl;</Name>
+        <FileMasks>*.vssettings;*.m;*.cfg;*.out;*.config;*.scheme;*.tlh;*.def;*.idl;</FileMasks>
+        <Color>11049728</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dll;P;Program*;Microsoft*;util*;*.hex;</Name>
+        <FileMasks>*.dll;P;Program*;Microsoft*;util*;*.hex;</FileMasks>
+        <Color>7653888</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.mdl;*.dwg;*.dwt;*.dxf;*.mnu;nx*;nv*;locale;lang;</Name>
+        <FileMasks>*.mdl;*.dwg;*.dwt;*.dxf;*.mnu;nx*;nv*;locale;lang;</FileMasks>
+        <Color>2610793</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.exe;*.com;bin*;plugins;system*;run*;</Name>
+        <FileMasks>*.exe;*.com;bin*;plugins;system*;run*;</FileMasks>
+        <Color>4128593</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.bat;*.cmd;edit*;*.sh;</Name>
+        <FileMasks>*.bat;*.cmd;edit*;*.sh;</FileMasks>
+        <Color>7339894</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.lnk;*.cpl;*.rdp;</Name>
+        <FileMasks>*.lnk;*.cpl;*.rdp;</FileMasks>
+        <Color>13041606</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dir;*.fnt;*.cf;*.cp;*.mat;</Name>
+        <FileMasks>*.dir;*.fnt;*.cf;*.cp;*.mat;</FileMasks>
+        <Color>13434743</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.material;*.clr;*.msi;*.theme;*.mtl;*.srt;*met*;</Name>
+        <FileMasks>*.material;*.clr;*.msi;*.theme;*.mtl;*.srt;*met*;</FileMasks>
+        <Color>11980921</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.rar;*.7z;pack*;</Name>
+        <FileMasks>*.rar;*.7z;pack*;</FileMasks>
+        <Color>10532608</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.zip;*.cab;*.pak;Redist*;</Name>
+        <FileMasks>*.zip;*.cab;*.pak;Redist*;</FileMasks>
+        <Color>8623360</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.ace;*.tar;*.gz;*.tgz;*.arj;*.bz2;*.err;</Name>
+        <FileMasks>*.ace;*.tar;*.gz;*.tgz;*.arj;*.bz2;*.err;</FileMasks>
+        <Color>8946492</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.reg;*.ini;*.dat;*.lng;*.bar;*.raw;*.msc;driv*;*.rgs;</Name>
+        <FileMasks>*.reg;*.ini;*.dat;*.lng;*.bar;*.raw;*.msc;driv*;*.rgs;</FileMasks>
+        <Color>8101471</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.log;*.trk;</Name>
+        <FileMasks>*.log;*.trk;</FileMasks>
+        <Color>7446392</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.sys;*.drv;*.vxd;*.ocx;*.tlb;*.acm;windows*;</Name>
+        <FileMasks>*.sys;*.drv;*.vxd;*.ocx;*.tlb;*.acm;windows*;</FileMasks>
+        <Color>4684874</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.overlay;*manifest;*.dpr;*.asm;release*;RelWithDebInfo*;</Name>
+        <FileMasks>*.overlay;*manifest;*.dpr;*.asm;release*;RelWithDebInfo*;</FileMasks>
+        <Color>39797</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.txt;*.nfo;*.md;*.wiki;*.markdown;*.md;</Name>
+        <FileMasks>*.txt;*.nfo;*.md;*.wiki;*.markdown;*.md;</FileMasks>
+        <Color>54698</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.rtf;*.doc;*.odt;doc*;*.nsi;pages;wiki;</Name>
+        <FileMasks>*.rtf;*.doc;*.odt;doc*;*.nsi;pages;wiki;</FileMasks>
+        <Color>129216</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.inf;*.isu;*.uninstall;overlay*;*-.pdf;</Name>
+        <FileMasks>*.inf;*.isu;*.uninstall;overlay*;*-.pdf;</FileMasks>
+        <Color>52942</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.fon;*.xls;*.font;*.ods;</Name>
+        <FileMasks>*.fon;*.xls;*.font;*.ods;</FileMasks>
+        <Color>3255982</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.pas;*.pif;</Name>
+        <FileMasks>*.pas;*.pif;</FileMasks>
+        <Color>33924</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dep;*.res;*.dcu;*.dfm;*.dof;*.dcr;debug*;</Name>
+        <FileMasks>*.dep;*.res;*.dcu;*.dfm;*.dof;*.dcr;debug*;</FileMasks>
+        <Color>27242</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dcp;*.bpl;*.inc;*.~bpl;</Name>
+        <FileMasks>*.dcp;*.bpl;*.inc;*.~bpl;</FileMasks>
+        <Color>16512</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*.dpk;*.bpk;*.fig;</Name>
+        <FileMasks>*.dpk;*.bpk;*.fig;</FileMasks>
+        <Color>22476</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>??-*;???-*;????-*;</Name>
+        <FileMasks>??-*;???-*;????-*;</FileMasks>
+        <Color>16773171</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>?-*;</Name>
+        <FileMasks>?-*;</FileMasks>
+        <Color>10187124</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*+*;*up;*#;</Name>
+        <FileMasks>*+*</FileMasks>
+        <Color>16753488</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*~*</Name>
+        <FileMasks>*~*</FileMasks>
+        <Color>16762391</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*`*;*^*;</Name>
+        <FileMasks>*`*;*^*;</FileMasks>
+        <Color>16767057</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*--;*=;*.*=;</Name>
+        <FileMasks>*--;*=;*.*=;</FileMasks>
+        <Color>9210940</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*-;*.*-;</Name>
+        <FileMasks>*-;*.*-;</FileMasks>
+        <Color>10921555</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>dirs</Name>
+        <FileMasks>*</FileMasks>
+        <Color>16774090</Color>
+        <Attributes>d*</Attributes>
+      </Filter>
+      <Filter>
+        <Name>*;</Name>
+        <FileMasks>--*;</FileMasks>
+        <Color>16316545</Color>
+        <Attributes>**</Attributes>
+      </Filter>
+      <Filter>
+        <Name>exe</Name>
+        <FileMasks>*</FileMasks>
+        <Color>4128593</Color>
+        <Attributes>-*x*</Attributes>
+      </Filter>
+      <Filter>
+        <Name>lnk</Name>
+        <FileMasks>*</FileMasks>
+        <Color>13041606</Color>
+        <Attributes>l*</Attributes>
+      </Filter>
+    </FileFilters>
+    <UseCursorBorder>False</UseCursorBorder>
+    <CursorBorderColor>-2147483635</CursorBorderColor>
+    <UseFrameCursor>True</UseFrameCursor>
+    <Foreground>15395428</Foreground>
+    <Background>4207662</Background>
+    <Background2>4273198</Background2>
+    <Cursor>16755200</Cursor>
+    <CursorText>-2147483634</CursorText>
+    <Mark>30131</Mark>
+    <InactiveCursor>6636288</InactiveCursor>
+    <InactiveMark>22912</InactiveMark>
+    <UseInvertedSelection>True</UseInvertedSelection>
+    <UseInactiveSelColor>True</UseInactiveSelColor>
+    <AllowOverColor>True</AllowOverColor>
+    <InactivePanelBrightness>100</InactivePanelBrightness>
+    <FreeSpaceIndicator>
+      <UseGradient>False</UseGradient>
+      <ForeColor>0</ForeColor>
+      <BackColor>8421504</BackColor>
+    </FreeSpaceIndicator>
+    <gBorderFrameWidth>1</gBorderFrameWidth>
+    <LogWindow>
+      <Info>8388608</Info>
+      <Error>255</Error>
+      <Success>32768</Success>
+    </LogWindow>
+  </Colors>
+  <ToolTips>
+    <ShowToolTipMode>True</ShowToolTipMode>
+    <ActualToolTipMode>0</ActualToolTipMode>
+    <ToolTipHideTimeOut>0</ToolTipHideTimeOut>
+    <CustomFields/>
+  </ToolTips>
+  <Layout>
+    <MainMenu>True</MainMenu>
+    <ButtonBar Enabled="True">
+      <FlatIcons>True</FlatIcons>
+      <ButtonHeight>24</ButtonHeight>
+      <IconSize>16</IconSize>
+      <ReportErrorWithCommands>False</ReportErrorWithCommands>
+    </ButtonBar>
+    <DriveBar1>True</DriveBar1>
+    <DriveBar2>True</DriveBar2>
+    <DriveBarFlat>True</DriveBarFlat>
+    <DrivesListButton Enabled="True">
+      <ShowLabel>True</ShowLabel>
+      <ShowFileSystem>True</ShowFileSystem>
+      <ShowFreeSpace>True</ShowFreeSpace>
+    </DrivesListButton>
+    <SeparateTree>False</SeparateTree>
+    <DirectoryTabs>True</DirectoryTabs>
+    <CurrentDirectory>True</CurrentDirectory>
+    <TabHeader>True</TabHeader>
+    <StatusBar>True</StatusBar>
+    <CmdLine>True</CmdLine>
+    <LogWindow>False</LogWindow>
+    <TermWindow>False</TermWindow>
+    <KeyButtons>True</KeyButtons>
+    <InterfaceFlat>True</InterfaceFlat>
+    <DriveFreeSpace>True</DriveFreeSpace>
+    <DriveIndicator>False</DriveIndicator>
+    <ProgressInMenuBar>False</ProgressInMenuBar>
+    <PanelOfOperationsInBackground>True</PanelOfOperationsInBackground>
+    <HorizontalFilePanels>False</HorizontalFilePanels>
+    <ShortFormatDriveInfo>True</ShortFormatDriveInfo>
+  </Layout>
+  <FilesViews>
+    <Sorting>
+      <CaseSensitivity>0</CaseSensitivity>
+      <NaturalSorting>False</NaturalSorting>
+      <SortFolderMode>0</SortFolderMode>
+      <NewFilesPosition>2</NewFilesPosition>
+      <UpdatedFilesPosition>2</UpdatedFilesPosition>
+    </Sorting>
+    <ColumnsView>
+      <AutoSaveWidth>True</AutoSaveWidth>
+      <TitleStyle>1</TitleStyle>
+    </ColumnsView>
+    <BriefView>
+      <FileExtAligned>False</FileExtAligned>
+      <Columns>
+        <FixedWidth>100</FixedWidth>
+        <FixedCount>2</FixedCount>
+        <AutoSize>2</AutoSize>
+      </Columns>
+    </BriefView>
+    <ExtraLineSpan>2</ExtraLineSpan>
+    <FolderPrefix>[</FolderPrefix>
+    <FolderPostfix>]</FolderPostfix>
+  </FilesViews>
+  <Keyboard>
+    <Typing>
+      <Actions>
+        <NoModifier>2</NoModifier>
+        <Alt>0</Alt>
+        <CtrlAlt>3</CtrlAlt>
+      </Actions>
+    </Typing>
+  </Keyboard>
+  <FileOperations>
+    <BufferSize>524288</BufferSize>
+    <HashBufferSize>8388608</HashBufferSize>
+    <UseMmapInSearch>False</UseMmapInSearch>
+    <PartialNameSearch>True</PartialNameSearch>
+    <InitiallyClearFileMask>True</InitiallyClearFileMask>
+    <NewSearchClearFiltersAction>0</NewSearchClearFiltersAction>
+    <ShowMenuBarInFindFiles>True</ShowMenuBarInFindFiles>
+    <WipePassNumber>1</WipePassNumber>
+    <DropReadOnlyFlag>False</DropReadOnlyFlag>
+    <ProcessComments>False</ProcessComments>
+    <RenameSelOnlyName>False</RenameSelOnlyName>
+    <ShowCopyTabSelectPanel>False</ShowCopyTabSelectPanel>
+    <UseTrash>True</UseTrash>
+    <SkipFileOpError>False</SkipFileOpError>
+    <TypeOfDuplicatedRename>0</TypeOfDuplicatedRename>
+    <ShowDialogOnDragDrop>False</ShowDialogOnDragDrop>
+    <DragAndDropTextRichtextDesireLevel>0</DragAndDropTextRichtextDesireLevel>
+    <DragAndDropTextHtmlDesireLevel>1</DragAndDropTextHtmlDesireLevel>
+    <DragAndDropTextUnicodeDesireLevel>2</DragAndDropTextUnicodeDesireLevel>
+    <DragAndDropTextSimpletextDesireLevel>3</DragAndDropTextSimpletextDesireLevel>
+    <DragAndDropAskFormatEachTime>False</DragAndDropAskFormatEachTime>
+    <DragAndDropTextAutoFilename>False</DragAndDropTextAutoFilename>
+    <DragAndDropSaveUnicodeTextInUFT8>True</DragAndDropSaveUnicodeTextInUFT8>
+    <NtfsHourTimeDelay>False</NtfsHourTimeDelay>
+    <AutoExtractOpenMask/>
+    <SearchDefaultTemplate/>
+    <ProgressKind>0</ProgressKind>
+    <Confirmations>15</Confirmations>
+    <Options>
+      <Symlink>0</Symlink>
+      <CorrectLinks>False</CorrectLinks>
+      <FileExists>0</FileExists>
+      <DirectoryExists>0</DirectoryExists>
+      <SetPropertyError>0</SetPropertyError>
+      <ReserveSpace>False</ReserveSpace>
+      <CheckFreeSpace>True</CheckFreeSpace>
+      <CopyAttributes>True</CopyAttributes>
+      <Verify>False</Verify>
+      <CopyTime>True</CopyTime>
+      <CopyOwnership>False</CopyOwnership>
+      <CopyPermissions>False</CopyPermissions>
+      <ExcludeEmptyTemplateDirectories>True</ExcludeEmptyTemplateDirectories>
+    </Options>
+    <Extract>
+      <Overwrite>False</Overwrite>
+    </Extract>
+  </FileOperations>
+  <Log Enabled="False" LogFileWithDateInName="False">
+    <FileName>%DC_CONFIG_PATH%/doublecmd.log</FileName>
+    <Options>1023</Options>
+  </Log>
+  <History>
+    <SearchReplaceHistory Save="True"/>
+    <DirHistory Save="True"/>
+    <CmdLineHistory Save="True"/>
+    <FileMaskHistory Save="True"/>
+  </History>
+  <QuickSearch>
+    <MatchBeginning>True</MatchBeginning>
+    <MatchEnding>True</MatchEnding>
+    <Case>1</Case>
+    <Items>2</Items>
+  </QuickSearch>
+  <QuickFilter>
+    <AutoHide>True</AutoHide>
+    <SaveSessionModifications>False</SaveSessionModifications>
+  </QuickFilter>
+  <Miscellaneous>
+    <GridVertLine>False</GridVertLine>
+    <GridHorzLine>False</GridHorzLine>
+    <ShowWarningMessages>True</ShowWarningMessages>
+    <SpaceMovesDown>False</SpaceMovesDown>
+    <DirBrackets>True</DirBrackets>
+    <InplaceRename>False</InplaceRename>
+    <InplaceRenameButton>False</InplaceRenameButton>
+    <DblClickToParent>False</DblClickToParent>
+    <HotDirAddTargetOrNot>False</HotDirAddTargetOrNot>
+    <HotDirFullExpandOrNot>False</HotDirFullExpandOrNot>
+    <ShowPathInPopup>False</ShowPathInPopup>
+    <ShowOnlyValidEnv>True</ShowOnlyValidEnv>
+    <WhereToAddNewHotDir>2</WhereToAddNewHotDir>
+  </Miscellaneous>
+  <Thumbnails Save="True">
+    <Width>128</Width>
+    <Height>128</Height>
+  </Thumbnails>
+  <Description>
+    <CreateNewUnicode>True</CreateNewUnicode>
+    <DefaultEncoding>2</DefaultEncoding>
+    <CreateNewEncoding>3</CreateNewEncoding>
+  </Description>
+  <AutoRefresh>
+    <Options>3</Options>
+    <ExcludeDirs/>
+    <Mode>1</Mode>
+  </AutoRefresh>
+  <Icons>
+    <Theme>dctheme</Theme>
+    <ShowHiddenDimmed>False</ShowHiddenDimmed>
+    <ShowMode>3</ShowMode>
+    <ShowOverlays>False</ShowOverlays>
+    <Size>32</Size>
+    <DiskSize>16</DiskSize>
+    <DiskAlpha>50</DiskAlpha>
+    <Exclude>False</Exclude>
+    <ExcludeDirs/>
+    <CustomIcons>0</CustomIcons>
+    <PixelsPerInch>96</PixelsPerInch>
+    <ShowInMenus Enabled="False">
+      <Size>16</Size>
+    </ShowInMenus>
+    <ShowButtonGlyphs>0</ShowButtonGlyphs>
+  </Icons>
+  <IgnoreList Enabled="False">
+    <IgnoreListFile>%DC_CONFIG_PATH%/ignorelist.txt</IgnoreListFile>
+  </IgnoreList>
+  <DirectoryHotList>
+    <HotDir Name="workspace" Path="/home/voznik/workspace"/>
+    <HotDir Name="Downloads" Path="/home/voznik/Downloads"/>
+    <HotDir Name=".config" Path="/home/voznik/.config"/>
+  </DirectoryHotList>
+  <Viewer>
+    <PreviewVisible>False</PreviewVisible>
+    <ImageStretch>False</ImageStretch>
+    <ImageExifRotate>True</ImageExifRotate>
+    <ImageStretchLargeOnly>False</ImageStretchLargeOnly>
+    <ImageCenter>True</ImageCenter>
+    <CopyMovePath1/>
+    <CopyMovePath2/>
+    <CopyMovePath3/>
+    <CopyMovePath4/>
+    <CopyMovePath5/>
+    <PaintMode>0</PaintMode>
+    <PaintWidth>5</PaintWidth>
+    <NumberOfColumns>1</NumberOfColumns>
+    <TabSpaces>8</TabSpaces>
+    <MaxTextWidth>1024</MaxTextWidth>
+    <ViewerMode>1</ViewerMode>
+    <PaintColor>255</PaintColor>
+    <BackgroundColor>0</BackgroundColor>
+    <FontColor>16777215</FontColor>
+    <TextPosition>0</TextPosition>
+  </Viewer>
+  <Editor>
+    <EditWaitTime>2000</EditWaitTime>
+    <SynEditOptions>856075</SynEditOptions>
+    <SynEditTabWidth>8</SynEditTabWidth>
+  </Editor>
+  <Differ>
+    <Colors>
+      <Added>11206570</Added>
+      <Deleted>11184895</Deleted>
+      <Modified>16755370</Modified>
+    </Colors>
+  </Differ>
+  <SyncDirs>
+    <Subdirs>False</Subdirs>
+    <ByContent>False</ByContent>
+    <Asymmetric Save="False">False</Asymmetric>
+    <IgnoreDate>False</IgnoreDate>
+    <FilterCopyRight>True</FilterCopyRight>
+    <FilterEqual>True</FilterEqual>
+    <FilterNotEqual>True</FilterNotEqual>
+    <FilterCopyLeft>True</FilterCopyLeft>
+    <FilterDuplicates>True</FilterDuplicates>
+    <FilterSingles>True</FilterSingles>
+    <FileMask>*</FileMask>
+  </SyncDirs>
+  <InternalAssociations>
+    <OfferToAddNewFileType>False</OfferToAddNewFileType>
+    <LastCustomAction>Custom action</LastCustomAction>
+    <ExpandedContextMenu>False</ExpandedContextMenu>
+    <ExecuteViaShell>False</ExecuteViaShell>
+    <OpenSystemWithTerminalClose>False</OpenSystemWithTerminalClose>
+    <OpenSystemWithTerminalStayOpen>False</OpenSystemWithTerminalStayOpen>
+    <IncludeFileAssociation>False</IncludeFileAssociation>
+  </InternalAssociations>
+  <TreeViewMenu>
+    <UseTVMDirectoryHotlistFMC>False</UseTVMDirectoryHotlistFMC>
+    <UseTVMDirectoryHotlistFDC>False</UseTVMDirectoryHotlistFDC>
+    <UseTVMFavoriteTabsFMC>False</UseTVMFavoriteTabsFMC>
+    <UseTVMFavoriteTabsFDC>False</UseTVMFavoriteTabsFDC>
+    <UseTVMDirHistory>False</UseTVMDirHistory>
+    <UseTVMViewHistory>False</UseTVMViewHistory>
+    <UseTVMCommandLineHistory>False</UseTVMCommandLineHistory>
+    <TreeViewMenuShortcutExit>True</TreeViewMenuShortcutExit>
+    <TreeViewMenuSingleClickExit>True</TreeViewMenuSingleClickExit>
+    <TreeViewMenuDoubleClickExit>True</TreeViewMenuDoubleClickExit>
+    <Context00>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context00>
+    <Context01>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context01>
+    <Context02>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context02>
+    <Context03>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context03>
+    <Context04>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context04>
+    <Context05>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context05>
+    <Context06>
+      <CaseSensitive>False</CaseSensitive>
+      <IgnoreAccents>True</IgnoreAccents>
+      <ShowWholeBranchIfMatch>False</ShowWholeBranchIfMatch>
+    </Context06>
+    <TreeViewMenuUseKeyboardShortcut>True</TreeViewMenuUseKeyboardShortcut>
+    <BackgroundColor>-2147483617</BackgroundColor>
+    <ShortcutColor>255</ShortcutColor>
+    <NormalTextColor>-2147483640</NormalTextColor>
+    <SecondaryTextColor>-2147483642</SecondaryTextColor>
+    <FoundTextColor>-2147483635</FoundTextColor>
+    <UnselectableTextColor>-2147483631</UnselectableTextColor>
+    <CursorColor>-2147483635</CursorColor>
+    <ShortcutUnderCursor>-2147483634</ShortcutUnderCursor>
+    <NormalTextUnderCursor>-2147483634</NormalTextUnderCursor>
+    <SecondaryTextUnderCursor>-2147483628</SecondaryTextUnderCursor>
+    <FoundTextUnderCursor>65535</FoundTextUnderCursor>
+    <UnselectableUnderCursor>-2147483631</UnselectableUnderCursor>
+  </TreeViewMenu>
+  <FavoriteTabsOptions>
+    <FavoriteTabsUseRestoreExtraOptions>False</FavoriteTabsUseRestoreExtraOptions>
+    <WhereToAdd>1</WhereToAdd>
+    <Expand>True</Expand>
+    <GotoConfigAftSav>False</GotoConfigAftSav>
+    <GotoConfigAftReSav>False</GotoConfigAftReSav>
+    <DfltLeftGoTo>0</DfltLeftGoTo>
+    <DfltRightGoTo>1</DfltRightGoTo>
+    <DfltKeep>5</DfltKeep>
+    <DfltSaveDirHistory>False</DfltSaveDirHistory>
+    <FavTabsLastUniqueID>{AA42E827-8B01-4D18-980A-24FF9136DC68}</FavTabsLastUniqueID>
+  </FavoriteTabsOptions>
+  <Lua>
+    <PathToLibrary>liblua5.1.so.0</PathToLibrary>
+  </Lua>
+  <NameShortcutFile>shortcuts.scf</NameShortcutFile>
+  <HotKeySortOrder>0</HotKeySortOrder>
+  <UseEnterToCloseHotKeyEditor>True</UseEnterToCloseHotKeyEditor>
+  <LastUsedPacker>zip</LastUsedPacker>
+  <UseShellForFileOperations>False</UseShellForFileOperations>
+  <LastDoAnyCommand>cm_Refresh</LastDoAnyCommand>
+  <MarkMaskCaseSensitive>False</MarkMaskCaseSensitive>
+  <MarkMaskIgnoreAccents>False</MarkMaskIgnoreAccents>
+  <MarkMaskFilterWindows>False</MarkMaskFilterWindows>
+  <MarkShowWantedAttribute>False</MarkShowWantedAttribute>
+  <MarkDefaultWantedAttribute/>
+  <MarkLastWantedAttribute/>
+  <SearchTemplates/>
+  <ColumnsSets DefaultTitleHash="540805403">
+    <ColumnsSet UseFrameCursor="False">
+      <Name>Default</Name>
+      <CustomView>False</CustomView>
+      <FileSystem>&lt;General&gt;</FileSystem>
+      <PixelsPerInch>96</PixelsPerInch>
+      <CursorBorder Enabled="False">
+        <Color>-2147483635</Color>
+      </CursorBorder>
+      <Columns>
+        <Column>
+          <Title>Name</Title>
+          <FuncString>[DC().GETFILENAMENOEXT{}]</FuncString>
+          <Width>531</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>Monospace</Name>
+            <Size>11</Size>
+            <Style>0</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>255</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Ext</Title>
+          <FuncString>[DC().GETFILEEXT{}]</FuncString>
+          <Width>50</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>Monospace</Name>
+            <Size>11</Size>
+            <Style>0</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>255</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Size</Title>
+          <FuncString>[DC().GETFILESIZE{}]</FuncString>
+          <Width>70</Width>
+          <Align>1</Align>
+          <Font>
+            <Name>Monospace</Name>
+            <Size>11</Size>
+            <Style>0</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>255</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Date</Title>
+          <FuncString>[DC().GETFILETIME{}]</FuncString>
+          <Width>140</Width>
+          <Align>1</Align>
+          <Font>
+            <Name>Monospace</Name>
+            <Size>11</Size>
+            <Style>0</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>255</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+        <Column>
+          <Title>Attr</Title>
+          <FuncString>[DC().GETFILEATTR{}]</FuncString>
+          <Width>100</Width>
+          <Align>0</Align>
+          <Font>
+            <Name>Monospace</Name>
+            <Size>11</Size>
+            <Style>0</Style>
+            <Quality>0</Quality>
+          </Font>
+          <TextColor>-2147483640</TextColor>
+          <Background>-2147483643</Background>
+          <Background2>-2147483643</Background2>
+          <MarkColor>255</MarkColor>
+          <CursorColor>-2147483635</CursorColor>
+          <CursorText>-2147483634</CursorText>
+          <InactiveCursorColor>-2147483645</InactiveCursorColor>
+          <InactiveMarkColor>255</InactiveMarkColor>
+          <UseInvertedSelection>False</UseInvertedSelection>
+          <UseInactiveSelColor>False</UseInactiveSelColor>
+          <Overcolor>True</Overcolor>
+        </Column>
+      </Columns>
+    </ColumnsSet>
+  </ColumnsSets>
+  <Plugins>
+    <DsxPlugins/>
+    <WcxPlugins>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>zip</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>735</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>jar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>990</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>223</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>bz2</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tbz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>gz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tgz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>lzma</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>1</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tlz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>xz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>91</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>txz</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>95</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>zipx</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/zip/zip.wcx</Path>
+        <Flags>223</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>cpio</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/cpio/cpio.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>deb</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/deb/deb.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>rpm</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/rpm/rpm.wcx</Path>
+        <Flags>4</Flags>
+      </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>rar</ArchiveExt>
+        <Path>%commander_path%/plugins/wcx/unrar/unrar.wcx</Path>
+        <Flags>68</Flags>
+      </WcxPlugin>
+    </WcxPlugins>
+    <WdxPlugins>
+      <WdxPlugin>
+        <Name>deb_wdx</Name>
+        <Path>%commander_path%/plugins/wdx/deb_wdx/deb_wdx.wdx</Path>
+        <DetectString>EXT="DEB"</DetectString>
+      </WdxPlugin>
+      <WdxPlugin>
+        <Name>rpm_wdx</Name>
+        <Path>%commander_path%/plugins/wdx/rpm_wdx/rpm_wdx.wdx</Path>
+        <DetectString>EXT="RPM"</DetectString>
+      </WdxPlugin>
+      <WdxPlugin>
+        <Name>audioinfo</Name>
+        <Path>/home/voznik/Programs/doublecmd/plugins/wdx/audioinfo/audioinfo.wdx</Path>
+        <DetectString>(EXT="MP3") | (EXT="MP2") | (EXT="MP1") | (EXT="OGG") | (EXT="WMA") | (EXT="WAV") | (EXT="VQF") | (EXT="AAC") | (EXT="APE") | (EXT="MPC") | (EXT="FLAC") | (EXT="CDA") | (EXT="TTA") | (EXT="AC3") | (EXT="DTS") | (EXT="WV") | (EXT="WVC") | (EXT="OFR") | (EXT="OFS") | (EXT="M4A") | (EXT="MP4")</DetectString>
+      </WdxPlugin>
+    </WdxPlugins>
+    <WfxPlugins>
+      <WfxPlugin Enabled="True">
+        <Name>FTP</Name>
+        <Path>%commander_path%/plugins/wfx/ftp/ftp.wfx</Path>
+      </WfxPlugin>
+      <WfxPlugin Enabled="True">
+        <Name>Windows Network</Name>
+        <Path>%commander_path%/plugins/wfx/samba/samba.wfx</Path>
+      </WfxPlugin>
+    </WfxPlugins>
+    <WlxPlugins/>
+    <TweakPluginWidth0>0</TweakPluginWidth0>
+    <TweakPluginHeight0>0</TweakPluginHeight0>
+    <TweakPluginWidth1>0</TweakPluginWidth1>
+    <TweakPluginHeight1>0</TweakPluginHeight1>
+    <TweakPluginWidth2>0</TweakPluginWidth2>
+    <TweakPluginHeight2>0</TweakPluginHeight2>
+    <TweakPluginWidth3>0</TweakPluginWidth3>
+    <TweakPluginHeight3>0</TweakPluginHeight3>
+    <TweakPluginWidth4>0</TweakPluginWidth4>
+    <TweakPluginHeight4>0</TweakPluginHeight4>
+    <AutoTweak>False</AutoTweak>
+    <WCXConfigViewMode>0</WCXConfigViewMode>
+    <PluginFilenameStyle>0</PluginFilenameStyle>
+    <PluginPathToBeRelativeTo>%COMMANDER_PATH%</PluginPathToBeRelativeTo>
+  </Plugins>
+  <MultiRenamePresets>
+    <LastPreset/>
+    <Presets/>
+  </MultiRenamePresets>
+</doublecmd>

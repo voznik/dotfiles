@@ -1,3 +1,30 @@
+# Generic Colorizer Git Clone
+grc
+
+# GitConfig Private
+.gitconfig_private
+.gitconfig-private
+
+# General
+.exports-private
+.exports_private
+.private_exports
+.private-exports
+
+.env
+.bash_history
+!.bash_logout
+log/*.log
+/tmp
+tmp/**/*
+.bundle
+.env
+.git/
+
+# Lots of junk goes in here.
+/caches/
+/backups/
+
 # Apple
 .DS_Store
 .AppleDouble
@@ -39,3 +66,45 @@ __pycache__/
 
 # Vagrant
 .vagrant/
+
+# working files
+.vim/viminfo
+.vim/swaps/*
+.vim/undo
+
+# git credential file
+.gitconfig.local
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# Compiled Python files
+*.pyc
+
+# fish shell
+fishd.*
+.config/fish/fish_history
+.config/fish/fish_variables
+fish/fish_history
+
+# random
+shilocation
+
+# Top secret stuff!
+.ssh/id_*
+.ssh/*.pem
+.ssh/known_hosts*
+.ssh/environment*
+.ssh/master/*
+
+# Ignore any file with LOCAL in the name (good for per-machine vars/functions)
+*LOCAL*
+
+# Config
+.config/gcloud
+
+.config/doublecmd/*
+!.config/doublecmd/doublecmd.xml
+.config/copyq/*
+!.config/copyq/copyq.conf
