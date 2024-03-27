@@ -1,44 +1,145 @@
 [user]
-    name = Jesse Boyer
-    email = imboyus@gmail.com
-    IdentityFile = ~/.ssh/id_rsa
-[push]
-    default = simple
-[apply]
-    # Detect whitespace errors when applying a patch
-    whitespace = fix
-[credential]
-    helper = cache -- timeout=3600
-[color]
-    ui = auto
-[color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-[color "diff"]
-    meta = yellow bold
-    frag = magenta bold # line info
-    old = red # deletions
-    new = green # additions
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
-[help]
-    # Automatically correct and execute mistyped commands
-    autocorrect = 1
-[merge]
-    tool = meld
-[mergetool]
-    keepBackup = false
-[alias]
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    co = checkout
-    ci = commit
-    aa = add --all
-    st = status
-    di = diff
-    dc = diff --cached
+  name = Vadym Parakonnyi
+  email = v.parakonnyi@gmail.com
+  username = voznik
+  IdentityFile = ~/.ssh/id_rsa
 [core]
-    excludesfile = ~/.gitignore
-    filemode = false
+  editor = code --wait
+  compression = 9
+[branch]
+  autosetuprebase = always
+[push]
+  default = simple
+[apply]
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
+[rebase]
+  autoStash = true
+[credential]
+  helper = cache -- timeout=3600
+[color]
+  showbranch = auto
+  status = auto
+  ui = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[help]
+  # Automatically correct and execute mistyped commands
+  autocorrect = 1
+[merge]
+  tool = meld
+[mergetool]
+  keepBackup =
+[mergetool "meld"]
+  cmd = meld "$BASE $LOCAL $REMOTE $MERGED"
+  trustExitCode = false
+[diff]
+  tool = meld
+[difftool "meld"]
+  cmd = meld "$LOCAL $REMOTE"
+[alias]
+  # List Aliases
+  la = git alias
+
+  # Logs
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  fl = log -u
+  filelog = log -u
+  lol = log --oneline --graph --decorate
+  lag = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  list = diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT
+
+  # Quickies
+  ra = remote add origin
+  roa = remote add origin
+  us = --set-upstream origin
+
+  # Main
+  br = branch
+  ci = commit
+  cm = commit -m
+  cl = clone
+  co = checkout
+  cp = cherry-pick
+  aa = add --all
+  st = status
+
+  # Diff
+  dift = difftool -d
+  diff = diff -d
+  difw = diff --word-diff
+  ds = diff --stat
+  dc = diff --cached
+  dlc = diff --cached HEAD^
+
+  # Find filepath in Codebase
+  # $ git f pattern
+  f = "!git ls-files | grep -i"
+
+  # Seach entire codebase for a string
+  # git gr specialcode  (Can reutrurn many retults!)
+  grep = grep -Ii
+
+  # Resets
+  r = reset
+  r1 = reset HEAD^
+  r2 = reset HEAD^^
+  rh = reset --hard
+  rh1 = reset HEAD^ --hard
+  rh2 = reset HEAD^^ --hard
+
+  # Stashes
+  sl = stash list
+  sa = stash apply
+  ss = stash save
+
+  # Submobules
+  smod = submodule # smod init, smud update
+
+[core]
+  excludesfile = ~/.gitignore
+  filemode = false
+
+
+# URL shorthands
+[url "git@gitlab.com:"]
+  insteadOf = "gl:"
+  pushInsteadOf = "gitlab:"
+  pushInsteadOf = "git@gitlab.com:"
+
+[url "git@gitlab.com:"]
+  insteadOf = "gitLab:"
+
+[url "git@github.com:"]
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+  insteadOf = "github:"
+
+[url "git://bitbucket.org/"]
+  insteadOf = "bitbucket:"
+
+[url "git@bitbucket.org:"]
+  insteadOf = "bb:",
+  pushInsteadOf = "bitbucket:"
+  pushInsteadOf = "git://bitbucket.org/"
+
+[url "git@gist.github.com:"]
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+[init]
+	defaultBranch = main

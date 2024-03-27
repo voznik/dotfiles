@@ -1,0 +1,5 @@
+ENTRY "/home/voznik/workspace" URL "/home/voznik/workspace"
+ENTRY "/sh://root@10.10.10.1/" URL "/sh://root@10.10.10.1/"
+ENTRY "/etc" URL "/etc"
+ENTRY "/home/voznik/.config" URL "/home/voznik/.config"
+ENTRY "/home/voznik/Downloads" URL "/home/voznik/Downloads"

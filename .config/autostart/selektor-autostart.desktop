@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Categories=Application;
+Name=SelekTOR
+Comment=Tor Exit Node Selection and Proxying
+Exec=/usr/bin/selektor --cleanup --start-delay 5
+Icon=/usr/share/icons/selektor.png
+StartupNotify=false
+Terminal=false
+Type=Application
+Keywords=network;tor
+X-GNOME-Autostart-enabled=false
