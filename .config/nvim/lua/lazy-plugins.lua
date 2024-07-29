@@ -10,6 +10,9 @@
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  rocks = {
+    hererocks = true,
+  },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -68,7 +71,8 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
-  change_detection = { notify = false }
+  change_detection = { notify = false },
+  checker = { enabled = true }, -- automatically check for plugin updates,
 })
 
 -- vim: ts=2 sts=2 sw=2 et

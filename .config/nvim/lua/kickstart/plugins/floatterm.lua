@@ -1,5 +1,6 @@
 return {
   'voldikss/vim-floaterm',
+  enabled = false,
   config = function()
     vim.keymap.set(
       'n',
