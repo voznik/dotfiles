@@ -17,10 +17,10 @@ local keys = {
    { key = 'h', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
    { key = 'PageUp', mods = 'CTRL', action = wezterm.action.ActivateTabRelative(-1) },
    { key = 'PageDown', mods = 'CTRL', action = wezterm.action.ActivateTabRelative(1) },
-   { key = 'h', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Left') },
-   { key = 'l', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Right') },
-   { key = 'k', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Up') },
-   { key = 'j', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Down') },
+   -- { key = 'h', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Left') },
+   -- { key = 'l', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Right') },
+   -- { key = 'k', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Up') },
+   -- { key = 'j', mods = 'CTRL', action = wezterm.action.ActivatePaneDirection('Down') },
    {
       key = 'LeftArrow',
       mods = 'CTRL|SHIFT',
@@ -55,7 +55,6 @@ local keys = {
       mods = 'CTRL|ALT',
       action = wezterm.action.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
    },
-   { key = 'w', mods = 'CTRL', action = wezterm.action.CloseCurrentPane({ confirm = false }) },
    { key = 'q', mods = 'CTRL|SHIFT', action = wezterm.action.CloseCurrentPane({ confirm = true }) },
    { key = 'b', mods = 'LEADER|CTRL', action = wezterm.action.SendString('\x02') },
    --
@@ -65,6 +64,7 @@ local keys = {
    { key = 'Enter', mods = 'SUPER', action = wezterm.action.ActivateCopyMode },
    { key = 'C', mods = 'CTRL|SHIFT', action = wezterm.action.CopyTo('Clipboard') },
    { key = 'v', mods = 'CTRL', action = wezterm.action.PasteFrom('Clipboard') },
+   { key = 'v', mods = 'SUPER', action = wezterm.action.PasteFrom('Clipboard') },
    {
       key = 'u',
       mods = 'CTRL|SHIFT',
@@ -80,6 +80,8 @@ local keys = {
    },
    { key = 'PageUp', mods = 'SHIFT', action = wezterm.action.ScrollByPage(-1) },
    { key = 'PageDown', mods = 'SHIFT', action = wezterm.action.ScrollByPage(1) },
+   { key = 'UpArrow', mods = 'ALT', action = wezterm.action.ScrollByPage(-1) },
+   { key = 'DownArrow', mods = 'ALT', action = wezterm.action.ScrollByPage(1) },
 }
 
 local mouse_bindings = {
@@ -93,39 +95,39 @@ local mouse_bindings = {
    {
       event = { Down = { streak = 1, button = 'Left' } },
       mods = 'NONE',
-      action = act.SelectTextAtMouseCursor 'Cell',
+      action = act.SelectTextAtMouseCursor('Cell'),
    },
    {
       event = { Up = { streak = 1, button = 'Left' } },
       mods = 'NONE',
-      action = act.ExtendSelectionToMouseCursor 'Cell',
+      action = act.CompleteSelection('ClipboardAndPrimarySelection'),
    },
    {
       event = { Drag = { streak = 1, button = 'Left' } },
       mods = 'NONE',
-      action = act.ExtendSelectionToMouseCursor 'Cell',
+      action = act.ExtendSelectionToMouseCursor('Cell'),
    },
    -- Triple Left click will select a line
    {
       event = { Down = { streak = 3, button = 'Left' } },
       mods = 'NONE',
-      action = act.SelectTextAtMouseCursor 'Line',
+      action = act.SelectTextAtMouseCursor('Line'),
    },
    {
       event = { Up = { streak = 3, button = 'Left' } },
       mods = 'NONE',
-      action = act.SelectTextAtMouseCursor 'Line',
+      action = act.SelectTextAtMouseCursor('Line'),
    },
    -- Double Left click will select a word
    {
       event = { Down = { streak = 2, button = 'Left' } },
       mods = 'NONE',
-      action = act.SelectTextAtMouseCursor 'Word',
+      action = act.SelectTextAtMouseCursor('Word'),
    },
    {
       event = { Up = { streak = 2, button = 'Left' } },
       mods = 'NONE',
-      action = act.SelectTextAtMouseCursor 'Word',
+      action = act.SelectTextAtMouseCursor('Word'),
    },
    -- Turn on the mouse wheel to scroll the screen
    {
@@ -137,6 +139,25 @@ local mouse_bindings = {
       event = { Down = { streak = 1, button = { WheelDown = 1 } } },
       mods = 'NONE',
       action = act.ScrollByCurrentEventWheelDelta,
+   },
+   -- Right click sends "woot" to the terminal
+   {
+      event = { Down = { streak = 1, button = 'Right' } },
+      mods = 'NONE',
+      -- action = act.SendString('woot'),
+      action = act.PasteFrom('PrimarySelection'),
+   },
+   -- and make CTRL-Click open hyperlinks
+   {
+      event = { Up = { streak = 1, button = 'Left' } },
+      mods = 'CTRL',
+      action = act.OpenLinkAtMouseCursor,
+   },
+   -- Middle mouse button pastes the primary selection.
+   {
+      event = { Up = { streak = 1, button = 'Middle' } },
+      mods = 'NONE',
+      action = act.PasteFrom('PrimarySelection'),
    },
 }
 

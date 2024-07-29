@@ -3,9 +3,13 @@ clients:
 - type: ollama
   api_base: http://127.0.0.1:11434
   models:
-  - name: deepseek-coder:6.7b-instruct-q8_0
-    max_input_tokens: null
+  - name: starcoder
+    max_input_tokens: 1028
+  - name: codestral
+    max_input_tokens: 4098
+  - name: shelldon
+    max_input_tokens: 512
 - type: mistral
   models:
   - name: open-mixtral-8x7b
-    max_input_tokens: null
+    max_input_tokens: 1028

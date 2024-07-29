@@ -11,10 +11,10 @@ if platform.is_win then
       { label = 'Nushell', args = { 'nu' } },
    }
 elseif platform.is_mac then
-   options.default_prog = { 'zsh' }
+   options.default_prog = { '/usr/local/bin/fish' }
    options.launch_menu = {
       { label = 'Bash', args = { 'bash' } },
-      { label = 'Fish', args = { '/opt/homebrew/bin/fish' } },
+      { label = 'Fish', args = { '/usr/local/bin/fish' } },
       { label = 'Zsh', args = { 'zsh' } },
    }
 elseif platform.is_linux then

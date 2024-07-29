@@ -6,7 +6,7 @@ return {
    status_update_interval = 1000,
 
    -- scrollbar
-   scrollback_lines = 5000,
+   scrollback_lines = 15000,
 
    -- paste behaviours
    canonicalize_pasted_newlines = 'CarriageReturn',
