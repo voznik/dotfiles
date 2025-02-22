@@ -1,0 +1,3 @@
+# <aichat-config-dir>/macros/generate-commit-message.yaml
+steps:
+  - .file `git diff` -- generate git commit message
