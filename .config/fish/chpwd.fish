@@ -7,7 +7,7 @@ function chpwd --on-variable PWD --description 'handler of changing $PWD'
     # printf (printf "%*s" (tput cols)) | sed -e "s/ /\─/g";
     echo ""
     printf "%s⇢ %sEntering %s%s%s …\n" (set_color $fish_color_cwd) (set_color normal) (set_color $fish_color_cwd) $cur_cwd (set_color normal)
-    ls
+    ltd
 
   end
 end

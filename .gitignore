@@ -3,27 +3,36 @@ grc
 
 # GitConfig Private
 .gitconfig_private
-.gitconfig-private
 
 # General
 .exports-private
-.exports_private
 .private_exports
-.private-exports
 
-.env
+.env*
+!.env.example
 .bash_history
 !.bash_logout
-log/*.log
+**/*.log
+**/logs/*
+**/.migrations/*
 /tmp
 tmp/**/*
 .bundle
-.env
 .git/
+.vscode*
+.zed
+.cursor
 
 # Lots of junk goes in here.
-/caches/
-/backups/
+**/cache*
+**/Cache*
+.cache*
+/backup*
+.backup*
+**/buffers*
+.fire*
+**/gum*
+**/*.bak
 
 # Apple
 .DS_Store
@@ -37,6 +46,10 @@ tmp/**/*
 .directory
 .Trash-*
 Session.vim
+.local/
+.gnupg/
+.pki/
+.icons/
 
 # Windows
 Thumbs.db
@@ -49,6 +62,15 @@ Desktop.ini
 *.tmPreferences.cache
 *.stTheme.cache
 *.sublime-workspace
+.config/Code
+!.config/Code/User/keybindings.json
+!.config/Code/User/settings.json
+.config/VSCodium
+!.config/VSCodium/User/keybindings.json
+!.config/VSCodium/User/settings.json
+.config/Cursor
+!.config/Cursor/User/keybindings.json
+!.config/Cursor/User/settings.json
 
 # Sass
 .sass-cache
@@ -57,6 +79,8 @@ Desktop.ini
 node_modules/
 node-debug.txt
 npm-debug.txt
+.npm
+.bun
 
 # Python
 __pycache__/
@@ -66,6 +90,11 @@ __pycache__/
 
 # Vagrant
 .vagrant/
+go/
+.rust*
+.cargo
+.dotnet/
+.docker
 
 # working files
 .vim/viminfo
@@ -81,6 +110,7 @@ __pycache__/
 
 # Compiled Python files
 *.pyc
+**/*python*
 
 # fish shell
 fishd.*
@@ -90,6 +120,8 @@ fish/fish_history
 
 # random
 shilocation
+.zoom
+
 
 # Top secret stuff!
 .ssh/id_*
@@ -102,7 +134,10 @@ shilocation
 *LOCAL*
 
 # Config
+.config/BraveSoftware
 .config/gcloud
+.gemini/*
+!.gemini/settings.json
 
 .config/doublecmd/*
 !.config/doublecmd/doublecmd.xml

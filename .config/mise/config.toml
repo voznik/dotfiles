@@ -1,0 +1,33 @@
+[alias]
+rust = "core:rust"                    # Use core backend
+
+[tools]
+node = "22"
+rust = "latest"
+uv = "latest"
+
+[tools.python]
+version = "3.14"
+# virtualenv = ".venv"
+
+[tools."github:cli/cli"]
+version = "latest"
+# asset_pattern = "gh_*_linux_x64.tar.gz"
+
+[tools."gitlab:gitlab-org/gitlab-runner"]
+version = "latest"
+
+# FIXME:
+# https://github.com/github/spec-kit.git
+# [tools."ubi:github/spec-kit"]
+# version = "0.0.64"
+
+[settings]
+experimental = true
+# configure messages displayed when entering directories with config files
+status = { missing_tools = "if_other_versions_installed", show_env = true, show_tools = false }
+idiomatic_version_file_enable_tools = ['node']
+python.uv_venv_auto = true
+
+[env]
+_.file = ['.env', '.env.local']

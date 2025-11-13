@@ -1,0 +1,15 @@
+{
+    "/etc/*": {
+        "filetype": "conf"
+    },
+    "/home/*/.config/*": {
+        "filetype": "conf"
+    },
+    "autosu": true,
+    "clipboard": "terminal",
+    "colorscheme": "dracula",
+    "diffgutter": true,
+    "matchbracestyle": "highlight",
+    "mkparents": true,
+    "savecursor": true
+}

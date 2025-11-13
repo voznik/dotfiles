@@ -7,7 +7,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     'ThePrimeagen/harpoon',
     'joshmedeski/telescope-smart-goto.nvim',
     'debugloop/telescope-undo.nvim',
-    'ahmedkhalf/project.nvim',
+    'DrKJeff16/project.nvim',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -62,6 +62,16 @@ return { -- Fuzzy Finder (files, lsp, etc)
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
         },
+        projects = {
+          prompt_prefix = '󱎸  ',
+          layout_strategy = 'horizontal',
+          layout_config = {
+            anchor = 'N',
+            height = 0.45,
+            width = 0.6,
+            prompt_position = 'bottom',
+          },
+        },
       },
       undo = {
         use_delta = true,
@@ -77,12 +87,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
         --   },
         -- },
       },
-      projects = {},
     }
 
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'harpoon')
     -- pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension, 'undo')
     pcall(require('telescope').load_extension, 'projects')
@@ -90,9 +100,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
+    local extensions = require('telescope').extensions
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+    -- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>sm', '<cmd>Telescope harpoon marks<cr>', { desc = '[S]earch Harpoon [M]arks' })
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -100,7 +112,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-
+    vim.keymap.set('n', '<leader>p', '<cmd>ProjectTelescope<cr>', { desc = '[ ] Find [P]rojects' })
     -- vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Search Git Commits" })
     -- vim.keymap.set("n", "<leader>gb", builtin.git_bcommits, { desc = "Search Git Commits for Buffer" })
 
@@ -108,7 +120,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
+        winblend = 2,
         previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
@@ -128,8 +140,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
     end, { desc = '[S]earch [N]eovim files' })
 
     -- See https://github.com/smjonas/inc-rename.nvim
-    -- vim.keymap.set('n', '<leader>rn', function()
-    --   return ':IncRename ' .. vim.fn.expand '<cword>'
-    -- end, { expr = true, desc = '[R]e[N]ame with inc-rename' })
+    vim.keymap.set('n', '<leader>rn', function()
+      return ':IncRename ' .. vim.fn.expand '<cword>'
+    end, { expr = true, desc = '[R]e[N]ame with inc-rename' })
   end,
 }

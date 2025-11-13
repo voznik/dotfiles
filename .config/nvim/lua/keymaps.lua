@@ -45,7 +45,8 @@ vim.keymap.set('n', 'J', 'mzJ`z')
 vim.keymap.set('n', '<leader>fn', '<cmd>let @+ = expand("%")<CR>', { desc = 'Copy File Name' })
 vim.keymap.set('n', '<leader>fp', '<cmd>let @+ = expand("%:p")<CR>', { desc = 'Copy File Path' })
 -- Oil
-vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+-- vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+vim.keymap.set('n', '-', '<CMD>Yazi<CR>', { desc = 'Open Yazi directory' })
 -- Search for highlighted text in buffer
 vim.keymap.set('v', '//', 'y/<C-R>"<CR>', { desc = 'Search for highlighted text' })
 

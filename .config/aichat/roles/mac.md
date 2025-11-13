@@ -1,5 +1,5 @@
 ---
-model: ollama:qwen2.5-coder:14b
+# model: ollama:qwen2.5-coder:14b
 # temperature: 0.1
 # top_p: 0.1
 ---

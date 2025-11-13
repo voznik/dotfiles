@@ -1,0 +1,52 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /home/voznik/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+# shell-integration = fish
+shell-integration-features = ssh-terminfo,ssh-env
+copy-on-select = clipboard
+app-notifications = no-clipboard-copy
+
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+theme = Dracula
+# font-family = Iosevka
+font-family = 'MonaspiceKr Nerd Font Mono'
+font-size = 13
+adjust-cell-height = -10%
+window-padding-x = 10
+window-padding-balance = true
+window-save-state = always
+cursor-style-blink = true
+adjust-cursor-thickness = 10
+adjust-icon-height = 3
+background-opacity = 0.97
+unfocused-split-opacity = 0.45
+unfocused-split-fill = 21222C
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+
+keybind = ctrl+alt+r=new_split:right
+keybind = ctrl+alt+d=new_split:down
+keybind = ctrl+shift+q=close_surface
+keybind = ctrl+shift+f=write_scrollback_file:open
+

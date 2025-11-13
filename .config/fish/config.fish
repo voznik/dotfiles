@@ -1,49 +1,51 @@
-# set default_user "paulirish"
-# set default_machine "paulirish-macbookair2"
+## Set values
+# Hide welcome message & ensure we are reporting fish as shell
+set fish_greeting
+set VIRTUAL_ENV_DISABLE_PROMPT "1"
+set -x SHELL /usr/bin/fish
 
-# source ~/.config/fish/aliases.fish
-source ~/.config/fish/chpwd.fish
-source ~/.config/fish/functions.fish
+source ~/.config/fish/aliases.fish
+source ~/.config/fish/functions/misc.fish
+# source ~/.config/fish/chpwd.fish
 
-### curl -sS https://starship.rs/install.sh | sh
-starship init fish | source
+# https://github.com/ajeetdsouza/zoxide
+zoxide init fish --cmd cd  | source
 
-# for things not checked into git..
-if test -e "$HOME/.extra.fish";
-	source ~/.extra.fish
+# https://github.com/jdx/mise/blob/main/docs/dev-tools/index.md
+mise activate fish | source
+
+# https://github.com/alexpasmantier/television/blob/main/docs/01-Users/05-shell-integration.md
+tv init fish | source
+
+# Use bat for man pages
+set -xU MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -xU MANROFFOPT "-c"
+
+# Hint to exit PKGBUILD review in Paru
+set -x PARU_PAGER "less -P \"Press 'q' to exit the PKGBUILD review.\""
+
+## Export variable need for qt-theme
+if type "qtile" >> /dev/null 2>&1
+   set -x QT_QPA_PLATFORMTHEME "qt5ct"
 end
 
-function sourceenv
-  for line in (cat $argv | grep -v '^#')
-    set item (string split -m 1 '=' $line)
-    set -gx $item[1] $item[2]
-  end
+# Set settings for https://github.com/franciscolourenco/done
+set -U __done_min_cmd_duration 10000
+set -U __done_notification_urgency_level low
+
+## Environment setup
+# Apply .profile: use this to put fish compatible .profile stuff in
+if test -f ~/.fish_profile
+  source ~/.fish_profile
 end
 
-if test -e "$HOME/.env";
-    sourceenv $HOME/.env
+### SSH
+# https://gist.github.com/josh-padnick/c90183be3d0e1feb89afd7573505cab3 
+if test -z (pgrep ssh-agent | string collect)
+    eval (ssh-agent -c)
+    set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+    set -Ux SSH_AGENT_PID $SSH_AGENT_PID
 end
-
-# Local prompt customization
-set -e fish_greeting
-set -U fish_greeting
-
-set -g fish_pager_color_completion normal
-set -g fish_pager_color_description 555 yellow
-set -g fish_pager_color_prefix cyan
-set -g fish_pager_color_progress cyan
-
-
-# highlighting inside manpages and elsewhere
-set -gx LESS_TERMCAP_mb \e'[01;31m'       # begin blinking
-set -gx LESS_TERMCAP_md \e'[01;38;5;74m'  # begin bold
-set -gx LESS_TERMCAP_me \e'[0m'           # end mode
-set -gx LESS_TERMCAP_se \e'[0m'           # end standout-mode
-set -gx LESS_TERMCAP_so \e'[38;5;246m'    # begin standout-mode - info box
-set -gx LESS_TERMCAP_ue \e'[0m'           # end underline
-set -gx LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
-
-# rvm default
 
 # REUSE ENVIRONMENT VARIABLES FROM ~/.bash_profile
 # https://github.com/albertz/dotfiles/blob/master/.config/fish/config.fish
@@ -73,11 +75,90 @@ egrep "^export " ~/.bash_vendors | while read e
   set -xg $var $value
 end
 
-# pnpm
-set -gx PNPM_HOME "/home/voznik/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
 
-# direnv hook fish | source
+# Add ~/.local/bin to PATH
+if test -d ~/.local/bin
+    if not contains -- ~/.local/bin $PATH
+        set -p PATH ~/.local/bin
+    end
+end
+
+# Add depot_tools to PATH
+if test -d ~/Applications/depot_tools
+    if not contains -- ~/Applications/depot_tools $PATH
+        set -p PATH ~/Applications/depot_tools
+    end
+end
+
+## Starship prompt
+if status --is-interactive
+   source ("/usr/bin/starship" init fish --print-full-init | psub)
+end
+
+## Advanced command-not-found hook
+source /usr/share/doc/find-the-command/ftc.fish noupdate quiet
+
+## Functions
+# Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
+function __history_previous_command
+  switch (commandline -t)
+  case "!"
+    commandline -t $history[1]; commandline -f repaint
+  case "*"
+    commandline -i !
+  end
+end
+
+function __history_previous_command_arguments
+  switch (commandline -t)
+  case "!"
+    commandline -t ""
+    commandline -f history-token-search-backward
+  case "*"
+    commandline -i '$'
+  end
+end
+
+if [ "$fish_key_bindings" = fish_vi_key_bindings ];
+  bind -Minsert ! __history_previous_command
+  bind -Minsert '$' __history_previous_command_arguments
+else
+  bind ! __history_previous_command
+  bind '$' __history_previous_command_arguments
+end
+
+# Fish command history
+function history
+    builtin history --show-time='%F %T '
+end
+
+function backup --argument filename
+    cp $filename $filename.bak
+end
+
+# Copy DIR1 DIR2
+function copy
+    set count (count $argv | tr -d \n)
+    if test "$count" = 2; and test -d "$argv[1]"
+	set from (echo $argv[1] | string trim --right --chars=/)
+	set to (echo $argv[2])
+        command cp -r $from $to
+    else
+        command cp $argv
+    end
+end
+
+# Cleanup local orphaned packages
+function cleanup
+    while pacman -Qdtq
+        sudo pacman -R (pacman -Qdtq)
+        if test "$status" -eq 1
+           break
+        end
+    end
+end
+
+## Run fastfetch if session is interactive
+if status --is-interactive && type -q fastfetch
+   fastfetch --config neofetch.jsonc
+end

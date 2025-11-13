@@ -1,0 +1,96 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "git_panel": {
+    "sort_by_path": true
+  },
+  "agent": {
+    "default_profile": "minimal",
+    "default_model": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:14b"
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "none"
+  },
+  "cursor_blink": true,
+  "completions": {
+    "words": "disabled",
+    "lsp": true,
+    "lsp_fetch_timeout_ms": 0,
+    "lsp_insert_mode": "replace"
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "base_keymap": "Atom",
+  "vim_mode": false,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "file_types": {
+    "JSONC": ["devcontainer.json"]
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Mocha",
+    "dark": "Catppuccin Mocha"
+  },
+  "indent_guides": {
+    "enabled": true,
+    "coloring": "indent_aware"
+  },
+  "enable_language_server": true,
+  "ensure_final_newline_on_save": true,
+  "format_on_save": "off",
+  "formatter": "language_server",
+  "git": {
+    "git_gutter": "tracked_files",
+    "hunk_style": "staged_hollow",
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "minimap": {
+    "show": "always",
+    "thumb": "always",
+    "thumb_border": "full",
+    "current_line_highlight": "all"
+  },
+  "preview_tabs": {
+    "enabled": false
+  },
+  "tabs": {
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true,
+    "activate_on_close": "left_neighbour",
+    "show_close_button": "hover",
+    "show_diagnostics": "all"
+  },
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": false,
+    "show_tab_bar_buttons": false
+  },
+  "terminal": {
+    "alternate_scroll": "on"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "button": false,
+    "dock": "right"
+  },
+  "unnecessary_code_fade": 0.3,
+  "scroll_beyond_last_line": "off"
+}

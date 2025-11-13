@@ -78,3 +78,13 @@ vim.opt.scrolloff = 10
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
+
+-- Fold
+-- https://github.com/kevinhwang91/nvim-ufo?tab=readme-ov-file&ref=ericapisani.dev#minimal-configuration
+
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldinner: ,foldclose:'

@@ -3,7 +3,7 @@ complete -c fzf -f
 # Search mode
 complete -c fzf -l no-extended -d no-extended
 complete -c fzf -n 'string match "+*" -- (commandline -ct)' -a +x -d no-extended
-complete -c fzf -s e -l --exact -d 'Enable exact-match'
+complete -c fzf -s e -l exact -d 'Enable exact-match'
 complete -c fzf -n 'string match "+*" -- (commandline -ct)' -a +i -d 'case-sensitive match'
 complete -c fzf -s i -d 'Case-insensitive match'
 complete -c fzf -l literal -d 'Do not normalize latin script letters for matching'
@@ -16,7 +16,7 @@ complete -c fzf -s d -l delimiter -d 'Field delimiter regex for --nth and --with
 complete -c fzf -l no-sort -d 'Do not sort the result'
 complete -c fzf -n 'string match "+*" -- (commandline -ct)' -a +s -d 'Do not sort the result'
 complete -c fzf -l tac -d 'Reverse the order of the input'
-complete -c fzf -l phony -d 'Do not perform search'
+complete -c fzf -l disabled -d 'Do not perform search'
 complete -c fzf -l tiebreak -d 'Sort criteria when breaking ties' -x -a 'length begin end index'
 
 # Interface

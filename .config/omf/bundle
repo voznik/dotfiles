@@ -1,6 +1,1 @@
-package brew
-package foreign-env
-package nvm
-package pyenv
-theme agnoster
 theme default

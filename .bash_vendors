@@ -5,17 +5,13 @@
 # ║ Entry Point to all Bash Utilities                               ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-if (( $+commands[direnv] )) > /dev/null 2>&1; then
-  eval "$(direnv hook bash)"
-fi
-
 export EDITOR="/usr/bin/micro"
 export CONFIGDIR=$HOME/.config
 export WORKSPACE=$HOME/workspace
 export PROGRAMS=$HOME/Programs
 
 export PATH=$PATH:$PROGRAMS/doublecmd
-export PATH=$PATH:$PROGRAMS/wtf
+export PATH=$PATH:$PROGRAMS/carbonyl
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
@@ -23,7 +19,7 @@ export PATH=$PATH:$PROGRAMS/wtf
 # ╚═════════════════════════════════════════════════════════════════╝
 
 
-export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+# export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 # export JDK_HOME="/usr/lib/jvm/jdk1.8.0"
 # export JRE_HOME="/usr/lib/jvm/jdk1.8.0/jre"
 
@@ -101,30 +97,6 @@ if [ -d $HOME/.pyenv ]; then
 fi
 
 
-# ___________________________________________________________________
-#
-#                           PYTHON
-#
-#            Virtualenvwrapper: Globally or Pyenv installation
-# ___________________________________________________________________
-
-if [ -d ~/.virtualenvs ]; then
-  export WORKON_HOME=~/.virtualenvs
-  export PROJECT_HOME="$WORKSPACE/py-projects"
-  export PIP_VIRTUALENV_BASE=~/.virtualenvs
-
-  eval "$(pyenv init -)"
-
-  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
-
-  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
-    # Allow PyEnv Virtualenvwrapper to create venvs
-    # Auto activate virtualenvs on directory change
-    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
-    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-  fi
-fi
-
 export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
 
 
@@ -180,13 +152,3 @@ export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"
 # Unset manpath so we can inherit from /etc/manpath via the `manpath`
 # command
 export PATH="$PATH:$NPM_PACKAGES/bin"
-###-tns-completion-start-###
-if [ -f /home/voznik/.tnsrc ]; then
-    source /home/voznik/.tnsrc
-fi
-###-tns-completion-end-###
-
-
-### LLMs
-export OLLAMA_MODELS="$PROGRAMS/ollama/models"
-

@@ -2,11 +2,8 @@
 -- https://github.com/neovim/nvim-lspconfig
 return {
   'neovim/nvim-lspconfig',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
-    -- Automatically install LSPs and related tools to stdpath for Neovim
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
     'b0o/schemastore.nvim',
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -23,40 +20,128 @@ return {
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
     { 'folke/neodev.nvim', opts = {} },
-
-    -- Activate venv before starting the LSP
-    {
-      'jglasovic/venv-lsp.nvim',
-      config = function()
-        require('venv-lsp').init()
-      end,
-    },
   },
   config = function()
-    -- Brief aside: **What is LSP?**
+    -- Enable LSP servers
+    vim.lsp.enable {
+      'ts_ls',
+      'lua_ls',
+      'tailwindcss',
+      'eslint',
+      'rust_analyzer',
+      'gopls',
+      'html',
+      'cssls',
+      'basedpyright',
+      'bashls',
+      'css_variables',
+      'cssmodules_ls',
+      'dockerls',
+      --"grammarly",
+      'jsonls',
+      'lemminx',
+      'marksman',
+      'nginx_language_server',
+      'taplo',
+      'yamlls',
+      'vue-language-server',
+      'emmet-language-server',
+      'django-template-lsp',
+      'fish-lsp',
+      'docker-compose-language-service',
+    }
+
+    -- Configure diagnostic display with custom signs
+    vim.diagnostic.config {
+      float = {
+        focusable = true,
+        style = 'minimal',
+        border = 'rounded',
+        source = true, -- Show source in diagnostic popup window
+        header = '',
+        prefix = '',
+      },
+      virtual_text = false,
+      virtual_lines = false,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = ' ',
+          [vim.diagnostic.severity.WARN] = ' ',
+          [vim.diagnostic.severity.HINT] = ' ',
+          [vim.diagnostic.severity.INFO] = ' ',
+        },
+      },
+      underline = true,
+      update_in_insert = false,
+      severity_sort = true,
+    }
+
+    -- Enable inlay hints
+    vim.lsp.inlay_hint.enable(false)
+
+    -- Create default capabilities without cmp
+    local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+
+    vim.lsp.config('*', {
+      capabilities = lsp_capabilities,
+      --
+      -- WARN: LSP config per thing
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            openFilesOnly = true,
+            -- findPythonEnvironments = true,
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+            analysis = {
+              autoImportCompletions = true,
+              diagnosticMode = 'openFilesOnly',
+              inlayHints = {
+                callArgumentNames = true,
+              },
+            },
+          },
+        },
+      },
+      djlsp = {},
+      jsonls = {
+        schemas = require('schemastore').json.schemas(),
+        validate = { enable = true },
+      },
+      bashls = {},
+      fish_lsp = {},
+      yamlls = {
+        schemaStore = {
+          -- You must disable built-in schemaStore support if you want to use
+          -- this plugin and its advanced options like `ignore`.
+          enable = false,
+          -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+          url = '',
+        },
+        schemas = require('schemastore').yaml.schemas(),
+      },
+      taplo = {},
+    })
+
+    vim.lsp.config['emmet-language-server'] = {}
+    vim.lsp.config['vue-language-server'] = {}
+    vim.lsp.config['django-template-lsp'] = {}
+    vim.lsp.config['docker-compose-language-service'] = {}
+
+    -- Add additional capabilities supported by blink-cmp
+    local blink_status_ok, blink = pcall(require, 'blink.cmp')
+    if blink_status_ok then
+      local ext_capabilities = vim.tbl_deep_extend('force', {}, lsp_capabilities, blink.get_lsp_capabilities())
+      -- Configure LSP servers using the new vim.lsp.config syntax
+      -- Default configuration for all servers
+      vim.lsp.config('*', {
+        capabilities = ext_capabilities,
+      })
+    end
+
+    vim.treesitter.language.register('bash', 'dotenv')
+
     --
-    -- LSP is an initialism you've probably heard, but might not understand what it is.
-    --
-    -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-    -- and language tooling communicate in a standardized fashion.
-    --
-    -- In general, you have a "server" which is some tool built to understand a particular
-    -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-    -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-    -- processes that communicate with some "client" - in this case, Neovim!
-    --
-    -- LSP provides Neovim with features like:
-    --  - Go to definition
-    --  - Find references
-    --  - Autocompletion
-    --  - Symbol Search
-    --  - and more!
-    --
-    -- Thus, Language Servers are external tools that must be installed separately from
-    -- Neovim. This is where `mason` and related plugins come into play.
-    --
-    -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-    -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
     --  This function gets run when an LSP attaches to a particular buffer.
     --    That is to say, every time a new file is opened that is associated with
@@ -134,173 +219,5 @@ return {
         end
       end,
     })
-
-    -- LSP servers and clients are able to communicate to each other what features they support.
-    --  By default, Neovim doesn't support everything that is in the LSP specification.
-    --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-    --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-    -- Enable the following language servers
-    --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-    --
-    --  Add any additional override configuration in the following tables. Available keys are:
-    --  - cmd (table): Override the default command used to start the server
-    --  - filetypes (table): Override the default list of associated filetypes for the server
-    --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-    --  - settings (table): Override the default settings passed when initializing the server.
-    --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-    local servers = {
-      -- clangd = {},
-      -- gopls = {},
-      jsonls = {
-        schemas = require('schemastore').json.schemas(),
-        validate = { enable = true },
-      },
-      bashls = {},
-      -- fish_lsp = {},
-      yamlls = {
-        schemaStore = {
-          -- You must disable built-in schemaStore support if you want to use
-          -- this plugin and its advanced options like `ignore`.
-          enable = false,
-          -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-          url = '',
-        },
-        schemas = require('schemastore').yaml.schemas(),
-      },
-      taplo = {},
-      pyright = {
-        settings = {
-          pyright = {
-            autoImportCompletion = true,
-            -- Using Ruff's import organizer
-            disableOrganizeImports = true,
-          },
-          python = {
-            analysis = {
-              -- Ignore all files for analysis to exclusively use Ruff for linting
-              ignore = { '*' },
-            },
-          },
-        },
-      },
-      ruff_lsp = {
-        init_options = {
-          settings = {
-            args = {},
-          },
-        },
-      },
-      rust_analyzer = {},
-      -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-      --
-      -- Some languages (like typescript) have entire language plugins that can be useful:
-      --    https://github.com/pmizio/typescript-tools.nvim
-      --
-      -- But for many setups, the LSP (`tsserver`) will work just fine
-      tsserver = {},
-      --
-      lua_ls = {
-        -- cmd = {...},
-        -- filetypes = { ...},
-        -- capabilities = {},
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
-            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-            -- diagnostics = { disable = { 'missing-fields' } },
-          },
-        },
-      },
-    }
-
-    -- Ensure the servers and tools above are installed
-    --  To check the current status of installed tools and/or manually install
-    --  other tools, you can run
-    --    :Mason
-    --
-    --  You can press `g?` for help in this menu.
-    require('mason').setup()
-
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
-      'ruff',
-    })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for tsserver)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
-    }
   end,
 }
-
--- mason_lspconfig.setup_handlers({
---   -- default handler for installed servers
---   function(server_name)
---     lspconfig[server_name].setup({
---       capabilities = capabilities,
---     })
---   end,
---   ["svelte"] = function()
---     -- configure svelte server
---     lspconfig["svelte"].setup({
---       capabilities = capabilities,
---       on_attach = function(client, bufnr)
---         vim.api.nvim_create_autocmd("BufWritePost", {
---           pattern = { "*.js", "*.ts" },
---           callback = function(ctx)
---             -- Here use ctx.match instead of ctx.file
---             client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
---           end,
---         })
---       end,
---     })
---   end,
---   ["graphql"] = function()
---     -- configure graphql language server
---     lspconfig["graphql"].setup({
---       capabilities = capabilities,
---       filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
---     })
---   end,
---   ["emmet_ls"] = function()
---     -- configure emmet language server
---     lspconfig["emmet_ls"].setup({
---       capabilities = capabilities,
---       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
---     })
---   end,
---   ["lua_ls"] = function()
---     -- configure lua server (with special settings)
---     lspconfig["lua_ls"].setup({
---       capabilities = capabilities,
---       settings = {
---         Lua = {
---           -- make the language server recognize "vim" global
---           diagnostics = {
---             globals = { "vim" },
---           },
---           completion = {
---             callSnippet = "Replace",
---           },
---         },
---       },
---     })
---   end,
--- })
