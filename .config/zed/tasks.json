@@ -53,6 +53,10 @@
     "label": "lazygit",
     "command": "lazygit",
     "use_new_terminal": true,
+    "shell": {
+      "program": "bash"
+      },
+    "show_command": false,
     "reveal_target": "center"
   },
   {

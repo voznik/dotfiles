@@ -15,7 +15,7 @@ zoxide init fish --cmd cd  | source
 mise activate fish | source
 
 # https://github.com/alexpasmantier/television/blob/main/docs/01-Users/05-shell-integration.md
-tv init fish | source
+# tv init fish | source
 
 # Use bat for man pages
 set -xU MANPAGER "sh -c 'col -bx | bat -l man -p'"
@@ -91,8 +91,14 @@ if test -d ~/Applications/depot_tools
 end
 
 ## Starship prompt
+
+function starship_transient_prompt_func
+  starship module character
+end
+
 if status --is-interactive
-   source ("/usr/bin/starship" init fish --print-full-init | psub)
+    source ("/usr/bin/starship" init fish --print-full-init | psub)
+    enable_transience # https://starship.rs/advanced-config/#transientprompt-and-transientrightprompt-in-fish
 end
 
 ## Advanced command-not-found hook

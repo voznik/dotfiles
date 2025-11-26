@@ -10,24 +10,43 @@
     "context": "Workspace",
     "bindings": {
       "shift shift": "file_finder::Toggle",
-      "cmd-g": [
+      "ctrl-alt-g": [
         "task::Spawn",
         {
           "task_name": "lazygit"
         }
       ],
-      "cmd-/": [
+      "ctrl-alt-/": [
         "task::Spawn",
         {
           "task_name": "files text"
         }
-      ]
+      ],
+      "ctrl-r": null
     }
   },
   {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       // "j k": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "ctrl-alt-r": null
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-alt-r": null
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-shift-r": null
     }
   }
 ]

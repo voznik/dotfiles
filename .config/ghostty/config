@@ -16,7 +16,7 @@
 # on Ghostty's website, at https://ghostty.org/docs/config.
 
 # shell-integration = fish
-shell-integration-features = ssh-terminfo,ssh-env
+shell-integration-features = true
 copy-on-select = clipboard
 app-notifications = no-clipboard-copy
 
@@ -26,16 +26,15 @@ app-notifications = no-clipboard-copy
 # # The config file consists of simple key-value pairs,
 # # separated by equals signs.
 theme = Dracula
-# font-family = Iosevka
 font-family = 'MonaspiceKr Nerd Font Mono'
-font-size = 13
-adjust-cell-height = -10%
+font-size = 13.5
+adjust-cell-height = -5%
 window-padding-x = 10
 window-padding-balance = true
 window-save-state = always
 cursor-style-blink = true
-adjust-cursor-thickness = 10
-adjust-icon-height = 3
+adjust-cursor-thickness = 5
+adjust-icon-height = 20%
 background-opacity = 0.97
 unfocused-split-opacity = 0.45
 unfocused-split-fill = 21222C
@@ -50,3 +49,7 @@ keybind = ctrl+alt+d=new_split:down
 keybind = ctrl+shift+q=close_surface
 keybind = ctrl+shift+f=write_scrollback_file:open
 
+# https://github.com/0xhckr/ghostty-shaders
+custom-shader = ./shaders/tft.glsl
+custom-shader = ./shaders/bettercrt.glsl
+custom-shader = ./shaders/cursor_blaze.glsl

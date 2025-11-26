@@ -6,7 +6,6 @@
         "filetype": "conf"
     },
     "autosu": true,
-    "clipboard": "terminal",
     "colorscheme": "dracula",
     "diffgutter": true,
     "matchbracestyle": "highlight",

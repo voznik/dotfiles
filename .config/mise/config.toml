@@ -1,3 +1,6 @@
+[env]
+_.file = ['.env', '.env.local', '.env.system']
+
 [alias]
 rust = "core:rust"                    # Use core backend
 
@@ -5,16 +8,21 @@ rust = "core:rust"                    # Use core backend
 node = "22"
 rust = "latest"
 uv = "latest"
+"npm:@google/gemini-cli" = "latest"
+"npm:@devcontainers/cli" = "latest"
+# "github:Genivia/ugrep" = { version = "latest", asset_pattern = "{version}.tar.gz", bin_path = "{version}/bin", bin = "ugrep" }
+# "http:ugrep" = { version = "7.5.0", name = "ugrep", url = "https://github.com/Genivia/ugrep/archive/refs/tags/v{version}.tar.gz", bin_path = "ugrep-{version}/bin", bin = "ug" }
+
 
 [tools.python]
-version = "3.14"
+version = "3.13"
 # virtualenv = ".venv"
 
 [tools."github:cli/cli"]
 version = "latest"
 # asset_pattern = "gh_*_linux_x64.tar.gz"
 
-[tools."gitlab:gitlab-org/gitlab-runner"]
+[tools."gitlab:gitlab-org/cli"]
 version = "latest"
 
 # FIXME:
@@ -25,9 +33,6 @@ version = "latest"
 [settings]
 experimental = true
 # configure messages displayed when entering directories with config files
-status = { missing_tools = "if_other_versions_installed", show_env = true, show_tools = false }
+status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }
 idiomatic_version_file_enable_tools = ['node']
 python.uv_venv_auto = true
-
-[env]
-_.file = ['.env', '.env.local']

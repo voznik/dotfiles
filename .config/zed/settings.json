@@ -7,6 +7,19 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "ssh_connections": [
+    {
+      "host": "dja0",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/app"
+          ]
+        }
+      ]
+    }
+  ],
   "git_panel": {
     "sort_by_path": true
   },
@@ -35,10 +48,39 @@
     "metrics": false
   },
   "file_types": {
-    "JSONC": ["devcontainer.json"]
+    "JSONC": [
+      "devcontainer.json"
+    ]
   },
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
+  "ui_font_size": 17,
+  "ui_font_features": {
+    "calt": true,
+    "ss01": true,
+    "ss02": true,
+    "ss03": true,
+    "ss04": true,
+    "ss05": true,
+    "ss06": true,
+    "ss07": true,
+    "ss08": true,
+    "ss09": true,
+    "liga": true
+  },
+  "ui_font_family": "Titillium Web",
+  "ui_font_fallbacks": [
+    "Fira Sans",
+    "Ubuntu"
+  ],
+  "buffer_font_size": 17,
+  "buffer_font_features": {},
+  "buffer_line_height": "standard",
+  "buffer_font_family": "Hasklug Nerd Font Mono",
+  "buffer_font_fallbacks": [
+    "MonaspiceAr Nerd Font Mono",
+    "FiraCode Nerd Font Mono",
+    "Inconsolata Nerd Font Mono",
+    "Ubuntu Mono"
+  ],
   "theme": {
     "mode": "system",
     "light": "Catppuccin Mocha",
@@ -76,6 +118,9 @@
     "show_close_button": "hover",
     "show_diagnostics": "all"
   },
+  "drag_and_drop_selection": {
+
+  },
   "tab_bar": {
     "show": true,
     "show_nav_history_buttons": false,
@@ -83,6 +128,13 @@
   },
   "terminal": {
     "alternate_scroll": "on"
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": true,
+    "selections_menu": true,
+    "agent_review": false,
+    "code_actions": true
   },
   "outline_panel": {
     "dock": "right"
@@ -92,5 +144,6 @@
     "dock": "right"
   },
   "unnecessary_code_fade": 0.3,
+  "use_system_path_prompts": false,
   "scroll_beyond_last_line": "off"
 }

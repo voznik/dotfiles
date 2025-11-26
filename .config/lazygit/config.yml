@@ -1,4 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
 git:
   pagers:
     - colorArg: always
       pager: delta --paging=never
+disableStartupPopups: true
+# NotARepository string `yaml:"notARepository" jsonschema:"enum=prompt,enum=create,enum=skip,enum=quit"`
+notARepository: skip
+promptToReturnFromSubprocess: false

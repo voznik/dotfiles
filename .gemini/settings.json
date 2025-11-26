@@ -1,0 +1,27 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "general": {
+    "disableAutoUpdate": true,
+    "previewFeatures": true
+  },
+  "ui": {
+    "showStatusInTitle": true,
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showMemoryUsage": true,
+    "showLineNumbers": true
+  },
+  "telemetry": {
+  	"enabled": false
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
+  }
+}
