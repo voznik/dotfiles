@@ -27,7 +27,12 @@
     "default_profile": "minimal",
     "default_model": {
       "provider": "ollama",
-      "model": "qwen2.5-coder:14b"
+      "model": "qwen3-coder"
+    }
+  },
+  "agent_servers": {
+    "gemini": {
+      "ignore_system_version": false
     }
   },
   "features": {
@@ -118,9 +123,7 @@
     "show_close_button": "hover",
     "show_diagnostics": "all"
   },
-  "drag_and_drop_selection": {
-
-  },
+  "drag_and_drop_selection": {},
   "tab_bar": {
     "show": true,
     "show_nav_history_buttons": false,

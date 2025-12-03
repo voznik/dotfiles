@@ -1,12 +1,16 @@
 {
     "Alt-/": "ToggleHelp",
+    "Alt-l": "lua:initlua.lint",
+    "Alt-z": "lua:initlua.toggleSoftwrap",
+    "Alt-|": "lua:initlua.new_view",
     "Ctrl-.": "JumpToMatchingBrace",
     "Ctrl-/": "lua:comment.comment",
     "Ctrl-Alt-Shift-Left": "SelectToParagraphNext",
     "Ctrl-Alt-Shift-Right": "SelectToParagraphPrevious",
+    "Ctrl-Alt-f": "lua:initlua.format",
+    "Ctrl-Alt-w": "lua:wc.wordCount",
     "Ctrl-Shift-/": "FindNext",
     "Ctrl-g": "command-edit:goto ",
-    "CtrlSpace": "lua:fzf.fzf",
     "CtrlUnderscore": "lua:comment.comment",
     "F5": "lua:wc.wordCount"
 }

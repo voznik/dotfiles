@@ -10,17 +10,23 @@ rust = "latest"
 uv = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@devcontainers/cli" = "latest"
-# "github:Genivia/ugrep" = { version = "latest", asset_pattern = "{version}.tar.gz", bin_path = "{version}/bin", bin = "ugrep" }
+"npm:repomix" = "latest"
+"npm:@biomejs/biome" = "latest"
 # "http:ugrep" = { version = "7.5.0", name = "ugrep", url = "https://github.com/Genivia/ugrep/archive/refs/tags/v{version}.tar.gz", bin_path = "ugrep-{version}/bin", bin = "ug" }
+"http:duckdb" = { version = "1.4.2", name = "duckdb", url = "https://install.duckdb.org/v{version}/duckdb_cli-linux-amd64.zip" }
 
 
+# virtualenv = ".venv"
 [tools.python]
 version = "3.13"
-# virtualenv = ".venv"
 
+# asset_pattern = "gh_*_linux_x64.tar.gz"
 [tools."github:cli/cli"]
 version = "latest"
-# asset_pattern = "gh_*_linux_x64.tar.gz"
+
+# https://github.com/block/goose/releases/download/v1.15.0/goose-x86_64-unknown-linux-gnu.tar.bz2
+[tools."github:block/goose"]
+version = "latest"
 
 [tools."gitlab:gitlab-org/cli"]
 version = "latest"

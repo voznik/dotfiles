@@ -1,14 +1,17 @@
 {
-    "/etc/*": {
-        "filetype": "conf"
-    },
-    "/home/*/.config/*": {
-        "filetype": "conf"
-    },
-    "autosu": true,
-    "colorscheme": "dracula",
-    "diffgutter": true,
-    "matchbracestyle": "highlight",
-    "mkparents": true,
-    "savecursor": true
+  "/etc/*": {
+    "filetype": "conf"
+  },
+  "/home/*/.config/*/*.conf": {
+    "filetype": "conf"
+  },
+  "/home/*/.config/waybar/config": {
+    "filetype": "json"
+  },
+  "autosu": true,
+  "colorscheme": "dracula",
+  "diffgutter": true,
+  "matchbracestyle": "highlight",
+  "mkparents": true,
+  "savecursor": true
 }

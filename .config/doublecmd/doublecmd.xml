@@ -159,9 +159,9 @@
   <MainWindow>
     <Position Save="True">
       <Left>0</Left>
-      <Top>29</Top>
-      <Width>1920</Width>
-      <Height>1051</Height>
+      <Top>27</Top>
+      <Width>960</Width>
+      <Height>1013</Height>
       <PixelsPerInch>96</PixelsPerInch>
       <Maximized>True</Maximized>
       <Splitter>50</Splitter>
@@ -545,7 +545,7 @@
   <Icons>
     <Theme>dctheme</Theme>
     <ShowHiddenDimmed>False</ShowHiddenDimmed>
-    <ShowMode>3</ShowMode>
+    <ShowMode>1</ShowMode>
     <ShowOverlays>True</ShowOverlays>
     <Size>32</Size>
     <DiskSize>16</DiskSize>

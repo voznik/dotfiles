@@ -1,0 +1,71 @@
+version: 0.2.0
+title: Migrate to Rspack (With Validation)
+author:
+  contact: voznik
+description: Migrates project to Rspack, uses optional local examples, and validates the build.
+instructions: Analyze, migrate, and verify the build.
+activities:
+  - Analyze target project structure
+  - Scan local examples (if provided)
+  - Generate Rspack configuration
+  - Update dependencies
+  - Validate build execution
+extensions:
+  - type: builtin
+    name: developer
+    display_name: Developer
+    timeout: 900
+    bundled: true
+prompt: |
+  You are an expert codebase upgrade & migration agent. You are tasked with migrating a project to Rspack and verifying the result.
+
+  **Context:**
+  - Project Root: {{ project_root }}
+  - Examples Path: {{ examples_path }}
+
+  **Step 1: Analyze User Project**
+  1. Read `package.json` in {{ project_root }}.
+  2. Identify:
+     - Framework & Language.
+     - Project Type (App vs Library based on `index.html`).
+     - Current Package Manager (look for `yarn.lock`, `pnpm-lock.yaml`, or `package-lock.json`).
+
+  **Step 2: Determine Source of Truth**
+  *Check variable {{ examples_path }}.*
+  - **If Provided & Valid**: Scan directory with local tools, find best match (e.g., `vanilla-javascript` or `react-ts`), and read its `rspack.config` and `package.json`.
+  - **If Missing**: Use internal knowledge to construct the best configuration for the detected framework.
+
+  **Step 3: Generate Configuration**
+  Create `rspack.config.js` in {{ project_root }}:
+  - Adapt entry points to user's file structure.
+  - **HTML Logic**: Include `HtmlRspackPlugin` ONLY if `index.html` exists.
+  - **Constraint**: Do not add comments to the code.
+
+  **Step 4: Update Environment**
+  1. Install dependencies (using the detected package manager).
+  2. Update `package.json` scripts (for next but not limited):
+     - `build`: `rspack build`
+     - `dev`: `rspack serve`
+
+  **Step 5: Validation (Crucial)**
+  1. Check if the `build` script exists in `package.json`.
+  2. **Execute**: Run the build command using the detected package manager (e.g., `npm run build`, `yarn build`, or `pnpm build`).
+  3. **Analyze Outcome**:
+     - **Success**: Mark migration as successful.
+     - **Failure**: Capture the error log. **Do not** attempt to blindly fix it multiple times. Analyze the error and report specifically *why* it failed (e.g., "Missing loader for .scss files").
+
+  **Final Output:**
+  - Status: **SUCCESS** or **FAILED**.
+  - If FAILED, show the error log.
+  - If SUCCESS, show the generated `rspack.config.js`.
+
+parameters:
+  - key: project_root
+    input_type: string
+    requirement: user_prompt
+    description: The root directory of the project to migrate
+  - key: examples_path
+    input_type: string
+    requirement: optional
+    default: ""
+    description: (Optional) Local path to rstack-examples.

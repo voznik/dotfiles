@@ -3,7 +3,7 @@
 # --- Configuration ---
 # List of window classes that should be minimized instead of killed.
 # Add any application that needs to be hidden to the tray icon here.
-MINIMIZE_LIST=("Enpass" "Steam" "Discord") 
+MINIMIZE_LIST=("Enpass" "Enpass Assistant" "Steam" "Discord") 
 # NOTE: Replace "Enpass" with the actual class you found if it's different.
 
 # --- Logic ---

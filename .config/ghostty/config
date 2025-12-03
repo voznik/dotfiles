@@ -26,24 +26,39 @@ app-notifications = no-clipboard-copy
 # # The config file consists of simple key-value pairs,
 # # separated by equals signs.
 theme = Dracula
-font-family = 'MonaspiceKr Nerd Font Mono'
-font-size = 13.5
 adjust-cell-height = -5%
-window-padding-x = 10
+window-padding-x = 4
 window-padding-balance = true
 window-save-state = always
 cursor-style-blink = true
-adjust-cursor-thickness = 5
+# adjust-cursor-thickness = 5
 adjust-icon-height = 20%
 background-opacity = 0.97
 unfocused-split-opacity = 0.45
 unfocused-split-fill = 21222C
+
+# https://github.com/ttys3/my-ghostty-config/tree/main?tab=readme-ov-file
+gtk-custom-css = tab-style.css
+
 #
 # # Some config options have unique syntaxes for their value,
 # # which is explained in the docs for that config option.
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+# # Fonts 
+font-family = 'MonaspiceKr Nerd Font Mono'
+font-size = 13.5
+# Ligatures
+font-feature = "ss01"
+font-feature = "ss02"
+font-feature = "ss03"
+font-feature = "ss04"
+font-feature = "ss05"
+font-feature = "liga"
+font-feature = "calt"
+
+# #
 keybind = ctrl+alt+r=new_split:right
 keybind = ctrl+alt+d=new_split:down
 keybind = ctrl+shift+q=close_surface
