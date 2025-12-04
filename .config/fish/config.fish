@@ -12,7 +12,7 @@ source ~/.config/fish/functions/misc.fish
 zoxide init fish --cmd cd  | source
 
 # https://github.com/jdx/mise/blob/main/docs/dev-tools/index.md
-mise activate fish | source
+$HOME/.local/bin/mise activate fish | source # added by https://mise.run/fish
 
 # https://github.com/alexpasmantier/television/blob/main/docs/01-Users/05-shell-integration.md
 # tv init fish | source
@@ -51,7 +51,7 @@ end
 # https://github.com/albertz/dotfiles/blob/master/.config/fish/config.fish
 # Fish shell
 
-egrep "^export " ~/.bash_vendors | while read e
+ugrep "^export " ~/.bash_vendors | while read e
   set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
   set value (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\2/")
 
@@ -102,7 +102,7 @@ if status --is-interactive
 end
 
 ## Advanced command-not-found hook
-source /usr/share/doc/find-the-command/ftc.fish noupdate quiet
+# source /usr/share/doc/find-the-command/ftc.fish noupdate quiet
 
 ## Functions
 # Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
@@ -140,28 +140,6 @@ end
 
 function backup --argument filename
     cp $filename $filename.bak
-end
-
-# Copy DIR1 DIR2
-function copy
-    set count (count $argv | tr -d \n)
-    if test "$count" = 2; and test -d "$argv[1]"
-	set from (echo $argv[1] | string trim --right --chars=/)
-	set to (echo $argv[2])
-        command cp -r $from $to
-    else
-        command cp $argv
-    end
-end
-
-# Cleanup local orphaned packages
-function cleanup
-    while pacman -Qdtq
-        sudo pacman -R (pacman -Qdtq)
-        if test "$status" -eq 1
-           break
-        end
-    end
 end
 
 ## Run fastfetch if session is interactive

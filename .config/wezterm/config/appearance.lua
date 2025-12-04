@@ -4,15 +4,14 @@ local fonts = require('config.fonts')
 
 return {
    -- term = 'xterm-256color',
-   animation_fps = 12,
-   -- max_fps = 60,
+   animation_fps = 20,
+   max_fps = 20,
    front_end = 'WebGpu',
    -- webgpu_power_preference = 'HighPerformance',
 
    -- color scheme
    -- colors = colors,
-   color_scheme = 'Dracula (base16)',
-
+   color_scheme = 'Catppuccin Mocha',
    -- background
    macos_window_background_blur = 30,
    window_background_opacity = 0.95,
@@ -22,35 +21,24 @@ return {
    --    -- Specifices a Linear gradient starting in the top left corner.
    --    orientation = { Linear = { angle = -45.0 } },
    -- },
-   background = {
-      {
-         source = { File = wezterm.config_dir .. '/backdrops/bg.png' },
-      },
-      {
-         source = { Color = '#282A36' },
-         height = '100%',
-         width = '100%',
-         opacity = 0.95,
-      },
-   },
    enable_tab_bar = true,
    -- scrollbar
    enable_scroll_bar = true,
    min_scroll_bar_height = '3cell',
-   colors = {
-      scrollbar_thumb = '#2A2B3D',
-      tab_bar = {
-         background = '#21222c',
-         active_tab = {
-            bg_color = '#282a36',
-            fg_color = '#c0c0c0',
-         },
-         inactive_tab = {
-            bg_color = '#191a21',
-            fg_color = '#c0c0c0',
-         },
-      },
-   },
+   -- colors = {
+   --    scrollbar_thumb = '#2A2B3D',
+   --    tab_bar = {
+   --       background = '#21222c',
+   --       active_tab = {
+   --          bg_color = '#282a36',
+   --          fg_color = '#c0c0c0',
+   --       },
+   --       inactive_tab = {
+   --          bg_color = '#191a21',
+   --          fg_color = '#c0c0c0',
+   --       },
+   --    },
+   -- },
    -- cursor
    default_cursor_style = 'BlinkingBlock',
    -- cursor_blink_ease_in = 'Constant',
@@ -59,7 +47,7 @@ return {
 
    -- window
    adjust_window_size_when_changing_font_size = false,
-   window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
+   window_decorations = 'RESIZE',
    initial_cols = 120,
    initial_rows = 36,
    window_padding = {

@@ -4,6 +4,7 @@ return {
    check_for_updates = false,
    exit_behavior = 'CloseOnCleanExit', -- if the shell program exited with a successful status
    status_update_interval = 1000,
+   warn_about_missing_glyphs=false, -- TODO
 
    -- scrollbar
    scrollback_lines = 15000,

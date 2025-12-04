@@ -1,8 +1,0 @@
-[dotfiles]
-prefix = .
-repository = /home/voznik/.dotfiles
-ignore = [
-     '.git',
-     '.gitignore',
-     '*.swp']
-packages = ['config']

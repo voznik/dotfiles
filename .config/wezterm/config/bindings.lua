@@ -61,7 +61,7 @@ local keys = {
    { key = 'l', mods = 'CTRL|ALT', action = wezterm.action.ShowLauncher },
    { key = 'n', mods = 'CTRL|SHIFT', action = wezterm.action.SpawnWindow },
    { key = 't', mods = 'CTRL|SHIFT', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
-   { key = 'Enter', mods = 'SUPER', action = wezterm.action.ActivateCopyMode },
+   { key = 'Enter', mods = 'ALT|SHIFT', action = wezterm.action.ActivateCopyMode },
    { key = 'C', mods = 'CTRL|SHIFT', action = wezterm.action.CopyTo('Clipboard') },
    { key = 'v', mods = 'CTRL', action = wezterm.action.PasteFrom('Clipboard') },
    { key = 'v', mods = 'SUPER', action = wezterm.action.PasteFrom('Clipboard') },
