@@ -3,11 +3,12 @@ name_pretty = "Other"
 icon = "applications-other"
 global_search = true
 
-# [[entries]]
-# text = "Color Picker"
-# keywords = ["color", "picker", "hypr"]
-# actions = { "cp_use" = "wl-copy $(hyprpicker)" }
-# icon = "color-picker"
+[[entries]]
+text = "Today"
+keywords = ["date", "today", "calendar"]
+async = """echo $(date "+%H:%M - %d.%m. %A - KW %V")"""
+icon = "clock"
+actions = { "open_cal" = "xdg-open https://calendar.google.com" }
 
 [[entries]]
 text = "Volume"
@@ -39,15 +40,9 @@ text = "System"
 async = """echo $(echo "Memory: $(free -h | awk '/^Mem:/ {printf "%s/%s", $3, $2}') | CPU: $(top -bn1 | grep 'Cpu(s)' | awk '{printf "%.1f%%", 100 - $8}')")"""
 icon = "computer"
 
-[[entries]]
-text = "Today"
-keywords = ["date", "today", "calendar"]
-async = """echo $(date "+%H:%M - %d.%m. %A - KW %V")"""
-icon = "clock"
-actions = { "open_cal" = "xdg-open https://calendar.google.com" }
 
-[[entries]]
-text = "uuctl"
-keywords = ["uuctl"]
-icon = "applications-system"
-submenu = "dmenu:uuctl"
+# [[entries]]
+# text = "uuctl"
+# keywords = ["uuctl"]
+# icon = "applications-system"
+# submenu = "dmenu:uuctl"

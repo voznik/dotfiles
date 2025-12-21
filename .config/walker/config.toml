@@ -37,11 +37,11 @@ default = [
   # "runner",
   "menus",
   "windows",
-  "emojis",
+  # "emojis",
   "websearch",
   "bookmarks",
-  # "clipboard",
-  "snippets"
+  "clipboard",
+  # "snippets"
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 20 # global max results
@@ -61,9 +61,9 @@ provider = "providerlist"
 prefix = ">"
 provider = "runner"
 
-# [[providers.prefixes]]
-# prefix = "/"
-# provider = "files"
+[[providers.prefixes]]
+prefix = "/"
+provider = "bookmarks"
 
 [[providers.prefixes]]
 prefix = "_"
@@ -121,6 +121,15 @@ only_search_title=true
 
 [providers.menu]
 title="Menu :)"
+
+[providers.bookmarks]
+[[categories]]
+name = "work"
+prefix = "w:"
+
+[[categories]]
+name = "personal"
+prefix = "p:"
 
 [providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
 fallback = [
@@ -214,6 +223,6 @@ clipboard = [
 ]
 
 
-ai = [
-  { action = "run_cmd", label = "select", default = true, bind = "Return" },
+bookmarks = [
+  { action = "save", bind = "Return", after = "AsyncClearReload" },
 ]

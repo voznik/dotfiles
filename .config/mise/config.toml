@@ -1,44 +1,44 @@
 [env]
 _.file = ['.env', '.env.local', '.env.system']
+# 
+MISE_NODE_GPG_VERIFY = "false"
 
 [alias]
 rust = "core:rust"                    # Use core backend
 
 [tools]
-node = "22"
+node = "24"
 rust = "latest"
 uv = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
 "npm:@biomejs/biome" = "latest"
+"npm:@karakeep/cli" = "latest"
 # "http:ugrep" = { version = "7.5.0", name = "ugrep", url = "https://github.com/Genivia/ugrep/archive/refs/tags/v{version}.tar.gz", bin_path = "ugrep-{version}/bin", bin = "ug" }
 "http:duckdb" = { version = "1.4.2", name = "duckdb", url = "https://install.duckdb.org/v{version}/duckdb_cli-linux-amd64.zip" }
+python= "3.14"
+### -- UV TOOLS:
+"pipx:basedpyright" = "latest"
+"pipx:buku" = "latest"
+"pipx:cookiecutter" = "latest"
+"pipx:ruff" = "latest"
+"pipx:git+https://github.com/github/spec-kit.git" = "latest"
+###
+"gitlab:gitlab-org/cli" = "latest"
+"github:cli/cli" = "latest"
+"github:block/goose" = "latest"
+"github:dhth/bmm" = "0.3.0"
 
-
-# virtualenv = ".venv"
-[tools.python]
-version = "3.13"
-
-# asset_pattern = "gh_*_linux_x64.tar.gz"
-[tools."github:cli/cli"]
-version = "latest"
-
-# https://github.com/block/goose/releases/download/v1.15.0/goose-x86_64-unknown-linux-gnu.tar.bz2
-[tools."github:block/goose"]
-version = "latest"
-
-[tools."gitlab:gitlab-org/cli"]
-version = "latest"
-
-# FIXME:
-# https://github.com/github/spec-kit.git
-# [tools."ubi:github/spec-kit"]
-# version = "0.0.64"
+# https://github.com/jdx/mise/blob/60acae24ee84ec172013d288a49946a94073a2fa/settings.toml#L796
+# [node.gpg_verify]
+# env = "MISE_NODE_GPG_VERIFY"
+# optional = false
+# type = "Bool"
 
 [settings]
 experimental = true
-# configure messages displayed when entering directories with config files
 status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }
 idiomatic_version_file_enable_tools = ['node']
 python.uv_venv_auto = true
+pipx.uvx = true

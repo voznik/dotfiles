@@ -32,6 +32,13 @@
     }
   },
   {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-shift-l": "editor::SplitSelectionIntoLines",
+      "alt+F3": "editor::SelectAllMatches"
+    }
+  },
+  {
     "context": "ProjectPanel",
     "bindings": {
       "ctrl-alt-r": null

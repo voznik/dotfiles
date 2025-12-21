@@ -15,8 +15,9 @@
 # Additionally, each config option is also explained in detail
 # on Ghostty's website, at https://ghostty.org/docs/config.
 
-# shell-integration = fish
-shell-integration-features = true
+# shell-integration-features = true
+shell-integration-features = cursor,sudo,title,ssh-env,no-ssh-terminfo,no-path
+
 copy-on-select = clipboard
 app-notifications = no-clipboard-copy
 

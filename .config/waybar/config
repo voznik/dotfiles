@@ -13,15 +13,16 @@
   ],
   "modules-center": [
     "clock",
-    "custom/weather"
   ],
+  // "custom/weather"
   // "custom/network_traffic",
   "modules-right": [
     "temperature",
     "power-profiles-daemon",
     "cpu",
     "memory",
-    "network",
+    // "network",
+    "bluetooth",
     "tray",
     "idle_inhibitor",
     "hyprland/language",
@@ -103,7 +104,8 @@
     "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
     //"max-length": 200
     "interval": 1,
-    "on-click": "~/.config/waybar/scripts/OCV",
+    // "on-click": "~/.config/waybar/scripts/OCV",
+    "on-click": "walker --provider menus:other",
   },
   "cpu": {
     "format": "🖳{usage}%",
@@ -165,6 +167,17 @@
     //"format": "&#x202b;{icon}&#x202c; {capacity}%",
     //"format-icons": ["ﱉ","ﱊ","ﱌ","ﱍ","ﱋ"]
   },
+  "bluetooth": {
+  	"format": "",
+  	"format-connected": " {device_alias}",
+  	"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+  	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+  	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+  	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+  	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+  	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "walker --provider bluetooth"
+  },
   "network": {
     //"interface": "wlp0s20f3", // (Optional) To force the use of this interface  "format-wifi": "  {essid}",
     "format": "⚠Disabled",
@@ -188,7 +201,7 @@
       "updated": "󰂪",
     },
     "exec-if": "which waybar-module-pacman-updates",
-    "exec": "waybar-module-pacman-updates --interval-seconds 5 --network-interval-seconds 7200 --network-interval-seconds",
+    "exec": "waybar-module-pacman-updates --interval-seconds 7200 --network-interval-seconds 7200",
     "on-click": "foot -e update"
   },
   "custom/power": {
