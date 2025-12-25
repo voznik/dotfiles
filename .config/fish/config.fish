@@ -14,6 +14,14 @@ zoxide init fish --cmd cd  | source
 # https://github.com/jdx/mise/blob/main/docs/dev-tools/index.md
 mise activate fish | source
 
+# https://docs.atuin.sh/cli/guide/installation/#installing-the-shell-plugin
+set -gx ATUIN_NOBIND "true"
+atuin init fish --disable-up-arrow | source
+# https://docs.atuin.sh/cli/configuration/key-binding/#fish
+# bind to ctrl-r in normal and insert mode, add any other bindings you want here too
+bind ctrl-up _atuin_bind_up
+bind ctrl-space _atuin_search
+
 # https://github.com/alexpasmantier/television/blob/main/docs/01-Users/05-shell-integration.md
 # tv init fish | source
 

@@ -29,6 +29,9 @@ python= "3.14"
 "github:cli/cli" = "latest"
 "github:block/goose" = "latest"
 "github:dhth/bmm" = "0.3.0"
+# "github:ddworken/hishtory" = "latest"
+"github:atuinsh/atuin" = "latest"
+"github:cargo-bins/cargo-binstall" = "latest"
 
 # https://github.com/jdx/mise/blob/60acae24ee84ec172013d288a49946a94073a2fa/settings.toml#L796
 # [node.gpg_verify]

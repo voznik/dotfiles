@@ -56,3 +56,9 @@ run = [ 'shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t te
 on   = "<C-d>"
 run  = "plugin diff"
 desc = "Diff the selected with the hovered file"
+
+# keymap.toml
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin toggle-pane max-preview"
+desc = "Maximize or restore the preview pane"
