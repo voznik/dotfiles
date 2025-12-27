@@ -59,7 +59,7 @@ end
 # https://github.com/albertz/dotfiles/blob/master/.config/fish/config.fish
 # Fish shell
 
-egrep "^export " ~/.bash_vendors | while read e
+ugrep "^export " ~/.bash_vendors | while read e
   set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
   set value (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\2/")
 
