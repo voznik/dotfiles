@@ -19,7 +19,6 @@ prompt: |
   Once `migrate-to-uv` has run, delete any local virtualenvs (often located at ./.venv) and run `uv sync`.
 
   Grep for other uses of `poetry` in the project. If you can switch these commands to `uv`, do so. If not, just make a note of it.
-
 extensions:
   - type: builtin
     name: developer

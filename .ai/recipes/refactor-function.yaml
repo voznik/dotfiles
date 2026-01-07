@@ -16,9 +16,7 @@ instructions: |
      - Follow language idioms and conventions
   5. Ensure the refactored code maintains the same behavior
   6. Run existing tests to verify nothing broke
-
 prompt: "Refactor the function {{ function_name }} in {{ file_path }}"
-
 parameters:
   - key: function_name
     input_type: string
@@ -28,10 +26,8 @@ parameters:
     input_type: string
     requirement: required
     description: "Path to the file containing the function (language will be auto-detected)"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 300
     bundled: true
-

@@ -3,7 +3,6 @@ title: "OpenAPI to Locust Load Test Generator"
 description: "Generate comprehensive Locust load tests from OpenAPI/Swagger specifications"
 author:
   contact: Better-Boy
-
 instructions: |
   You are an expert in API testing and load testing with Locust.
   Your task is to generate production-ready Locust load test files from OpenAPI specifications.
@@ -20,59 +19,48 @@ instructions: |
   - Have proper error handling and assertions
   - Use parameterized data where appropriate
   - Follow Locust best practices
-
 parameters:
   - key: openapi_spec_path
     input_type: string
     requirement: required
     description: "Path to the OpenAPI specification file (JSON or YAML)"
-
   - key: base_url
     input_type: string
     requirement: optional
     default: "http://localhost:8000"
     description: "Base URL for the API to test"
-
   - key: output_dir
     input_type: string
     requirement: optional
     default: "./load_tests"
     description: "Directory where generated test files will be saved"
-
   - key: test_complexity
     input_type: string
     requirement: optional
     default: "standard"
     description: "Test complexity level: basic, standard, or advanced"
-
   - key: include_auth
     input_type: string
     requirement: optional
     default: "true"
     description: "Whether to include authentication handling in tests"
-
 sub_recipes:
   - name: analyze_openapi
     path: "./subrecipes/analyze-openapi.yaml"
     values:
       analysis_depth: "comprehensive"
-
   - name: generate_task_sets
     path: "./subrecipes/generate-task-sets.yaml"
-
   - name: generate_locustfile
     path: "./subrecipes/generate-locustfile.yaml"
-
   - name: generate_support_files
     path: "./subrecipes/generate-support-files.yaml"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 600
     bundled: true
-
-prompt: |
+prompt: |-
   Generate complete Locust load tests from the OpenAPI specification at {{ openapi_spec_path }}.
 
   Configuration:

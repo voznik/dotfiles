@@ -3,7 +3,6 @@ title: Web Accessibility Auditor
 description: Comprehensive web accessibility auditing tool that analyzes websites for WCAG compliance, identifies barriers for users with disabilities, and provides actionable remediation recommendations
 author:
   contact: ARYPROGRAMMER
-
 activities:
   - Fetch HTML content from target website using Fetch extension
   - Extract page structure and interactive elements
@@ -11,7 +10,6 @@ activities:
   - Generate detailed accessibility reports with severity levels
   - Provide specific remediation recommendations
   - Save all results to organized output directory
-
 instructions: |
   You are a Web Accessibility Auditor - an expert in making the web inclusive for all users.
 
@@ -26,45 +24,37 @@ instructions: |
   5. Provide specific, implementable recommendations
 
   Focus on real user impact and prioritize issues that most affect people with disabilities.
-
 parameters:
   - key: target_url
     input_type: string
     requirement: required
     description: The URL of the website to audit for accessibility
-  
   - key: audit_scope
     input_type: string
     requirement: optional
     default: "single-page"
     description: Scope of audit - 'single-page' (current page only) or 'multi-page' (crawl site structure)
-  
   - key: compliance_level
     input_type: string
     requirement: optional
     default: "WCAG21-AA"
     description: Accessibility standard to check against - 'WCAG21-A', 'WCAG21-AA', 'WCAG21-AAA'
-  
   - key: output_format
     input_type: string
     requirement: optional
     default: "markdown"
     description: Report output format - 'markdown', 'html', 'json'
-  
   - key: output_dir
     input_type: string
     requirement: optional
     default: "./accessibility-audit-results"
     description: Directory where audit results and reports will be saved
-
   - key: date
     input_type: string
     requirement: optional
     default: "2025-10-22"
     description: Date for file naming (YYYY-MM-DD format)
-
 sub_recipes:
-
 extensions:
   - type: builtin
     name: developer
@@ -72,7 +62,6 @@ extensions:
     timeout: 600
     bundled: true
     description: For HTML analysis, report generation, and file operations
-
   - type: stdio
     name: fetch
     cmd: uvx
@@ -81,8 +70,7 @@ extensions:
     timeout: 300
     bundled: false
     description: For retrieving web content and HTML from target URLs
-
-prompt: |
+prompt: |-
   Audit {{ target_url }} for web accessibility compliance ({{ compliance_level }}).
 
   **Audit Scope:** {{ audit_scope }}

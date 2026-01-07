@@ -1,27 +1,22 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "8f1d971"
-hash = "8ad3e90b079190b4905f24a44f4ca06b"
+rev = "4e55902"
+hash = "8da0b15a97b5dfd13941d1ecc617ac7c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "8f1d971"
+rev = "4e55902"
 hash = "ce67445ebb1bf3d97b8e44f50904b2c5"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "8f1d971"
-hash = "4ee57085277d616acfa0ef1fef37dc00"
+rev = "4e55902"
+hash = "5cfd9b2bd3f8ec4e3245e3426a967f82"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "8f1d971"
-hash = "63b6c222bf2103b3023389dde5e2ecfe"
-
-[[plugin.deps]]
-use = "yazi-rs/plugins:smart-enter"
-rev = "8f1d971"
-hash = "56fdabc96fc1f4d53c96eb884b02a5be"
+rev = "4e55902"
+hash = "36a484acf6a0a0219c543ccb4cee218f"
 
 [[plugin.deps]]
 use = "wylie102/duckdb"
@@ -30,8 +25,13 @@ hash = "87b9233a74325e95011670ed20bbd0d4"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "19dc890"
+rev = "4e55902"
 hash = "8a7c58225816a163a6e8730c0adafbc8"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-enter"
+rev = "4e55902"
+hash = "56fdabc96fc1f4d53c96eb884b02a5be"
 
 [flavor]
 deps = []

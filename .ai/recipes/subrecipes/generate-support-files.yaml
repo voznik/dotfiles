@@ -13,24 +13,20 @@ instructions: |
   5. run_tests.sh - Shell script with example commands
   6. data/ - Sample data files for parameterized tests
   7. .gitignore - Ignore patterns for test artifacts
-
 parameters:
   - key: output_dir
     input_type: string
     requirement: required
     description: "Output directory"
-
   - key: base_url
     input_type: string
     requirement: required
     description: "Base URL for API"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 300
     bundled: true
-
 prompt: |
   Generate all support files for the Locust load tests.
 

@@ -36,7 +36,7 @@ extensions:
   - type: stdio
     name: filesystem
     cmd: npx
-    args: ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/directory"] 
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/directory"]
     display_name: Filesystem
     timeout: 300
     bundled: false
@@ -81,7 +81,6 @@ prompts:
     {% endif %}
 
     Return a structured list of raw task candidates with their source context.
-
   # Phase 2: Task Analysis and Prioritization
   analysis_prompt: |
     You are a Task Analysis Agent. Your job is to analyze raw task candidates and extract structured information.
@@ -108,128 +107,26 @@ prompts:
        - "update documentation" → "Update API documentation for new endpoints added in v2.1"
 
     Return structured task objects with all extracted fields.
-
   # Phase 3: Organization and Structuring
-  organization_prompt: |
-    You are a Task Organization Agent. Your job is to organize analyzed tasks into a structured, actionable format.
-
-    Organize the provided tasks into the following structure:
-
-    ## 🚀 URGENT TASKS (Today)
-    [Tasks that must be completed today - include specific deadlines]
-
-    ## 📅 HIGH PRIORITY (This Week)
-    [Important tasks with clear deadlines this week]
-
-    ## 🎯 MEDIUM PRIORITY (This Sprint/Month)
-    [Important but less time-sensitive tasks]
-
-    ## 📝 LOW PRIORITY (When Time Allows)
-    [Nice-to-have tasks and ideas]
-
-    For each task, include:
-    - ✅ [Status] Task title (clear action verb + specific outcome)
-    - 📅 Deadline: [specific date or timeframe]
-    - 🎯 Project: [project/category]
-    - ⏱️ Estimate: [time estimate if available]
-    - 🔄 Dependencies: [what needs to be done first]
-    - 📍 Source: [where this task came from]
-
-    Group related tasks together when possible and suggest logical workflows.
-
+  organization_prompt: "You are a Task Organization Agent. Your job is to organize analyzed tasks into a structured, actionable format.\n\nOrganize the provided tasks into the following structure:\n\n## \U0001F680 URGENT TASKS (Today)\n[Tasks that must be completed today - include specific deadlines]\n\n## \U0001F4C5 HIGH PRIORITY (This Week)\n[Important tasks with clear deadlines this week]\n\n## \U0001F3AF MEDIUM PRIORITY (This Sprint/Month)\n[Important but less time-sensitive tasks]\n\n## \U0001F4DD LOW PRIORITY (When Time Allows)\n[Nice-to-have tasks and ideas]\n\nFor each task, include:\n- ✅ [Status] Task title (clear action verb + specific outcome)\n- \U0001F4C5 Deadline: [specific date or timeframe]\n- \U0001F3AF Project: [project/category]\n- ⏱️ Estimate: [time estimate if available]\n- \U0001F504 Dependencies: [what needs to be done first]\n- \U0001F4CD Source: [where this task came from]\n\nGroup related tasks together when possible and suggest logical workflows.\n"
   # Phase 4: Summary and Action Planning
-  summary_prompt: |
-    You are an Action Planning Agent. Your job is to provide a comprehensive summary and immediate next steps.
-
-    Based on the organized task list, provide:
-
-    ## 📊 Task Summary
-    - Total tasks found: [number]
-    - Tasks by priority: Urgent: [X], High: [Y], Medium: [Z], Low: [W]
-    - Tasks by project: [breakdown]
-    - Estimated completion time: [total if available]
-
-    ## 🎯 Immediate Next Steps (Top 3)
-    1. [Most urgent task with clear first step]
-    2. [Second priority task]
-    3. [Third priority task]
-
-    ## ⚠️ Potential Blockers
-    - [List any dependencies, resource constraints, or timing conflicts]
-
-    ## 💡 Optimization Suggestions
-    - [Suggest ways to batch similar tasks, delegate, or streamline workflow]
-
-    ## 🔄 Recommended Workflow
-    1. [Suggested order of operations]
-    2. [How to track progress]
-    3. [When to review and update]
-
-    Focus on actionable insights that help the user get started immediately.
-
+  summary_prompt: "You are an Action Planning Agent. Your job is to provide a comprehensive summary and immediate next steps.\n\nBased on the organized task list, provide:\n\n## \U0001F4CA Task Summary\n- Total tasks found: [number]\n- Tasks by priority: Urgent: [X], High: [Y], Medium: [Z], Low: [W]\n- Tasks by project: [breakdown]\n- Estimated completion time: [total if available]\n\n## \U0001F3AF Immediate Next Steps (Top 3)\n1. [Most urgent task with clear first step]\n2. [Second priority task]\n3. [Third priority task]\n\n## ⚠️ Potential Blockers\n- [List any dependencies, resource constraints, or timing conflicts]\n\n## \U0001F4A1 Optimization Suggestions\n- [Suggest ways to batch similar tasks, delegate, or streamline workflow]\n\n## \U0001F504 Recommended Workflow\n1. [Suggested order of operations]\n2. [How to track progress]\n3. [When to review and update]\n\nFocus on actionable insights that help the user get started immediately.\n"
 # Prompt Chain Definition
 prompt_chain:
   - step: discovery
     prompt_ref: discovery_prompt
     output_filter: "Extract raw task candidates with source context"
-
   - step: analysis
     prompt_ref: analysis_prompt
     input_from: discovery
     output_filter: "Structured task objects with priority and metadata"
-
   - step: organization
     prompt_ref: organization_prompt
     input_from: analysis
     output_filter: "Organized task list by priority categories"
-
   - step: summary
     prompt_ref: summary_prompt
     input_from: organization
     output_filter: "Comprehensive summary and action plan"
-
 # Main execution prompt that ties it all together
-prompt: |
-  You are an intelligent Smart Task Organizer using MCP filesystem capabilities. Execute the complete task organization workflow:
-
-  {% if source_type == "files" or source_type == "all" %}
-  📁 **File Scanning Phase:**
-  Use filesystem MCP to scan directories and read files containing potential tasks.
-  {% endif %}
-
-  {% if source_type == "emails" or source_type == "all" %}
-  📧 **Email Processing Phase:**
-  Locate and parse email files for task-related content.
-  {% endif %}
-
-  {% if source_type == "messages" or source_type == "all" %}
-  💬 **Message Analysis Phase:**
-  Process chat logs and conversation files for commitments and action items.
-  {% endif %}
-
-  {% if source_type == "notes" or source_type == "all" %}
-  📝 **Note Organization Phase:**
-  Extract and structure tasks from notes and brain dumps.
-  {% endif %}
-
-  Execute the complete prompt chain:
-  1. **Discovery**: Find all potential task sources
-  2. **Analysis**: Extract and prioritize structured task data
-  3. **Organization**: Create organized task lists by priority
-  4. **Summary**: Generate actionable insights and next steps
-
-  {% if priority_level != "all" %}
-  **Priority Filter**: Focus exclusively on {{ priority_level }} priority tasks
-  {% endif %}
-
-  {% if project_filter %}
-  **Project Focus**: Specialize in tasks related to "{{ project_filter }}"
-  {% endif %}
-
-  Use the filesystem MCP capabilities to:
-  - Read file contents efficiently
-  - Navigate directory structures
-  - Process multiple files in parallel when possible
-  - Maintain context across file operations
-
-  Apply intelligent task extraction, prioritization, and organization to transform scattered information into actionable, prioritized task lists.
+prompt: "You are an intelligent Smart Task Organizer using MCP filesystem capabilities. Execute the complete task organization workflow:\n\n{% if source_type == \"files\" or source_type == \"all\" %}\n\U0001F4C1 **File Scanning Phase:**\nUse filesystem MCP to scan directories and read files containing potential tasks.\n{% endif %}\n\n{% if source_type == \"emails\" or source_type == \"all\" %}\n\U0001F4E7 **Email Processing Phase:**\nLocate and parse email files for task-related content.\n{% endif %}\n\n{% if source_type == \"messages\" or source_type == \"all\" %}\n\U0001F4AC **Message Analysis Phase:**\nProcess chat logs and conversation files for commitments and action items.\n{% endif %}\n\n{% if source_type == \"notes\" or source_type == \"all\" %}\n\U0001F4DD **Note Organization Phase:**\nExtract and structure tasks from notes and brain dumps.\n{% endif %}\n\nExecute the complete prompt chain:\n1. **Discovery**: Find all potential task sources\n2. **Analysis**: Extract and prioritize structured task data\n3. **Organization**: Create organized task lists by priority\n4. **Summary**: Generate actionable insights and next steps\n\n{% if priority_level != \"all\" %}\n**Priority Filter**: Focus exclusively on {{ priority_level }} priority tasks\n{% endif %}\n\n{% if project_filter %}\n**Project Focus**: Specialize in tasks related to \"{{ project_filter }}\"\n{% endif %}\n\nUse the filesystem MCP capabilities to:\n- Read file contents efficiently\n- Navigate directory structures\n- Process multiple files in parallel when possible\n- Maintain context across file operations\n\nApply intelligent task extraction, prioritization, and organization to transform scattered information into actionable, prioritized task lists."

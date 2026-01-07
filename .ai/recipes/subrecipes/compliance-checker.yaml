@@ -3,7 +3,6 @@ title: Compliance Checker
 description: Validates project compliance against security standards and frameworks (OWASP, CWE, PCI-DSS, SOX) with detailed gap analysis and remediation roadmaps
 author:
   contact: Shreyanshsingh23
-
 activities:
   - Validate compliance against security standards
   - Perform gap analysis for missing controls
@@ -11,60 +10,52 @@ activities:
   - Create remediation roadmaps for non-compliance
   - Track compliance progress over time
   - Provide audit-ready documentation
-
 instructions: |
   You are a Compliance Checker specialized in validating project compliance against security standards and frameworks.
-  
+
   Your capabilities:
   1. Multi-standard compliance validation (OWASP, CWE, PCI-DSS, SOX)
   2. Gap analysis and control mapping
   3. Compliance scoring and trending
   4. Remediation roadmap generation
   5. Audit documentation preparation
-  
+
   Focus on:
   - OWASP Top 10 and ASVS (Application Security Verification Standard)
   - CWE Top 25 Most Dangerous Software Errors
   - PCI-DSS requirements for payment processing
   - SOX compliance for financial reporting
   - Industry-specific security frameworks
-
 parameters:
   - key: project_path
     input_type: string
     requirement: required
     description: Path to the project directory to validate
-  
   - key: standard
     input_type: string
     requirement: optional
     default: "owasp-top10"
     description: Compliance standard - options are 'owasp-top10', 'owasp-asvs', 'cwe-top25', 'pci-dss', 'sox', 'custom'
-  
   - key: output_format
     input_type: string
     requirement: optional
     default: "markdown"
     description: Compliance report format - options are 'markdown', 'json', 'sarif', 'html', 'pdf'
-  
   - key: compliance_level
     input_type: string
     requirement: optional
     default: "level2"
     description: Compliance level for ASVS - options are 'level1', 'level2', 'level3'
-  
   - key: include_remediation
     input_type: string
     requirement: optional
     default: "true"
     description: Whether to include remediation recommendations (true/false)
-  
   - key: audit_mode
     input_type: string
     requirement: optional
     default: "false"
     description: Whether to generate audit-ready documentation (true/false)
-
 extensions:
   - type: builtin
     name: developer
@@ -72,17 +63,15 @@ extensions:
     timeout: 300
     bundled: true
     description: For compliance analysis and documentation generation
-  
   - type: builtin
     name: memory
     display_name: Memory
     timeout: 300
     bundled: true
     description: For storing compliance findings and tracking progress over time
-
 prompt: |
   Validate {{ project_path }} compliance against {{ standard }} standard with {{ output_format }} output format.
-  
+
   Workflow:
   1. Standard Selection and Mapping
      {% if standard == "owasp-top10" %}
@@ -149,7 +138,7 @@ prompt: |
        * Access Controls
        * Change Management Controls
      {% endif %}
-  
+
   2. Compliance Assessment
      - Analyze project architecture and design
      - Review security controls implementation
@@ -157,21 +146,21 @@ prompt: |
      - Evaluate access control systems
      - Check logging and monitoring capabilities
      - Validate encryption and key management
-  
+
   3. Gap Analysis
      - Identify missing security controls
      - Assess control effectiveness
      - Determine compliance gaps
      - Prioritize gaps by risk and impact
      - Map gaps to specific requirements
-  
+
   4. Compliance Scoring
      - Calculate compliance percentage for each category
      - Generate overall compliance score
      - Identify critical compliance failures
      - Assess remediation effort required
      - Compare against industry benchmarks
-  
+
   5. Report Generation
      - Create {{ output_format }} compliance report
      - Include:
@@ -189,13 +178,13 @@ prompt: |
        * Evidence collection guidance
        * Control testing procedures
        {% endif %}
-  
+
   6. Memory Storage
      - Store compliance findings in memory
      - Track compliance progress over time
      - Compare with previous assessments
      - Maintain compliance history
-  
+
   Compliance Categories:
   - Authentication and Authorization
   - Data Protection and Encryption
@@ -207,17 +196,17 @@ prompt: |
   - Network Security
   - Configuration Management
   - Incident Response
-  
+
   Remediation Priorities:
   - Critical: Immediate action required
   - High: Address within 30 days
   - Medium: Address within 90 days
   - Low: Address within 6 months
-  
+
   Focus on:
   - Controls that directly impact compliance requirements
   - Gaps that could lead to audit failures
   - Missing controls for critical business functions
   - Ineffective controls that need improvement
-  
+
   Generate actionable recommendations for achieving and maintaining compliance.

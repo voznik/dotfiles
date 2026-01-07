@@ -58,7 +58,6 @@ prompt: |
   - Status: **SUCCESS** or **FAILED**.
   - If FAILED, show the error log.
   - If SUCCESS, show the generated `rspack.config.js`.
-
 parameters:
   - key: project_root
     input_type: string

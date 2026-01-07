@@ -160,8 +160,8 @@
     <Position Save="True">
       <Left>0</Left>
       <Top>27</Top>
-      <Width>960</Width>
-      <Height>1013</Height>
+      <Width>1920</Width>
+      <Height>1053</Height>
       <PixelsPerInch>96</PixelsPerInch>
       <Maximized>True</Maximized>
       <Splitter>50</Splitter>
@@ -938,4 +938,30 @@
     <PluginFilenameStyle>0</PluginFilenameStyle>
     <PluginPathToBeRelativeTo>%COMMANDER_PATH%</PluginPathToBeRelativeTo>
   </Plugins>
+  <MultiRenamePresets>
+    <LastPreset>{BC322BF1-2185-47F6-9F99-D27ED1E23E53}</LastPreset>
+    <Presets>
+      <Preset>
+        <Name>{BC322BF1-2185-47F6-9F99-D27ED1E23E53}</Name>
+        <Filename>feature-[N]</Filename>
+        <Extension>[E]</Extension>
+        <FilenameStyle>0</FilenameStyle>
+        <ExtensionStyle>0</ExtensionStyle>
+        <Find/>
+        <Replace>feature-</Replace>
+        <RegExp>False</RegExp>
+        <UseSubs>False</UseSubs>
+        <CaseSensitive>False</CaseSensitive>
+        <OnlyFirst>False</OnlyFirst>
+        <Counter>1</Counter>
+        <Interval>1</Interval>
+        <Width>0</Width>
+        <Log>
+          <Enabled>False</Enabled>
+          <Append>False</Append>
+          <File/>
+        </Log>
+      </Preset>
+    </Presets>
+  </MultiRenamePresets>
 </doublecmd>

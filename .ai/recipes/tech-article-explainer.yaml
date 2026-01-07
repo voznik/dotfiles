@@ -3,7 +3,6 @@ title: Technical Article Explainer
 description: Reads a technical article file, summarizes it, and explains key technical terms simply for {{ target_audience }}
 author:
   contact: the-matrixneo
-
 activities:
   - Read and analyze a technical article from the specified path
   - Summarize the article’s core idea in 2–3 sentences
@@ -11,18 +10,15 @@ activities:
   - Write beginner-friendly explanations for each concept, using analogies
   - Format the summary and explanations into markdown
   - Save the result to the specified output path
-
 parameters:
   - key: article_file_path
     input_type: string
     requirement: required
     description: Path to the technical article file to analyze
-
   - key: output_file_path
     input_type: string
     requirement: required
     description: Where to save the simplified explanation (.md)
-
   - key: target_audience
     input_type: select
     requirement: optional
@@ -33,7 +29,6 @@ parameters:
       - intermediate
       - expert
       - auto
-
 instructions: |
   1. Read {{ article_file_path }} and confirm the file exists.
   2. Summarize the main objective of the article in plain English.
@@ -49,7 +44,6 @@ instructions: |
      ...etc.
   6. Save this markdown content to {{ output_file_path }}.
   7. Report completion and the location of the saved file.
-
 extensions:
   - type: builtin
     name: developer
@@ -57,11 +51,4 @@ extensions:
     timeout: 300
     bundled: true
     description: Performs file operations, content parsing, and markdown formatting
-
-prompt: |
-  Create a simplified explanation of {{ article_file_path }} for {{ target_audience }}.
-  - Read and analyze the file.
-  - Summarize the article in plain English.
-  - Identify and explain up to 5 key technical concepts for beginners.
-  - Format and save your markdown output to {{ output_file_path }}.
-  - Confirm where the result is saved.    
+prompt: "Create a simplified explanation of {{ article_file_path }} for {{ target_audience }}.\n- Read and analyze the file.\n- Summarize the article in plain English.\n- Identify and explain up to 5 key technical concepts for beginners.\n- Format and save your markdown output to {{ output_file_path }}.\n- Confirm where the result is saved.    \n"

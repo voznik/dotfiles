@@ -62,3 +62,11 @@ desc = "Diff the selected with the hovered file"
 on   = "T"
 run  = "plugin toggle-pane max-preview"
 desc = "Maximize or restore the preview pane"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "z" ]
+run = 'shell -- zeditor "$@"'
+
+[[mgr.prepend_keymap]]
+on = [ "g", "Z" ]
+run = 'shell -- zeditor .'

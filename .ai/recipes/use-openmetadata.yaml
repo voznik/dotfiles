@@ -3,30 +3,30 @@ title: Use OpenMetadata
 description: Interact with OpenMetadata in Goose via OpenMetadata MCP Server to generate SQL or propagate classifications
 instructions: Utilize OpenMetadata tools to search for, retrieve, and modify metadata related to data assets such as tables, dashboards, and glossaries. Adhere to specified output formats like JSON for search queries and maintain structured responses using Markdown for human-readable information.
 extensions:
-- type: stdio
-  name: openmetadata
-  cmd: npx
-  args:
-  - -y
-  - mcp-remote
-  - http://localhost:8585/mcp
-  - --auth-server-url=http://localhost:8585/mcp
-  - --client-id=openmetadata
-  - --clean
-  - --header
-  - Authorization:${AUTH_HEADER}
-  envs: {}
-  env_keys:
-  - AUTH_HEADER
-  timeout: 300
-  description: ''
-  bundled: false
+  - type: stdio
+    name: openmetadata
+    cmd: npx
+    args:
+      - -y
+      - mcp-remote
+      - http://localhost:8585/mcp
+      - --auth-server-url=http://localhost:8585/mcp
+      - --client-id=openmetadata
+      - --clean
+      - --header
+      - Authorization:${AUTH_HEADER}
+    envs: {}
+    env_keys:
+      - AUTH_HEADER
+    timeout: 300
+    description: ''
+    bundled: false
 settings:
   temperature: 0.0
 activities:
-- Generate SQL Given FQN
-- List Tables Given FQN
-- Propagate changes in certification/owner/tags to tables given FQN
+  - Generate SQL Given FQN
+  - List Tables Given FQN
+  - Propagate changes in certification/owner/tags to tables given FQN
 parameters:
   - key: fqn
     input_type: string

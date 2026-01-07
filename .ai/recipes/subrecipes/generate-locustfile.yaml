@@ -16,34 +16,28 @@ instructions: |
 
   Support multiple user types/personas if the API has different access levels
   (e.g., AdminUser, RegularUser, GuestUser)
-
 parameters:
   - key: output_dir
     input_type: string
     requirement: required
     description: "Output directory"
-
   - key: base_url
     input_type: string
     requirement: required
     description: "Base URL for the API"
-
   - key: include_auth
     input_type: string
     requirement: required
     description: "Whether to include authentication"
-
   - key: test_complexity
     input_type: string
     requirement: required
     description: "Test complexity level"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 300
     bundled: true
-
 prompt: |
   Generate the main locustfile.py that orchestrates the load tests.
 

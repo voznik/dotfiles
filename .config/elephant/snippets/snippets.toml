@@ -1,0 +1,12 @@
+global_search = true
+
+# [[entries]]
+# text = "Color Picker"
+# keywords = ["color", "picker", "hypr"]
+# actions = { "cp_use" = "wl-copy $(hyprpicker)" }
+# icon = "color-picker"
+
+[[snippets]]
+keywords = ["search", "this"]
+name = "example snippet"
+content = "this will be pasted"

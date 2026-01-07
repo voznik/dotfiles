@@ -1,163 +1,36 @@
 version: 1.0.0
 title: Chart Generator
 description: Creates professional, publication-ready visualizations and interactive charts from data analysis results
-
-instructions: |
-  You are a data visualization expert. Create clear, informative, and aesthetically pleasing 
-  visualizations that effectively communicate data insights.
-  
-  Use best practices in data visualization and choose appropriate chart types for different data patterns.
-
+instructions: "You are a data visualization expert. Create clear, informative, and aesthetically pleasing \nvisualizations that effectively communicate data insights.\n\nUse best practices in data visualization and choose appropriate chart types for different data patterns.\n"
 parameters:
   - key: data_file
     input_type: string
     requirement: required
     description: Path to the data file to visualize
-  
   - key: chart_style
     input_type: string
     requirement: optional
     default: "modern"
     description: Visual style - options are 'modern', 'classic', 'minimal', 'publication'
-  
   - key: color_scheme
     input_type: string
     requirement: optional
     default: "viridis"
     description: Color palette - options are 'viridis', 'plasma', 'blues', 'greens', 'categorical'
-  
   - key: output_format
     input_type: string
     requirement: optional
     default: "png"
     description: Image format - options are 'png', 'svg', 'pdf', 'html'
-  
   - key: interactive
     input_type: string
     requirement: optional
     default: "false"
     description: Generate interactive visualizations using Plotly (true/false)
-
 extensions:
   - type: builtin
     name: developer
     timeout: 600
     bundled: true
     description: For creating and saving visualizations
-
-prompt: |
-  Create simple, clear visualizations for {{ data_file }}.
-  Style: {{ chart_style }}, Colors: {{ color_scheme }}
-  
-  Important: Handle file paths correctly for all operating systems.
-  Use os.path.join() or pathlib for directory creation.
-  Detect OS for proper path separators.
-  
-  Quick viz workflow:
-  1. Load data with pandas
-  2. Create visualizations directory if not exists
-  3. Create 2-3 essential charts:
-     - Histogram for numerical columns
-     - Bar chart for categorical columns
-     - Correlation heatmap if multiple numeric columns
-  4. Save as PNG to ./visualizations/ with OS-compatible paths
-  
-  Error handling:
-  - Create output directory if missing
-  - Handle matplotlib backend issues
-  - Skip charts if data insufficient
-  - Report any visualization errors
-  
-  Use matplotlib or seaborn. Keep it simple and fast.
-  
-  3. Visualization Standards
-     Apply these best practices:
-     - Clear, descriptive titles
-     - Labeled axes with units
-     - Legends when multiple series
-     - Grid lines for readability (subtle)
-     - Appropriate aspect ratios
-     - Consistent color usage
-     - Annotations for key insights
-  
-  4. Style Application
-     {% if chart_style == "modern" %}
-     - Clean, minimalist design
-     - Sans-serif fonts
-     - Subtle grid lines
-     - High contrast colors
-     - White/light backgrounds
-     {% elif chart_style == "classic" %}
-     - Traditional academic style
-     - Serif fonts
-     - Visible grid lines
-     - Conservative colors
-     - Formal layout
-     {% elif chart_style == "minimal" %}
-     - Absolute minimum decoration
-     - No grid lines
-     - Simple colors
-     - Maximum data-ink ratio
-     {% elif chart_style == "publication" %}
-     - Journal-ready formatting
-     - High DPI
-     - Grayscale-safe colors
-     - Clear for print
-     {% endif %}
-  
-  5. Interactive Features (if enabled)
-     {% if interactive == "true" %}
-     Create interactive HTML visualizations with:
-     - Hover tooltips showing exact values
-     - Zoom and pan capabilities
-     - Toggle legend items
-     - Download buttons
-     - Responsive layout
-     Use Plotly or Bokeh for interactivity.
-     {% endif %}
-  
-  6. Chart Gallery Generation
-     Create the following visualization set:
-     
-     A. Distribution Analysis (for each numerical column)
-        - Histogram with KDE overlay
-        - Box plot
-        - Q-Q plot for normality
-     
-     B. Relationship Analysis
-        - Correlation heatmap (if multiple numerical columns)
-        - Scatter plots for top correlated pairs
-        - Pair plot matrix
-     
-     C. Category Analysis (if categorical data exists)
-        - Bar charts for categorical frequencies
-        - Grouped bar charts for relationships
-        - Proportional visualizations
-     
-     D. Time Series (if temporal data exists)
-        - Line plots with trend lines
-        - Seasonal decomposition
-        - Moving averages
-     
-     E. Overview Dashboard
-        - Combined multi-panel figure
-        - Key metrics summary
-        - Highlight important patterns
-  
-  7. Save Visualizations
-     - Save each chart with descriptive filename
-     - Use {{ output_format }} format
-     - Organize in subdirectories by type
-     - Create index.html gallery if interactive
-     - Generate thumbnail versions
-  
-  8. Visualization Report
-     Create a summary document with:
-     - List of all generated visualizations
-     - Description of each chart
-     - Key insights visible in each viz
-     - Recommendations for interpretation
-     - Technical notes (libraries, settings used)
-  
-  Focus on clarity and insight communication over decorative elements.
-  Ensure all visualizations are self-explanatory and publication-ready.
+prompt: "Create simple, clear visualizations for {{ data_file }}.\nStyle: {{ chart_style }}, Colors: {{ color_scheme }}\n\nImportant: Handle file paths correctly for all operating systems.\nUse os.path.join() or pathlib for directory creation.\nDetect OS for proper path separators.\n\nQuick viz workflow:\n1. Load data with pandas\n2. Create visualizations directory if not exists\n3. Create 2-3 essential charts:\n   - Histogram for numerical columns\n   - Bar chart for categorical columns\n   - Correlation heatmap if multiple numeric columns\n4. Save as PNG to ./visualizations/ with OS-compatible paths\n\nError handling:\n- Create output directory if missing\n- Handle matplotlib backend issues\n- Skip charts if data insufficient\n- Report any visualization errors\n\nUse matplotlib or seaborn. Keep it simple and fast.\n\n3. Visualization Standards\n   Apply these best practices:\n   - Clear, descriptive titles\n   - Labeled axes with units\n   - Legends when multiple series\n   - Grid lines for readability (subtle)\n   - Appropriate aspect ratios\n   - Consistent color usage\n   - Annotations for key insights\n\n4. Style Application\n   {% if chart_style == \"modern\" %}\n   - Clean, minimalist design\n   - Sans-serif fonts\n   - Subtle grid lines\n   - High contrast colors\n   - White/light backgrounds\n   {% elif chart_style == \"classic\" %}\n   - Traditional academic style\n   - Serif fonts\n   - Visible grid lines\n   - Conservative colors\n   - Formal layout\n   {% elif chart_style == \"minimal\" %}\n   - Absolute minimum decoration\n   - No grid lines\n   - Simple colors\n   - Maximum data-ink ratio\n   {% elif chart_style == \"publication\" %}\n   - Journal-ready formatting\n   - High DPI\n   - Grayscale-safe colors\n   - Clear for print\n   {% endif %}\n\n5. Interactive Features (if enabled)\n   {% if interactive == \"true\" %}\n   Create interactive HTML visualizations with:\n   - Hover tooltips showing exact values\n   - Zoom and pan capabilities\n   - Toggle legend items\n   - Download buttons\n   - Responsive layout\n   Use Plotly or Bokeh for interactivity.\n   {% endif %}\n\n6. Chart Gallery Generation\n   Create the following visualization set:\n   \n   A. Distribution Analysis (for each numerical column)\n      - Histogram with KDE overlay\n      - Box plot\n      - Q-Q plot for normality\n   \n   B. Relationship Analysis\n      - Correlation heatmap (if multiple numerical columns)\n      - Scatter plots for top correlated pairs\n      - Pair plot matrix\n   \n   C. Category Analysis (if categorical data exists)\n      - Bar charts for categorical frequencies\n      - Grouped bar charts for relationships\n      - Proportional visualizations\n   \n   D. Time Series (if temporal data exists)\n      - Line plots with trend lines\n      - Seasonal decomposition\n      - Moving averages\n   \n   E. Overview Dashboard\n      - Combined multi-panel figure\n      - Key metrics summary\n      - Highlight important patterns\n\n7. Save Visualizations\n   - Save each chart with descriptive filename\n   - Use {{ output_format }} format\n   - Organize in subdirectories by type\n   - Create index.html gallery if interactive\n   - Generate thumbnail versions\n\n8. Visualization Report\n   Create a summary document with:\n   - List of all generated visualizations\n   - Description of each chart\n   - Key insights visible in each viz\n   - Recommendations for interpretation\n   - Technical notes (libraries, settings used)\n\nFocus on clarity and insight communication over decorative elements.\nEnsure all visualizations are self-explanatory and publication-ready."

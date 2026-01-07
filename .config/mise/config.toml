@@ -7,38 +7,43 @@ MISE_NODE_GPG_VERIFY = "false"
 rust = "core:rust"                    # Use core backend
 
 [tools]
+# mise registry
+ripgrep = "latest"
+gum = "latest"
+yq = "latest"
+atuin = "latest"
+duckdb = "latest"
+gh = "latest"
+glab = "latest" 
+# npm registry
 node = "24"
-rust = "latest"
-uv = "latest"
+"npm:@fission-ai/openspec" = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:@karakeep/cli" = "latest"
-# "http:ugrep" = { version = "7.5.0", name = "ugrep", url = "https://github.com/Genivia/ugrep/archive/refs/tags/v{version}.tar.gz", bin_path = "ugrep-{version}/bin", bin = "ug" }
-"http:duckdb" = { version = "1.4.2", name = "duckdb", url = "https://install.duckdb.org/v{version}/duckdb_cli-linux-amd64.zip" }
+# MCPs
+"npm:@upstash/context7-mcp" = "latest"
+#
+# pip registry
 python= "3.14"
-### -- UV TOOLS:
+uv = "latest"
+poetry = "latest"
+cookiecutter = "latest"
+ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
-"pipx:cookiecutter" = "latest"
-"pipx:ruff" = "latest"
 "pipx:git+https://github.com/github/spec-kit.git" = "latest"
-###
-"gitlab:gitlab-org/cli" = "latest"
-"github:cli/cli" = "latest"
+# git registry
 "github:block/goose" = "latest"
 "github:dhth/bmm" = "0.3.0"
-# "github:ddworken/hishtory" = "latest"
-"github:atuinsh/atuin" = "latest"
+# 
+rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
 
-# https://github.com/jdx/mise/blob/60acae24ee84ec172013d288a49946a94073a2fa/settings.toml#L796
-# [node.gpg_verify]
-# env = "MISE_NODE_GPG_VERIFY"
-# optional = false
-# type = "Bool"
-
+#
 [settings]
 experimental = true
 status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }

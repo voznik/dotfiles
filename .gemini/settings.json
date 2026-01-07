@@ -2,11 +2,15 @@
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
-    }
+    },
+    "disableYoloMode": true
   },
   "general": {
     "disableAutoUpdate": true,
-    "previewFeatures": true
+    "previewFeatures": true,
+    "model": "gemini-3-pro-preview",
+    "preferredEditor": "zed",
+    "contextFileName": "AGENTS.md"
   },
   "ui": {
     "showStatusInTitle": true,
@@ -14,14 +18,52 @@
       "hideContextPercentage": false
     },
     "showMemoryUsage": true,
-    "showLineNumbers": true
+    "showLineNumbers": true,
+    "showModelInfoInChat": true,
+    "accessibility": {
+      "disableLoadingPhrases": true
+    }
   },
   "telemetry": {
-  	"enabled": false
+    "enabled": false
   },
   "tools": {
     "shell": {
       "showColor": true
+    }
+  },
+  "context": {
+    "discoveryMaxDirs": 10
+  },
+  "model": {
+    "compressionThreshold": 0.2
+  },
+  "modelConfigs": {
+    "customAliases": {
+      "gemini-pro-strict": {
+        "extends": "gemini-2.5-pro",
+        "modelConfig": {
+          "generateContentConfig": {
+            "temperature": 0.1,
+            "topP": 0.8
+          }
+        }
+      },
+      "gemini-flash-strict": {
+        "extends": "gemini-3-flash-preview",
+        "modelConfig": {
+          "generateContentConfig": {
+            "temperature": 0.1,
+            "topP": 0.8
+          }
+        }
+      }
+    }
+  },
+  "mcpServers": {
+    "context7": {
+      "type": "local",
+      "command": ["context7-mcp"]
     }
   }
 }

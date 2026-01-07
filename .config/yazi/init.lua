@@ -1,3 +1,5 @@
+require("folder-rules"):setup()
+
 -- DuckDB plugin configuration -- https://github.com/wylie102/duckdb.yazi/tree/main#configurationcustomisation
 require("duckdb"):setup({
 	mode = "summarized", -- "standart"|"summarized"
@@ -24,14 +26,14 @@ function Linemode:size_and_mtime()
 	return string.format("%s %s", size and ya.readable_size(size) or "-", time)
 end
 
-Status:children_add(function(self)
-	local h = self._current.hovered
-	if h and h.link_to then
-		return ui.span(" -> " .. tostring(h.link_to)):fg("green")
-	else
-		return ""
-	end
-end, 3300, Status.LEFT)
+-- Status:children_add(function(self)
+-- 	local h = self._current.hovered
+-- 	if h and h.link_to then
+-- 		return ui.span(" -> " .. tostring(h.link_to)):fg("green")
+-- 	else
+-- 		return ""
+-- 	end
+-- end, 3300, Status.LEFT)
 
 Status:children_add(function()
 	local h = cx.active.current.hovered

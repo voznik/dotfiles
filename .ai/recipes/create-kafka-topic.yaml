@@ -37,11 +37,8 @@ extensions:
     display_name: Developer
     timeout: 300
     bundled: true
-instructions: |
-  You are a Kafka topic creation assistant. Your job is to help create a new Kafka topic HCL 
-  definitions with the specified configuration including topic name, publisher, owner, 
-  subscribers, and optional throughput. Follow the existing folder structure and conventions.
-prompt: |
+instructions: "You are a Kafka topic creation assistant. Your job is to help create a new Kafka topic HCL \ndefinitions with the specified configuration including topic name, publisher, owner, \nsubscribers, and optional throughput. Follow the existing folder structure and conventions.\n"
+prompt: |-
   1. Create a {{ topic_name }} directory for a Kafka topic based on the following parameters:
     - Topic name: {{ topic_name }}
     - Owner: {{ owner }}

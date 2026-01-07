@@ -20,30 +20,25 @@ instructions: |
   4. Endpoint groups with their operations
   5. Common schemas and data models
   6. Recommended test scenarios based on endpoint relationships
-
 parameters:
   - key: output_dir
     input_type: string
     requirement: required
     description: "Output directory"
-
   - key: openapi_spec_path
     input_type: string
     requirement: required
     description: "Path to the OpenAPI specification file"
-
   - key: analysis_depth
     input_type: string
     requirement: optional
     default: "standard"
     description: "Depth of analysis: basic, standard, or comprehensive"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 300
     bundled: true
-
 prompt: |
   Analyze the OpenAPI specification at {{ openapi_spec_path }}.
   Perform a {{ analysis_depth }} analysis.

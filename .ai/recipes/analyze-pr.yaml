@@ -32,19 +32,4 @@ extensions:
     timeout: 300
     bundled: true
     description: For storing and retrieving formating preferences that might be present
-prompt: "Analyze the pr with the name {{ pr }}. Find out what has changed, try to\
-  \ figure out why these\nchanges were made and tell the user in detail what you found\
-  \ out.\n{% if repo %}\nWe are working with the {{ repo }} repository, so make sure\
-  \ to add that to all commands.\n{% endif %}\n\nSteps:\n1. Find the actual pull request.\
-  \ {{ pr }} is the name or part of it. You can just run\n   `gh pr list`\n   and\
-  \ see which prs are open. Note which one the user is talking about\n2. Look at what\
-  \ is changed. You can run:\n   `gh pr view <pr-number> --comments --commits --files`\n\
-  \   to get an overview.\n3. Optionally: if this looks complicated you could check\
-  \ out the relevant commit and have\n   a look at the files involved to get more\
-  \ context. If you do this, mark which branch you\n   were on. If there are pending\
-  \ changes, do a git stash\n4. Gather your thoughts and tell the user what changed,\
-  \ which changes look like they might\n   be worth an extra look and give them an\
-  \ idea of maybe why these changes were needed\n5. Clean up after yourself. If you\
-  \ cloned a repository or checked out a commit, make sure\n   you return the state\
-  \ to what it was before. So if in step 3 you changed branch, change\n   it back.\
-  \ If you had git stashed something, stash pop it again.\n"
+prompt: "Analyze the pr with the name {{ pr }}. Find out what has changed, try to figure out why these\nchanges were made and tell the user in detail what you found out.\n{% if repo %}\nWe are working with the {{ repo }} repository, so make sure to add that to all commands.\n{% endif %}\n\nSteps:\n1. Find the actual pull request. {{ pr }} is the name or part of it. You can just run\n   `gh pr list`\n   and see which prs are open. Note which one the user is talking about\n2. Look at what is changed. You can run:\n   `gh pr view <pr-number> --comments --commits --files`\n   to get an overview.\n3. Optionally: if this looks complicated you could check out the relevant commit and have\n   a look at the files involved to get more context. If you do this, mark which branch you\n   were on. If there are pending changes, do a git stash\n4. Gather your thoughts and tell the user what changed, which changes look like they might\n   be worth an extra look and give them an idea of maybe why these changes were needed\n5. Clean up after yourself. If you cloned a repository or checked out a commit, make sure\n   you return the state to what it was before. So if in step 3 you changed branch, change\n   it back. If you had git stashed something, stash pop it again.\n"

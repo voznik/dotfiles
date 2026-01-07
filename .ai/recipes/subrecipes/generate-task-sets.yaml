@@ -20,30 +20,25 @@ instructions: |
   - Store shared data in self attributes
   - Use context managers for setup/teardown if needed
   - Add descriptive names for better reporting
-
 parameters:
   - key: output_dir
     input_type: string
     requirement: required
     description: "Directory for output files"
-
   - key: test_complexity
     input_type: string
     requirement: optional
     default: "standard"
     description: "Complexity level for tests"
-
   - key: include_auth
     input_type: string
     requirement: required
     description: "Whether to include auth handling"
-
 extensions:
   - type: builtin
     name: developer
     timeout: 600
     bundled: true
-
 prompt: |
   Generate Locust TaskSet classes based on the API analysis.
 

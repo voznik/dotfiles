@@ -1,6 +1,6 @@
 ignored_providers = ["files", "nirisessions", "runner"]
 
-bookmarks.location = "/home/voznik/.local/share/buku/bookmarks.csv"
+bookmarks.location = "/home/voznik/Bookmarks/buku/bookmarks.csv"
 
 [[bookmarks.categories]]
 name = "work"

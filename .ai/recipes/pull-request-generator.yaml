@@ -3,6 +3,7 @@ title: PR Generator
 description: Automatically generate pull request descriptions based on changes in a local git repo.
 instructions: >
   Your job is to generate descriptive and helpful pull request descriptions without asking for additional information. Generate commit messages and branch names based on the actual code changes.
+
 author:
   contact: lifeizhou-ap
 extensions:

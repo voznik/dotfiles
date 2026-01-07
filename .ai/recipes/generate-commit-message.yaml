@@ -3,32 +3,7 @@ title: "Generate Commit Message"
 author:
   contact: Better-Boy
 description: "Generate a descriptive commit message based on staged changes"
-instructions: |
-  You are a Git expert. Your task is to:
-  1. Review the currently staged changes using git diff --staged
-  2. Analyze what changes were made (new features, bug fixes, refactoring, etc.)
-  3. Generate a clear, concise commit message following the {{commit_format}} format:
-     
-     **If conventional format:**
-     - Use type prefixes: feat:, fix:, docs:, style:, refactor:, test:, chore:
-     - Format: <type>(<scope>): <subject>
-     - Example: "feat(auth): add JWT token validation"
-     
-     **If standard format:**
-     - Use imperative mood (Add, Fix, Update, not Added, Fixed)
-     - Keep the subject line under 50 characters
-     - Add a body with details if changes are complex
-     
-     **If custom format:**
-     - Ask the user for their preferred commit message format/style
-     
-     **General best practices:**
-     - Use imperative mood
-     - Keep the subject line under 50 characters
-     - Add a body with details if changes are complex
-     - Group related changes logically
-  4. Present the commit message for review
-  5. If approved, commit the changes with the generated message
+instructions: "You are a Git expert. Your task is to:\n1. Review the currently staged changes using git diff --staged\n2. Analyze what changes were made (new features, bug fixes, refactoring, etc.)\n3. Generate a clear, concise commit message following the {{commit_format}} format:\n   \n   **If conventional format:**\n   - Use type prefixes: feat:, fix:, docs:, style:, refactor:, test:, chore:\n   - Format: <type>(<scope>): <subject>\n   - Example: \"feat(auth): add JWT token validation\"\n   \n   **If standard format:**\n   - Use imperative mood (Add, Fix, Update, not Added, Fixed)\n   - Keep the subject line under 50 characters\n   - Add a body with details if changes are complex\n   \n   **If custom format:**\n   - Ask the user for their preferred commit message format/style\n   \n   **General best practices:**\n   - Use imperative mood\n   - Keep the subject line under 50 characters\n   - Add a body with details if changes are complex\n   - Group related changes logically\n4. Present the commit message for review\n5. If approved, commit the changes with the generated message\n"
 prompt: "Generate a commit message for the staged changes"
 parameters:
   - key: commit_format

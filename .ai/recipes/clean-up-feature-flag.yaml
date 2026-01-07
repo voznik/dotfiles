@@ -3,6 +3,7 @@ title: Clean Up Feature Flag
 description: Automatically clean up all references of a fully rolled out feature flag from a codebase and make the new behavior the default.
 instructions: >
   Your job is to systematically remove a fully rolled out feature flag and ensure the new behavior is now the default. Use code search tools like ripgrep to identify all references to the flag, clean up definition files, usage sites, tests, and configuration files. Then create a commit and push changes with clear commit messages documenting the flag removal.
+
 author:
   contact: amitdev
 extensions:

@@ -1,7 +1,7 @@
 version: 1.0.0
 title: Messy Column Fixer
 author:
-  contact: the-matrixneo 
+  contact: the-matrixneo
 description: "Fixes messy columns: normalizes and cleans CSV data."
 instructions: |
   1. Provide the path to your CSV file.

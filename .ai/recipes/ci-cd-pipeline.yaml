@@ -3,14 +3,12 @@ title: CI-CD Pipeline Generator
 description: Generates a CI-CD pipeline configuration (GitHub Actions, GitLab CI) based on project language and framework.
 author:
   contact: the-matrixneo
-
 activities:
   - Detect project type
   - Generate pipeline YAML
   - Create build, test, deploy stages
   - Add caching and matrix testing
   - Specify required secrets setup
-
 instructions: |
   You are a DevOps Automation Specialist, that generates robust and efficient CI/CD pipeline files.
   Your goal is to analyze a project and produce a ready-to-use configuration file tailored to the user's specifications.
@@ -21,68 +19,33 @@ instructions: |
   - Implement optimizations like dependency caching.
   - Provide clear instructions for setting up required secrets.
   IMPORTANT: Always start by checking memory for any saved user preferences, to ensure a consistent workflow.
-  
-prompt: |
-  Generate a CI/CD pipeline configuration:
-  - Platform: {{ platform }}
-  - Project Type: {{ project_type }}
-  - Deployment Target: {{ deployment_target }}
-  {% if branch_name %}
-  - Main Branch: {{ branch_name }}
-  {% endif %}
-  {% if project_context %}
-  - Project Context: {{ project_context }}
-  {% endif %}
-  Steps:
-  1. Memory & Context: Load preferences (cloud provider, Docker registry, secrets).
-  2. Project Analysis: If "auto," scan for key files; derive build/test commands.
-  3. Pipeline Logic:
-     - Setup: Checkout repo, set up language, cache dependencies.
-     - Build: Install dependencies, then run build script only if defined in the project (use shell conditional logic to check for a 'build' script).
-     - Test: Run tests, optionally lint/code quality.
-     - Deploy (conditional):
-        {% if deployment_target == "docker" %}
-        - Build & push Docker image (use DOCKER_USERNAME, DOCKER_PASSWORD).
-        {% elif deployment_target == "serverless" %}
-        - Serverless deploy (use AWS_ACCESS_KEY_ID).
-        {% endif %}
-     - Matrix: Include matrix testing when applicable.
-     - Validate: Ensure generated YAML is valid.
-  4. Save & Summarize:
-     - Save: `.github/workflows/main.yml` (GitHub), `.gitlab-ci.yml` (GitLab).
-     - Output config and list required secrets.
-     
+prompt: "Generate a CI/CD pipeline configuration:\n- Platform: {{ platform }}\n- Project Type: {{ project_type }}\n- Deployment Target: {{ deployment_target }}\n{% if branch_name %}\n- Main Branch: {{ branch_name }}\n{% endif %}\n{% if project_context %}\n- Project Context: {{ project_context }}\n{% endif %}\nSteps:\n1. Memory & Context: Load preferences (cloud provider, Docker registry, secrets).\n2. Project Analysis: If \"auto,\" scan for key files; derive build/test commands.\n3. Pipeline Logic:\n   - Setup: Checkout repo, set up language, cache dependencies.\n   - Build: Install dependencies, then run build script only if defined in the project (use shell conditional logic to check for a 'build' script).\n   - Test: Run tests, optionally lint/code quality.\n   - Deploy (conditional):\n      {% if deployment_target == \"docker\" %}\n      - Build & push Docker image (use DOCKER_USERNAME, DOCKER_PASSWORD).\n      {% elif deployment_target == \"serverless\" %}\n      - Serverless deploy (use AWS_ACCESS_KEY_ID).\n      {% endif %}\n   - Matrix: Include matrix testing when applicable.\n   - Validate: Ensure generated YAML is valid.\n4. Save & Summarize:\n   - Save: `.github/workflows/main.yml` (GitHub), `.gitlab-ci.yml` (GitLab).\n   - Output config and list required secrets.\n   \n"
 parameters:
   - key: platform
     input_type: string
     requirement: required
     description: "CI/CD platform: 'github_actions', 'gitlab_ci'."
     default: "github_actions"
-
   - key: project_type
     input_type: string
     requirement: optional
     description: "Project type: 'nodejs', 'python', 'go', 'auto'."
     default: "auto"
-
   - key: deployment_target
     input_type: string
     requirement: optional
     description: "Deployment: 'none', 'docker', 'serverless'."
     default: "none"
-
   - key: branch_name
     input_type: string
     requirement: optional
     description: "Main branch for pipeline trigger."
     default: "main"
-
   - key: project_context
     input_type: string
     requirement: optional
     description: "Additional context, versions or build flags."
     default: ""
-
 extensions:
   - type: builtin
     name: developer
@@ -90,7 +53,6 @@ extensions:
     timeout: 300
     bundled: true
     description: For file system scanning, project detection, YAML saving.
-
   - type: builtin
     name: memory
     display_name: Memory

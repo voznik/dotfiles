@@ -9,26 +9,22 @@ instructions: |
   3. The recipe will scan the directory and merge all found CSV files.
   4. It will check for header consistency across the files.
   5. Your new, combined file will be saved in the same directory.
-
 activities:
   - Validate the input directory path.
   - Scan for and identify all CSV files within the directory.
   - Check for header consistency across all files.
   - Merge the data from all identified files.
   - Generate the final, single CSV file.
-
 parameters:
   - key: directory_path
     input_type: string
     requirement: required
     description: "Path to the folder containing the CSV files you want to merge."
-
   - key: output_filename
     input_type: string
     requirement: required
     description: "Name for the final merged CSV file."
     default: "merged_output.csv"
-
   - key: header_check
     input_type: string
     requirement: optional
@@ -37,7 +33,6 @@ parameters:
     choices:
       - "strict"
       - "flexible"
-
 extensions:
   - type: builtin
     name: developer
@@ -45,7 +40,6 @@ extensions:
     timeout: 300
     bundled: true
     description: "Orchestrates the merging logic and performs the in-memory data processing to combine the CSVs."
-
   - type: stdio
     name: filesystem
     cmd: npx
