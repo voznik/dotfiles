@@ -84,4 +84,17 @@ extensions:
     timeout: 250
     bundled: null
     available_tools: []
+  basic_memomry:
+    enabled: true
+    type: stdio
+    name: basic_memory
+    description: s
+    cmd: basic-memory
+    args:
+    - mcp
+    envs: {}
+    env_keys: []
+    timeout: 250
+    bundled: null
+    available_tools: []
 CLAUDE_CODE_COMMAND: claude

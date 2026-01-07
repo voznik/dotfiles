@@ -1,3 +1,9 @@
 *.bak
 _elephant_src
 _walker_src
+.cursor
+.claude
+.opencode
+.gemini
+.geminiignore
+.cursorignore

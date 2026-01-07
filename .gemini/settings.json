@@ -62,8 +62,11 @@
   },
   "mcpServers": {
     "context7": {
-      "type": "local",
-      "command": ["context7-mcp"]
+      "command": "context7-mcp"
+    },
+    "basic-memory": {
+      "command": "basic-memory",
+      "args": ["mcp"]
     }
   }
 }

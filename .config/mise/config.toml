@@ -22,6 +22,7 @@ node = "24"
 "npm:@google/gemini-cli" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
+"npm:rulesync" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:@karakeep/cli" = "latest"
 # MCPs
@@ -35,13 +36,17 @@ cookiecutter = "latest"
 ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
+"pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.12" } # IMPORTANT:
 "pipx:git+https://github.com/github/spec-kit.git" = "latest"
+"pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
 # git registry
 "github:block/goose" = "latest"
 "github:dhth/bmm" = "0.3.0"
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
+lua-language-server = "latest"
+stylua = "latest"
 
 #
 [settings]
