@@ -9,7 +9,7 @@ dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
 local function get_models_from_provider(provider_name)
     local models_file = os.getenv("HOME") .. "/.ai/goose_known_models.txt"
-    local content = read_file(models_file)
+    local content = ReadFile(models_file)
 
     if not content then
         -- Fallback defaults if file missing

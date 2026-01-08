@@ -1,4 +1,7 @@
 {
+  "experimental": {
+    "skills": true
+  },
   "security": {
     "auth": {
       "selectedType": "oauth-personal"

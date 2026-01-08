@@ -7,3 +7,5 @@ _walker_src
 .gemini
 .geminiignore
 .cursorignore
+.chats
+.tmp

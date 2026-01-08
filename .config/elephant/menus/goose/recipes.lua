@@ -10,60 +10,55 @@ dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 function GetEntries()
     local entries = {}
 
-    local recipe_path_env = os.getenv("GOOSE_RECIPE_PATH") or os.getenv("HOME") .. "/.ai/recipes"
-    local elephant_path = os.getenv("HOME") .. "/.config/elephant"
-
-    if recipe_path_env and recipe_path_env ~= "" then
-        local home_path = os.getenv("HOME")
-        if home_path then
-            recipe_path_env = recipe_path_env:gsub("$HOME", home_path, 1)
-        end
+    -- Always use 'goose recipe list --format json' via global constant
+    -- This is fast and provides all necessary metadata (path, title, description)
+    local handle = io.popen(PrepareShellCommand(GOOSE_CMDS.RECIPE_LIST_JSON))
+    if not handle then
+        os.execute("notify-send 'Goose' 'Something happened'")
+        return entries
     end
 
-    if recipe_path_env and recipe_path_env ~= "" then
-        local find_cmd = "find " .. recipe_path_env .. " " .. elephant_path .. " -name '*.yaml'"
-        local p = ReadShellCommand(find_cmd)
+    local list_json = handle:read("*a")
+    handle:close()
 
-        if p then
-            for path in p:lines() do
-                local rel_path = path:gsub(recipe_path_env .. "/", "", 1)
-                local name = string.sub(rel_path, 1, -6)
-
-                local entry = {
-                    Text = name,
-                    Subtext = path,
-                    Value = path,
-                    Preview = path,
-                    PreviewType = "file",
-                    Actions = { default = "lua:RunRecipe" }
-                }
-                table.insert(entries, entry)
-            end
-            p:close()
-        end
+    if not list_json or list_json == "" then
+        os.execute("notify-send 'Goose' 'Empty Response'")
+        return entries
     end
+
+    local list_data = jsonDecode(list_json)
+    if not list_data or type(list_data) ~= "table" then
+        os.execute("notify-send 'Goose' 'Something happened'")
+        return entries
+    end
+
+    for _, item in ipairs(list_data) do
+        local path = item.path
+        local name = item.name
+        local desc = item.description
+
+        -- Construct lightweight recipe object
+        -- parameters are set to nil and will be lazy-loaded by the child menu
+        local recipe = {
+            path = path,
+            content = {
+                title = item.title or name,
+                description = desc,
+                parameters = nil
+            }
+        }
+
+        table.insert(entries, {
+            Text = item.title or name,
+            Subtext = desc,
+            Value = jsonEncode(recipe),
+            SubMenu = "goose_recipe_params",
+            Preview = path,
+            PreviewType = "file"
+        })
+    end
+
+    -- if #entries == 0 then return {{ Text = "No recipes found", Subtext = "Checked via goose list", Icon = "warning" }} end
 
     return entries
-end
-
-function EditRecipe(path)
-    local editor = os.getenv("EDITOR")
-    if not editor or editor == "" then
-        editor = "xdg-open"
-    end
-    RunInTerminal(editor .. " '" .. path .. "'")
-end
-
-function GetRecipeName(path)
-    return path:match("([^/]+)%.yaml$")
-end
-
-function RunRecipe(path)
-    -- Update global state with the selected recipe
-    STATE.update({
-        current_recipe = path,
-        recipe_params = {}
-    })
-
-    OpenWalkerMenu("goose_recipe_params")
 end

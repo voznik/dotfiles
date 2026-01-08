@@ -11,7 +11,10 @@ function GetEntries()
     local entries = {}
 
     local projects_path = os.getenv("HOME") .. "/.local/share/goose/projects.json"
-    local data = ReadJsonFile(projects_path)
+
+    local content = ReadFile(projects_path)
+    if not content then return entries end
+    local data = jsonDecode(content)
 
     if data and data.projects then
         local projects_list = {}
@@ -52,4 +55,4 @@ function GetEntries()
     return entries
 end
 
-function OpenProject(path) RunInTerminal("cd '" .. path .. "' && goose session") end
+function OpenProject(path) RunInTerminal("cd '" .. path .. "' && " .. GOOSE_CMDS.SESSION_NEW) end

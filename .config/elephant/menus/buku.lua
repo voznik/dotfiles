@@ -11,10 +11,11 @@ function GetEntries()
     local entries = {}
     -- Run buku: -p (print all), -f 3 (format: index title)
     -- We'll just read stdout
-    local p = ReadShellCommand("buku -p -f 3")
+    local handle = io.popen("buku -p -f 3")
+    if not handle then return entries end
 
-    if p then
-        for line in p:lines() do
+    if handle then
+        for line in handle:lines() do
             -- Clean up tabs
             line = line:gsub("\t", " ")
 
@@ -30,7 +31,7 @@ function GetEntries()
                 })
             end
         end
-        p:close()
+        handle:close()
     end
 
     return entries

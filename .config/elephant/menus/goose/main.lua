@@ -1,27 +1,25 @@
 Name = "goose"
 NamePretty = "Goose Manager"
-Icon = "terminal"
 Cache = false
 SearchName = true
 
 dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
+-- Dynamic Icon based on system theme
+Icon = GetGooseIcon()
+
 function GetEntries()
+    local icon = GetGooseIcon()
     return {
-        { Text = "New Session", Subtext = "Start a fresh goose session", Actions = { default = "lua:ActionNew" } },
-        { Text = "Resume Session", Subtext = "List and resume past sessions", Actions = { default = "lua:OpenGooseSessions" } },
-        { Text = "Projects", Subtext = "Open recent projects (goose ps)", Actions = { default = "lua:OpenGooseProjects" } },
-        { Text = "Recipes", Subtext = "Run available recipes", Actions = { default = "lua:OpenGooseRecipes" } },
-        { Text = "Prompts", Subtext = "Browse and use AI prompts", Actions = { default = "lua:OpenGoosePrompts" } },
-        { Text = "Switch Model", Subtext = "Select from Gemini or local Ollama models", Actions = { default = "lua:OpenGooseModels" } },
-        { Text = "Configure", Subtext = "Full interactive configuration", Actions = { default = "lua:ActionConfig" } }
+        { Text = "Goose: New Session", Subtext = "Start a fresh goose session", Icon = icon, Actions = { default = "lua:ActionNew" } },
+        { Text = "Goose: Resume Session", Subtext = "List and resume past sessions", Icon = icon, SubMenu = "goose_sessions" },
+        { Text = "Goose: Projects", Subtext = "Open recent projects (goose ps)", Icon = icon, SubMenu = "goose_projects" },
+        { Text = "Goose: Recipes", Subtext = "Run available recipes", Icon = icon, SubMenu = "goose_recipes" },
+        { Text = "Goose: Prompts", Subtext = "Browse and use AI prompts", Icon = icon, SubMenu = "goose_prompts" },
+        { Text = "Goose: Switch Model", Subtext = "Select from Gemini or local Ollama models", Icon = icon, SubMenu = "goose_models" },
+        { Text = "Goose: Configure", Subtext = "Full interactive configuration", Icon = icon, Actions = { default = "lua:ActionConfig" } }
     }
 end
 
-function ActionNew() RunInTerminal("goose session") end
-function ActionConfig() RunInTerminal("goose configure") end
-function OpenGooseSessions() OpenWalkerMenu("goose_sessions") end
-function OpenGooseModels() OpenWalkerMenu("goose_models") end
-function OpenGooseProjects() OpenWalkerMenu("goose_projects") end
-function OpenGooseRecipes() OpenWalkerMenu("goose_recipes") end
-function OpenGoosePrompts() OpenWalkerMenu("goose_prompts") end
+function ActionNew() RunInTerminal(GOOSE_CMDS.SESSION_NEW) end
+function ActionConfig() RunInTerminal(GOOSE_CMDS.CONFIGURE) end

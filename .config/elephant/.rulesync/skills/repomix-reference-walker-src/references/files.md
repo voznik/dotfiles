@@ -1,0 +1,4903 @@
+# Files
+
+## File: .github/ISSUE_TEMPLATE/bug_report.md
+````markdown
+---
+name: Bug report
+about: Create a report to help us improve
+title: ""
+labels: ""
+assignees: ""
+---
+
+**Describe the bug**
+A clear and concise description of what the bug is.
+
+**Configs**
+Relevant config to reproduce.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Desktop (please complete the following information):**
+
+- OS: [e.g. iOS]
+- Walker version
+- Elephant version
+
+**Additional context**
+Add any other context about the problem here.
+````
+
+## File: .github/ISSUE_TEMPLATE/config.yml
+````yaml
+blank_issues_enabled: false
+````
+
+## File: .github/ISSUE_TEMPLATE/feature_request.md
+````markdown
+---
+name: Feature request
+about: Describe a feature you'd like to see in Walker
+title: ""
+labels: ""
+assignees: ""
+---
+
+**Describe the feature**
+A clear and concise description of what the feature is.
+
+**Alternatives**
+Possible alternatives.
+
+**Describe the behaviour**
+Step by step description of the desired behaviour.
+````
+
+## File: .github/workflows/build.yml
+````yaml
+name: Release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  build-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libgtk-4-dev \
+          protobuf-compiler \
+          meson \
+          ninja-build \
+          libwayland-dev \
+          wayland-protocols \
+          gobject-introspection \
+          libgirepository1.0-dev \
+          gtk-doc-tools \
+          libpoppler-glib-dev \
+          valac
+        # Install gtk4-layer-shell from source
+        git clone https://github.com/wmww/gtk4-layer-shell.git /tmp/gtk4-layer-shell
+        cd /tmp/gtk4-layer-shell
+        meson setup build --prefix=/usr
+        ninja -C build
+        sudo ninja -C build install
+        sudo ldconfig
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Build
+      run: cargo build --release --target x86_64-unknown-linux-gnu
+    - name: Strip binary
+      run: strip target/x86_64-unknown-linux-gnu/release/walker
+    - name: Create archive
+      run: |
+        cd target/x86_64-unknown-linux-gnu/release
+        tar -czf walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz walker
+        mv walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz ../../../
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: walker-x86_64-unknown-linux-gnu
+        path: walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+  release:
+    needs: [build-x86_64]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+    - name: Generate changelog
+      run: |
+        # Get previous tag
+        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        # Generate changelog
+        echo "# Changes in ${{ github.ref_name }}" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        if [ -n "$PREV_TAG" ]; then
+          echo "## Commits since $PREV_TAG:" >> CHANGELOG.md
+          git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
+        else
+          echo "## All commits:" >> CHANGELOG.md
+          git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+        fi
+        if [ -f "BREAKING.md" ]; then
+          echo "" >> CHANGELOG.md
+          echo "## ⚠️ Breaking Changes" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          cat BREAKING.md >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+        fi
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          walker-x86_64-unknown-linux-gnu/walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'rc') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+````
+
+## File: .github/workflows/github-releases-to-discord.yml
+````yaml
+on:
+  release:
+    types: [released]
+jobs:
+  github-releases-to-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: GitHub Releases to Discord
+        uses: SethCohen/github-releases-to-discord@v1
+        with:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          color: "2105893"
+          username: "Release Changelog"
+          avatar_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
+          content: "||@everyone||"
+          footer_title: "Changelog"
+          reduce_headings: true
+````
+
+## File: .github/workflows/nix_git.yml
+````yaml
+name: Nix-Git
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Set up Cachix
+        uses: cachix/cachix-action@v16
+        with:
+          name: walker-git
+          authToken: '${{ secrets.CACHIX_GIT_AUTH_TOKEN }}'
+      - name: Build default package
+        run: nix build -L --extra-substituters "https://walker-git.cachix.org" .#default --print-out-paths | cachix push walker-git
+````
+
+## File: .github/workflows/nix.yml
+````yaml
+name: Nix
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Set up Cachix
+        uses: cachix/cachix-action@v16
+        with:
+          name: walker
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: Build default package
+        run: nix build -L --extra-substituters "https://walker.cachix.org" .#default --print-out-paths | cachix push walker
+````
+
+## File: .github/FUNDING.yml
+````yaml
+github: [abenz1267]
+ko_fi: andrejbenz
+````
+
+## File: nix/modules/home-manager.nix
+````nix
+{
+  self,
+  elephant,
+}: {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.options) mkOption mkEnableOption mkPackageOption;
+  inherit (lib.trivial) importTOML;
+  inherit (lib.meta) getExe;
+  inherit (lib.types) nullOr bool;
+  inherit (lib) optional types mapAttrs' mapAttrsToList nameValuePair mkDefault literalExpression;
+
+  cfg = config.programs.walker;
+
+  tomlFormat = pkgs.formats.toml {};
+in {
+  imports = [
+    elephant.homeManagerModules.default
+  ];
+
+  options = {
+    programs.walker = {
+      enable = mkEnableOption "walker";
+
+      package = mkPackageOption self.packages.${pkgs.stdenv.system} "walker" {
+        default = "default";
+        pkgsText = "walker.packages.\${pkgs.stdenv.system}";
+      };
+
+      runAsService = mkOption {
+        type = bool;
+        default = false;
+        description = "Run walker as a service for faster launch times.";
+      };
+
+      config = mkOption {
+        inherit (tomlFormat) type;
+        default = importTOML ../../resources/config.toml;
+        defaultText = "importTOML ../../resources/config.toml";
+        description = ''
+          Configuration options for walker.
+
+          See the default configuration for available options: <https://github.com/abenz1267/walker/blob/master/resources/config.toml>
+        '';
+      };
+
+      themes = mkOption {
+        type = types.attrsOf (types.submodule {
+          options = {
+            style = mkOption {
+              type = types.lines;
+              default = "";
+              description = ''
+                The GTK CSS stylesheet used by this theme.
+
+                See the default style sheet for available classes: <https://github.com/abenz1267/walker/blob/master/resources/themes/default/style.css>
+              '';
+            };
+
+            layouts = mkOption {
+              type = types.attrsOf types.str;
+              default = {};
+              description = ''
+                The GTK xml layouts used for each provider.
+
+                See the default layouts for correct names and structure: <https://github.com/abenz1267/walker/tree/master/resources/themes/default>
+              '';
+            };
+          };
+        });
+        default = {};
+        example = literalExpression ''
+          themes."your-theme-name" = {
+            style = \'\'
+              /* CSS */
+            \'\';
+            layouts = {
+              "layout" = \'\'
+                <!-- XML Layout -->
+              \'\';
+              "item_calc" = \'\'
+                <!-- XML Layout -->
+              \'\';
+            };
+          };
+        '';
+        description = "Set of themes usable by walker";
+      };
+
+      elephant = mkOption {
+        inherit (tomlFormat) type;
+        default = {};
+        description = "Configuration for elephant";
+      };
+
+      # The `theme` option will is deprecated please use the above `themes` option instead.
+      theme = mkOption {
+        type = with types;
+          nullOr (submodule {
+            options = {
+              name = mkOption {
+                type = types.str;
+                default = "nixos";
+                description = "The theme name.";
+              };
+
+              style = mkOption {
+                type = lines;
+                default = "";
+                description = "The styling of the theme, written in GTK CSS.";
+              };
+            };
+          });
+        default = null;
+        description = "The custom theme used by walker. Setting this option overrides `programs.walker.config.theme`.";
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    warnings = optional (cfg.theme != null) ''
+      The option `programs.walker.theme` is deprecated. Please migrate to `programs.walker.themes` instead.
+
+      From
+
+      programs.walker.theme = {
+        name = "${cfg.theme.name}";
+        style = " /* CSS */ ";
+      };
+
+      to
+
+      programs.walker = {
+        config.theme = "${cfg.theme.name}";
+        themes."${cfg.theme.name}" = {
+          style = " /* CSS */ ";
+        };
+      };
+    '';
+
+    programs.elephant = mkMerge [
+      {enable = true;}
+      cfg.elephant
+    ];
+
+    home.packages = [cfg.package];
+
+    # deprecated functions start
+    programs.walker = mkIf (cfg.theme != null) {
+      themes = {
+        "${cfg.theme.name}" = mkDefault {
+          style = cfg.theme.style;
+        };
+      };
+
+      config.theme = mkDefault cfg.theme.name;
+    };
+    # deprecated functions end
+
+    xdg.configFile = mkMerge [
+      # Generate config file
+      (
+        mkIf (cfg.config != {}) {
+          "walker/config.toml".source = tomlFormat.generate "walker-config.toml" cfg.config;
+        }
+      )
+
+      # Generate theme files
+      (
+        mkMerge (
+          mapAttrsToList
+          (
+            themeName: theme:
+              {
+                "walker/themes/${themeName}/style.css".text = theme.style;
+              }
+              // (
+                mapAttrs'
+                (
+                  layoutName: layoutContent:
+                    nameValuePair "walker/themes/${themeName}/${layoutName}.xml" {
+                      text = layoutContent;
+                    }
+                )
+                theme.layouts
+              )
+          )
+          cfg.themes
+        )
+      )
+    ];
+
+    systemd.user.services.walker = mkIf cfg.runAsService {
+      Unit = {
+        Description = "Walker - Application Runner";
+        ConditionEnvironment = "WAYLAND_DISPLAY";
+        After = [
+          "graphical-session.target"
+          "elephant.service"
+        ];
+        Requires = ["elephant.service"];
+        PartOf = ["graphical-session.target"];
+        X-Restart-Triggers = [
+          (builtins.hashString "sha256" (builtins.toJSON {
+            inherit (cfg) config themes elephant;
+          }))
+        ];
+      };
+      Service = {
+        ExecStart = "${getExe cfg.package} --gapplication-service";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = ["graphical-session.target"];
+    };
+  };
+}
+````
+
+## File: nix/modules/nixos.nix
+````nix
+{
+  self,
+  elephant,
+}: {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.options) mkOption mkEnableOption mkPackageOption;
+  inherit (lib.trivial) importTOML;
+  inherit (lib.meta) getExe;
+  inherit (lib.types) nullOr bool;
+  inherit (lib) optionalString types mapAttrs' mapAttrsToList nameValuePair mkDefault literalExpression;
+
+  cfg = config.programs.walker;
+
+  tomlFormat = pkgs.formats.toml {};
+in {
+  imports = [
+    elephant.nixosModules.default
+  ];
+
+  options = {
+    programs.walker = {
+      enable = mkEnableOption "walker";
+
+      package = mkPackageOption self.packages.${pkgs.stdenv.system} "walker" {
+        default = "default";
+        pkgsText = "walker.packages.\${pkgs.stdenv.system}";
+      };
+
+      # This option doesn't work in the NixOS module
+      runAsService = mkOption {
+        type = bool;
+        default = false;
+        description = "Run walker as a service for faster launch times.";
+      };
+
+      config = mkOption {
+        inherit (tomlFormat) type;
+        default = importTOML ../../resources/config.toml;
+        defaultText = "importTOML ../../resources/config.toml";
+        description = ''
+          Configuration options for walker.
+
+          See the default configuration for available options: <https://github.com/abenz1267/walker/blob/master/resources/config.toml>
+        '';
+      };
+
+      themes = mkOption {
+        type = types.attrsOf (types.submodule {
+          options = {
+            style = mkOption {
+              type = types.lines;
+              default = "";
+              description = ''
+                The GTK CSS stylesheet used by this theme.
+
+                See the default style sheet for available classes: <https://github.com/abenz1267/walker/blob/master/resources/themes/default/style.css>
+              '';
+            };
+
+            layouts = mkOption {
+              type = types.attrsOf types.str;
+              default = {};
+              description = ''
+                The GTK xml layouts used for each provider.
+
+                See the default layouts for correct names and structure: <https://github.com/abenz1267/walker/tree/master/resources/themes/default>
+              '';
+            };
+          };
+        });
+        default = {};
+        example = literalExpression ''
+          themes."your-theme-name" = {
+            style = \'\'
+              /* CSS */
+            \'\';
+            layouts = {
+              "layout" = \'\'
+                <!-- XML Layout -->
+              \'\';
+              "item_calc" = \'\'
+                <!-- XML Layout -->
+              \'\';
+            };
+          };
+        '';
+        description = "Set of themes usable by walker";
+      };
+
+      elephant = mkOption {
+        inherit (tomlFormat) type;
+        default = {};
+        description = "Configuration for elephant";
+      };
+
+      # The `theme` option will soon be deprecated please use the above `themes` option instead.
+      theme = mkOption {
+        type = with types;
+          nullOr (submodule {
+            options = {
+              name = mkOption {
+                type = types.str;
+                default = "nixos";
+                description = "The theme name.";
+              };
+
+              style = mkOption {
+                type = lines;
+                default = "";
+                description = "The styling of the theme, written in GTK CSS.";
+              };
+            };
+          });
+        default = null;
+        description = "The custom theme used by walker. Setting this option overrides `programs.walker.config.theme`.";
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    warnings = [
+      (optionalString (cfg.theme != null) ''
+        The option `programs.walker.theme` is deprecated. Please migrate to `programs.walker.themes` instead.
+
+        From
+
+        programs.walker.theme = {
+          name = "${cfg.theme.name}";
+          style = " /* CSS */ ";
+        };
+
+        to
+
+        programs.walker = {
+          config.theme = "${cfg.theme.name}";
+          themes."${cfg.theme.name}" = {
+            style = " /* CSS */ ";
+          };
+        };
+      '')
+
+      (optionalString cfg.runAsService ''
+        The option `programs.walker.runAsService` is not supported in the NixOS module. It is recommended that you launch the elephant and walker services using your desktop instead.
+
+        elephant
+
+        walker --gapplication-service
+      '')
+    ];
+
+    services.elephant = mkMerge [
+      {
+        enable = true;
+        installService = false; # Disable service option since its broken
+      }
+      cfg.elephant
+    ];
+
+    environment.systemPackages = [cfg.package];
+
+    # deprecated functions start
+
+    programs.walker = mkIf (cfg.theme != null) {
+      themes = {
+        "${cfg.theme.name}" = mkDefault {
+          style = cfg.theme.style;
+        };
+      };
+
+      config.theme = mkDefault cfg.theme.name;
+    };
+    # deprecated functions end
+
+    environment.etc = mkMerge [
+      # Generate config file
+      (
+        mkIf (cfg.config != {}) {
+          "xdg/walker/config.toml".source = tomlFormat.generate "walker-config.toml" cfg.config;
+        }
+      )
+
+      # Generate theme files
+      (
+        mkMerge (
+          mapAttrsToList
+          (
+            themeName: theme:
+              {
+                "xdg/walker/themes/${themeName}/style.css".text = theme.style;
+              }
+              // (
+                mapAttrs'
+                (
+                  layoutName: layoutContent:
+                    nameValuePair "xdg/walker/themes/${themeName}/${layoutName}.xml" {
+                      text = layoutContent;
+                    }
+                )
+                theme.layouts
+              )
+          )
+          cfg.themes
+        )
+      )
+    ];
+
+    # systemd.services.walker = mkIf cfg.runAsService {
+    #   description = "Walker - Application Runner";
+    #   unitConfig = {
+    #     ConditionEnvironment = "WAYLAND_DISPLAY";
+    #   };
+    #   after = [
+    #     "graphical-session.target"
+    #     "elephant.service"
+    #   ];
+    #   requires = ["elephant.service"];
+    #   partOf = ["graphical-session.target"];
+    #   wantedBy = ["graphical-session.target"];
+    #   serviceConfig = {
+    #     ExecStart = "${getExe cfg.package} --gapplication-service";
+    #     Restart = "on-failure";
+    #   };
+    # };
+  };
+}
+````
+
+## File: nix/package.nix
+````nix
+{
+  rustPlatform,
+  lib,
+  pkg-config,
+  protobuf,
+  glib,
+  gobject-introspection,
+  gst_all_1,
+  gtk4,
+  gtk4-layer-shell,
+  gdk-pixbuf,
+  graphene,
+  cairo,
+  pango,
+  wrapGAppsHook4,
+  poppler,
+}:
+rustPlatform.buildRustPackage rec {
+  pname = "walker";
+  version = (builtins.fromTOML (builtins.readFile ../Cargo.toml)).package.version;
+
+  src = lib.fileset.toSource {
+    root = ../.;
+    fileset = lib.fileset.unions [
+      ../Cargo.toml
+      ../Cargo.lock
+      ../src
+      ../build.rs
+      ../resources
+    ];
+  };
+
+  cargoLock.lockFile = "${src}/Cargo.lock";
+
+  nativeBuildInputs = [
+    gobject-introspection
+    pkg-config
+    protobuf
+    wrapGAppsHook4
+  ];
+
+  buildInputs = [
+    glib
+    gtk4
+    gtk4-layer-shell
+    gdk-pixbuf
+    graphene
+    cairo
+    pango
+    poppler
+  ] ++ (with gst_all_1; [
+    gstreamer
+    gst-plugins-base
+    gst-plugins-good
+    gst-libav
+  ]);
+
+  meta = {
+    description = "Wayland-native application runner";
+    homepage = "https://github.com/abenz1267/walker";
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [diniamo NotAShelf];
+    platforms = lib.platforms.linux;
+    mainProgram = "walker";
+  };
+}
+````
+
+## File: resources/themes/default/style.css
+````css
+@define-color window_bg_color #1f1f28;
+@define-color accent_bg_color #54546d;
+@define-color theme_fg_color #f2ecbc;
+@define-color error_bg_color #C34043;
+@define-color error_fg_color #DCD7BA;
+* {
+popover {
+.normal-icons {
+.large-icons {
+scrollbar {
+.box-wrapper {
+⋮----
+background: @window_bg_color;
+⋮----
+.preview-box,
+⋮----
+color: @theme_fg_color;
+⋮----
+.box {
+.search-container {
+.input placeholder {
+.input selection {
+.input {
+⋮----
+caret-color: @theme_fg_color;
+⋮----
+.input:focus,
+.content-container {
+.placeholder {
+.scroll {
+.list {
+child {
+.item-box {
+.item-quick-activation {
+/* child:hover .item-box, */
+child:selected .item-box {
+.item-text-box {
+.item-subtext {
+.providerlist .item-subtext {
+.item-image-text {
+.preview {
+⋮----
+/* padding: 10px; */
+⋮----
+.calc .item-text {
+.calc .item-subtext {
+.symbols .item-image {
+.todo.done .item-text-box {
+.todo.urgent {
+.todo.active {
+.bluetooth.disconnected {
+.preview .large-icons {
+.keybinds {
+.global-keybinds {
+.item-keybinds {
+.keybind {
+.keybind-button {
+.keybind-button:hover {
+.keybind-bind {
+.keybind-label {
+⋮----
+border: 1px solid @theme_fg_color;
+⋮----
+.error {
+⋮----
+background: @error_bg_color;
+color: @error_fg_color;
+⋮----
+:not(.calc).current {
+.preview-content.archlinuxpkgs {
+````
+
+## File: resources/config.toml
+````toml
+force_keyboard_focus = false    # forces keyboard forcus to stay in Walker
+close_when_open = true          # close walker when invoking while already opened
+click_to_close = true           # closes walker if clicking outside of the main content area
+single_click_activation = true  # activate items with a single click opposed to a double click
+selection_wrap = false          # wrap list if at bottom or top
+global_argument_delimiter = "#" # query: firefox#https://benz.dev => part after delimiter will be ignored when querying. this should be the same as in the elephant config
+exact_search_prefix = "'"       # disable fuzzy searching
+theme = "default"               # theme to use
+disable_mouse = false           # disable mouse (on input and list only)
+debug = false                   # enables debug printing for some stuff, f.e. keybinds
+page_jump_items = 10            # number of items to skip with Page Up/Down
+hide_quick_activation = false   # globally hide the quick activation buttons
+hide_action_hints = false       # globally hide the action hints
+hide_action_hints_dmenu = true  # hide the actions hints for dmenu
+hide_return_action = false      # hide actions that are bound to Return
+resume_last_query = false       # open walker with the last query in place
+actions_as_menu = false         # display all possible actions in a submenu
+
+[shell]
+anchor_top = true
+anchor_bottom = true
+anchor_left = true
+anchor_right = true
+
+[columns]
+"symbols" = 3
+
+[placeholders]
+"default" = { input = "Search", list = "No Results" } # placeholders for input and empty list, key is the providers name, so f.e. "desktopapplications" or "menus:other"
+
+[keybinds]
+close = ["Escape"]
+next = ["Down"]
+previous = ["Up"]
+left = ["Left"]
+right = ["Right"]
+down = ["Down"]
+up = ["Up"]
+toggle_exact = ["ctrl e"]
+resume_last_query = ["ctrl r"]
+quick_activate = ["F1", "F2", "F3", "F4"]
+page_down = ["Page_Down"]
+page_up = ["Page_Up"]
+show_actions = ["alt j"]
+
+[providers]
+default = [
+  "desktopapplications",
+  "calc",
+  # "runner",
+  "websearch",
+] # providers to be queried by default
+empty = ["desktopapplications"] # providers to be queried when query is empty
+ignore_preview = [] # providers that should not show previews
+max_results = 50 # global max results
+
+[providers.argument_delimiter] # define the argument delimiter per provider
+runner = " "
+
+[providers.sets] # define your own defaults/empty sets of providers
+[providers.max_results_provider] # define max results per provider in here
+
+[[providers.prefixes]]
+prefix = ";"
+provider = "providerlist"
+
+[[providers.prefixes]]
+prefix = ">"
+provider = "runner"
+
+[[providers.prefixes]]
+prefix = "/"
+provider = "files"
+
+[[providers.prefixes]]
+prefix = "."
+provider = "symbols"
+
+[[providers.prefixes]]
+prefix = "!"
+provider = "todo"
+
+[[providers.prefixes]]
+prefix = "%"
+provider = "bookmarks"
+
+[[providers.prefixes]]
+prefix = "="
+provider = "calc"
+
+[[providers.prefixes]]
+prefix = "@"
+provider = "websearch"
+
+[[providers.prefixes]]
+prefix = ":"
+provider = "clipboard"
+
+[[providers.prefixes]]
+prefix = "$"
+provider = "windows"
+
+[providers.clipboard]
+time_format = "%d.%m. - %H:%M" # format for the clipboard item date
+
+[providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
+fallback = [
+  { action = "menus:open", label = "open", after = "Nothing" },
+  { action = "menus:default", label = "run", after = "Close" },
+  { action = "menus:parent", label = "back", bind = "Escape", after = "Nothing" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "AsyncReload" },
+]
+
+dmenu = [{ action = "select", default = true, bind = "Return" }]
+
+providerlist = [
+  { action = "activate", default = true, bind = "Return", after = "ClearReload" },
+]
+
+bluetooth = [
+  { action = "find", bind = "ctrl f", after = "AsyncClearReload" },
+  { action = "remove", bind = "ctrl d", after = "AsyncReload" },
+  { action = "trust", bind = "ctrl t", after = "AsyncReload" },
+  { action = "untrust", bind = "ctrl t", after = "AsyncReload" },
+  { action = "pair", bind = "Return", after = "AsyncReload" },
+  { action = "connect", default = true, bind = "Return", after = "AsyncReload" },
+  { action = "disconnect", default = true, bind = "Return", after = "AsyncReload" },
+]
+
+archlinuxpkgs = [
+  { action = "install", bind = "Return", default = true },
+  { action = "remove", bind = "Return" },
+  { action = "show_all", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "refresh", label = "refresh", bind = "ctrl r", after = "AsyncReload" },
+  { action = "visit_url", label = "open URL", bind = "ctrl o" },
+  { action = "show_installed", label = "show installed", bind = "ctrl i", after = "AsyncClearReload" },
+]
+
+calc = [
+  { action = "copy", default = true, bind = "Return" },
+  { action = "delete", bind = "ctrl d", after = "AsyncReload" },
+  { action = "save", bind = "ctrl s", after = "AsyncClearReload" },
+]
+
+websearch = [
+  { action = "search", default = true, bind = "Return" },
+  { action = "open_url", label = "open url", default = true, bind = "Return" },
+]
+
+desktopapplications = [
+  { action = "start", default = true, bind = "Return" },
+  { action = "start:keep", label = "open+next", bind = "shift Return", after = "KeepOpen" },
+  { action = "new_instance", label = "new instance", bind = "ctrl Return" },
+  { action = "new_instance:keep", label = "new+next", bind = "ctrl alt Return", after = "KeepOpen" },
+  { action = "pin", bind = "ctrl p", after = "AsyncReload" },
+  { action = "unpin", bind = "ctrl p", after = "AsyncReload" },
+  { action = "pinup", bind = "ctrl n", after = "AsyncReload" },
+  { action = "pindown", bind = "ctrl m", after = "AsyncReload" },
+]
+
+files = [
+  { action = "open", default = true, bind = "Return" },
+  { action = "opendir", label = "open dir", bind = "ctrl Return" },
+  { action = "copypath", label = "copy path", bind = "ctrl shift c" },
+  { action = "copyfile", label = "copy file", bind = "ctrl c" },
+  { action = "localsend", label = "localsend", bind = "ctrl l" },
+  { action = "refresh_index", label = "reload", bind = "ctrl r", after = "AsyncReload" },
+]
+
+1password = [
+  { action = "copy_password", label = "copy password", default = true, bind = "Return" },
+  { action = "copy_username", label = "copy username", bind = "shift Return" },
+  { action = "copy_2fa", label = "copy 2fa", bind = "ctrl Return" },
+]
+
+todo = [
+  { action = "save", default = true, bind = "Return", after = "AsyncClearReload" },
+  { action = "save_next", label = "save & new", bind = "shift Return", after = "AsyncClearReload" },
+  { action = "delete", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "active", default = true, bind = "Return", after = "Nothing" },
+  { action = "inactive", default = true, bind = "Return", after = "Nothing" },
+  { action = "done", bind = "ctrl f", after = "Nothing" },
+  { action = "change_category", bind = "ctrl y", label = "change category", after = "Nothing" },
+  { action = "clear", bind = "ctrl x", after = "AsyncClearReload" },
+  { action = "create", bind = "ctrl a", after = "AsyncClearReload" },
+  { action = "search", bind = "ctrl a", after = "AsyncClearReload" },
+]
+
+runner = [
+  { action = "run", default = true, bind = "Return" },
+  { action = "runterminal", label = "run in terminal", bind = "shift Return" },
+]
+
+symbols = [
+  { action = "run_cmd", label = "select", default = true, bind = "Return" },
+]
+
+unicode = [
+  { action = "run_cmd", label = "select", default = true, bind = "Return" },
+]
+
+nirisessions = [
+  { action = "start", label = "start", default = true, bind = "Return" },
+  { action = "start_new", label = "start blank", bind = "ctrl Return" },
+]
+
+clipboard = [
+  { action = "copy", default = true, bind = "Return" },
+  { action = "remove", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "remove_all", label = "clear", bind = "ctrl shift d", after = "AsyncClearReload" },
+  { action = "show_images_only", label = "only images", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_text_only", label = "only text", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_combined", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "pause", bind = "ctrl p" },
+  { action = "unpause", bind = "ctrl p" },
+  { action = "edit", bind = "ctrl o" },
+  { action = "localsend", bind = "ctrl l" },
+]
+
+bookmarks = [
+  { action = "save", bind = "Return", after = "AsyncClearReload" },
+  { action = "open", default = true, bind = "Return" },
+  { action = "delete", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "change_category", label = "Change category", bind = "ctrl y", after = "Nothing" },
+  { action = "change_browser", label = "Change browser", bind = "ctrl b", after = "Nothing" },
+  { action = "import", label = "Import", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "create", bind = "ctrl a", after = "AsyncClearReload" },
+  { action = "search", bind = "ctrl a", after = "AsyncClearReload" },
+]
+````
+
+## File: src/preview/mod.rs
+````rust
+use crate::config::get_config;
+use crate::protos::generated_proto::query::query_response::Item;
+use crate::renderers::create_drag_source;
+use crate::ui::window::get_selected_item;
+⋮----
+use std::cell::RefCell;
+use std::path::Path;
+use std::process::Command;
+use std::rc::Rc;
+⋮----
+pub struct UnifiedPreviewHandler {
+⋮----
+pub struct PreviewWidget {
+⋮----
+impl UnifiedPreviewHandler {
+pub fn new() -> Self {
+⋮----
+pub fn clear_cache(&self) {
+let mut cached_preview = self.cached_preview.borrow_mut();
+if let Some(preview) = cached_preview.as_mut() {
+preview.clear_preview();
+⋮----
+pub fn handle(&self, item: &Item, preview: &GtkBox, builder: &Builder) {
+// Check if preview is disabled for this provider
+let config = get_config();
+if config.providers.ignore_preview.contains(&item.provider) {
+⋮----
+// Only show preview if this item is currently selected
+let Some(current) = get_selected_item() else {
+⋮----
+// Get or create preview widget
+⋮----
+if let Some(existing) = cached_preview.as_ref()
+⋮----
+!= format!("{}{}{}", item.preview_type, item.preview, item.text)
+⋮----
+if cached_preview.is_none()
+⋮----
+PreviewWidget::new_with_builder(&builder).or_else(|_| PreviewWidget::new())
+⋮----
+*cached_preview = Some(preview_widget);
+} else if cached_preview.is_none() {
+⋮----
+let preview_widget = cached_preview.as_mut().unwrap();
+// Handle preview based on preview_type
+let result = match item.preview_type.as_str() {
+"text" | "pango" => preview_widget.preview_text(&item.preview, &item.preview_type),
+⋮----
+if item.preview.is_empty() {
+preview_widget.preview_file(&item.text)
+⋮----
+preview_widget.preview_file(&item.preview)
+⋮----
+"command" => preview_widget.preview_command(&item.preview),
+⋮----
+if result.is_err() {
+⋮----
+// Clear existing preview and add new one
+while let Some(child) = preview.first_child() {
+child.unparent();
+⋮----
+preview.append(&preview_widget.box_widget);
+preview.set_visible(get_selected_item().is_some_and(|current| current == *item));
+⋮----
+pub fn handle_preview(item: &Item, preview: &GtkBox, builder: &Builder) {
+thread_local! {
+⋮----
+preview.add_css_class("preview-content");
+preview.add_css_class(&item.provider);
+PREVIEW_HANDLER.with(|handler| {
+handler.borrow().handle(item, preview, builder);
+⋮----
+pub fn clear_all_caches() {
+⋮----
+handler.borrow().clear_cache();
+⋮----
+impl PreviewWidget {
+pub fn new_with_builder(builder: &Builder) -> Result<Self, Box<dyn std::error::Error>> {
+⋮----
+.ok_or("PreviewBox not found in builder")?;
+⋮----
+.ok_or("PreviewStack not found in builder")?;
+Ok(Self {
+⋮----
+pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
+⋮----
+box_widget.append(&preview_area);
+⋮----
+pub fn preview_text(&mut self, text: &str, pt: &str) -> Result<(), Box<dyn std::error::Error>> {
+self.current_content = format!("text{}", text);
+self.clear_preview();
+⋮----
+label.set_selectable(true);
+label.set_wrap_mode(gtk4::pango::WrapMode::Word);
+label.set_wrap(true);
+label.set_xalign(0.0);
+label.set_size_request(-1, -1);
+label.set_halign(gtk4::Align::Start);
+label.set_valign(gtk4::Align::Start);
+let display_text = if text.len() > 10000 {
+format!("{}\n\n[Text truncated...]", &text[..10000])
+⋮----
+text.to_string()
+⋮----
+label.set_use_markup(true);
+label.set_markup(&display_text);
+⋮----
+label.set_text(&display_text);
+⋮----
+scrolled.set_child(Some(&label));
+scrolled.set_policy(PolicyType::Automatic, PolicyType::Automatic);
+scrolled.set_size_request(400, 300);
+scrolled.set_vadjustment(Some(&gtk4::Adjustment::new(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)));
+self.preview_area.add_child(&scrolled);
+self.preview_area.set_visible_child(&scrolled);
+Ok(())
+⋮----
+pub fn preview_file(&mut self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+self.current_content = format!("file{}", file_path);
+⋮----
+if Path::new(file_path).is_absolute() {
+⋮----
+.add_controller(create_drag_source(file_path));
+⋮----
+if !Path::new(file_path).exists() {
+return Err(format!("File does not exist: {}", file_path).into());
+⋮----
+let Some(guess) = new_mime_guess::from_path(file_path).first() else {
+return self.preview_generic(file_path);
+⋮----
+let function = match (guess.type_(), guess.subtype()) {
+⋮----
+function(self, file_path)
+⋮----
+pub fn preview_command(&mut self, command: &str) -> Result<(), Box<dyn std::error::Error>> {
+self.current_content = format!("command{}", command);
+⋮----
+// Execute command and capture output
+let output = Command::new("sh").arg("-c").arg(command).output()?;
+⋮----
+let combined_output = if stderr.is_empty() {
+stdout.to_string()
+⋮----
+format!("{}\n\nSTDERR:\n{}", stdout, stderr)
+⋮----
+text_view.set_editable(false);
+text_view.set_monospace(true);
+text_view.set_wrap_mode(WrapMode::Word);
+text_view.set_size_request(400, 300);
+let buffer = text_view.buffer();
+buffer.set_text(&combined_output);
+⋮----
+scrolled.set_child(Some(&text_view));
+⋮----
+fn clear_preview(&self) {
+while let Some(child) = self.preview_area.first_child() {
+⋮----
+picture.set_filename(Option::<&str>::None);
+picture.set_paintable(gtk4::gdk::Paintable::NONE);
+⋮----
+image.clear();
+image.set_icon_name(Option::<&str>::None);
+⋮----
+&& let Some(nested_child) = container.first_child()
+⋮----
+nested_picture.set_paintable(gtk4::gdk::Paintable::NONE);
+⋮----
+nested_image.clear();
+nested_image.set_icon_name(Option::<&str>::None);
+⋮----
+container.remove(&nested_child);
+⋮----
+&& let Some(scrolled_child) = scrolled.child()
+⋮----
+text_view.buffer().set_text("");
+⋮----
+self.preview_area.remove(&child);
+⋮----
+fn preview_image(&self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+picture.set_content_fit(ContentFit::Contain);
+⋮----
+scrolled.set_child(Some(&picture));
+⋮----
+// Load and resize image for faster preview
+let file_path_clone = file_path.to_string();
+let picture_clone = picture.clone();
+glib::MainContext::ref_thread_default().spawn_local(async move {
+⋮----
+picture_clone.set_paintable(Some(&texture));
+⋮----
+eprintln!("Failed to load image {}: {}", file_path_clone, e);
+// Fallback to direct file loading
+⋮----
+picture_clone.set_file(Some(&file));
+⋮----
+fn preview_pdf(&self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+let uri = format!("file://{file_path}");
+⋮----
+Document::from_file(&uri, None).map_err(|e| format!("Failed to load PDF: {e}"))?;
+⋮----
+if let Some(page) = document.page(0) {
+match self.render_pdf_page(&page) {
+Ok(page_widget) => pdf.append(&page_widget),
+Err(e) => eprintln!("Failed to render PDF page: {e}"),
+⋮----
+scrolled.set_child(Some(&pdf));
+scrolled.set_policy(PolicyType::Never, PolicyType::Automatic);
+scrolled.set_width_request(800);
+⋮----
+fn render_pdf_page(&self, page: &Page) -> Result<GtkBox, Box<dyn std::error::Error>> {
+⋮----
+page_container.set_halign(gtk4::Align::Fill);
+page_container.set_hexpand(true);
+let (width, height) = page.size();
+⋮----
+let render_scale = (display_scale * 1.5).min(2.0);
+let render_width = ((width * render_scale) as i32).min(1600);
+let render_height = ((height * render_scale) as i32).min(2400);
+⋮----
+return Err("PDF page too large for preview".into());
+⋮----
+ctx.set_antialias(cairo::Antialias::Best);
+ctx.scale(render_scale, render_scale);
+ctx.set_source_rgb(1.0, 1.0, 1.0);
+ctx.paint()?;
+page.render(&ctx);
+ctx.target().flush();
+drop(ctx);
+surface.flush();
+let surface_data = surface.data()?;
+let mut rgba_data = Vec::with_capacity(surface_data.len());
+rgba_data.extend_from_slice(&surface_data);
+drop(surface_data);
+for chunk in rgba_data.chunks_exact_mut(4) {
+chunk.swap(0, 2);
+⋮----
+drop(surface);
+⋮----
+picture.set_content_fit(ContentFit::Cover);
+picture.set_halign(gtk4::Align::Start);
+picture.set_valign(gtk4::Align::Start);
+picture.set_width_request(800);
+⋮----
+picture.set_height_request(display_height);
+page_container.append(&picture);
+Ok(page_container)
+⋮----
+fn preview_video(&self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+// Cancel previous load
+if let Some(c) = self.current_video_cancellable.borrow_mut().take() {
+c.cancel();
+⋮----
+*self.current_video_cancellable.borrow_mut() = Some(cancellable.clone());
+let scrolled = self.get_or_create_scrolled();
+scrolled.set_size_request(128, 72);
+// Properly cleanup existing child
+if let Some(existing_child) = scrolled.child() {
+⋮----
+video.set_file(None::<&gio::File>);
+⋮----
+scrolled.set_child(None::<gtk4::Widget>.as_ref());
+⋮----
+placeholder.set_halign(gtk4::Align::Center);
+placeholder.set_valign(gtk4::Align::Center);
+⋮----
+icon.set_pixel_size(64);
+placeholder.append(&icon);
+scrolled.set_child(Some(&placeholder));
+⋮----
+//added a 200ms debounce to make fast scrolling smoother
+⋮----
+let scrolled_clone = scrolled.clone();
+let cancellable_clone = cancellable.clone();
+⋮----
+if cancellable_clone.is_cancelled() {
+⋮----
+if !scrolled_clone.is_visible() {
+⋮----
+// Clean up placeholder properly before replacing
+if let Some(_child) = scrolled_clone.child() {
+scrolled_clone.set_child(None::<gtk4::Widget>.as_ref());
+⋮----
+let video = Video::for_file(Some(&file));
+video.set_autoplay(true);
+scrolled_clone.set_child(Some(&video));
+⋮----
+fn preview_generic(&self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+container.set_halign(gtk4::Align::Center);
+container.set_valign(gtk4::Align::Center);
+container.set_margin_top(20);
+container.set_margin_bottom(20);
+container.set_margin_start(20);
+container.set_margin_end(20);
+container.set_size_request(250, 200);
+⋮----
+icon.set_icon_size(gtk4::IconSize::Large);
+icon.add_css_class("preview-generic-icon");
+// Try to get file-specific icon, but fallback gracefully to avoid memory issues
+⋮----
+if let Ok(info) = file.query_info(
+⋮----
+) && let Some(file_icon) = info.icon()
+⋮----
+icon.set_from_gicon(&file_icon);
+⋮----
+container.append(&icon);
+self.preview_area.add_child(&container);
+self.preview_area.set_visible_child(&container);
+⋮----
+fn preview_text_file(&self, file_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+let max_size = 512 * 1024; // 512KB
+let mut content = String::with_capacity(max_size.min(64 * 1024));
+⋮----
+buffer.clear();
+let bytes_read = reader.read_line(&mut buffer)?;
+⋮----
+break; // EOF
+⋮----
+content.push_str(&buffer[..remaining]);
+content.push_str("\n\n[File truncated...]");
+⋮----
+content.push_str(&buffer);
+⋮----
+text_view.set_size_request(300, 200);
+⋮----
+buffer.set_text(&content);
+⋮----
+scrolled.set_size_request(300, 250);
+⋮----
+fn get_or_create_scrolled(&self) -> ScrolledWindow {
+if let Some(child) = self.preview_area.first_child() {
+⋮----
+scrolled.set_halign(gtk4::Align::Fill);
+scrolled.set_valign(gtk4::Align::Fill);
+scrolled.set_hexpand(true);
+scrolled.set_vexpand(true);
+⋮----
+async fn load_and_resize_image(
+⋮----
+let (bytes, _) = file.load_bytes_future().await?;
+⋮----
+let pixbuf = gdk_pixbuf::Pixbuf::from_stream(&stream, Some(&cancellable))?;
+// Resize to reasonable preview size (max 800x600)
+⋮----
+let (width, height) = (pixbuf.width(), pixbuf.height());
+⋮----
+let ratio = width_ratio.min(height_ratio);
+⋮----
+.scale_simple(new_width, new_height, gdk_pixbuf::InterpType::Bilinear)
+.ok_or("Failed to resize image")?
+⋮----
+Ok(texture)
+````
+
+## File: src/protos/activate.proto
+````protobuf
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message ActivateRequest {
+  string provider = 1;
+  string identifier = 2;
+  string action = 3;
+  string query = 4;
+  string arguments = 5;
+  bool single = 6;
+}
+````
+
+## File: src/protos/mod.rs
+````rust
+pub mod generated_proto {
+include!(concat!(env!("OUT_DIR"), "/generated_proto/mod.rs"));
+⋮----
+// GObject wrapper for QueryResponse
+mod imp {
+use crate::protos::generated_proto::query::QueryResponse;
+⋮----
+use std::cell::RefCell;
+⋮----
+pub struct QueryResponseObject {
+⋮----
+impl ObjectSubclass for QueryResponseObject {
+⋮----
+type Type = super::QueryResponseObject;
+⋮----
+impl ObjectImpl for QueryResponseObject {}
+⋮----
+impl QueryResponseObject {
+pub fn new(response: crate::protos::generated_proto::query::QueryResponse) -> Self {
+let obj: Self = glib::Object::builder().build();
+obj.imp().response.replace(Some(response));
+⋮----
+pub fn response(&self) -> crate::protos::generated_proto::query::QueryResponse {
+self.imp().response.borrow().as_ref().unwrap().clone()
+⋮----
+pub fn dmenu_score(&self) -> u32 {
+*self.imp().dmenu_score.borrow()
+⋮----
+pub fn set_dmenu_score(&self, val: u32) {
+*self.imp().dmenu_score.borrow_mut() = val;
+````
+
+## File: src/protos/providerstate.proto
+````protobuf
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message ProviderStateRequest {
+   string provider = 1;
+}
+
+message ProviderStateResponse {
+  repeated string states = 1;
+  repeated string actions = 2;
+  string provider = 3;
+}
+````
+
+## File: src/protos/query.proto
+````protobuf
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message QueryRequest {
+  repeated string providers = 1;
+  string query = 2;
+  int32 maxresults = 3;
+  bool exactsearch = 4;
+}
+
+message QueryResponse {
+  string query = 1;
+
+  enum Type {
+      REGULAR = 0;
+      FILE = 1;
+  }
+
+  message Item {
+    message FuzzyInfo {
+      int32 start = 1;
+      string field = 2;
+      repeated int32 positions = 3;
+    }
+
+	string identifier = 1;
+	string text = 2;
+	string subtext = 3;
+	string icon = 4;
+	string provider = 5;
+	int32 score = 6;
+	FuzzyInfo fuzzyinfo = 7;
+    Type type = 8;
+    string mimetype = 9;
+    string preview = 10;
+    string preview_type = 11;
+    repeated string state = 12;
+    repeated string actions = 13;
+  }
+
+   Item item = 2;
+   int32 qid =3;
+}
+````
+
+## File: src/protos/subscribe.proto
+````protobuf
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message SubscribeRequest {
+  int32 interval = 1;
+  string provider = 2;
+  string query = 3;
+}
+
+message SubscribeResponse {
+  string value = 2;
+}
+````
+
+## File: src/providers/actionsmenu.rs
+````rust
+use crate::providers::Provider;
+⋮----
+pub struct ActionsMenu {
+⋮----
+impl ActionsMenu {
+pub fn new() -> Self {
+⋮----
+impl Provider for ActionsMenu {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_actionsmenu.xml").to_string()
+````
+
+## File: src/providers/archlinuxpkgs.rs
+````rust
+use crate::providers::Provider;
+⋮----
+pub struct ArchLinuxPkgs {
+⋮----
+impl ArchLinuxPkgs {
+pub fn new() -> Self {
+⋮----
+impl Provider for ArchLinuxPkgs {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_archlinuxpkgs.xml").to_string()
+````
+
+## File: src/providers/bookmarks.rs
+````rust
+use std::path::Path;
+⋮----
+pub struct Bookmarks {
+⋮----
+impl Bookmarks {
+pub fn new() -> Self {
+⋮----
+impl Provider for Bookmarks {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_bookmarks.xml").to_string()
+⋮----
+fn image_transformer(&self, b: &Builder, i: &ListItem, item: &Item) {
+if item.state.contains(&"creating".to_string()) {
+⋮----
+image.set_visible(false);
+⋮----
+let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
+⋮----
+} else if !item.icon.is_empty() {
+⋮----
+function(&image, Some(&item.icon));
+⋮----
+shared_image_transformer(b, i, item);
+````
+
+## File: src/providers/calc.rs
+````rust
+use std::path::Path;
+⋮----
+pub struct Calc {
+⋮----
+impl Calc {
+pub fn new() -> Self {
+⋮----
+impl Provider for Calc {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_calc.xml").to_string()
+⋮----
+fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+if !item.state.contains(&"current".to_string()) {
+image.set_visible(false);
+⋮----
+let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
+⋮----
+} else if !item.icon.is_empty() {
+⋮----
+function(&image, Some(&item.icon))
+````
+
+## File: src/providers/clipboard.rs
+````rust
+use chrono::DateTime;
+⋮----
+pub struct Clipboard {
+⋮----
+impl Clipboard {
+pub fn new() -> Self {
+⋮----
+impl Provider for Clipboard {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_clipboard.xml").to_string()
+⋮----
+fn text_transformer(&self, item: &Item, label: &gtk4::Label) {
+⋮----
+label.set_label(&item.subtext);
+⋮----
+.format(&get_config().providers.clipboard.time_format)
+.to_string();
+label.set_label(&formatted);
+⋮----
+label.set_label(item.text.trim());
+⋮----
+fn subtext_transformer(&self, item: &Item, label: &gtk4::Label) {
+⋮----
+label.set_label("Image");
+````
+
+## File: src/providers/default_provider.rs
+````rust
+use crate::providers::Provider;
+⋮----
+pub struct DefaultProvider {
+⋮----
+impl DefaultProvider {
+pub fn new(name: String) -> Self {
+⋮----
+impl Provider for DefaultProvider {
+fn get_name(&self) -> &str {
+self.name.as_str()
+````
+
+## File: src/providers/dmenu.rs
+````rust
+use crate::providers::Provider;
+⋮----
+pub struct Dmenu {
+⋮----
+impl Dmenu {
+pub fn new() -> Self {
+⋮----
+impl Provider for Dmenu {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_dmenu.xml").to_string()
+````
+
+## File: src/providers/emergency.rs
+````rust
+use crate::providers::Provider;
+⋮----
+pub struct Emergency {
+⋮----
+impl Emergency {
+pub fn new() -> Self {
+⋮----
+impl Provider for Emergency {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_dmenu.xml").to_string()
+````
+
+## File: src/providers/files.rs
+````rust
+use std::env;
+use std::path::Path;
+⋮----
+pub struct Files {
+⋮----
+impl Files {
+pub fn new() -> Self {
+⋮----
+impl Provider for Files {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_files.xml").to_string()
+⋮----
+fn text_transformer(&self, item: &Item, label: &Label) {
+⋮----
+.file_name()
+.and_then(|f| f.to_str())
+.unwrap();
+label.set_text(text);
+⋮----
+fn subtext_transformer(&self, item: &Item, label: &Label) {
+⋮----
+.parent()
+.and_then(|p| p.to_str())
+.map(|parent_folder| {
+⋮----
+if let Some(stripped) = parent_folder.strip_prefix(&home) {
+return format!("~{}", stripped);
+⋮----
+parent_folder.to_string()
+⋮----
+.unwrap_or_default();
+label.set_text(&subtext);
+⋮----
+fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+let info = file.query_info(
+⋮----
+&& let Some(icon) = info.icon()
+⋮----
+image.set_from_gicon(&icon);
+````
+
+## File: src/providers/mod.rs
+````rust
+pub mod actionsmenu;
+pub mod archlinuxpkgs;
+pub mod bookmarks;
+pub mod calc;
+pub mod clipboard;
+pub mod default_provider;
+pub mod dmenu;
+pub mod emergency;
+pub mod files;
+pub mod providerlist;
+pub mod symbols;
+pub mod todo;
+pub mod unicode;
+pub trait Provider: Sync + Send + Debug {
+⋮----
+fn get_actions(&self) -> Vec<Action> {
+get_config()
+⋮----
+.get(self.get_name())
+.cloned()
+.unwrap_or_else(|| {
+vec![Action {
+⋮----
+fn get_keybind_hint(&self, actions: &[String]) -> Vec<Action> {
+⋮----
+.get_actions()
+.iter()
+.map(|a| {
+if a.action.ends_with(":keep") {
+return match a.action.split_once(":") {
+⋮----
+let mut a = a.clone();
+a.action = first.to_string();
+⋮----
+None => a.clone(),
+⋮----
+a.clone()
+⋮----
+.filter(|v| {
+if actions.contains(&v.action) {
+present.insert(v.action.clone());
+⋮----
+actions.contains(&v.action)
+⋮----
+.collect();
+if let Some(r) = get_config().providers.actions.get("fallback") {
+r.iter()
+⋮----
+.filter(|v| actions.contains(&v.action) && !present.contains(&v.action))
+.for_each(|v| {
+result.push(v);
+⋮----
+if !actions.is_empty() && result.is_empty() {
+result.push(Action {
+⋮----
+action: actions.first().unwrap().to_string(),
+default: Some(true),
+bind: Some("Return".to_string()),
+⋮----
+result.sort_by_key(|v| v.default.unwrap_or(false));
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item.xml").to_string()
+⋮----
+fn get_item_grid_layout(&self) -> String {
+⋮----
+fn text_transformer(&self, item: &Item, label: &Label) {
+if item.text.is_empty() {
+label.set_visible(false);
+⋮----
+label.set_text(&item.text);
+⋮----
+fn subtext_transformer(&self, item: &Item, label: &Label) {
+if item.subtext.is_empty() {
+⋮----
+label.set_text(&item.subtext);
+⋮----
+fn image_transformer(&self, b: &Builder, i: &ListItem, item: &Item) {
+shared_image_transformer(b, i, item);
+⋮----
+pub fn shared_image_transformer(b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+image.set_visible(false);
+if !item.icon.is_ascii() {
+image.set_text(&item.icon);
+image.set_visible(true);
+⋮----
+if item.icon.is_empty() {
+⋮----
+if !Path::new(&item.icon).is_absolute() {
+image.set_icon_name(Some(&item.icon));
+⋮----
+let icon = item.icon.clone();
+⋮----
+let Ok((bytes, _)) = gio::File::for_path(&icon).load_contents_future().await else {
+⋮----
+let texture = gdk::Texture::from_bytes(&glib::Bytes::from(&bytes)).unwrap();
+image.set_paintable(Some(&texture));
+⋮----
+pub fn setup_providers(elephant: bool) {
+⋮----
+providers.insert("dmenu".to_string(), Box::new(Dmenu::new()));
+providers.insert("actionmenu".to_string(), Box::new(ActionsMenu::new()));
+providers.insert("emergency".to_string(), Box::new(Emergency::new()));
+⋮----
+let config = get_config();
+⋮----
+val.clone()
+⋮----
+match Command::new("elephant").arg("listproviders").output() {
+⋮----
+.lines()
+.filter_map(|line| line.split_once(';').map(|(_, value)| value.to_string()))
+.collect(),
+⋮----
+eprintln!("Error parsing elephant output as UTF-8: {}", e);
+⋮----
+eprintln!(
+⋮----
+provider_list.into_iter().for_each(|p| {
+match p.as_str() {
+"calc" => providers.insert("calc".to_string(), Box::new(Calc::new())),
+"clipboard" => providers.insert("clipboard".to_string(), Box::new(Clipboard::new())),
+"files" => providers.insert("files".to_string(), Box::new(Files::new())),
+"symbols" => providers.insert("symbols".to_string(), Box::new(Symbols::new())),
+"unicode" => providers.insert("unicode".to_string(), Box::new(Unicode::new())),
+⋮----
+providers.insert("providerlist".to_string(), Box::new(Providerlist::new()))
+⋮----
+// provider if provider.starts_with("menus:") => providers.insert(
+//     provider.to_string(),
+//     Box::new(DefaultProvider::new(provider.to_string())),
+// ),
+⋮----
+providers.insert("archlinuxpkgs".to_string(), Box::new(ArchLinuxPkgs::new()))
+⋮----
+"bookmarks" => providers.insert("bookmarks".to_string(), Box::new(Bookmarks::new())),
+"todo" => providers.insert("todo".to_string(), Box::new(Todo::new())),
+provider => providers.insert(
+provider.to_string(),
+Box::new(DefaultProvider::new(provider.to_string())),
+⋮----
+.set(providers)
+.expect("couldn't initialize providers.")
+````
+
+## File: src/providers/providerlist.rs
+````rust
+pub struct Providerlist {
+⋮----
+impl Providerlist {
+pub fn new() -> Self {
+⋮----
+impl Provider for Providerlist {
+fn get_name(&self) -> &str {
+⋮----
+fn subtext_transformer(&self, item: &Item, label: &gtk4::Label) {
+let cfg = get_config();
+⋮----
+.iter()
+.find(|p| p.provider == item.identifier)
+⋮----
+label.set_text(format!("( {} )", &prefix.prefix).as_str());
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_providerlist.xml").to_string()
+````
+
+## File: src/providers/symbols.rs
+````rust
+pub struct Symbols {
+⋮----
+impl Symbols {
+pub fn new() -> Self {
+⋮----
+impl Provider for Symbols {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_symbols.xml").to_string()
+⋮----
+fn get_item_grid_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_symbols_grid.xml").to_string()
+⋮----
+fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+&& !item.icon.is_empty()
+⋮----
+image.set_label(&item.icon);
+````
+
+## File: src/providers/todo.rs
+````rust
+use std::path::Path;
+⋮----
+pub struct Todo {
+⋮----
+impl Todo {
+pub fn new() -> Self {
+⋮----
+impl Provider for Todo {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_todo.xml").to_string()
+⋮----
+fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+if !item.state.contains(&"creating".to_string()) {
+image.set_visible(false);
+⋮----
+let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
+⋮----
+} else if !item.icon.is_empty() {
+⋮----
+function(&image, Some(&item.icon))
+````
+
+## File: src/providers/unicode.rs
+````rust
+pub struct Unicode {
+⋮----
+impl Unicode {
+pub fn new() -> Self {
+⋮----
+impl Provider for Unicode {
+fn get_name(&self) -> &str {
+⋮----
+fn get_item_layout(&self) -> String {
+include_str!("../../resources/themes/default/item_unicode.xml").to_string()
+⋮----
+fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
+⋮----
+&& !item.icon.is_empty()
+⋮----
+image.set_label(&format!("{unicode_char}"));
+````
+
+## File: src/renderers/mod.rs
+````rust
+use crate::config::get_config;
+use crate::protos::generated_proto::query::query_response::Item;
+use crate::providers::PROVIDERS;
+⋮----
+use gtk4::gdk::ContentProvider;
+use gtk4::gio::File;
+use gtk4::gio::prelude::FileExt;
+⋮----
+use std::path::Path;
+pub fn create_item(list_item: &ListItem, item: &Item, theme: &Theme) {
+⋮----
+let _ = if !is_grid() {
+b.add_from_string(
+⋮----
+.get(&item.provider)
+.unwrap_or_else(|| panic!("failed to get item layout: {}", &item.provider)),
+⋮----
+.unwrap_or_else(|| panic!("failed to get item grid layout: {}", &item.provider)),
+⋮----
+let itembox: Box = match b.object("ItemBox") {
+⋮----
+set_error("Theme: missing 'ItemBox' object".to_string());
+⋮----
+with_themes(|t| {
+let theme = t.get("default").unwrap();
+let _ = b.add_from_string(
+⋮----
+.expect("failed to get item layout"),
+⋮----
+b.object("ItemBox").unwrap()
+⋮----
+itembox.add_css_class(&item.provider.replace("menus:", "menus-"));
+⋮----
+.iter()
+.filter(|i| !i.is_empty())
+.for_each(|i| itembox.add_css_class(i));
+if get_dmenu_current() != 0 && get_dmenu_current() as u32 == list_item.position() + 1 {
+itembox.add_css_class("current");
+⋮----
+list_item.set_child(Some(&itembox));
+if Path::new(&item.text).is_absolute() {
+itembox.add_controller(create_drag_source(&item.text));
+⋮----
+let p = PROVIDERS.get().unwrap().get(&item.provider).unwrap();
+⋮----
+p.text_transformer(item, &text);
+⋮----
+p.subtext_transformer(item, &text);
+⋮----
+p.image_transformer(&b, list_item, item);
+⋮----
+if is_hide_qa() || get_config().hide_quick_activation {
+text.set_visible(false);
+⋮----
+if let Some(qa) = &get_config().keybinds.quick_activate {
+let i = list_item.position();
+if let Some(val) = qa.get(i as usize) {
+text.set_label(val);
+⋮----
+pub fn create_drag_source(text: &str) -> DragSource {
+⋮----
+let text = text.to_string();
+drag_source.connect_prepare(move |_, _, _| {
+⋮----
+let uri_string = format!("{}\n", file.uri());
+let b = glib::Bytes::from(uri_string.as_bytes());
+⋮----
+Some(cp)
+⋮----
+drag_source.connect_drag_begin(|_, _| with_window(|w| w.window.set_visible(false)));
+drag_source.connect_drag_end(|_, _, _| with_window(|w| quit(&w.app, false)));
+````
+
+## File: src/state/mod.rs
+````rust
+use std::collections::HashSet;
+⋮----
+use crate::data::get_provider_state;
+use crate::keybinds::AfterAction;
+use crate::protos::generated_proto::providerstate::ProviderStateResponse;
+use crate::protos::generated_proto::query::QueryResponse;
+⋮----
+pub struct AppState {
+⋮----
+pub fn init_app_state() {
+⋮----
+.set(RwLock::new(AppState::default()))
+.expect("can't init appstate");
+⋮----
+pub fn get_theme() -> String {
+STATE.get().unwrap().read().unwrap().theme.clone()
+⋮----
+pub fn set_theme(val: String) {
+STATE.get().unwrap().write().unwrap().theme = val
+⋮----
+pub fn set_global_provider_actions(val: Option<Vec<String>>) {
+⋮----
+.get()
+.unwrap()
+.write()
+⋮----
+pub fn get_global_provider_actions() -> Option<Vec<String>> {
+⋮----
+.read()
+⋮----
+.clone()
+⋮----
+pub fn get_async_after() -> Option<AfterAction> {
+STATE.get().unwrap().read().unwrap().async_after.clone()
+⋮----
+pub fn set_async_after(val: Option<AfterAction>) {
+STATE.get().unwrap().write().unwrap().async_after = val
+⋮----
+pub fn get_current_prefix() -> String {
+STATE.get().unwrap().read().unwrap().current_prefix.clone()
+⋮----
+pub fn set_current_prefix(val: String) {
+STATE.get().unwrap().write().unwrap().current_prefix = val
+⋮----
+pub fn get_current_set() -> String {
+STATE.get().unwrap().read().unwrap().current_set.clone()
+⋮----
+pub fn set_current_set(val: String) {
+STATE.get().unwrap().write().unwrap().current_set = val
+⋮----
+pub fn get_provider() -> String {
+STATE.get().unwrap().read().unwrap().provider.clone()
+⋮----
+pub fn set_provider(val: String) {
+STATE.get().unwrap().write().unwrap().provider = val.clone();
+handle_grid_setting();
+⋮----
+pub fn get_prefix_provider() -> String {
+STATE.get().unwrap().read().unwrap().prefix_provider.clone()
+⋮----
+pub fn set_prefix_provider(val: String) {
+STATE.get().unwrap().write().unwrap().prefix_provider = val.clone();
+if !val.is_empty() {
+get_provider_state(val);
+⋮----
+clear_global_keybind_hints();
+⋮----
+pub fn get_initial_placeholder() -> String {
+⋮----
+pub fn set_initial_placeholder(val: String) {
+STATE.get().unwrap().write().unwrap().initial_placeholder = val
+⋮----
+pub fn get_placeholder() -> String {
+STATE.get().unwrap().read().unwrap().placeholder.clone()
+⋮----
+pub fn set_placeholder(val: String) {
+STATE.get().unwrap().write().unwrap().placeholder = val
+⋮----
+pub fn get_error() -> String {
+STATE.get().unwrap().read().unwrap().error.clone()
+⋮----
+pub fn set_error(val: String) {
+STATE.get().unwrap().write().unwrap().error = val
+⋮----
+pub fn get_last_query() -> String {
+STATE.get().unwrap().read().unwrap().last_query.clone()
+⋮----
+pub fn set_last_query(val: String) {
+STATE.get().unwrap().write().unwrap().last_query = val
+⋮----
+pub fn set_is_service(val: bool) {
+STATE.get().unwrap().write().unwrap().is_service = val
+⋮----
+pub fn set_is_grid(val: bool) {
+STATE.get().unwrap().write().unwrap().is_grid = val
+⋮----
+pub fn is_grid() -> bool {
+STATE.get().unwrap().read().unwrap().is_grid
+⋮----
+pub fn is_visible() -> bool {
+STATE.get().unwrap().read().unwrap().is_visible
+⋮----
+pub fn set_is_visible(val: bool) {
+STATE.get().unwrap().write().unwrap().is_visible = val;
+⋮----
+pub fn has_elephant() -> bool {
+STATE.get().unwrap().read().unwrap().has_elephant
+⋮----
+pub fn set_has_elephant(val: bool) {
+STATE.get().unwrap().write().unwrap().has_elephant = val
+⋮----
+pub fn is_connected() -> bool {
+STATE.get().unwrap().read().unwrap().is_connected
+⋮----
+pub fn set_is_connected(val: bool) {
+STATE.get().unwrap().write().unwrap().is_connected = val
+⋮----
+pub fn is_stay_open_explicit_provider() -> bool {
+⋮----
+pub fn set_is_stay_open_explicit_provider(val: bool) {
+⋮----
+pub fn is_connecting() -> bool {
+STATE.get().unwrap().read().unwrap().is_connecting
+⋮----
+pub fn set_is_connecting(val: bool) {
+STATE.get().unwrap().write().unwrap().is_connecting = val
+⋮----
+pub fn is_input_only() -> bool {
+STATE.get().unwrap().read().unwrap().input_only
+⋮----
+pub fn set_input_only(val: bool) {
+STATE.get().unwrap().write().unwrap().input_only = val
+⋮----
+pub fn is_index() -> bool {
+STATE.get().unwrap().read().unwrap().index
+⋮----
+pub fn set_index(val: bool) {
+STATE.get().unwrap().write().unwrap().index = val
+⋮----
+pub fn is_param_close() -> bool {
+STATE.get().unwrap().read().unwrap().is_param_close
+⋮----
+pub fn set_param_close(val: bool) {
+STATE.get().unwrap().write().unwrap().is_param_close = val
+⋮----
+pub fn is_dmenu_keep_open() -> bool {
+STATE.get().unwrap().read().unwrap().dmenu_keep_open
+⋮----
+pub fn set_dmenu_keep_open(val: bool) {
+STATE.get().unwrap().write().unwrap().dmenu_keep_open = val
+⋮----
+pub fn is_dmenu_exit_after() -> bool {
+STATE.get().unwrap().read().unwrap().dmenu_exit_after
+⋮----
+pub fn set_dmenu_exit_after(val: bool) {
+STATE.get().unwrap().write().unwrap().dmenu_exit_after = val
+⋮----
+pub fn is_dmenu() -> bool {
+STATE.get().unwrap().read().unwrap().is_dmenu
+⋮----
+pub fn set_is_dmenu(val: bool) {
+STATE.get().unwrap().write().unwrap().is_dmenu = val
+⋮----
+pub fn is_actions_menu() -> bool {
+STATE.get().unwrap().read().unwrap().is_actions_menu
+⋮----
+pub fn set_is_actions_menu(val: bool) {
+STATE.get().unwrap().write().unwrap().is_actions_menu = val
+⋮----
+pub fn get_action_menu_query() -> String {
+⋮----
+pub fn set_action_menu_query(val: String) {
+STATE.get().unwrap().write().unwrap().action_menu_query = val
+⋮----
+pub fn get_action_menu_prefix() -> Option<String> {
+⋮----
+pub fn set_action_menu_prefix(val: Option<String>) {
+STATE.get().unwrap().write().unwrap().action_menu_prefix = val
+⋮----
+pub fn get_action_menu_item() -> QueryResponse {
+⋮----
+pub fn set_action_menu_item(val: QueryResponse) {
+STATE.get().unwrap().write().unwrap().action_menu_item = val
+⋮----
+pub fn is_emergency() -> bool {
+STATE.get().unwrap().read().unwrap().is_emergency
+⋮----
+pub fn set_is_emergency(val: bool) {
+STATE.get().unwrap().write().unwrap().is_emergency = val
+⋮----
+pub fn is_hide_qa() -> bool {
+STATE.get().unwrap().read().unwrap().hide_qa
+⋮----
+pub fn set_hide_qa(val: bool) {
+STATE.get().unwrap().write().unwrap().hide_qa = val
+⋮----
+pub fn get_query() -> String {
+STATE.get().unwrap().read().unwrap().query.clone()
+⋮----
+pub fn set_query(val: &str) {
+STATE.get().unwrap().write().unwrap().query = val.to_string()
+⋮----
+pub fn is_no_search() -> bool {
+STATE.get().unwrap().read().unwrap().no_search
+⋮----
+pub fn set_no_search(val: bool) {
+STATE.get().unwrap().write().unwrap().no_search = val
+⋮----
+pub fn is_no_hints() -> bool {
+STATE.get().unwrap().read().unwrap().no_hints
+⋮----
+pub fn set_no_hints(val: bool) {
+STATE.get().unwrap().write().unwrap().no_hints = val
+⋮----
+pub fn is_service() -> bool {
+STATE.get().unwrap().read().unwrap().is_service
+⋮----
+pub fn set_initial_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_height = val
+⋮----
+pub fn set_initial_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_width = val
+⋮----
+pub fn set_initial_max_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_max_height = val
+⋮----
+pub fn set_initial_max_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_max_width = val
+⋮----
+pub fn set_initial_min_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_min_height = val
+⋮----
+pub fn set_initial_min_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().initial_min_width = val
+⋮----
+pub fn get_initial_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_height
+⋮----
+pub fn get_initial_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_width
+⋮----
+pub fn get_initial_min_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_min_height
+⋮----
+pub fn get_initial_min_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_min_width
+⋮----
+pub fn get_initial_max_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_max_height
+⋮----
+pub fn get_initial_max_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().initial_max_width
+⋮----
+pub fn set_parameter_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_height = val
+⋮----
+pub fn set_parameter_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_width = val
+⋮----
+pub fn set_parameter_min_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_min_height = val
+⋮----
+pub fn set_parameter_min_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_min_width = val
+⋮----
+pub fn set_parameter_max_height(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_max_height = val
+⋮----
+pub fn set_parameter_max_width(val: Option<i32>) {
+STATE.get().unwrap().write().unwrap().parameter_max_width = val
+⋮----
+pub fn get_parameter_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_height
+⋮----
+pub fn get_parameter_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_width
+⋮----
+pub fn get_parameter_min_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_min_height
+⋮----
+pub fn get_parameter_min_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_min_width
+⋮----
+pub fn get_parameter_max_height() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_max_height
+⋮----
+pub fn get_parameter_max_width() -> Option<i32> {
+STATE.get().unwrap().read().unwrap().parameter_max_width
+⋮----
+pub fn get_dmenu_current() -> i64 {
+STATE.get().unwrap().read().unwrap().dmenu_current
+⋮----
+pub fn set_dmenu_current(val: i64) {
+STATE.get().unwrap().write().unwrap().dmenu_current = val
+⋮----
+pub fn add_theme(val: String) {
+⋮----
+.insert(val);
+⋮----
+pub fn has_theme(val: &str) -> bool {
+⋮----
+.contains(val)
+⋮----
+pub fn set_global_provider_state(state: ProviderStateResponse) {
+if !state.actions.is_empty() {
+set_global_provider_actions(Some(state.actions.clone()));
+set_global_keybind_hints(state.actions, state.provider);
+````
+
+## File: src/theme/mod.rs
+````rust
+use crate::config::get_config;
+use crate::providers::PROVIDERS;
+use crate::state::add_theme;
+⋮----
+use gtk4::gdk::Display;
+use gtk4::prelude::GtkWindowExt;
+⋮----
+use std::cell::OnceCell;
+use std::collections::HashMap;
+use std::path::PathBuf;
+⋮----
+thread_local! {
+⋮----
+pub struct Theme {
+⋮----
+impl Theme {
+pub fn default() -> Self {
+⋮----
+layout: include_str!("../../resources/themes/default/layout.xml").to_string(),
+keybind: include_str!("../../resources/themes/default/keybind.xml").to_string(),
+preview: include_str!("../../resources/themes/default/preview.xml").to_string(),
+⋮----
+for (k, v) in PROVIDERS.get().unwrap() {
+s.items.insert(k.clone(), v.get_item_layout());
+⋮----
+s.grid_items.insert(k.clone(), v.get_item_grid_layout());
+⋮----
+pub fn setup_themes(elephant: bool, theme: String, is_service: bool) {
+⋮----
+let dirs = xdg::BaseDirectories::with_prefix("walker").find_config_files("themes");
+let mut config_paths: Vec<PathBuf> = dirs.collect();
+if let Some(a) = &get_config().additional_theme_location
+⋮----
+config_paths.push(PathBuf::from(a.replace("~", &home).to_string()));
+⋮----
+let files = vec![
+⋮----
+.get()
+.unwrap()
+.iter()
+.map(|v| format!("item_{}.xml", v.0));
+result.extend(additional);
+⋮----
+path.push(&theme);
+if let Some(t) = setup_theme_from_path(path.clone(), &combined) {
+themes.insert(theme.clone(), t);
+add_theme(theme.clone());
+⋮----
+path.pop();
+⋮----
+let entry = theme_dir.unwrap();
+let path = entry.path();
+if !path.is_dir() {
+⋮----
+let Some(name) = path.file_name() else {
+⋮----
+let theme_name = name.to_string_lossy();
+⋮----
+themes.insert(theme_name.to_string(), t);
+add_theme(theme_name.to_string());
+⋮----
+if !themes.contains_key("default") {
+themes.insert("default".to_string(), Theme::default());
+add_theme("default".to_string());
+⋮----
+THEMES.with(|s| s.set(themes).expect("failed initializing themes"));
+⋮----
+fn setup_theme_from_path(path: PathBuf, files: &Vec<String>) -> Option<Theme> {
+⋮----
+if !path.exists() {
+⋮----
+let mut pc = path.clone();
+⋮----
+path.push(filename);
+let result = fs::read_to_string(&path).ok();
+⋮----
+match file.as_str() {
+⋮----
+if let Some(s) = read_file(file) {
+theme.items.insert("default".to_string(), s);
+⋮----
+pc.push("style.scss");
+theme.scss = Some(pc.clone());
+pc.pop();
+⋮----
+pc.push("style.css");
+theme.css = Some(gio::File::for_path(&pc));
+⋮----
+name if name.ends_with("_grid.xml") && name.starts_with("item_") => {
+⋮----
+.strip_prefix("item_")
+⋮----
+.strip_suffix(".xml")
+.unwrap();
+theme.grid_items.insert(key.to_string(), s);
+⋮----
+name if name.ends_with(".xml")
+&& name.starts_with("item_")
+&& !name.ends_with("grid.xml") =>
+⋮----
+theme.items.insert(key.to_string(), s);
+⋮----
+Some(theme)
+⋮----
+pub fn setup_css(theme: String) {
+with_themes(|t| {
+if let Some(t) = t.get(&theme) {
+with_css_provider(|p| {
+⋮----
+let options = match f.parent() {
+Some(dir) => grass::Options::default().load_path(dir),
+⋮----
+p.load_from_string(&css);
+⋮----
+eprintln!("SCSS parse error: {err}");
+⋮----
+p.load_from_file(f);
+⋮----
+p.load_from_string(include_str!("../../resources/themes/default/style.css"));
+⋮----
+pub fn setup_css_provider() {
+let display = Display::default().unwrap();
+⋮----
+set_css_provider(p);
+⋮----
+pub fn setup_layer_shell(win: &Window) {
+⋮----
+win.set_titlebar(Some(&titlebar));
+⋮----
+let cfg = get_config();
+win.init_layer_shell();
+win.set_namespace(Some("walker"));
+win.set_exclusive_zone(-1);
+win.set_layer(Layer::Overlay);
+win.set_keyboard_mode(if cfg.force_keyboard_focus {
+⋮----
+win.set_anchor(Edge::Left, cfg.shell.anchor_left);
+win.set_anchor(Edge::Right, cfg.shell.anchor_right);
+win.set_anchor(Edge::Top, cfg.shell.anchor_top);
+win.set_anchor(Edge::Bottom, cfg.shell.anchor_bottom);
+⋮----
+pub fn with_themes<F, R>(f: F) -> R
+⋮----
+THEMES.with(|state| {
+let data = state.get().expect("Themes not initialized");
+f(data)
+````
+
+## File: src/ui/mod.rs
+````rust
+pub mod window;
+````
+
+## File: src/ui/window.rs
+````rust
+thread_local! {
+⋮----
+pub fn set_css_provider(provider: CssProvider) {
+CSS_PROVIDER.with(|p| *p.borrow_mut() = Some(provider));
+⋮----
+pub fn with_css_provider<F, R>(f: F) -> Option<R>
+⋮----
+CSS_PROVIDER.with(|p| p.borrow().as_ref().map(f))
+⋮----
+pub struct WindowData {
+⋮----
+pub fn with_window<F, R>(f: F) -> R
+⋮----
+WINDOWS.with(|windows| {
+let windows_map = windows.get().unwrap();
+let theme = get_theme();
+⋮----
+.get(&theme)
+.or_else(|| windows_map.get("default"))
+.map(f)
+.unwrap_or_else(|| {
+println!("default theme not found");
+⋮----
+pub fn setup_theme_window(app: &Application, val: &Theme) -> Result<WindowData, String> {
+⋮----
+let _ = builder.add_from_string(&val.layout);
+let window: Window = match builder.object("Window") {
+⋮----
+None => return Err("missing 'Window' object".into()),
+⋮----
+let scroll: ScrolledWindow = match builder.object("Scroll") {
+⋮----
+None => return Err("missing 'Scroll' object".into()),
+⋮----
+let list: GridView = match builder.object("List") {
+⋮----
+None => return Err("missing 'List' object".into()),
+⋮----
+let elephant_hint: Label = match builder.object("ElephantHint") {
+⋮----
+None => return Err("missing 'ElephantHint' object".into()),
+⋮----
+let error: Label = match builder.object("Error") {
+⋮----
+None => return Err("missing 'Error' object".into()),
+⋮----
+let box_wrapper: gtk4::Box = match builder.object("BoxWrapper") {
+⋮----
+None => return Err("missing 'BoxWrapper' object".into()),
+⋮----
+let content_container: gtk4::Box = match builder.object("ContentContainer") {
+⋮----
+None => return Err("missing 'ContentContainer' object".into()),
+⋮----
+let keybinds: gtk4::Box = match builder.object("Keybinds") {
+⋮----
+None => return Err("missing 'Keybinds' object".into()),
+⋮----
+let global_keybinds: gtk4::Box = match builder.object("GlobalKeybinds") {
+⋮----
+None => return Err("missing 'GlobalKeybinds' object".into()),
+⋮----
+let item_keybinds: gtk4::Box = match builder.object("ItemKeybinds") {
+⋮----
+None => return Err("missing 'ItemKeybinds' object".into()),
+⋮----
+let input: Option<Entry> = builder.object("Input");
+let placeholder: Option<Label> = builder.object("Placeholder");
+⋮----
+let item = entry.downcast_ref::<QueryResponseObject>().unwrap();
+let q = get_query();
+if (is_actions_menu() || is_dmenu() || is_emergency()) && !q.is_empty() {
+let f = 18 * q.len();
+if item.dmenu_score() < f as u32 {
+⋮----
+let filter_model = FilterListModel::new(Some(items.clone()), Some(filter.clone()));
+let selection = SingleSelection::new(Some(filter_model.clone()));
+let search_container: Option<Box> = builder.object("SearchContainer");
+let preview_container: Option<Box> = builder.object("Preview");
+let max_columns = list.max_columns();
+⋮----
+mouse_x: 0.0.into(),
+mouse_y: 0.0.into(),
+app: app.clone(),
+⋮----
+p.set_visible(false);
+⋮----
+setup_window_behavior(&ui, app);
+⋮----
+ui.sid = Some(setup_input_handling(input))
+⋮----
+setup_keyboard_handling(&ui);
+setup_list_behavior(&ui);
+setup_mouse_handling(&ui);
+ui.window.set_application(Some(app));
+ui.window.set_css_classes(&[]);
+setup_layer_shell(&ui.window);
+Ok(ui)
+⋮----
+pub fn setup_window(app: &Application) {
+⋮----
+with_themes(|t| {
+⋮----
+match setup_theme_window(app, val) {
+⋮----
+windows.insert(key.to_string(), res);
+⋮----
+Err(error) => set_error(format!("Theme [{key}]: {error}")),
+⋮----
+WINDOWS.with(|s| s.set(windows).expect("failed initializing windows"));
+⋮----
+pub fn check_error() {
+with_window(|w| {
+if !get_error().is_empty() {
+w.error.set_text(&get_error());
+w.error.set_visible(true);
+⋮----
+w.error.set_text("");
+w.error.set_visible(false);
+⋮----
+fn setup_window_behavior(ui: &WindowData, app: &Application) {
+⋮----
+ui.selection.set_autoselect(true);
+ui.selection.connect_items_changed(move |_, _, _, _| {
+if is_dmenu() || is_emergency() || is_actions_menu() {
+handle_changed_items();
+⋮----
+preview.set_visible(false);
+⋮----
+ui.selection.connect_selection_changed(move |_, _, _| {
+⋮----
+handle_preview();
+⋮----
+.scroll_to(w.selection.selected(), ListScrollFlags::NONE, None);
+set_keybind_hint();
+⋮----
+let app_copy = app.clone();
+ui.list.connect_activate(move |_, _| {
+activate_default(&app_copy);
+⋮----
+let config = get_config();
+⋮----
+.set_single_click_activate(config.single_click_activation);
+⋮----
+gc.set_propagation_phase(PropagationPhase::Target);
+gc.connect_pressed(move |_, _, _, _| {
+quit(&app_copy, true);
+⋮----
+ui.window.add_controller(gc);
+⋮----
+fn activate_default(app: &Application) {
+⋮----
+let query = w.input.as_ref().map(Entry::text).unwrap_or_default();
+if let Some(item) = get_selected_item() {
+let provider = item.provider.clone();
+let providers = PROVIDERS.get().unwrap();
+let p = providers.get(&provider).unwrap();
+let actions = p.get_keybind_hint(&item.actions);
+let action = if item.actions.len() == 1 {
+⋮----
+.iter()
+.find(|a| a.action == *item.actions.first().unwrap())
+.unwrap()
+⋮----
+actions.iter().find(|a| a.default.unwrap_or(false)).unwrap()
+⋮----
+activate(get_selected_query_response(), &provider, &query, action);
+let after = action.after.as_ref().unwrap_or(&AfterAction::Close).clone();
+handle_after(&after, app, query.to_string());
+⋮----
+fn setup_input_handling(input: &Entry) -> gdk::glib::SignalHandlerId {
+input.connect_changed(move |input| {
+disable_mouse();
+let text = input.text().to_string();
+let cfg = get_config();
+let delimiter = if let Some(item) = get_selected_query_response() {
+if let Some(d) = cfg.providers.argument_delimiter.get(&item.item.provider) {
+⋮----
+if !text.contains(delimiter) {
+input_changed(&text);
+⋮----
+fn handle_dmenu_print(w: &WindowData) -> Option<AfterAction> {
+⋮----
+.as_ref()
+.map(Entry::text)
+.unwrap_or_default()
+.to_string();
+if text.is_empty() {
+text = "CNCLD".to_string();
+⋮----
+if is_service() {
+send_message(text);
+⋮----
+println!("{text}");
+⋮----
+Some(AfterAction::Close)
+⋮----
+fn handle_emergency(selected: &Item) -> Option<AfterAction> {
+if let Some(e) = &get_config().emergencies
+&& let Some(item) = e.iter().find(|e| e.text == selected.text)
+⋮----
+.arg("-c")
+.arg(&item.command)
+.stdin(Stdio::null()) // Detach from stdin
+.stdout(Stdio::null()) // Detach from stdout
+.stderr(Stdio::null()) // Detach from stderr
+.spawn()
+.expect("failed to run emergency command");
+return Some(AfterAction::Close);
+⋮----
+fn handle_provider(query: &str, k: gdk::Key, m: gdk::ModifierType) -> Option<AfterAction> {
+⋮----
+let mut provider = if !get_provider().is_empty() {
+get_provider()
+⋮----
+get_prefix_provider()
+⋮----
+if !provider.is_empty()
+&& let Some(action) = get_provider_global_bind(&provider, k, m)
+⋮----
+keybind_action = Some(action.clone());
+after = Some(action.after.unwrap_or(AfterAction::Close));
+if action.action.starts_with("set:")
+&& let Some((_, set)) = action.action.split_once(":")
+⋮----
+set_current_set(set.to_string());
+set_provider(String::new());
+⋮----
+if action.action.starts_with("provider:")
+&& let Some((_, provider)) = action.action.split_once(":")
+⋮----
+set_provider(provider.to_string());
+⋮----
+if keybind_action.is_none()
+&& let Some(r) = get_selected_query_response()
+⋮----
+response = Some(r.clone());
+let Some(item) = r.item.as_ref() else {
+⋮----
+provider = item.provider.clone();
+if let Some(action) = get_provider_bind(&item.provider, k, m, &item.actions) {
+after = Some(action.after.as_ref().unwrap_or(&AfterAction::Close).clone());
+keybind_action = Some(action);
+⋮----
+if is_dmenu_keep_open() && !is_dmenu_exit_after() {
+after = Some(AfterAction::Nothing)
+⋮----
+if !a.action.starts_with("set:") && !a.action.starts_with("provider:") {
+if provider == "windows" && get_config().force_keyboard_focus {
+println!(
+⋮----
+activate(response, provider.as_str(), &query, &a);
+⋮----
+fn handle_actions_menu(selected: &Item) -> Option<AfterAction> {
+let response = get_action_menu_item();
+let item = response.item.as_ref()?;
+⋮----
+if let Some(p) = &providers.get(&item.provider) {
+⋮----
+.get_actions()
+.into_iter()
+.find(|a| a.action == selected.identifier)
+⋮----
+Some(action)
+⋮----
+get_fallback_action(&selected.identifier)
+⋮----
+action.as_ref()?;
+let action = action.unwrap();
+⋮----
+Some(a.clone())
+⋮----
+activate(
+Some(get_action_menu_item()),
+⋮----
+&get_action_menu_query(),
+⋮----
+fn setup_keyboard_handling(ui: &WindowData) {
+⋮----
+controller.set_propagation_phase(gtk4::PropagationPhase::Capture);
+let app = ui.app.clone();
+controller.connect_key_pressed(move |_, mut k, _, m| {
+⋮----
+let handled = with_window(|w| {
+if !is_connected() && !is_dmenu() {
+if let Some(action) = get_bind(k, m, is_grid())
+⋮----
+quit(&app, true);
+⋮----
+if !is_emergency() {
+⋮----
+if is_emergency() {
+after = handle_emergency(&item);
+⋮----
+if is_actions_menu() {
+after = handle_actions_menu(&item);
+⋮----
+} else if is_dmenu() {
+after = handle_dmenu_print(w);
+⋮----
+if after.is_none() {
+after = handle_provider(&query, k, m)
+⋮----
+let is_grid = is_grid();
+if let Some(action) = get_bind(k, m, is_grid) {
+match action.action.as_str() {
+ACTION_CLOSE => quit(&app, true),
+ACTION_SELECT_NEXT if !is_grid => select_next(),
+ACTION_SELECT_PREVIOUS if !is_grid => select_previous(),
+ACTION_SELECT_LEFT if is_grid => select_previous(),
+ACTION_SELECT_RIGHT if is_grid => select_next(),
+ACTION_SELECT_UP if is_grid => select_up(),
+ACTION_SELECT_DOWN if is_grid => select_down(),
+ACTION_TOGGLE_EXACT => toggle_exact(),
+ACTION_RESUME_LAST_QUERY => resume_last_query(),
+ACTION_SELECT_PAGE_DOWN => select_page_down(),
+ACTION_SELECT_PAGE_UP => select_page_up(),
+ACTION_SHOW_ACTIONS => show_actions_menu(get_selected_query_response()),
+action if action.starts_with(ACTION_QUICK_ACTIVATE) => {
+if let Some((_, after)) = action.split_once(":") {
+let i: u32 = after.parse().unwrap();
+quick_activate(&app, i)
+⋮----
+handle_after(&a, &app, query.to_string());
+⋮----
+handled.into()
+⋮----
+ui.window.add_controller(controller);
+⋮----
+pub fn reset_actions_menu() {
+⋮----
+set_is_actions_menu(false);
+if let Some(p) = get_action_menu_prefix() {
+set_current_prefix(p);
+⋮----
+fn handle_after(a: &AfterAction, app: &Application, query: String) {
+⋮----
+quit(app, false);
+⋮----
+reset_actions_menu();
+⋮----
+set_input_text(&get_action_menu_query());
+⋮----
+select_next();
+⋮----
+if input.text().is_empty() {
+⋮----
+set_input_text(&get_current_prefix());
+⋮----
+AfterAction::AsyncReload => set_async_after(Some(AfterAction::AsyncReload)),
+AfterAction::AsyncClearReload => set_async_after(Some(AfterAction::AsyncClearReload)),
+⋮----
+fn setup_list_behavior(ui: &WindowData) {
+⋮----
+factory.connect_unbind(|_, item| {
+⋮----
+.expect("failed casting to ListItem");
+item.set_child(None::<&gtk4::Widget>);
+⋮----
+factory.connect_bind(|_, item| {
+⋮----
+let itemitem = item.item();
+⋮----
+.expect("The item has to be a QueryResponseObject");
+let response = response_obj.response();
+⋮----
+if let Some(i) = response.item.as_ref() {
+if let Some(theme) = t.get(&get_theme()) {
+create_item(item, i, theme);
+⋮----
+create_item(item, i, t.get("default").unwrap());
+⋮----
+ui.list.set_model(Some(&ui.selection));
+ui.list.set_factory(Some(&factory));
+⋮----
+fn setup_mouse_handling(ui: &WindowData) {
+if get_config().disable_mouse {
+ui.list.set_can_target(false);
+⋮----
+input.set_can_target(false);
+⋮----
+motion.connect_motion(|_, x, y| {
+⋮----
+if w.mouse_x.get() == 0.0 || w.mouse_y.get() == 0.0 {
+w.mouse_x.set(x);
+w.mouse_y.set(y);
+⋮----
+if (x != w.mouse_x.get() || y != w.mouse_y.get()) && !w.list.can_target() {
+w.list.set_can_target(true);
+⋮----
+ui.window.add_controller(motion);
+⋮----
+fn reset_provider_states() {
+if is_connected() && PROVIDERS.get().unwrap().contains_key("clipboard") {
+set_state("clipboard", "show_combined");
+⋮----
+if is_connected() && PROVIDERS.get().unwrap().contains_key("todo") {
+set_state("todo", "search");
+⋮----
+if is_connected() && PROVIDERS.get().unwrap().contains_key("bookmarks") {
+set_state("bookmarks", "search");
+⋮----
+pub fn quit(app: &Application, cancelled: bool) {
+reset_provider_states();
+if GLOBAL_DMENU_SENDER.read().unwrap().is_some() {
+send_message("CNCLD".to_string());
+⋮----
+.flags()
+.contains(gtk4::gio::ApplicationFlags::IS_SERVICE)
+⋮----
+app.quit();
+⋮----
+app.active_window().unwrap().set_visible(false);
+⋮----
+&& let Some(child) = preview.first_child()
+⋮----
+child.unparent();
+⋮----
+w.preview_builder.borrow_mut().take();
+⋮----
+// Clear all preview caches
+⋮----
+set_current_prefix(String::new());
+⋮----
+set_is_stay_open_explicit_provider(false);
+set_parameter_height(None);
+set_parameter_width(None);
+set_parameter_min_height(None);
+set_parameter_min_width(None);
+set_parameter_max_height(None);
+set_parameter_max_width(None);
+⋮----
+set_no_search(false);
+set_no_hints(false);
+set_placeholder(String::new());
+set_is_visible(false);
+set_dmenu_current(0);
+set_is_dmenu(false);
+set_input_only(false);
+set_param_close(false);
+set_hide_qa(false);
+set_query("");
+set_current_set(String::new());
+set_index(false);
+if is_dmenu_exit_after() {
+set_dmenu_exit_after(false);
+set_dmenu_keep_open(false);
+⋮----
+set_last_query(input.text().to_string());
+if !get_initial_placeholder().is_empty() {
+input.set_placeholder_text(Some(&get_initial_placeholder()));
+set_initial_placeholder(String::new());
+⋮----
+search_container.set_visible(true);
+⋮----
+w.item_keybinds.set_visible(true);
+w.keybinds.set_visible(true);
+w.content_container.set_visible(true);
+if let Some(val) = get_initial_height() {
+w.box_wrapper.set_height_request(val);
+set_initial_height(None);
+⋮----
+if let Some(val) = get_initial_width() {
+w.box_wrapper.set_width_request(val);
+set_initial_width(None);
+⋮----
+if let Some(val) = get_initial_max_width() {
+w.scroll.set_max_content_width(val);
+set_initial_max_width(None);
+⋮----
+if let Some(val) = get_initial_min_width() {
+w.scroll.set_min_content_width(val);
+set_initial_min_width(None);
+⋮----
+if let Some(val) = get_initial_max_height() {
+w.scroll.set_max_content_height(val);
+set_initial_max_height(None);
+⋮----
+if let Some(val) = get_initial_min_height() {
+w.scroll.set_min_content_height(val);
+set_initial_min_height(None);
+⋮----
+w.items.remove_all();
+w.list.set_max_columns(w.list_max_columns);
+w.list.set_min_columns(w.list_max_columns);
+⋮----
+set_is_grid(is_grid);
+⋮----
+w.list.add_css_class("grid");
+⋮----
+w.list.remove_css_class("grid");
+⋮----
+set_theme(get_config().theme.clone());
+⋮----
+pub fn select_up() {
+⋮----
+let current = selection.selected();
+if current < w.list.max_columns() {
+⋮----
+selection.set_selected(current - w.list.max_columns());
+⋮----
+pub fn select_down() {
+⋮----
+let n_items = selection.n_items();
+if current + w.list.max_columns() >= n_items {
+selection.set_selected(n_items - 1);
+⋮----
+selection.set_selected(current + w.list.max_columns());
+⋮----
+pub fn select_next() {
+⋮----
+if !get_config().selection_wrap {
+⋮----
+selection.set_selected(current + 1);
+⋮----
+selection.set_selected(next);
+⋮----
+pub fn select_previous() {
+⋮----
+selection.set_selected(current - 1);
+⋮----
+selection.set_selected(prev);
+⋮----
+fn quick_activate(app: &Application, i: u32) {
+⋮----
+w.selection.set_selected(i);
+⋮----
+activate_default(app);
+⋮----
+pub fn resume_last_query() {
+if !get_last_query().is_empty() {
+set_input_text(&get_last_query());
+⋮----
+pub fn toggle_exact() {
+⋮----
+let prefix = get_current_prefix();
+let input_text = i.text();
+let text = input_text.strip_prefix(&prefix).unwrap_or(&input_text);
+let toggled = match text.strip_prefix(&cfg.exact_search_prefix) {
+Some(t) => t.to_string(),
+None => format!("{}{}", cfg.exact_search_prefix, text),
+⋮----
+set_input_text(&format!("{}{}", prefix, toggled));
+⋮----
+fn disable_mouse() {
+⋮----
+w.mouse_x.set(0.0);
+w.mouse_y.set(0.0);
+w.list.set_can_target(false);
+⋮----
+pub fn get_selected_item() -> Option<crate::protos::generated_proto::query::query_response::Item> {
+⋮----
+.selected_item()
+.map(Object::downcast::<QueryResponseObject>)
+.and_then(Result::ok)
+.and_then(|obj| obj.response().item.into_option())
+⋮----
+pub fn get_selected_query_response() -> Option<crate::protos::generated_proto::query::QueryResponse>
+⋮----
+.map(|obj| obj.response())
+⋮----
+pub fn handle_preview() {
+⋮----
+let Some(item) = get_selected_item() else {
+⋮----
+// Check if preview should be shown (not in ignore list and has preview content)
+⋮----
+if config.providers.ignore_preview.contains(&item.provider) {
+⋮----
+// Only show preview if there's preview content or preview_type specified
+if item.preview.is_empty() && item.preview_type.is_empty() {
+⋮----
+let mut preview_builder = w.preview_builder.borrow_mut();
+if preview_builder.is_none() {
+⋮----
+.add_from_string(include_str!("../../resources/themes/default/preview.xml"));
+*preview_builder = Some(builder);
+⋮----
+preview_builder.as_ref().unwrap().clone()
+⋮----
+pub fn clear_global_keybind_hints() {
+⋮----
+while let Some(child) = w.global_keybinds.first_child() {
+w.global_keybinds.remove(&child);
+⋮----
+pub fn set_global_keybind_hints(actions: Vec<String>, provider: String) {
+if get_config().actions_as_menu {
+⋮----
+while let Some(child) = k.first_child() {
+k.remove(&child);
+⋮----
+if let Some(p) = providers.get(&provider)
+&& !actions.is_empty()
+⋮----
+generate_hints(p, &actions, k);
+⋮----
+pub fn set_keybind_hint() {
+⋮----
+w.keybinds.set_visible(false);
+if is_no_hints()
+⋮----
+|| is_actions_menu()
+|| (is_dmenu() && cfg.hide_action_hints_dmenu)
+⋮----
+provider = if !get_provider().is_empty() {
+⋮----
+if let Some(p) = providers.get(&provider) {
+if !actions.is_empty() {
+⋮----
+} else if provider.starts_with("menus:")
+&& let Some(p) = providers.get("menus")
+⋮----
+} else if providers.get("menus").is_some() {
+⋮----
+pub fn generate_hints(p: &std::boxed::Box<dyn Provider>, actions: &[String], k: &gtk4::Box) {
+let mut hints = p.get_keybind_hint(actions);
+let len = hints.len();
+⋮----
+if !get_prefix_provider().is_empty() {
+hints.retain(|a| a.action != "menus:parent");
+⋮----
+.filter(|h| {
+if h.bind.as_ref().unwrap() == "Return" {
+⋮----
+.collect()
+⋮----
+if cfg.hide_return_action && h.bind.as_ref().unwrap() == "Return" {
+⋮----
+|| get_global_provider_actions().is_some()
+&& !get_global_provider_actions().unwrap().is_empty())
+⋮----
+filtered.push(get_show_actions_action());
+⋮----
+if filtered.is_empty() {
+⋮----
+filtered.iter().for_each(|h| {
+⋮----
+.get(&get_theme())
+.or_else(|| {
+set_error(format!(
+⋮----
+t.get("default")
+⋮----
+.unwrap();
+⋮----
+let _ = b.add_from_string(&theme.keybind);
+⋮----
+Some(res) => Some(res),
+⋮----
+set_error("Theme: missing 'Keybind' object".to_string());
+⋮----
+set_error("Theme: missing 'KeybindBind' object".to_string());
+⋮----
+let h_clone = h.clone();
+⋮----
+b.connect_clicked(move |_| {
+⋮----
+activate(get_selected_query_response(), &provider, &query, &h_clone);
+⋮----
+.unwrap_or(&AfterAction::Close)
+.clone();
+handle_after(&after, &w.app, query.to_string());
+⋮----
+let label: Option<Label> = b.object("KeybindLabel");
+check_error();
+⋮----
+b.set_text(h.bind.as_ref().unwrap())
+⋮----
+l.set_text(label);
+⋮----
+l.set_text(&h.action);
+⋮----
+k.append(&c);
+⋮----
+pub fn set_input_text(text: &str) {
+⋮----
+let sid = w.sid.as_ref().unwrap();
+input.block_signal(sid);
+input.set_text(text);
+input.unblock_signal(sid);
+input.set_position(-1);
+⋮----
+pub fn select_page_down() {
+⋮----
+let jump = get_config().page_jump_items;
+⋮----
+if get_config().selection_wrap && current == n_items - 1 {
+⋮----
+pub fn show_actions_menu(response: Option<crate::protos::generated_proto::query::QueryResponse>) {
+⋮----
+set_action_menu_item(response.clone());
+set_action_menu_query(get_query());
+if !get_current_prefix().is_empty() {
+set_action_menu_prefix(Some(get_current_prefix()));
+⋮----
+set_is_actions_menu(true);
+let Some(item) = response.item.as_ref() else {
+⋮----
+with_window(move |w| {
+⋮----
+set_input_text("");
+⋮----
+let mut actions = item.actions.clone();
+⋮----
+if let Some(globals) = get_global_provider_actions() {
+actions.extend(globals);
+⋮----
+if let Some(p) = providers.get(provider) {
+let hints = p.get_keybind_hint(&actions);
+hints.iter().enumerate().for_each(|(i, h)| {
+⋮----
+label.clone()
+⋮----
+h.action.clone()
+⋮----
+item.subtext = h.bind.clone().unwrap();
+item.provider = "actionmenu".to_string();
+⋮----
+item.actions = vec!["select".to_string()];
+item.identifier = h.action.clone();
+⋮----
+w.items.append(&QueryResponseObject::new(response));
+⋮----
+pub fn select_page_up() {
+⋮----
+if get_config().selection_wrap && current == 0 {
+⋮----
+pub fn handle_grid_setting() {
+⋮----
+if is_dmenu() {
+⋮----
+w.list.set_max_columns(1);
+w.list.set_min_columns(1);
+⋮----
+set_is_grid(false);
+⋮----
+let p = if !get_provider().is_empty() {
+⋮----
+if p.is_empty() {
+⋮----
+if let Some(cols) = &get_config().columns
+&& let Some(c) = cols.get(&p)
+⋮----
+w.list.set_max_columns(*c);
+w.list.set_min_columns(*c);
+⋮----
+pub fn handle_changed_items() {
+⋮----
+let provider = if !get_provider().is_empty() {
+⋮----
+if let Some(placeholders) = &get_config().placeholders {
+if s.n_items() == 0 {
+⋮----
+.get(&provider)
+.or(placeholders.get("default"))
+⋮----
+p.set_text(&ph.list);
+p.set_visible(s.n_items() == 0);
+⋮----
+w.scroll.set_visible(s.n_items() != 0);
+while let Some(child) = w.item_keybinds.first_child() {
+w.item_keybinds.remove(&child);
+````
+
+## File: src/config.rs
+````rust
+const DEFAULT_CONFIG: &str = include_str!("../resources/config.toml");
+⋮----
+pub struct EmergencyEntry {
+⋮----
+pub struct Walker {
+⋮----
+// Partial config for user overrides
+⋮----
+struct PartialWalker {
+⋮----
+struct PartialProviders {
+⋮----
+struct PartialKeybinds {
+⋮----
+struct PartialShell {
+⋮----
+struct PartialClipboard {
+⋮----
+impl Walker {
+pub fn new() -> Result<Self, ConfigError> {
+⋮----
+.add_source(File::from_str(DEFAULT_CONFIG, FileFormat::Toml))
+.build()?;
+let mut config: Walker = default_config.try_deserialize()?;
+⋮----
+xdg::BaseDirectories::with_prefix("walker").find_config_file("config.toml")
+⋮----
+.add_source(File::from(user_config_path))
+⋮----
+match user_config.try_deserialize() {
+Ok(res) => config.merge(res),
+⋮----
+set_error(format!("Config: {error}"));
+println!("{error}");
+⋮----
+.add_source(config::Environment::with_prefix("WALKER").separator("_"))
+⋮----
+config.merge(partial);
+⋮----
+Ok(config)
+⋮----
+fn merge(&mut self, partial: PartialWalker) {
+⋮----
+self.emergencies = Some(v);
+⋮----
+self.installed_providers = Some(v);
+⋮----
+self.additional_theme_location = Some(v);
+⋮----
+self.placeholders = Some(v);
+⋮----
+self.columns = Some(v);
+⋮----
+self.providers.merge(p);
+⋮----
+self.keybinds.merge(k);
+⋮----
+self.shell.merge(s);
+⋮----
+impl Providers {
+fn merge(&mut self, partial: PartialProviders) {
+⋮----
+v.iter().for_each(|(key, value)| {
+self.max_results_provider.insert(key.clone(), *value);
+⋮----
+.insert(key.clone(), value.to_string());
+⋮----
+if !self.actions.contains_key(key) {
+self.actions.insert(key.clone(), value.clone());
+⋮----
+.get(key)
+.unwrap()
+.iter()
+.map(|action| (action.action.clone(), action.clone()))
+.collect();
+⋮----
+defaults.extend(user);
+defaults.retain(|_, v| !v.unset.unwrap_or_default());
+⋮----
+.insert(key.clone(), defaults.into_values().collect());
+⋮----
+self.clipboard.merge(c);
+⋮----
+impl Keybinds {
+fn merge(&mut self, partial: PartialKeybinds) {
+⋮----
+self.quick_activate = Some(v);
+⋮----
+impl Shell {
+fn merge(&mut self, partial: PartialShell) {
+⋮----
+impl Clipboard {
+fn merge(&mut self, partial: PartialClipboard) {
+⋮----
+pub struct Shell {
+⋮----
+pub struct Placeholder {
+⋮----
+pub struct Keybinds {
+⋮----
+pub struct Providers {
+⋮----
+pub struct ProviderSet {
+⋮----
+pub struct Prefix {
+⋮----
+pub struct Clipboard {
+⋮----
+pub fn load() -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+.set(Walker::new()?)
+.map_err(|_| "Failed to set loaded config".into())
+⋮----
+pub fn get_config() -> &'static Walker {
+LOADED_CONFIG.get().expect("config not initialized")
+````
+
+## File: src/data.rs
+````rust
+use crate::config::get_config;
+⋮----
+use crate::protos::generated_proto::activate::ActivateRequest;
+⋮----
+use crate::protos::generated_proto::subscribe::SubscribeRequest;
+use crate::protos::generated_proto::subscribe::SubscribeResponse;
+use crate::providers::PROVIDERS;
+⋮----
+use gtk4::glib::Object;
+⋮----
+use std::cmp::Ordering;
+use std::collections::HashMap;
+⋮----
+use std::os::unix::net::UnixStream;
+⋮----
+use std::sync::Mutex;
+use std::time::Duration;
+⋮----
+pub fn input_changed(text: &str) {
+set_current_prefix(String::new());
+with_window(|w| {
+let is_empty = if text.is_empty() {
+w.window.remove_css_class("has-input");
+⋮----
+w.window.add_css_class("has-input");
+⋮----
+if is_dmenu() || is_emergency() || is_actions_menu() {
+⋮----
+set_query("");
+⋮----
+.iter()
+.flatten()
+.map(Object::downcast::<QueryResponseObject>)
+.filter_map(Result::ok)
+.for_each(|i| i.set_dmenu_score(0));
+⋮----
+set_query(text);
+⋮----
+sort_items_fuzzy(text);
+} else if is_connected() {
+if !get_provider().is_empty() {
+get_provider_state(get_provider());
+⋮----
+query(text);
+⋮----
+fn sort_items_fuzzy(query: &str) {
+⋮----
+.collect();
+list_store.remove_all();
+if query.is_empty() {
+items.sort_by(|a, b| {
+let score_a = a.response().item.as_ref().map(|i| i.score);
+let score_b = b.response().item.as_ref().map(|i| i.score);
+score_b.cmp(&score_a)
+⋮----
+.map(QueryResponseObject::response)
+.map(|response| response.item)
+.filter_map(MessageField::into_option)
+.map(|item| item.text);
+let mut matcher = Matcher::new(Config::DEFAULT.match_paths());
+⋮----
+let matches: Vec<(String, u32)> = pattern.match_list(texts, &mut matcher);
+⋮----
+let ra = a.response();
+⋮----
+.as_ref()
+.map(|i| i.text.as_str())
+.unwrap_or_default();
+let rb = b.response();
+⋮----
+match (score_map.get(text_a), score_map.get(text_b)) {
+⋮----
+a.set_dmenu_score(*aa);
+b.set_dmenu_score(*bb);
+bb.cmp(aa)
+⋮----
+(None, None) => text_a.cmp(text_b),
+⋮----
+list_store.extend_from_slice(&items);
+⋮----
+pub fn init_socket() -> Result<(), Box<dyn std::error::Error>> {
+if is_connecting() {
+return Ok(());
+⋮----
+set_is_connecting(true);
+println!("connecting to elephant...");
+⋮----
+.map(PathBuf::from)
+.unwrap_or_else(|_| env::temp_dir());
+socket_path.push("elephant");
+socket_path.push("elephant.sock");
+println!("waiting for elephant to start...");
+wait_for_file(&socket_path.to_string_lossy());
+⋮----
+handle_emergency();
+⋮----
+println!("Failed to connect: {e}. Retrying in 1 second...");
+⋮----
+*CONN.lock().unwrap() = Some(conn);
+⋮----
+println!("Failed to connect to menu: {e}. Retrying in 1 second...");
+⋮----
+*MENUCONN.lock().unwrap() = Some(menuconn);
+if PROVIDERS.get().unwrap().get("bluetooth").is_some() {
+⋮----
+*BLUETOOTHCONN.lock().unwrap() = Some(bluetoothconn);
+subscribe_bluetooth().unwrap();
+⋮----
+subscribe_menu().unwrap();
+start_listening();
+⋮----
+w.elephant_hint.set_visible(false);
+w.scroll.set_visible(true);
+set_is_connected(true);
+⋮----
+if !is_emergency() && get_error() == "Emergency Mode" {
+set_error(String::new());
+check_error();
+⋮----
+if !is_dmenu() {
+set_keybind_hint();
+⋮----
+set_is_connecting(false);
+set_is_emergency(false);
+println!("connected.");
+Ok(())
+⋮----
+fn start_listening() {
+⋮----
+if let Err(e) = listen_loop() {
+eprintln!("Listen loop error: {e}");
+handle_disconnect();
+⋮----
+if let Err(e) = listen_menus_loop() {
+eprintln!("Listen menu_loop error: {e}");
+⋮----
+if let Err(e) = listen_bluetooth_loop() {
+eprintln!("Listen bluetooth_loop error: {e}");
+⋮----
+fn listen_bluetooth_loop() -> Result<(), Box<dyn std::error::Error>> {
+let mut conn_guard = BLUETOOTHCONN.lock().unwrap();
+let conn = conn_guard.as_mut().ok_or("Connection not initialized")?;
+let mut conn_clone = conn.try_clone()?;
+drop(conn_guard);
+⋮----
+reader.read_exact(&mut header)?;
+⋮----
+let length = u32::from_be_bytes(header[1..].try_into().unwrap());
+let mut payload = vec![0u8; length as usize];
+reader.read_exact(&mut payload)?;
+⋮----
+resp.merge_from_bytes(&payload)?;
+⋮----
+match resp.value.as_str() {
+"bluetooth:remove" => p.set_text("Removing..."),
+"bluetooth:connect" => p.set_text("Connecting..."),
+"bluetooth:disconnect" => p.set_text("Disconnecting..."),
+"bluetooth:trust" => p.set_text("Trusting..."),
+"bluetooth:untrust" => p.set_text("Un-Trusting..."),
+"bluetooth:pair" => p.set_text("Pairing..."),
+"bluetooth:find" => p.set_text("Scanning..."),
+⋮----
+p.set_visible(true);
+w.scroll.set_visible(false);
+⋮----
+fn listen_menus_loop() -> Result<(), Box<dyn std::error::Error>> {
+let mut conn_guard = MENUCONN.lock().unwrap();
+⋮----
+set_global_provider_actions(None);
+set_provider(resp.value);
+⋮----
+set_input_text("");
+w.window.present();
+⋮----
+set_is_visible(true);
+⋮----
+fn listen_loop() -> Result<(), Box<dyn std::error::Error>> {
+let mut conn_guard = CONN.lock().unwrap();
+⋮----
+handle_changed_items();
+⋮----
+set_global_provider_state(resp);
+⋮----
+glib::idle_add_once(move || match get_async_after() {
+⋮----
+if is_actions_menu() {
+reset_actions_menu();
+set_input_text(
+format!("{}{}", get_current_prefix(), get_action_menu_query(),)
+.trim(),
+⋮----
+set_input_text(&input.text());
+⋮----
+set_async_after(None);
+⋮----
+if !get_current_prefix().is_empty() {
+set_input_text(&get_current_prefix());
+⋮----
+glib::idle_add_once(move || handle_response(resp, header[0]));
+⋮----
+fn handle_response(resp: QueryResponse, header_type: u8) {
+⋮----
+function(resp)
+⋮----
+fn clear_items() {
+with_window(|w| w.items.remove_all());
+⋮----
+fn update_existing_item(resp: QueryResponse) {
+⋮----
+let n_items = items.n_items();
+⋮----
+let Some(obj) = items.item(i).and_downcast::<crate::QueryResponseObject>() else {
+⋮----
+let existing = obj.response();
+⋮----
+(existing.item.as_ref(), resp.item.as_ref())
+⋮----
+items.remove(i);
+⋮----
+items.splice(i, 1, &[crate::QueryResponseObject::new(resp)]);
+⋮----
+fn add_new_item(resp: QueryResponse) {
+⋮----
+if let Some(n_items) = n_items.checked_sub(1)
+⋮----
+.item(n_items)
+⋮----
+let last_resp = last_obj.response();
+⋮----
+items.remove_all();
+⋮----
+items.append(&crate::QueryResponseObject::new(resp));
+⋮----
+fn query(text: &str) {
+let mut query_text = text.to_string();
+⋮----
+let cfg = get_config();
+let mut provider = get_provider();
+let providers = PROVIDERS.get().unwrap();
+if get_provider().is_empty()
+&& let Some(prefix) = cfg.providers.prefixes.iter().find(|prefix| {
+text.starts_with(&prefix.prefix) && providers.contains_key(&prefix.provider)
+⋮----
+provider = prefix.provider.clone();
+⋮----
+.strip_prefix(&prefix.prefix)
+.unwrap_or(text)
+.to_string();
+set_current_prefix(prefix.prefix.clone());
+set_prefix_provider(provider.clone());
+⋮----
+set_prefix_provider(String::new());
+⋮----
+if let Some((before, _)) = query_text.split_once(delimiter) {
+query_text = before.to_string();
+⋮----
+if let Some(stripped) = query_text.strip_prefix(&cfg.exact_search_prefix) {
+⋮----
+query_text = stripped.to_string();
+⋮----
+if !provider.is_empty() {
+req.providers.push(provider.clone());
+⋮----
+if req.providers.is_empty() {
+if get_current_set().is_empty() {
+if text.is_empty() {
+req.providers = cfg.providers.empty.clone();
+⋮----
+req.providers = cfg.providers.default.clone();
+⋮----
+.get(&get_current_set())
+.expect("can't find specified set");
+⋮----
+req.providers = set.empty.clone();
+⋮----
+req.providers = set.default.clone();
+⋮----
+if req.providers.len() == 1 {
+⋮----
+.get(req.providers.first().unwrap())
+⋮----
+let mut buffer = vec![0, 0];
+let length = req.compute_size() as u32;
+buffer.extend_from_slice(&length.to_be_bytes());
+req.write_to_vec(&mut buffer).unwrap();
+if let Some(conn) = CONN.lock().unwrap().as_mut() {
+match conn.write_all(&buffer) {
+⋮----
+eprintln!("send query socket error: {e}");
+⋮----
+fn handle_emergency() {
+if let Some(e) = &get_config().emergencies
+&& !is_emergency()
+⋮----
+set_is_emergency(true);
+⋮----
+w.items.remove_all();
+e.iter().for_each(|e| {
+⋮----
+item.text = e.text.clone();
+item.provider = "emergency".to_string();
+item.actions = vec!["select".to_string()];
+⋮----
+w.items.append(&QueryResponseObject::new(response));
+⋮----
+p.set_visible(false);
+⋮----
+set_error("Emergency Mode".to_string());
+⋮----
+w.elephant_hint.set_visible(true);
+⋮----
+w.keybinds.set_visible(false);
+⋮----
+fn handle_disconnect() {
+set_is_connected(false);
+⋮----
+while let Err(err) = init_socket() {
+println!("{err}");
+⋮----
+pub fn set_state(provider: &str, action: &str) {
+⋮----
+req.action = action.to_string();
+req.provider = provider.to_string();
+let mut buffer = vec![1, 0];
+⋮----
+if let Some(conn) = conn_guard.as_mut() {
+⋮----
+eprintln!("send clipboard disable images only socket error: {e}");
+⋮----
+pub fn get_provider_state(provider: String) {
+⋮----
+let mut buffer = vec![4, 0];
+⋮----
+eprintln!("send providerstate request socket error: {e}");
+⋮----
+pub fn activate(item_option: Option<QueryResponse>, provider: &str, query: &str, action: &Action) {
+⋮----
+if let Some(stripped) = query.strip_prefix(&cfg.exact_search_prefix) {
+⋮----
+req.action = action.action.to_string();
+⋮----
+if !get_provider().is_empty() || !get_prefix_provider().is_empty() {
+⋮----
+let mut res = item.item.text.clone();
+if is_index() {
+res = format!("{}", 1000000 - item.item.score);
+⋮----
+if is_service() {
+send_message(res);
+⋮----
+println!("{}", res);
+⋮----
+set_provider(item.item.identifier.to_string());
+⋮----
+req.query = query.to_string();
+⋮----
+if let Some(d) = cfg.providers.argument_delimiter.get(&item.item.provider) {
+⋮----
+match query.split_once(delimiter) {
+⋮----
+req.query = res.0.to_string();
+req.arguments = res.1.to_string();
+⋮----
+req.provider = item.item.provider.clone();
+req.identifier = item.item.identifier.clone();
+⋮----
+} else if provider.starts_with("menus:") {
+req.identifier = provider.to_string();
+⋮----
+.find(|prefix| provider == prefix.provider && query.starts_with(&prefix.prefix))
+⋮----
+if let Some(after) = req.query.to_string().strip_prefix(&prefix.prefix) {
+req.query = after.to_string();
+⋮----
+eprintln!("send activate socket error: {e}");
+⋮----
+fn subscribe_menu() -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+req.provider = "menus".to_string();
+let mut buffer = vec![2, 0];
+⋮----
+conn.write_all(&buffer)?;
+⋮----
+return Err("Connection not available".into());
+⋮----
+fn subscribe_bluetooth() -> Result<(), Box<dyn std::error::Error>> {
+⋮----
+req.provider = "bluetooth".to_string();
+⋮----
+fn wait_for_file(path: &str) {
+⋮----
+while !Path::new(path).exists() {
+⋮----
+if is_dmenu() {
+⋮----
+if !handled && !is_dmenu() {
+````
+
+## File: src/keybinds.rs
+````rust
+use crate::config::get_config;
+use crate::providers::PROVIDERS;
+use crate::state::get_global_provider_actions;
+⋮----
+use std::collections::HashMap;
+⋮----
+pub enum AfterAction {
+⋮----
+pub struct Action {
+⋮----
+fn default_bind() -> Option<String> {
+Some("Return".to_string())
+⋮----
+fn default_after() -> Option<AfterAction> {
+Some(AfterAction::Close)
+⋮----
+map.insert("ctrl", gdk::ModifierType::CONTROL_MASK);
+map.insert("alt", gdk::ModifierType::ALT_MASK);
+map.insert("shift", gdk::ModifierType::SHIFT_MASK);
+map.insert("super", gdk::ModifierType::SUPER_MASK);
+⋮----
+pub fn setup_binds() {
+PROVIDERS.get().unwrap().iter().for_each(|(k, v)| {
+v.get_actions().iter().for_each(|v| {
+parse_bind(v, k).unwrap();
+⋮----
+let config = get_config();
+⋮----
+.get("fallback")
+.unwrap_or(&Vec::new())
+.iter()
+.for_each(|v| {
+parse_bind(v, "fallback").unwrap();
+⋮----
+config.keybinds.close.iter().for_each(|b| {
+parse_bind(
+⋮----
+action: ACTION_CLOSE.to_string(),
+⋮----
+default: Some(true),
+bind: Some(b.clone()),
+label: Some("close".to_string()),
+⋮----
+.unwrap();
+⋮----
+config.keybinds.show_actions.iter().for_each(|b| {
+⋮----
+action: ACTION_SHOW_ACTIONS.to_string(),
+⋮----
+label: Some("actions".to_string()),
+⋮----
+config.keybinds.next.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_NEXT.to_string(),
+⋮----
+label: Some("select next".to_string()),
+after: Some(AfterAction::Nothing),
+⋮----
+config.keybinds.left.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_LEFT.to_string(),
+⋮----
+label: Some("select left".to_string()),
+⋮----
+config.keybinds.right.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_RIGHT.to_string(),
+⋮----
+label: Some("select right".to_string()),
+⋮----
+config.keybinds.up.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_UP.to_string(),
+⋮----
+label: Some("select up".to_string()),
+⋮----
+config.keybinds.down.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_DOWN.to_string(),
+⋮----
+label: Some("select down".to_string()),
+⋮----
+config.keybinds.previous.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_PREVIOUS.to_string(),
+⋮----
+label: Some("select previous".to_string()),
+⋮----
+config.keybinds.toggle_exact.iter().for_each(|b| {
+⋮----
+action: ACTION_TOGGLE_EXACT.to_string(),
+⋮----
+label: Some("toggle exact search".to_string()),
+⋮----
+config.keybinds.resume_last_query.iter().for_each(|b| {
+⋮----
+action: ACTION_RESUME_LAST_QUERY.to_string(),
+⋮----
+label: Some("resume last query".to_string()),
+⋮----
+config.keybinds.page_down.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_PAGE_DOWN.to_string(),
+⋮----
+label: Some("select page down".to_string()),
+⋮----
+config.keybinds.page_up.iter().for_each(|b| {
+⋮----
+action: ACTION_SELECT_PAGE_UP.to_string(),
+⋮----
+label: Some("select page up".to_string()),
+⋮----
+qa.iter().enumerate().for_each(|(k, s)| {
+let action_str = format!("{ACTION_QUICK_ACTIVATE}:{k}");
+⋮----
+bind: Some(s.clone()),
+label: Some("quick activate".to_string()),
+⋮----
+fn parse_bind(b: &Action, provider: &str) -> Result<(), Box<dyn std::error::Error>> {
+let mut b = b.clone();
+if let Some((first, _)) = b.action.split_once(":")
+&& b.action.ends_with(":keep")
+⋮----
+b.action = first.to_string();
+⋮----
+let mut fields = b.bind.as_ref().unwrap().split_whitespace().peekable();
+if fields.peek().is_none() {
+return Err("incorrect bind".into());
+⋮----
+if let Some(&modifier) = MODIFIERS.get(field) {
+modifiers_list.push(modifier);
+⋮----
+key = match Key::from_name(field.to_string()) {
+Some(k) => Some(k),
+⋮----
+eprintln!(
+⋮----
+.fold(gdk::ModifierType::empty(), |acc, &m| acc | m);
+let key = key.ok_or("incorrect bind")?;
+if provider.is_empty() {
+let mut binds = BINDS.write().unwrap();
+let mut grid_binds = GRID_BINDS.write().unwrap();
+match b.action.as_str() {
+⋮----
+binds.entry(key).or_default().insert(modifier, b.clone());
+⋮----
+.entry(key)
+.or_default()
+.insert(modifier, b.clone());
+⋮----
+return Ok(());
+⋮----
+let mut provider_binds = PROVIDER_BINDS.write().unwrap();
+⋮----
+.entry(provider.to_string())
+⋮----
+.entry(modifier)
+⋮----
+.push(b.clone());
+Ok(())
+⋮----
+pub fn get_show_actions_action() -> Action {
+⋮----
+.read()
+.unwrap()
+.values()
+.flat_map(|inner| inner.values())
+.find(|a| a.action == ACTION_SHOW_ACTIONS)
+⋮----
+.clone()
+⋮----
+pub fn get_bind(key: Key, modifier: gdk::ModifierType, is_grid: bool) -> Option<Action> {
+if get_config().debug {
+⋮----
+modifier.iter().for_each(|mt| {
+let m = if let Some((key, _)) = MODIFIERS.iter().find(|&(_, &v)| v == mt) {
+⋮----
+modifiers.push(m);
+⋮----
+println!("bind: {} {}", modifiers.join(" "), key.name().unwrap());
+⋮----
+println!("bind: {}", key.name().unwrap());
+⋮----
+.ok()?
+.get(&key.to_lower())?
+.get(&modifier)
+.cloned()
+⋮----
+pub fn get_fallback_action(action: &str) -> Option<Action> {
+⋮----
+.get("fallback")?
+⋮----
+.flat_map(|modifier_map| modifier_map.values())
+.flat_map(|action_vec| action_vec.iter())
+.find(|a| a.action == action)
+⋮----
+pub fn get_provider_bind(
+⋮----
+// remove hardcoded global binds for elephant
+let actions: Vec<_> = actions.iter().filter(|a| **a != "menus:parent").collect();
+if let Ok(binds) = PROVIDER_BINDS.read() {
+⋮----
+.get(provider)
+.and_then(|keys| keys.get(&key.to_lower()))
+.and_then(|modifiers| modifiers.get(&modifier))
+.and_then(|actions_list| {
+⋮----
+.find(|action| actions.contains(&&action.action))
+⋮----
+if action.is_none() {
+⋮----
+if actions.len() == 1 && action.is_none() && key == gdk::Key::Return {
+return Some(Action {
+⋮----
+action: actions.first().unwrap().to_string(),
+⋮----
+bind: Some("Return".to_string()),
+⋮----
+pub fn get_provider_global_bind(
+⋮----
+let global_actions = get_global_provider_actions()?;
+⋮----
+.find(|action| global_actions.contains(&action.action))
+````
+
+## File: src/main.rs
+````rust
+mod config;
+mod data;
+mod keybinds;
+mod preview;
+mod protos;
+mod providers;
+mod renderers;
+mod state;
+mod theme;
+mod ui;
+⋮----
+use gtk4::glib::Priority;
+use gtk4::prelude::EntryExt;
+use config::get_config;
+use state::init_app_state;
+use which::which;
+use std::cell::OnceCell;
+use std::os::fd::AsRawFd;
+use std::os::unix::net::UnixListener;
+use std::path::PathBuf;
+use std::process;
+use std::rc::Rc;
+use std::sync::RwLock;
+use std::thread;
+⋮----
+use crate::data::init_socket;
+use crate::keybinds::setup_binds;
+use crate::protos::QueryResponseObject;
+⋮----
+use crate::providers::setup_providers;
+⋮----
+thread_local! {
+⋮----
+fn main() -> glib::ExitCode {
+⋮----
+.application_id("dev.benz.walker")
+.flags(ApplicationFlags::HANDLES_COMMAND_LINE)
+.build();
+app.connect_handle_local_options(|_, _| -1);
+add_flags(&app);
+app.connect_command_line(handle_command_line);
+app.connect_activate(activate);
+app.connect_startup(startup);
+app.run()
+⋮----
+fn init_ui(app: &Application, dmenu: bool, theme: &str) {
+if app.flags().contains(ApplicationFlags::IS_SERVICE) {
+set_is_service(true);
+⋮----
+config::load().unwrap();
+let mut theme = if theme.is_empty() {
+get_config().theme.as_str()
+⋮----
+if theme.is_empty() {
+⋮----
+set_theme(theme.to_string());
+⋮----
+if !dmenu || is_service() {
+elephant = which("elephant").is_ok();
+set_has_elephant(elephant);
+⋮----
+setup_providers(elephant);
+setup_css_provider();
+setup_binds();
+setup_themes(elephant && !dmenu, get_theme(), is_service());
+setup_window(app);
+⋮----
+adjust_color_scheme(&settings);
+settings.connect_changed(Some("color-scheme"), move |s, _| {
+adjust_color_scheme(s);
+⋮----
+if let Some(schema) = settings.settings_schema() {
+if schema.has_key("accent-color") {
+adjust_accent_color(&settings);
+settings.connect_changed(Some("accent-color"), move |s, _| {
+adjust_accent_color(s);
+⋮----
+fn adjust_accent_color(settings: &gio::Settings) {
+with_window(|w| {
+⋮----
+.css_classes()
+.iter()
+.filter(|c| c.starts_with("accent-"))
+.for_each(|c| w.window.remove_css_class(c));
+let new_accent_color = format!("accent-{}", settings.string("accent-color").as_str());
+w.window.add_css_class(new_accent_color.as_str());
+⋮----
+fn adjust_color_scheme(settings: &gio::Settings) {
+⋮----
+w.window.remove_css_class("dark");
+w.window.remove_css_class("light");
+match settings.string("color-scheme").as_str() {
+"prefer-dark" => w.window.add_css_class("dark"),
+"prefer-light" => w.window.add_css_class("light"),
+⋮----
+fn send_message(message: String) {
+let mut sender_guard = GLOBAL_DMENU_SENDER.write().unwrap();
+if let Some(sender) = sender_guard.take() {
+if sender.send(message).is_err() {
+println!("the receiver dropped");
+⋮----
+println!("No sender available");
+⋮----
+fn add_flags(app: &Application) {
+app.add_main_option(
+⋮----
+b'v'.into(),
+⋮----
+b'n'.into(),
+⋮----
+b'N'.into(),
+⋮----
+b'I'.into(),
+⋮----
+b'i'.into(),
+⋮----
+b'm'.into(),
+⋮----
+b's'.into(),
+⋮----
+b'p'.into(),
+⋮----
+b'h'.into(),
+⋮----
+b'c'.into(),
+⋮----
+b'w'.into(),
+⋮----
+b't'.into(),
+⋮----
+b'd'.into(),
+⋮----
+b'q'.into(),
+⋮----
+b'H'.into(),
+⋮----
+b'k'.into(),
+⋮----
+b'e'.into(),
+⋮----
+fn handle_command_line(app: &Application, cmd: &ApplicationCommandLine) -> i32 {
+let options = cmd.options_dict();
+if options.contains("version") {
+cmd.print_literal(&format!("{}\n", env!("CARGO_PKG_VERSION")));
+⋮----
+set_is_stay_open_explicit_provider(false);
+if let Some(val) = options.lookup_value("provider", Some(VariantTy::STRING)) {
+let p = val.str().unwrap().to_string();
+set_is_stay_open_explicit_provider(get_provider() != p);
+set_provider(val.str().unwrap().to_string());
+⋮----
+set_is_stay_open_explicit_provider(!get_provider().is_empty());
+set_provider("".to_string());
+⋮----
+set_param_close(options.contains("close"));
+set_hide_qa(options.contains("hideqa"));
+if let Some(val) = options.lookup_value("theme", Some(VariantTy::STRING)) {
+let theme = val.str().unwrap();
+if has_theme(theme) {
+⋮----
+cmd.print_literal("theme not found. using default theme.\n");
+set_theme("default".to_string());
+⋮----
+if let Some(val) = options.lookup_value("set", Some(VariantTy::STRING)) {
+let set = val.str().unwrap();
+set_current_set(set.to_string());
+⋮----
+set_parameter_height(None);
+if let Some(val) = options.lookup_value("height", Some(VariantTy::INT64)) {
+set_parameter_height(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_parameter_width(None);
+if let Some(val) = options.lookup_value("width", Some(VariantTy::INT64)) {
+set_parameter_width(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_parameter_min_width(None);
+if let Some(val) = options.lookup_value("minwidth", Some(VariantTy::INT64)) {
+set_parameter_min_width(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_parameter_min_height(None);
+if let Some(val) = options.lookup_value("minheight", Some(VariantTy::INT64)) {
+set_parameter_min_height(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_parameter_max_width(None);
+if let Some(val) = options.lookup_value("maxwidth", Some(VariantTy::INT64)) {
+set_parameter_max_width(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_parameter_max_height(None);
+if let Some(val) = options.lookup_value("maxheight", Some(VariantTy::INT64)) {
+set_parameter_max_height(Some(val.get::<i64>().unwrap() as i32));
+⋮----
+set_no_search(options.contains("nosearch"));
+set_no_hints(options.contains("nohints"));
+if let Some(val) = options.lookup_value("placeholder", Some(VariantTy::STRING)) {
+set_placeholder(val.str().unwrap().to_string());
+⋮----
+if !options.contains("dmenu") {
+set_dmenu_keep_open(false);
+set_is_dmenu(false);
+⋮----
+set_is_dmenu(true);
+if is_emergency() {
+set_error(String::new());
+check_error();
+set_is_emergency(false);
+⋮----
+set_index(options.contains("index"));
+set_input_only(options.contains("inputonly"));
+if options.contains("keepopen") && app.flags().contains(ApplicationFlags::IS_SERVICE) {
+set_dmenu_keep_open(true);
+⋮----
+if let Some(val) = options.lookup_value("current", Some(VariantTy::INT64)) {
+set_dmenu_current(val.get::<i64>().unwrap());
+⋮----
+set_dmenu_exit_after(options.contains("exit"));
+if GLOBAL_DMENU_SENDER.read().unwrap().is_some() {
+send_message("CNCLD".to_string());
+⋮----
+set_input_text("");
+w.elephant_hint.set_visible(false);
+⋮----
+preview.set_visible(false);
+⋮----
+let items = w.items.clone();
+items.remove_all();
+if is_input_only() {
+⋮----
+let stdin = cmd.stdin();
+let data_stream = gio::DataInputStream::new(&stdin.unwrap());
+async fn read_lines_async(stream: Rc<gio::DataInputStream>, items: gio::ListStore) {
+⋮----
+match stream.read_line_utf8_future(Priority::DEFAULT).await {
+⋮----
+if line.is_empty() {
+⋮----
+let line = line.trim();
+if !line.is_empty() {
+⋮----
+item.text = line.to_string();
+item.provider = "dmenu".to_string();
+⋮----
+item.actions = vec!["select".to_string()];
+⋮----
+items.append(&QueryResponseObject::new(response));
+⋮----
+set_keybind_hint();
+⋮----
+eprintln!("Error reading: {e}");
+⋮----
+read_lines_async(Rc::new(data_stream), items).await;
+⋮----
+if !is_service() {
+⋮----
+*GLOBAL_DMENU_SENDER.write().unwrap() = Some(sender);
+let cmd = cmd.clone();
+⋮----
+Ok(message) => match message.as_str() {
+⋮----
+cmd.set_exit_status(130);
+⋮----
+msg => cmd.print_literal(&format!("{msg}\n")),
+⋮----
+println!("the sender dropped");
+⋮----
+*GLOBAL_DMENU_SENDER.write().unwrap() = None;
+⋮----
+app.activate();
+⋮----
+fn activate(app: &Application) {
+let cfg = get_config();
+apply_flag_logic();
+if is_dmenu() && is_visible() {
+⋮----
+if (!is_stay_open_explicit_provider()
+⋮----
+&& is_visible()
+&& !is_dmenu_keep_open())
+|| is_param_close()
+⋮----
+if is_visible() {
+quit(app, false);
+⋮----
+if is_dmenu_keep_open() && is_visible() {
+⋮----
+if is_dmenu() {
+handle_grid_setting();
+⋮----
+setup_css(get_theme());
+⋮----
+set_input_text(&get_last_query());
+⋮----
+input.grab_focus();
+⋮----
+w.window.set_visible(true);
+if !is_dmenu() && !is_connected() && has_elephant() {
+thread::spawn(|| init_socket().unwrap());
+} else if !has_elephant() && !is_dmenu() {
+println!("Please install elephant.");
+⋮----
+if !get_provider().is_empty() {
+⋮----
+w.items.remove_all();
+⋮----
+set_is_visible(true);
+⋮----
+fn apply_flag_logic() {
+⋮----
+let provider = get_provider();
+let provider = if provider.is_empty() {
+⋮----
+provider.as_str()
+⋮----
+w.content_container.set_visible(false);
+w.keybinds.set_visible(false);
+⋮----
+&& let Some(placeholder) = placeholders.get(provider)
+⋮----
+input.set_placeholder_text(Some(&placeholder.input));
+⋮----
+if let Some(p) = w.placeholder.as_ref() {
+p.set_text(&placeholder.list)
+⋮----
+if !get_placeholder().is_empty()
+⋮----
+if let Some(placeholder) = input.placeholder_text() {
+set_initial_placeholder(placeholder.to_string());
+⋮----
+input.set_placeholder_text(Some(&get_placeholder()));
+⋮----
+if let Some(val) = get_parameter_height() {
+set_initial_height(Some(w.box_wrapper.height_request()));
+w.box_wrapper.set_height_request(val);
+⋮----
+if let Some(val) = get_parameter_width() {
+set_initial_width(Some(w.box_wrapper.width_request()));
+w.box_wrapper.set_width_request(val);
+⋮----
+if let Some(val) = get_parameter_min_width() {
+set_initial_min_width(Some(w.scroll.min_content_width()));
+w.scroll.set_min_content_width(val);
+⋮----
+if let Some(val) = get_parameter_min_height() {
+set_initial_min_height(Some(w.scroll.min_content_height()));
+w.scroll.set_min_content_height(val);
+⋮----
+if let Some(val) = get_parameter_max_width() {
+set_initial_max_width(Some(w.scroll.max_content_width()));
+w.scroll.set_max_content_width(val);
+⋮----
+if let Some(val) = get_parameter_max_height() {
+set_initial_max_height(Some(w.scroll.max_content_height()));
+w.scroll.set_max_content_height(val);
+⋮----
+if get_parameter_min_width().is_some() || get_parameter_max_width().is_some() {
+⋮----
+w.box_wrapper.set_width_request(-1);
+⋮----
+if get_parameter_min_height().is_some() || get_parameter_max_height().is_some() {
+⋮----
+w.box_wrapper.set_height_request(-1);
+⋮----
+if is_no_search()
+⋮----
+search_container.set_visible(false);
+⋮----
+if is_no_hints() {
+⋮----
+fn startup(app: &Application) {
+let args: Vec<String> = env::args().collect();
+let dmenu = args.contains(&"--dmenu".to_string()) || args.contains(&"-d".to_string());
+let version = args.contains(&"--version".to_string()) || args.contains(&"-v".to_string());
+let is_service = app.flags().contains(ApplicationFlags::IS_SERVICE);
+if !is_service && (args.contains(&"--close".to_string()) || args.contains(&"-q".to_string())) {
+⋮----
+let theme = if let Some(i) = args.iter().position(|a| a == "-t" || a == "--theme") {
+if let Some(res) = args.get(i + 1) {
+⋮----
+if !app.flags().contains(ApplicationFlags::IS_SERVICE) && !dmenu {
+println!("make sure 'walker --gapplication-service' is running!");
+⋮----
+HOLD_GUARD.with(|h| h.set(app.hold()).expect("couldn't set hold-guard"));
+init_app_state();
+init_ui(app, dmenu, theme);
+listen_activation_socket(app.clone());
+⋮----
+fn listen_activation_socket(app_clone: Application) {
+⋮----
+.map(PathBuf::from)
+.unwrap_or_else(|_| env::temp_dir());
+socket_path.push("walker");
+if !socket_path.exists() {
+fs::create_dir(&socket_path).unwrap();
+⋮----
+socket_path.push("walker.sock");
+⋮----
+let listener = UnixListener::bind(&socket_path).unwrap();
+listener.set_nonblocking(true).unwrap();
+let fd = listener.as_raw_fd();
+⋮----
+if condition.contains(glib::IOCondition::IN) {
+match listener.accept() {
+⋮----
+drop(stream);
+⋮----
+set_param_close(false);
+set_hide_qa(false);
+⋮----
+activate(&app_clone);
+⋮----
+Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {}
+⋮----
+eprintln!("Error accepting connection: {}", e);
+````
+
+## File: .gitignore
+````
+target
+.zed
+````
+
+## File: BREAKING.md
+````markdown
+## Theme
+
+The following GTK elements are no mandatory: `Keybinds`, `GlobalKeybinds` and `ItemKeybinds`.
+
+Please refer to the default theme for reference.
+````
+
+## File: build.rs
+````rust
+use protobuf_codegen::Codegen;
+fn main() {
+⋮----
+.cargo_out_dir("generated_proto")
+.input("src/protos/query.proto")
+.input("src/protos/activate.proto")
+.input("src/protos/subscribe.proto")
+.input("src/protos/providerstate.proto")
+.include("src/protos")
+.run_from_script();
+````
+
+## File: Cargo.toml
+````toml
+[package]
+name = "walker"
+version = "2.12.2"
+edition = "2024"
+
+[dependencies]
+gtk4 = { version = "^0.9.7", features = ["v4_6", "v4_12", "gio_v2_80"] }
+gtk4-layer-shell = "0.5.0"
+protobuf = "3.7.2"
+grass = "0.13.4"
+serde = { version = "1.0.219", features = ["derive"] }
+chrono = { version = "0.4", features = ["clock"] }
+config = "0.15.14"
+dirs = "6.0.0"
+notify = "8.2.0"
+poppler-rs = "0.25.0"
+cairo-rs = "0.21.1"
+gdk-pixbuf = "0.21.1"
+nucleo-matcher = "0.3.1"
+which = "8.0"
+new_mime_guess = "4.0.4"
+mime = "0.3.17"
+tokio = { version = "1.47.1", features = ["full"] }
+xdg = "3.0.0"
+
+[build-dependencies]
+protobuf-codegen = "3.4"
+protoc-bin-vendored = "3.0"
+````
+
+## File: flake.nix
+````nix
+{
+  description = ''
+    Multi-Purpose Launcher with a lot of features. Highly Customizable and fast.
+  '';
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default-linux";
+    elephant.url = "github:abenz1267/elephant";
+    elephant.inputs.nixpkgs.follows = "nixpkgs";
+    elephant.inputs.systems.follows = "systems";
+  };
+
+  outputs = {
+    self,
+    nixpkgs,
+    systems,
+    elephant,
+    ...
+  }: let
+    inherit (nixpkgs) lib;
+    eachSystem = f:
+      lib.genAttrs (import systems)
+      (system: f nixpkgs.legacyPackages.${system});
+  in {
+    formatter = eachSystem (pkgs: pkgs.alejandra);
+
+    devShells = eachSystem (pkgs: {
+      default = pkgs.mkShell {
+        name = "walker";
+        inputsFrom = [self.packages.${pkgs.stdenv.system}.walker];
+      };
+    });
+
+    packages = eachSystem (pkgs: {
+      default = self.packages.${pkgs.stdenv.system}.walker;
+      walker = pkgs.callPackage ./nix/package.nix {};
+    });
+
+    homeManagerModules = {
+      default = self.homeManagerModules.walker;
+      walker = import ./nix/modules/home-manager.nix {inherit self elephant;};
+    };
+
+    nixosModules = {
+      default = self.nixosModules.walker;
+      walker = import ./nix/modules/nixos.nix {inherit self elephant;};
+    };
+
+    nixConfig = {
+      extra-substituters = ["https://walker-git.cachix.org"];
+      extra-trusted-public-keys = ["walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="];
+    };
+  };
+}
+````
+
+## File: makefile
+````makefile
+PREFIX ?= /usr/local
+DESTDIR ?=
+BINDIR = $(DESTDIR)$(PREFIX)/bin
+LICENSEDIR = $(DESTDIR)$(PREFIX)/share/licenses/walker
+CONFIGDIR = $(DESTDIR)/etc/xdg/walker
+THEMEDIR = $(CONFIGDIR)/themes/default
+
+CARGO_TARGET_DIR ?= target
+RUSTUP_TOOLCHAIN ?= stable
+
+.PHONY: all build install uninstall clean
+
+all: build
+
+build:
+	export RUSTUP_TOOLCHAIN=$(RUSTUP_TOOLCHAIN) && \
+	export CARGO_TARGET_DIR=$(CARGO_TARGET_DIR) && \
+	cargo build --release
+
+install: build
+	install -Dm 755 $(CARGO_TARGET_DIR)/release/walker $(BINDIR)/walker
+	install -Dm 644 LICENSE $(LICENSEDIR)/LICENSE
+	install -Dm 644 resources/config.toml $(CONFIGDIR)/config.toml
+	install -Dm 644 resources/themes/default/item.xml $(THEMEDIR)/item.xml
+	install -Dm 644 resources/themes/default/item_calc.xml $(THEMEDIR)/item_calc.xml
+	install -Dm 644 resources/themes/default/item_clipboard.xml $(THEMEDIR)/item_clipboard.xml
+	install -Dm 644 resources/themes/default/item_dmenu.xml $(THEMEDIR)/item_dmenu.xml
+	install -Dm 644 resources/themes/default/item_files.xml $(THEMEDIR)/item_files.xml
+	install -Dm 644 resources/themes/default/item_providerlist.xml $(THEMEDIR)/item_providerlist.xml
+	install -Dm 644 resources/themes/default/item_symbols.xml $(THEMEDIR)/item_symbols.xml
+	install -Dm 644 resources/themes/default/layout.xml $(THEMEDIR)/layout.xml
+	install -Dm 644 resources/themes/default/preview.xml $(THEMEDIR)/preview.xml
+	install -Dm 644 resources/themes/default/style.css $(THEMEDIR)/style.css
+
+uninstall:
+	rm -f $(BINDIR)/walker
+	rm -rf $(LICENSEDIR)
+	rm -rf $(CONFIGDIR)
+
+clean:
+	cargo clean
+
+dev-install: PREFIX = /usr/local
+dev-install: install
+
+help:
+	@echo "Available targets:"
+	@echo "  all       - Build the application (default)"
+	@echo "  build     - Build the application"
+	@echo "  install   - Install the application and resources"
+	@echo "  uninstall - Remove installed files"
+	@echo "  clean     - Clean build artifacts"
+	@echo "  help      - Show this help"
+	@echo ""
+	@echo "Variables:"
+	@echo "  PREFIX    - Installation prefix (default: /usr/local)"
+	@echo "  DESTDIR   - Destination directory for staged installs"
+````
+
+## File: README.md
+````markdown
+# Walker - A Modern Application Launcher
+
+A fast, customizable application launcher built with GTK4 and Rust, designed for Linux desktop environments. Walker provides a clean, modern interface for launching applications, running commands, performing calculations, and more.
+
+[GitBook Documentation/Wiki](https://benz.gitbook.io/walker/)
+
+[![Discord](https://img.shields.io/discord/1402235361463242964?logo=discord)](https://discord.gg/mGQWBQHASt)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+![screenshot](https://raw.githubusercontent.com/abenz1267/walker/refs/heads/master/resources/screenshot.png)
+
+## Features
+
+The following Elephant providers are implemented by default:
+
+- **Desktop Applications**: Launch installed GUI applications
+- **Calculator**: Perform mathematical calculations with `=` prefix
+- **File Browser**: Navigate and open files with `/` prefix
+- **Command Runner**: Execute shell commands
+- **Websearch**: Search the web with custom-defined engines
+- **Clipboard History**: Access clipboard history with `:` prefix
+- **Symbol Picker**: Insert special symbols with `.` prefix
+- **Provider List**: Switch between providers with `;` prefix
+- **Menu Integration**: Create custom menus with elephant and let walker display them
+- **Dmenu**: Your good old dmenu ... with seamless menus!
+- **Arch Linux Packages**: Search through available packages (official and aur), install or delete a target! List all exlusively installed packages.
+- **Todo List**: create simple todo items with basic time tracking, scheduling and notifications
+- **Bookmarks**: manage bookmarks, open with specified browsers, assign categories and import bookmarks from browsers
+- **Bluetooth**: basic bluetooth management
+
+## Installation
+
+### Build from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/abenz1267/walker.git
+cd walker
+
+# Build with Cargo
+cargo build --release
+
+# Run Walker
+./target/release/walker
+```
+
+### Dependencies
+
+- GTK4 (version 4.6+)
+- gtk4-layer-shell
+- Protocol Buffers compiler
+- cairo
+- poppler-glib
+- make sure [elephant](https://github.com/abenz1267/elephant) is running before starting Walker
+
+<details>
+    <summary> <h3> Install using Nix </h3> </summary>
+
+#### 1. Add flake inputs
+
+Add walker and elephant to the inputs of your configs `flake.nix` and set walker to follow elephant
+
+```nix
+elephant.url = "github:abenz1267/elephant";
+
+walker = {
+  url = "github:abenz1267/walker";
+  inputs.elephant.follows = "elephant";
+};
+```
+
+#### 2. Install walker
+
+You have 3 options for installing walker.
+
+**Option A** (Home Manager Module): Import the home-manager module to your home-manager config and enable walker.
+
+```nix
+imports = [inputs.walker.homeManagerModules.default];
+
+programs.walker.enable = true;
+```
+
+**Option B** (NixOS Module): Import the nixos module in your NixOS config and enable walker
+
+```nix
+imports = [inputs.walker.nixosModules.default];
+
+programs.walker.enable = true;
+```
+
+> Note: this option doesn't support the `runAsService` option; It is recommended that you launch the elephant and walker services using your desktop instead.
+
+**Option C** (Package): Add `inputs.walker.packages.<system>.default` to your system packages or home-manager packages. replace `<system>` with your system architecture. Note: This option doesn't support configuration using nix.
+
+```nix
+home.packages = [inputs.walker.packages.<system>.default];
+```
+
+```nix
+environment.systemPackages = [inputs.walker.packages.<system>.default];
+```
+
+#### 3. Configure walker
+
+```nix
+programs.walker = {
+  enable = true;
+  runAsService = true; # Note: this option isn't supported in the NixOS module only in the home-manager module
+
+  # All options from the config.toml can be used here https://github.com/abenz1267/walker/blob/master/resources/config.toml
+  config = {
+    theme = "your theme name";
+    placeholders."default" = { input = "Search"; list = "Example"; };
+    providers.prefixes = [
+      {provider = "websearch"; prefix = "+";}
+      {provider = "providerlist"; prefix = "_";}
+    ];
+    keybinds.quick_activate = ["F1" "F2" "F3"];
+  };
+
+  # Set `programs.walker.config.theme="your theme name"` to choose the default theme
+  themes = {
+    "your theme name" = {
+      # Check out the default css theme as an example https://github.com/abenz1267/walker/blob/master/resources/themes/default/style.css
+      style = " /* css */ ";
+
+      # Check out the default layouts for examples https://github.com/abenz1267/walker/tree/master/resources/themes/default
+      layouts = {
+        "layout" = " <!-- xml --> ";
+        "item_calc" = " <!-- xml --> ";
+        # other provider layouts
+      };
+    };
+    "other theme name" = {
+        # ...
+    };
+    # more themes
+  };
+};
+```
+
+Optionally, there is 2 binary caches which can be used by adding the following to you config:
+
+```nix
+nix.settings = {
+  extra-substituters = ["https://walker.cachix.org" "https://walker-git.cachix.org"];
+  extra-trusted-public-keys = ["walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM=" "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="];
+};
+```
+
+</details>
+
+## Usage
+
+### Basic Usage
+
+**Make sure `elephant` is running and you have providers installed. `elephant-providerlist` and f.e. `elephant-desktopapplications`.**
+
+Launch Walker with `walker`.
+
+In order to improve startup performance, run a Walker service with:
+
+```bash
+walker --gapplication-service
+```
+
+If the service is running, you can either open Walker with:
+
+```bash
+walker
+```
+
+or for an even faster launch make a socket call, f.e. with `openbsd-netcat`:
+
+```bash
+nc -U /run/user/1000/walker/walker.sock
+```
+
+The downside of the socket call is that it does not handle any commandline options, so it's just a faster alternative to a simple `walker` call.
+
+## Keybinds
+
+The following modifier keys are valid: `ctrl`, `alt`, `shift`, `super`.
+
+To get a full list of possible key values, look here: [GDK key-values](https://github.com/gtk-rs/gtk4-rs/blob/0.9/gdk4/sys/src/lib.rs#L302).
+
+F.e. `pub const GDK_KEY_semicolon: c_int = 59;` means that `ctrl semicolon` would be a valid keybind.
+
+## Config
+
+Configuration should be done in `~/.config/walker`.
+
+Check out the [default config](https://raw.githubusercontent.com/abenz1267/walker/refs/heads/master/resources/config.toml).
+
+## Theming
+
+You can customize Walker's appearance by creating a custom theme. Checkout `resources/themes/default` for the default theme. Themes inherit the default theme by default, so if you just want to change the CSS, you can just create `themes/yours/style.css`.
+
+You can customize rendering of list items for each provider individually, f.e. "item_files.xml" will define the layout for items sourced from the `files` provider.
+
+Please refer to [the GTK4 docs](https://docs.gtk.org/gtk4/) to checkout how to write `*.xml` files for GTK4.
+
+You can set the default theme in your `config.toml` f.e. `theme = "yours"`.
+
+## Contributing
+
+Please do not make PRs to fix single typos. Fix all or nothing.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+````
+
+## File: rust-toolchain.toml
+````toml
+[toolchain]
+channel = "stable"
+````
