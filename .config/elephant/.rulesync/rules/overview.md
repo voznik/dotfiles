@@ -366,85 +366,114 @@ Transitioned to a highly optimized **Lazy Loading** architecture to improve star
 
 # How Custom Actions Work in Elephant & Walker
 
-Based on the source code, there is a clear separation of concerns between Elephant and Walker. Elephant provides the *data*, and Walker handles the *presentation and configuration*.
+Based on the source code, there is a clear separation of concerns between Elephant and Walker. Elephant provides the *data* (action names), and Walker handles the *presentation* (labels and keybinds).
 
 ### 1. Elephant's Role: Providing Action *Names*
 
-When you define an `Actions` table in your Lua menu, Elephant does **not** send the entire command string to Walker for display. Instead, it sends only the **keys** of that table.
+When you define an `Actions` table in your Lua menu, Elephant sends only the **keys** of that table to Walker.
 
 **Your `prompts.lua`:**
 ```lua
 Actions = {
     default = "lua:OpenGooseWithPrompt",
-    prompt_copy = "wl-copy '%VALUE%'" 
+    copy = "wl-copy '%VALUE%'" 
+}
+```
+**What Elephant sends to Walker:** `["default", "copy"]`
+
+### 2. Walker's Role: Matching Names to Configured Actions
+
+Walker receives this list and tries to match each name against its configuration in `walker.config.toml` under `[providers.actions]`. This configuration defines the UI properties like `label`, `bind`, and `default`.
+
+### 3. The Root of the Problem: Ambiguous "default"
+
+The core issue is a subtle bug in how Walker processes actions. It can get confused if both your specific menu configuration and a global fallback configuration define an action for the key `"default"`.
+
+**The buggy process:**
+1. Walker processes all actions configured in its TOML file.
+2. It sees your specific configuration for `default` and adds it to the list of buttons to show.
+3. It *also* sees the global `fallback` configuration for `menus:default`. Because it also corresponds to the `default` key in your Lua table, it **also adds the fallback action** to the list.
+4. The UI now has two conflicting "default" actions, leading to inconsistent rendering and broken `Enter` key functionality.
+
+### 4. The Solution: Use Unique Action Names
+
+To prevent this collision, **avoid using the generic key `"default"`** for your primary action. Instead, use a unique, descriptive name and mark it as the default in Walker's configuration.
+
+**Step 1: In your Lua Menu (e.g., `prompts.lua`)**
+Change the key `default` to something specific like `run_prompt`.
+
+```lua
+-- menus/goose/prompts.lua
+Actions = {
+    run_prompt = "lua:OpenGooseWithPrompt", -- Changed from 'default'
+    copy = "wl-copy '%VALUE%'"
 }
 ```
 
-**What Elephant sends to Walker:**
-For that entry, Elephant tells Walker that the available action names are `["default", "prompt_copy"]`.
-
-### 2. Walker's Role: Enriching and Displaying Actions
-
-Walker receives the list of action names and then looks at its **own local `config.toml`** to figure out what to do with them. Specifically, it looks at the `[providers.actions]` section.
-
-This section defines the **Label** (what text to show on the button), the **Keybind** (`bind`), and whether it's the `default` action (triggered by `Enter`).
-
-**Example `config.toml` for the `menus` provider:**
-```toml
-[providers.actions]
-# This is the section for generic menus from Elephant
-fallback = [
-  # This matches the "default" key from your Lua
-  { action = "menus:default", label = "run", bind = "Return", default = true },
-
-  # Other pre-configured actions
-  { action = "menus:open", label = "open" },
-  { action = "menus:parent", label = "back", bind = "Escape" },
-]
-```
-
-### 3. The Root of the Problem
-
-Your issue is that you defined a new action key, `prompt_copy`, in Lua, but **you have not configured it in Walker's `config.toml`**.
-
-*   Walker receives the action name `prompt_copy`.
-*   It looks in its configuration for a rule matching this name for the `menus` provider.
-*   It finds nothing.
-*   It doesn't know what **label** to display on the button or what **keybind** to associate with it.
-
-The inconsistent display you are seeing is Walker's UI getting confused. When it can't find a configuration for `prompt_copy`, its fallback logic is likely failing, causing it to hide the `default` action button or prevent `Enter` from working correctly.
-
-### 4. The Solution: Configure Walker
-
-To fix this, you must add a configuration for your new action to `walker.config.toml` under a section for the `menus` provider.
-
-**Create a `menus` section in `[providers.actions]`:**
+**Step 2: In `walker.config.toml`**
+Match this new key and explicitly tell Walker it's the default action for this menu.
 
 ```toml
 # In ~/.config/walker/config.toml
-
 [providers.actions]
-# You need to define a block for the "menus" provider specifically.
-# If you name it "menus:goose_prompts", it will only apply to that menu.
-menus = [
-    # Re-define the default action for menus
-    { action = "default", label = "Run", bind = "Return", default = true },
+  # Use the full provider name for specificity
+  "menus:goose_prompts" = [
+    # Mark your unique action as the default
+    { action = "run_prompt", label = "Run", bind = "Return", default = true },
     
-    # Add your new action here
-    { action = "prompt_copy", label = "Copy", bind = "Ctrl+c" }
-]
-
-# The fallback is for any menu that doesn't have a specific entry.
-# It's good practice to keep it.
-fallback = [
-  { action = "menus:default", label = "run", default = true, bind = "Return" },
-  { action = "menus:parent", label = "back", bind = "Escape" },
-]
+    # Your other custom action
+    { action = "copy", label = "Copy", bind = "Ctrl+c" }
+  ]
 ```
 
 **Key Takeaways:**
--   **Lua:** Defines *what* actions are available (`default`, `prompt_copy`).
--   **Walker `config.toml`:** Defines *how* those actions are presented (Label, Keybind, Default status).
+- **Lua:** Defines a unique name for each action (e.g., `run_prompt`, `copy`).
+- **Walker `config.toml`:** Maps those unique names to UI elements (labels, keybinds) and designates one as `default = true`.
 
-You must configure both sides for custom actions to work as expected.
+This approach guarantees that there are no name collisions with Walker's internal fallbacks, ensuring your custom actions are always displayed correctly.
+
+---
+
+### Bonus: Menu-Level vs. Entry-Level Actions
+
+Elephant provides two places to define an `Actions` table, which follow a clear priority system.
+
+#### 1. Menu-Level `Actions`: The Global Fallback
+
+When you define an `Actions` table at the top level of a menu file, you are setting **global, fallback actions for that entire menu**.
+
+```lua
+-- menus/example.lua
+Name = "Example Menu"
+Actions = {
+    -- This action applies to any entry that doesn't have its own 'copy' action
+    copy = "wl-copy '%VALUE%'"
+}
+
+function GetEntries()
+    return { { Text = "Entry 1" } }
+end
+```
+
+If an entry does not have its own `Actions` table, Elephant will use the menu-level one.
+
+#### 2. Entry-Level `Actions`: Specific and Overriding
+
+When you define an `Actions` table *inside* a specific entry, those actions apply only to that entry. **Entry-level actions always win.**
+
+```lua
+function GetEntries()
+    return {
+        {
+            Text = "Entry 2",
+            Actions = {
+                -- This will be used instead of any menu-level 'copy' action
+                copy = "echo 'Copied!' | wl-copy"
+            }
+        }
+    }
+end
+```
+
+This two-tiered system allows you to define common behavior at the menu level while still allowing individual items to have their own unique, specific actions.
 -   **Maintainability:** YAML parsing logic centralized in `shared.lua`.

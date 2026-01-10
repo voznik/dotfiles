@@ -5,6 +5,10 @@ Icon = "🆎"
 Cache = false
 HideFromProviderlist = true
 MaxResults = 100
+Actions = {
+    run_prompt = "lua:OpenGooseWithPrompt",
+    copy_prompt = "wl-copy '%VALUE%'"
+}
 
 dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
@@ -28,11 +32,7 @@ function GetEntries()
                     Subtext = description or "",
                     Value = example_prompt or "",
                     Preview = example_prompt or "",
-                    PreviewType = "text",
-                    Actions = {
-                        default = "lua:OpenGooseWithPrompt",
-                        prompt_copy = "wl-copy '%VALUE%'"
-                    }
+                    PreviewType = "text"
                 })
             end
         end

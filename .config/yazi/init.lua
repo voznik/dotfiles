@@ -1,16 +1,25 @@
-require("folder-rules"):setup()
+-- require("folder-rules"):setup()
 
 -- DuckDB plugin configuration -- https://github.com/wylie102/duckdb.yazi/tree/main#configurationcustomisation
 require("duckdb"):setup({
 	mode = "summarized", -- "standart"|"summarized"
 	cache_size = 1000
 })
--- Git plugin setup
-require("git"):setup()
-th.git = th.git or {}
-th.git.added_sign = ""
-th.git.modified_sign = ""
-th.git.deleted_sign = ""
+
+require("sshfs"):setup({
+  sshfs_options = {
+    "reconnect",
+    "ServerAliveInterval=15",
+    "ServerAliveCountMax=3",
+  },
+})
+
+-- -- Git plugin setup
+-- require("git"):setup()
+-- th.git = th.git or {}
+-- th.git.added_sign = ""
+-- th.git.modified_sign = ""
+-- th.git.deleted_sign = ""
 
 function Linemode:size_and_mtime()
 	local time = math.floor(self._file.cha.mtime or 0)
@@ -37,6 +46,7 @@ end
 
 Status:children_add(function()
 	local h = cx.active.current.hovered
+	if not h then return "" end
 	return ui.Line({
 		ui.Span(os.date("%d/%m/%y %H:%M", math.floor(h.cha.mtime))):fg("blue"),
 		ui.Span(" "),

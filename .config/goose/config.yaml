@@ -2,8 +2,8 @@ GOOSE_MODE: approve
 GOOSE_RECIPE_PATH: $HOME/.ai/recipes
 GOOSE_PROMPT_PATH: $HOME/.ai/prompts
 OLLAMA_HOST: localhost
-GOOSE_PROVIDER: ollama
-GOOSE_MODEL: qwen3-coder:latest
+GOOSE_PROVIDER: mistral
+GOOSE_MODEL: devstral-latest
 GEMINI_CLI_COMMAND: gemini
 extensions:
   developer:
@@ -98,3 +98,5 @@ extensions:
     bundled: null
     available_tools: []
 CLAUDE_CODE_COMMAND: claude
+OPENAI_HOST: https://api.mistral.ai
+OPENAI_BASE_PATH: v1/chat/completions

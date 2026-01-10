@@ -15,7 +15,7 @@ function IsDarkMode()
 end
 
 -- === HELPER: Get Goose Icon Path based on theme ===
-function GetGooseIcon()
+function GetGooseIconPng()
     local icon_name = IsDarkMode() and "goose-icon-white.png" or "goose-icon-black.png"
     return os.getenv("HOME") .. "/.config/elephant/menus/goose/icons/" .. icon_name
 end
@@ -75,6 +75,22 @@ GOOSE_CMDS = {
     -- Note: Params are appended manually to RECIPE_RUN_FMT in recipe_params.lua
     RECIPE_RUN_FMT = "goose run --no-session --recipe %s",
     PROMPT_RUN_FMT = "goose run --text '%s'"
+}
+
+-- === CONSTANTS: OpenCode CLI Commands ===
+OPENCODE_CMDS = {
+    SESSION_NEW = "opencode",
+    SESSION_CONTINUE = "opencode -c",
+    SESSION_LIST = "opencode session list",
+    SESSION_RESUME_FMT = "opencode -s %s",
+    MODELS_LIST = "opencode models"
+}
+
+-- === CONSTANTS: Gemini CLI Commands ===
+GEMINI_CMDS = {
+    SESSION_NEW = "gemini",
+    SESSION_LIST = "gemini --list-sessions",
+    SESSION_RESUME_FMT = "gemini --resume %s"
 }
 
 -- === HELPER: Parse parameters from Recipe YAML ===

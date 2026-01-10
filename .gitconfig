@@ -11,7 +11,7 @@
   username = voznik
   IdentityFile = ~/.ssh/id_rsa
 [core]
-  editor = micro --wait
+  editor = micro
   compression = 9
   excludesfile = ~/.gitignore
   filemode = false

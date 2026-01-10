@@ -15,11 +15,13 @@ atuin = "latest"
 duckdb = "latest"
 gh = "latest"
 glab = "latest" 
+glow = "latest"
 # npm registry
 node = "24"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "v0.24.0-preview.0"
+"npm:@google/jules" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
 "npm:rulesync" = "latest"
@@ -41,7 +43,9 @@ ruff = "latest"
 "pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
 # git registry
 "github:block/goose" = "latest"
+"github:anomalyco/opencode" = { version = "latest" }
 "github:dhth/bmm" = "0.3.0"
+"github:Inlyne-Project/inlyne" = "latest"
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"

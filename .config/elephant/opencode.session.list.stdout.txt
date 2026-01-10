@@ -1,0 +1,8 @@
+Session ID                      Title                                               Updated
+───────────────────────────────────────────────────────────────────────────────────────────
+ses_46191c476ffeBffsxdwUwTAkg4  New session - 2026-01-08T16:26:22.985Z              5:28 PM · 1/8/2026
+ses_46ffc0930ffeojWI9rj8mwF0A4  elephant walker goose lua scripting                 6:33 PM · 1/7/2026
+ses_476aa3826ffey3OndMvLjudkOC  elephant menuse etc                                 3:28 PM · 1/4/2026
+ses_57177160bffeiRu9t8DkAQQKr1  Disabling aws, java, cmd_duration in starship.toml  10:21 PM · 11/16/2025
+ses_591dd8945ffeSTR5JDegMZLwWp  Replacing just-recipes with buku bookmark channel   3:32 PM · 11/10/2025
+ses_591e873eaffeXYp4uBEDhinPol  Replacing buku.toml with tool-specific commands     3:11 PM · 11/10/2025

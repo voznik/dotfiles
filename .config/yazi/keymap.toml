@@ -70,3 +70,18 @@ run = 'shell -- zeditor "$@"'
 [[mgr.prepend_keymap]]
 on = [ "g", "Z" ]
 run = 'shell -- zeditor .'
+
+[[mgr.prepend_keymap]]
+on   = [ "c", "k" ]
+run  = 'shell -- cat "$1" | wl-copy'
+desc = "Copy file content"
+
+[[mgr.prepend_keymap]]
+on = ["<C-s>"]
+run = "plugin sshfs -- menu"
+desc = "Open SSHFS options"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "i" ]
+run  = "plugin lazygit"
+desc = "run lazygit"

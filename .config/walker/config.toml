@@ -131,12 +131,6 @@ max_results = 100
 [providers.menus.goose_recipes]
 exact_search=true
 max_results = 100
-# actions = [
-#   { action = "default", label = "Run", default = true, bind = "Return" },
-#   { action = "menus:default", bind = "ctrl y" },
-#   { action = "edit", label = "Open recipe in text editor", bind = "ctrl o" },
-#   { action = "menus:edit", label = "Open recipe in text editor", bind = "ctrl o" },
-# ]
 
 [providers.bookmarks]
 [[categories]]
@@ -148,6 +142,12 @@ name = "personal"
 prefix = "p:"
 
 [providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
+menus = [
+  { action = "menus:run_prompt", label = "Run", default = true, bind = "Return" },
+  { action = "menus:copy_prompt", label = "Copy", bind = "ctrl y", after = "AsyncClearReload" },
+  { action = "menus:edit", label = "Edit in text editor", bind = "ctrl o", after = "AsyncClearReload" },
+]
+
 fallback = [
   { action = "menus:open", label = "open", after = "Nothing" },
   { action = "menus:default", label = "run", after = "Close" },

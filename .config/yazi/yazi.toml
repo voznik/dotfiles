@@ -33,23 +33,24 @@ cursor_blink = true
 
 
 [plugin]
-prepend_fetchers = [
-  {id   = "git", name = "*", run  = "git"},
-  {id   = "git", name = "*/", run  = "git"}
+prepend_preloaders = [  
+  # { name = "*.json", run = "duckdb", multi = false },  
+  { name = "*.csv", run = "duckdb", multi = false },  
+  { name = "*.tsv", run = "duckdb", multi = false },  
+  { name = "*.parquet", run = "duckdb", multi = false },
+  { name = "*.xlsx", run = "duckdb", multi = false }
 ]
-prepend_previewers = [  
-  { name = "*.csv", run = "duckdb" },  
-  { name = "*.tsv", run = "duckdb" },  
+prepend_previewers = [
+  # DUCKDB
   # { name = "*.json", run = "duckdb" },  
+  # { name = "*.csv", run = "duckdb" },  
+  { name = "*.tsv", run = "duckdb" },  
   { name = "*.parquet", run = "duckdb" },  
   { name = "*.xlsx", run = "duckdb" },  
   { name = "*.db", run = "duckdb" },
-  { name = "*.duckdb", run = "duckdb" }
-]
-prepend_preloaders = [  
-  { name = "*.csv", run = "duckdb", multi = false },  
-  { name = "*.tsv", run = "duckdb", multi = false },  
-  # { name = "*.json", run = "duckdb", multi = false },  
-  { name = "*.parquet", run = "duckdb", multi = false },
-  { name = "*.xlsx", run = "duckdb", multi = false }
+  { name = "*.duckdb", run = "duckdb" },
+  # PIPER
+  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*/", run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
+  { mime = "application/sqlite3", run  = 'piper -- sqlite3 "$1" ".schema --indent"' }
 ]
