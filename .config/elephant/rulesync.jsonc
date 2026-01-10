@@ -1,25 +1,23 @@
 {
   "$schema": "https://raw.githubusercontent.com/dyoshikawa/rulesync/refs/heads/main/config-schema.json",
-  // "_walker_src/README.md",
-  // "_elephant_src/README.md"
   "targets": [
-    "copilot",
-    "cursor",
+    "geminicli",
     "claudecode",
-    "codexcli"
+    "opencode"
   ],
   "features": [
     "rules",
     "ignore",
     "mcp",
     "commands",
-    "subagents"
+    "subagents",
+    "skills"
   ],
   "baseDirs": [
     "."
   ],
   "delete": false,
-  "verbose": false,
+  "verbose": true,
   "global": false,
   "simulateCommands": false,
   "simulateSubagents": false,

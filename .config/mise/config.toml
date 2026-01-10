@@ -2,6 +2,8 @@
 _.file = ['.env', '.env.local', '.env.system']
 # 
 MISE_NODE_GPG_VERIFY = "false"
+# IMPORTANT USER ENV
+LUA_PATH = "{{env.XDG_CONFIG_DIR}}/lua/?.lua;;"
 
 [alias]
 rust = "core:rust"                    # Use core backend
@@ -16,6 +18,7 @@ duckdb = "latest"
 gh = "latest"
 glab = "latest" 
 glow = "latest"
+taplo = "latest"
 # npm registry
 node = "24"
 "npm:@fission-ai/openspec" = "latest"
@@ -46,11 +49,13 @@ ruff = "latest"
 "github:anomalyco/opencode" = { version = "latest" }
 "github:dhth/bmm" = "0.3.0"
 "github:Inlyne-Project/inlyne" = "latest"
+"github:coollabsio/coolify-cli" = "latest"
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
 lua-language-server = "latest"
 stylua = "latest"
+shfmt = "latest"
 
 #
 [settings]
@@ -59,3 +64,9 @@ status = { missing_tools = "if_other_versions_installed", show_env = false, show
 idiomatic_version_file_enable_tools = ['node']
 python.uv_venv_auto = true
 pipx.uvx = true
+
+[task_config]
+dir = "{{cwd}}"
+includes = [
+    "{{ config_root }}/tasks"  # Global tasks available everywhere
+]

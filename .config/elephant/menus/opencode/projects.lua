@@ -23,14 +23,12 @@ function GetEntries()
             if project and project.worktree then
                 -- Extract timestamp from time.created (milliseconds)
                 local timestamp = 0
-                if project.time and project.time.created then
-                    timestamp = project.time.created
-                end
+                if project.time and project.time.created then timestamp = project.time.created end
 
                 table.insert(projects, {
                     path = project.worktree,
                     timestamp = timestamp,
-                    vcs = project.vcs or "unknown"
+                    vcs = project.vcs or "unknown",
                 })
             end
         end
@@ -49,7 +47,8 @@ function GetEntries()
         if project.timestamp > 0 then
             -- Convert milliseconds to seconds for date command
             local seconds = math.floor(project.timestamp / 1000)
-            local date_cmd = string.format("date -d '@%d' +'%%Y-%%m-%%d %%H:%%M' 2>/dev/null || echo 'Recently'", seconds)
+            local date_cmd =
+                string.format("date -d '@%d' +'%%Y-%%m-%%d %%H:%%M' 2>/dev/null || echo 'Recently'", seconds)
             local date_p = io.popen(date_cmd)
             if date_p then
                 display_time = date_p:read("*a"):gsub("\n", "")
@@ -63,13 +62,11 @@ function GetEntries()
             Text = project.path,
             Subtext = "Last accessed: " .. display_time .. " | VCS: " .. project.vcs,
             Value = project.path,
-            Actions = { default = "lua:OpenProject" }
+            Actions = { default = "lua:OpenProject" },
         })
     end
 
-    if #entries == 0 then
-        table.insert(entries, { Text = "No recent projects", Icon = "warning" })
-    end
+    if #entries == 0 then table.insert(entries, { Text = "No recent projects", Icon = "warning" }) end
 
     return entries
 end

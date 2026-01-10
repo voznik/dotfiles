@@ -20,7 +20,6 @@ function GetGooseIconPng()
     return os.getenv("HOME") .. "/.config/elephant/menus/goose/icons/" .. icon_name
 end
 
-
 -- === HELPER: Open Walker Menu ===
 function OpenWalkerMenu(menu)
     os.execute(string.format(WALKER_CMDS.PROVIDER_FMT, menu))
@@ -29,12 +28,8 @@ end
 -- === HELPER: Run command in terminal ===
 function RunInTerminal(cmd)
     local shell = os.getenv("SHELL") or "/bin/sh"
-    local wrapper = string.format(
-        [[ %s -e %s -c "%s; echo ''; echo '[Press Enter to close]'; read" ]],
-        TERMINAL,
-        shell,
-        cmd
-    )
+    local wrapper =
+        string.format([[ %s -e %s -c "%s; echo ''; echo '[Press Enter to close]'; read" ]], TERMINAL, shell, cmd)
     os.execute("notify-send 'Goose' 'Running terminal command'")
     os.execute(wrapper)
 end
@@ -62,7 +57,7 @@ end
 -- === CONSTANTS: Walker CLI Commands ===
 WALKER_CMDS = {
     PROVIDER_FMT = "walker --provider menus:%s",
-    DMENU_INPUT_FMT = "walker --dmenu --inputonly --maxheight 2 --placeholder '%s'"
+    DMENU_INPUT_FMT = "walker --dmenu --inputonly --maxheight 2 --placeholder '%s'",
 }
 
 -- === CONSTANTS: Goose CLI Commands ===
@@ -74,7 +69,7 @@ GOOSE_CMDS = {
     RECIPE_LIST_JSON = "goose recipe list --format json",
     -- Note: Params are appended manually to RECIPE_RUN_FMT in recipe_params.lua
     RECIPE_RUN_FMT = "goose run --no-session --recipe %s",
-    PROMPT_RUN_FMT = "goose run --text '%s'"
+    PROMPT_RUN_FMT = "goose run --text '%s'",
 }
 
 -- === CONSTANTS: OpenCode CLI Commands ===
@@ -83,14 +78,14 @@ OPENCODE_CMDS = {
     SESSION_CONTINUE = "opencode -c",
     SESSION_LIST = "opencode session list",
     SESSION_RESUME_FMT = "opencode -s %s",
-    MODELS_LIST = "opencode models"
+    MODELS_LIST = "opencode models",
 }
 
 -- === CONSTANTS: Gemini CLI Commands ===
 GEMINI_CMDS = {
     SESSION_NEW = "gemini",
     SESSION_LIST = "gemini --list-sessions",
-    SESSION_RESUME_FMT = "gemini --resume %s"
+    SESSION_RESUME_FMT = "gemini --resume %s",
 }
 
 -- === HELPER: Parse parameters from Recipe YAML ===

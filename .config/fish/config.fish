@@ -1,21 +1,20 @@
 ## Set values
 # Hide welcome message & ensure we are reporting fish as shell
 set fish_greeting
-set VIRTUAL_ENV_DISABLE_PROMPT "1"
+set VIRTUAL_ENV_DISABLE_PROMPT 1
 set -x SHELL /usr/bin/fish
 
 source ~/.config/fish/aliases.fish
 source ~/.config/fish/functions/misc.fish
-# source ~/.config/fish/chpwd.fish
 
 # https://github.com/ajeetdsouza/zoxide
-zoxide init fish --cmd cd  | source
+zoxide init fish --cmd cd | source
 
 # https://github.com/jdx/mise/blob/main/docs/dev-tools/index.md
 mise activate fish | source
 
 # https://docs.atuin.sh/cli/guide/installation/#installing-the-shell-plugin
-set -gx ATUIN_NOBIND "true"
+set -gx ATUIN_NOBIND true
 atuin init fish --disable-up-arrow | source
 # https://docs.atuin.sh/cli/configuration/key-binding/#fish
 # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
@@ -27,14 +26,14 @@ bind ctrl-space _atuin_search
 
 # Use bat for man pages
 set -xU MANPAGER "sh -c 'col -bx | bat -l man -p'"
-set -xU MANROFFOPT "-c"
+set -xU MANROFFOPT -c
 
 # Hint to exit PKGBUILD review in Paru
 set -x PARU_PAGER "less -P \"Press 'q' to exit the PKGBUILD review.\""
 
 ## Export variable need for qt-theme
-if type "qtile" >> /dev/null 2>&1
-   set -x QT_QPA_PLATFORMTHEME "qt5ct"
+if type qtile >>/dev/null 2>&1
+    set -x QT_QPA_PLATFORMTHEME qt5ct
 end
 
 # Set settings for https://github.com/franciscolourenco/done
@@ -44,7 +43,7 @@ set -U __done_notification_urgency_level low
 ## Environment setup
 # Apply .profile: use this to put fish compatible .profile stuff in
 if test -f ~/.fish_profile
-  source ~/.fish_profile
+    source ~/.fish_profile
 end
 
 ### SSH
@@ -60,29 +59,28 @@ end
 # Fish shell
 
 ugrep "^export " ~/.bash_vendors | while read e
-  set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
-  set value (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\2/")
+    set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
+    set value (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\2/")
 
-  # remove surrounding quotes if existing
-  set value (echo $value | sed -E "s/^\"(.*)\"\$/\1/")
+    # remove surrounding quotes if existing
+    set value (echo $value | sed -E "s/^\"(.*)\"\$/\1/")
 
-  if test $var = "PATH"
-    # replace ":" by spaces. this is how PATH looks for Fish
-    set value (echo $value | sed -E "s/:/ /g")
+    if test $var = PATH
+        # replace ":" by spaces. this is how PATH looks for Fish
+        set value (echo $value | sed -E "s/:/ /g")
 
-    # use eval because we need to expand the value
-    eval set -xg $var $value
+        # use eval because we need to expand the value
+        eval set -xg $var $value
 
-    continue
-  end
+        continue
+    end
 
-  # evaluate variables. we can use eval because we most likely just used "$var"
-  set value (eval echo $value)
+    # evaluate variables. we can use eval because we most likely just used "$var"
+    set value (eval echo $value)
 
-  #echo "set -xg '$var' '$value' (via '$e')"
-  set -xg $var $value
+    #echo "set -xg '$var' '$value' (via '$e')"
+    set -xg $var $value
 end
-
 
 # Add ~/.local/bin to PATH
 if test -d ~/.local/bin
@@ -101,7 +99,7 @@ end
 ## Starship prompt
 
 function starship_transient_prompt_func
-  starship module character
+    starship module character
 end
 
 if status --is-interactive
@@ -115,30 +113,32 @@ source /usr/share/doc/find-the-command/ftc.fish noupdate quiet
 ## Functions
 # Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
 function __history_previous_command
-  switch (commandline -t)
-  case "!"
-    commandline -t $history[1]; commandline -f repaint
-  case "*"
-    commandline -i !
-  end
+    switch (commandline -t)
+        case "!"
+            commandline -t $history[1]
+            commandline -f repaint
+        case "*"
+            commandline -i !
+    end
 end
 
 function __history_previous_command_arguments
-  switch (commandline -t)
-  case "!"
-    commandline -t ""
-    commandline -f history-token-search-backward
-  case "*"
-    commandline -i '$'
-  end
+    switch (commandline -t)
+        case "!"
+            commandline -t ""
+            commandline -f history-token-search-backward
+        case "*"
+            commandline -i '$'
+    end
 end
 
-if [ "$fish_key_bindings" = fish_vi_key_bindings ];
-  bind -Minsert ! __history_previous_command
-  bind -Minsert '$' __history_previous_command_arguments
+if [ "$fish_key_bindings" = fish_vi_key_bindings ]
+
+    bind -Minsert ! __history_previous_command
+    bind -Minsert '$' __history_previous_command_arguments
 else
-  bind ! __history_previous_command
-  bind '$' __history_previous_command_arguments
+    bind ! __history_previous_command
+    bind '$' __history_previous_command_arguments
 end
 
 # Fish command history
@@ -154,8 +154,8 @@ end
 function copy
     set count (count $argv | tr -d \n)
     if test "$count" = 2; and test -d "$argv[1]"
-	set from (echo $argv[1] | string trim --right --chars=/)
-	set to (echo $argv[2])
+        set from (echo $argv[1] | string trim --right --chars=/)
+        set to (echo $argv[2])
         command cp -r $from $to
     else
         command cp $argv
@@ -167,12 +167,12 @@ function cleanup
     while pacman -Qdtq
         sudo pacman -R (pacman -Qdtq)
         if test "$status" -eq 1
-           break
+            break
         end
     end
 end
 
 ## Run fastfetch if session is interactive
 if status --is-interactive && type -q fastfetch
-   fastfetch --config neofetch.jsonc
+    fastfetch --config neofetch.jsonc
 end

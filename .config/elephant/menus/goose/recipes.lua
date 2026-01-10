@@ -44,8 +44,8 @@ function GetEntries()
             content = {
                 title = item.title or name,
                 description = desc,
-                parameters = nil
-            }
+                parameters = nil,
+            },
         }
 
         table.insert(entries, {
@@ -54,7 +54,7 @@ function GetEntries()
             Value = jsonEncode(recipe),
             SubMenu = "goose_recipe_params",
             Preview = path,
-            PreviewType = "file"
+            PreviewType = "file",
         })
     end
 

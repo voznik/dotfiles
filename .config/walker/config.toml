@@ -37,11 +37,11 @@ default = [
   # "runner",
   "menus",
   "windows",
-  # "emojis",
+  "emojis",
   "websearch",
   "bookmarks",
   "clipboard",
-  # "snippets"
+  "snippets"
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 100 # global max results
@@ -51,6 +51,8 @@ disabled = [
 ]
 
 [providers.sets] # define your own defaults/empty sets of providers
+# ai = [ "menus:ai", "desktopapplications" ]
+
 [providers.max_results_provider] # define max results per provider in here
 menus = 100
 
