@@ -19,7 +19,7 @@ local function get_models_from_provider(provider_name)
                 "gemini-2.5-flash",
                 "gemini-2.5-flash-lite",
                 "gemini-3-pro-preview",
-                "gemini-3-flash-preview"
+                "gemini-3-flash-preview",
             }
         end
         return {}
@@ -45,9 +45,7 @@ local function get_ollama_models()
     if p then
         for line in p:lines() do
             local name = line:match("^(%S+)")
-            if name and name ~= "NAME" then
-                table.insert(models, name)
-            end
+            if name and name ~= "NAME" then table.insert(models, name) end
         end
         p:close()
     end
@@ -62,7 +60,7 @@ function GetEntries()
             Text = "Gemini: " .. model,
             Subtext = "Provider: gemini-cli | Model: " .. model,
             Value = "gemini-cli:" .. model,
-            Actions = { default = "lua:SetModel" }
+            Actions = { default = "lua:SetModel" },
         })
     end
 
@@ -71,7 +69,7 @@ function GetEntries()
             Text = "Ollama: " .. model,
             Subtext = "Provider: ollama | Model: " .. model,
             Value = "ollama:" .. model,
-            Actions = { default = "lua:SetModel" }
+            Actions = { default = "lua:SetModel" },
         })
     end
 
@@ -80,7 +78,7 @@ function GetEntries()
             Text = "Claude: " .. model,
             Subtext = "Provider: anthropic | Model: " .. model,
             Value = "claude:" .. model,
-            Actions = { default = "lua:SetModel" }
+            Actions = { default = "lua:SetModel" },
         })
     end
 

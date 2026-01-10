@@ -22,7 +22,7 @@ function GetEntries()
                     Text = model,
                     Subtext = "Provider: " .. provider .. " | Model: " .. model_name,
                     Value = model,
-                    Actions = { default = "lua:SetModel" }
+                    Actions = { default = "lua:SetModel" },
                 })
             else
                 -- Fallback for models without "/"
@@ -30,16 +30,14 @@ function GetEntries()
                     Text = model,
                     Subtext = "Model: " .. model,
                     Value = model,
-                    Actions = { default = "lua:SetModel" }
+                    Actions = { default = "lua:SetModel" },
                 })
             end
         end
     end
     handle:close()
 
-    if #entries == 0 then
-        table.insert(entries, { Text = "No models available", Icon = "warning" })
-    end
+    if #entries == 0 then table.insert(entries, { Text = "No models available", Icon = "warning" }) end
 
     return entries
 end
@@ -47,9 +45,6 @@ end
 function SetModel(model)
     -- OpenCode doesn't persist model selection in config
     -- User needs to use: opencode -m provider/model
-    local msg = string.format(
-        "Model selected: %s\\n\\nTo use this model, run:\\nopencode -m %s",
-        model, model
-    )
+    local msg = string.format("Model selected: %s\\n\\nTo use this model, run:\\nopencode -m %s", model, model)
     os.execute(string.format("notify-send 'OpenCode Model' '%s'", msg))
 end

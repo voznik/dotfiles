@@ -24,7 +24,7 @@ function GetEntries()
             if project.path then
                 table.insert(projects_list, {
                     path = project.path,
-                    timestamp = project.last_accessed or "0"
+                    timestamp = project.last_accessed or "0",
                 })
             end
         end
@@ -47,7 +47,7 @@ function GetEntries()
                 Text = project.path,
                 Subtext = "Last accessed: " .. human_date,
                 Value = project.path,
-                Actions = { default = "lua:OpenProject" }
+                Actions = { default = "lua:OpenProject" },
             })
         end
     end
@@ -55,4 +55,6 @@ function GetEntries()
     return entries
 end
 
-function OpenProject(path) RunInTerminal("cd '" .. path .. "' && " .. GOOSE_CMDS.SESSION_NEW) end
+function OpenProject(path)
+    RunInTerminal("cd '" .. path .. "' && " .. GOOSE_CMDS.SESSION_NEW)
+end

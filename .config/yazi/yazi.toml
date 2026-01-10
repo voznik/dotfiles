@@ -3,54 +3,54 @@
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [mgr]
-ratio          = [ 1, 2, 4 ]
-sort_by        = "alphabetical"
+ratio = [1, 2, 4]
+sort_by = "alphabetical"
 sort_sensitive = false
-sort_reverse 	 = false
+sort_reverse = false
 sort_dir_first = true
-sort_translit  = false
-linemode       = "mtime"
-show_hidden    = true
-show_symlink   = true
-scrolloff      = 2
-mouse_events   = [ "click", "scroll" ]
-title_format   = "Yazi: {cwd}"
+sort_translit = false
+linemode = "mtime"
+show_hidden = true
+show_symlink = true
+scrolloff = 2
+mouse_events = ["click", "scroll"]
+title_format = "Yazi: {cwd}"
 
 [preview]
-wrap            = "no"
-tab_size        = 2
-max_width       = 600
-max_height      = 900
-cache_dir       = ""
-image_delay     = 30
-image_filter    = "triangle"
-image_quality   = 75
-ueberzug_scale  = 1
-ueberzug_offset = [ 0, 0, 0, 0 ]
+wrap = "no"
+tab_size = 2
+max_width = 600
+max_height = 900
+cache_dir = ""
+image_delay = 30
+image_filter = "triangle"
+image_quality = 75
+ueberzug_scale = 1
+ueberzug_offset = [0, 0, 0, 0]
 
 [input]
 cursor_blink = true
 
 
 [plugin]
-prepend_preloaders = [  
+prepend_preloaders = [
   # { name = "*.json", run = "duckdb", multi = false },  
-  { name = "*.csv", run = "duckdb", multi = false },  
-  { name = "*.tsv", run = "duckdb", multi = false },  
+  { name = "*.csv", run = "duckdb", multi = false },
+  { name = "*.tsv", run = "duckdb", multi = false },
   { name = "*.parquet", run = "duckdb", multi = false },
-  { name = "*.xlsx", run = "duckdb", multi = false }
+  { name = "*.xlsx", run = "duckdb", multi = false },
 ]
 prepend_previewers = [
   # DUCKDB
   # { name = "*.json", run = "duckdb" },  
   # { name = "*.csv", run = "duckdb" },  
-  { name = "*.tsv", run = "duckdb" },  
-  { name = "*.parquet", run = "duckdb" },  
-  { name = "*.xlsx", run = "duckdb" },  
+  { name = "*.tsv", run = "duckdb" },
+  { name = "*.parquet", run = "duckdb" },
+  { name = "*.xlsx", run = "duckdb" },
   { name = "*.db", run = "duckdb" },
   { name = "*.duckdb", run = "duckdb" },
   # PIPER
   { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
   { url = "*/", run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
-  { mime = "application/sqlite3", run  = 'piper -- sqlite3 "$1" ".schema --indent"' }
+  { mime = "application/sqlite3", run = 'piper -- sqlite3 "$1" ".schema --indent"' },
 ]

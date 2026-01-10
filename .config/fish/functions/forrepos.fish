@@ -4,6 +4,6 @@ function forrepos --description 'Evaluates $argv for all repo folders'
         set repo (basename $d)
         echo $repo
         eval (abbrex $argv)
-        popd > /dev/null
+        popd >/dev/null
     end
 end

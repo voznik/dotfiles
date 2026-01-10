@@ -15,9 +15,7 @@ local function loadParams()
         if line:find("param:", 1, true) == 1 then
             local param_line = line:sub(7)
             local sep_pos = param_line:find("=")
-            if sep_pos then
-                params[param_line:sub(1, sep_pos - 1)] = param_line:sub(sep_pos + 1)
-            end
+            if sep_pos then params[param_line:sub(1, sep_pos - 1)] = param_line:sub(sep_pos + 1) end
         end
     end
     return params
@@ -51,15 +49,13 @@ function GetEntries()
     local entries = {}
     local recipe = getRecipeFromParent()
 
-    if not recipe then
-        return {{ Text = "Error: No recipe provided from parent menu." , Icon = "error" }}
-    end
+    if not recipe then return { { Text = "Error: No recipe provided from parent menu.", Icon = "error" } } end
 
     local saved_params = loadParams()
     local recipe_data = recipe.content
 
     if not recipe_data or not recipe_data.parameters then
-        return {{ Text = "Error: Could not load recipe parameters." , Icon = "error" }}
+        return { { Text = "Error: Could not load recipe parameters.", Icon = "error" } }
     end
 
     for _, param in ipairs(recipe_data.parameters) do
@@ -70,11 +66,16 @@ function GetEntries()
             Text = "- " .. param.key .. req_indicator,
             Subtext = (param.description or "") .. " | " .. value_display,
             Value = param.key,
-            Actions = { default = "lua:EditParam" }
+            Actions = { default = "lua:EditParam" },
         })
     end
 
-    table.insert(entries, { Text = "> Run Recipe", Subtext = "Execute with current parameters", Icon = "terminal", Actions = { default = "lua:ExecuteRecipe" }})
+    table.insert(entries, {
+        Text = "> Run Recipe",
+        Subtext = "Execute with current parameters",
+        Icon = "terminal",
+        Actions = { default = "lua:ExecuteRecipe" },
+    })
     -- table.insert(entries, { Text = "> Clear All", Subtext = "Reset all parameter values", Icon = "❎", Actions = { default = "lua:ClearParams" }})
     return entries
 end
@@ -102,7 +103,8 @@ function EditParam(param_key)
     cmd = PrepareShellCommand(cmd)
     local p = io.popen(cmd .. " 2>&1")
     if p then
-        local output = p:read("*a"); p:close()
+        local output = p:read("*a")
+        p:close()
         local new_value = output and output:gsub("%s+", "") or ""
         if new_value ~= "" then
             saved_params[param_key] = new_value
@@ -142,9 +144,7 @@ function ExecuteRecipe()
     end
 
     local full_cmd = cmd_base
-    if #cmd_params > 0 then
-        full_cmd = full_cmd .. " " .. table.concat(cmd_params, " ")
-    end
+    if #cmd_params > 0 then full_cmd = full_cmd .. " " .. table.concat(cmd_params, " ") end
 
     RunInTerminal(full_cmd)
     setState({}) -- Clear param state after execution

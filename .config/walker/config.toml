@@ -7,7 +7,14 @@ exact_search_prefix = "*"       # disable fuzzy searching
 theme = "default"               # theme to use
 theme_grid_columns = 1          # introduced in https://github.com/abenz1267/walker/releases/tag/v2.11.3
 disable_mouse = false           # disable mouse (on input and list only)
-debug = false                   # enables debug printing for some stuff, f.e. keybinds
+debug = true                   # enables debug printing for some stuff, f.e. keybinds
+page_jump_items = 10            # number of items to skip with Page Up/Down
+hide_quick_activation = false   # globally hide the quick activation buttons
+hide_action_hints = false       # globally hide the action hints
+hide_action_hints_dmenu = false  # hide the actions hints for dmenu
+hide_return_action = false      # hide actions that are bound to Return
+resume_last_query = false       # open walker with the last query in place
+actions_as_menu = false         # display all possible actions in a submenu
 
 [shell]
 anchor_top = true
@@ -25,32 +32,32 @@ anchor_right = true
 close = ["Escape"]
 next = ["Down"]
 previous = ["Up"]
+left = ["Left"]
+right = ["Right"]
+down = ["Down"]
+up = ["Up"]
 toggle_exact = ["ctrl e"]
 resume_last_query = ["ctrl r"]
-reload = ["ctrl x"]
 quick_activate = ["F1", "F2", "F3", "F4"]
+page_down = ["Page_Down"]
+page_up = ["Page_Up"]
+show_actions = ["alt j"]
 
 [providers]
 default = [
-  "desktopapplications",
   "calc",
-  # "runner",
-  "menus",
   "windows",
-  # "emojis",
   "websearch",
-  "bookmarks",
-  "clipboard",
-  # "snippets"
+  # "bookmarks",
+  # "clipboard",
+  "menus:ai",
+  "desktopapplications",
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
-max_results = 100 # global max results
-disabled = [
-  "files",
-  "runner"
-]
+max_results = 20 # global max results
 
 [providers.sets] # define your own defaults/empty sets of providers
+
 [providers.max_results_provider] # define max results per provider in here
 menus = 100
 
@@ -60,7 +67,7 @@ provider = "providerlist"
 
 [[providers.prefixes]]
 prefix = ">"
-provider = "menus:goose"
+provider = "menus:ai"
 
 [[providers.prefixes]]
 prefix = "\\"
@@ -72,7 +79,8 @@ provider = "menus:other"
 
 [[providers.prefixes]]
 prefix = "|"
-provider = "menus:buku"
+# provider = "menus:buku"
+provider = "desktopapplications"
 
 [[providers.prefixes]]
 prefix = ","
@@ -132,14 +140,13 @@ max_results = 100
 exact_search=true
 max_results = 100
 
-[providers.bookmarks]
-[[categories]]
-name = "work"
-prefix = "w:"
-
-[[categories]]
-name = "personal"
-prefix = "p:"
+# [providers.bookmarks]
+# [[categories]]
+# name = "work"
+# prefix = "w:"
+# [[categories]]
+# name = "personal"
+# prefix = "p:"
 
 [providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
 menus = [
@@ -169,6 +176,8 @@ bluetooth = [
   { action = "pair", bind = "Return", after = "AsyncReload" },
   { action = "connect", default = true, bind = "Return", after = "AsyncReload" },
   { action = "disconnect", default = true, bind = "Return", after = "AsyncReload" },
+  { action = "power_on", label = "Power On", bind = "ctrl e", after = "AsyncReload" },
+  { action = "power_off", label = "Power Off", bind = "ctrl e", after = "AsyncReload" },
 ]
 
 archlinuxpkgs = [
@@ -183,6 +192,7 @@ archlinuxpkgs = [
 calc = [
   { action = "copy", default = true, bind = "Return" },
   { action = "delete", bind = "ctrl d", after = "AsyncReload" },
+  { action = "delete_all", bind = "ctrl shift d", after = "AsyncReload" },
   { action = "save", bind = "ctrl s", after = "AsyncClearReload" },
 ]
 
@@ -215,6 +225,16 @@ files = [
   { action = "copy_password", label = "copy password", default = true, bind = "Return" },
   { action = "copy_username", label = "copy username", bind = "shift Return" },
   { action = "copy_2fa", label = "copy 2fa", bind = "ctrl Return" },
+]
+
+bitwarden = [
+  { action = "copypassword", label = "copy password", default = true, bind = "Return" },
+  { action = "typepassword", label = "type password", default = true, bind = "ctrl p" },
+  { action = "copyusername", label = "copy username", bind = "shift Return" },
+  { action = "typeusername", label = "type username", bind = "ctrl u" },
+  { action = "copyotp", label = "copy 2fa", bind = "ctrl Return" },
+  { action = "typeotp", label = "type 2fa", bind = "ctrl t" },
+  { action = "syncvault", label = "sync", bind = "ctrl s" },
 ]
 
 todo = [

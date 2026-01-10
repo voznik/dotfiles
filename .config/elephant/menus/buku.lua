@@ -27,7 +27,7 @@ function GetEntries()
                     Text = title,
                     Subtext = "ID: " .. id,
                     Value = id,
-                    Actions = { default = "lua:OpenBookmark" }
+                    Actions = { default = "lua:OpenBookmark" },
                 })
             end
         end

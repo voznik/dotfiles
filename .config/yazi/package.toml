@@ -43,5 +43,10 @@ use = "Lil-Dank/lazygit"
 rev = "0e56060"
 hash = "ab2e66065a94cca4886b303518e44bd8"
 
+[[plugin.deps]]
+use = "boydaihungst/gvfs"
+rev = "d9e3e0d"
+hash = "3768782f4ecce890d79628cafdcdfa5f"
+
 [flavor]
 deps = []

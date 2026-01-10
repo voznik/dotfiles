@@ -16,6 +16,10 @@
 
 CONFIG_VERSION = "0.0.5"
 
+-- Add shared lua modules path
+package.path = package.path .. ";" .. os.getenv("XDG_CONFIG_DIR") .. "/lua/?.lua"
+local formatter = require("formatter")
+
 local micro = import("micro")
 local config = import("micro/config")
 local shell = import("micro/shell")
@@ -68,34 +72,6 @@ function rust_test_runner(filepath)
     else
         return "cargo eval --test " .. filepath
     end
-end
-
-function rust_formatter(filepath)
-    if file_exists("Cargo.toml") then
-        return "cargo fmt"
-    else
-        return "rustfmt -v -l --backup --edition=2021 " .. filepath
-    end
-end
-
-local function json_formatter(filepath)
-    -- This command reads the file, pipes it through 'jq .',
-    -- writes the formatted output to a temporary file (.tmp),
-    -- and then replaces the original file with the temporary one.
-    local command_string = "jq . < "
-        .. filepath
-        .. " > "
-        .. filepath
-        .. ".tmp && mv "
-        .. filepath
-        .. ".tmp "
-        .. filepath
-
-    return "sh -c '" .. command_string .. "'"
-end
-
-local function biome_formatter(path)
-    return "biome format --write " .. path
 end
 
 -- below code adds new buffer with "hello content"
@@ -178,27 +154,22 @@ function format(bp)
     local buf = bp.Buf
     local filetype = buf:FileType()
 
-    _command = {}
-    -- _command["json"] = json_formatter(buf.Path)
-    _command["json"] = biome_formatter(buf.Path)
-    _command["html"] = biome_formatter(buf.Path)
-    _command["css"] = biome_formatter(buf.Path)
-    _command["javascript"] = biome_formatter(buf.Path)
-    _command["typescript"] = biome_formatter(buf.Path)
-    _command["vue"] = _command["javascript"]
-    _command["yaml"] = "yq -i -y '.' " .. buf.Path
-    _command["toml"] = "taplo format " .. buf.Path
-    _command["go"] = "go fmt -w" .. buf.Path
-    _command["rust"] = rust_formatter(buf.Path)
-    _command["python"] = "ruff -l 79 " .. buf.Path
-    _command["lua"] = "stylua " .. buf.Path
+    -- Get extension from filetype (micro uses different names)
+    local ext_map = {
+        javascript = "js",
+        typescript = "ts",
+        python = "py",
+    }
+    local ext = ext_map[filetype] or filetype
 
-    if not setContains(_command, filetype) then
-        return
-    end
+    -- Get command from shared formatter module
+    local cmd = formatter.formatters[ext]
+    if not cmd then return end
 
-    bp:Save() -- TODO: is it saving twice
-    run_action(bp.Buf, _command, "Format", false) -- false=no bottom panel
+    bp:Save()
+    local _command = {}
+    _command[filetype] = cmd .. " " .. buf.Path
+    run_action(bp.Buf, _command, "Format", false)
     buf:ReOpen()
 end
 
@@ -212,9 +183,7 @@ function sort_imports(bp)
     _command["go"] = "goimports -w " .. buf.Path
     _command["python"] = "isort -l 79 --profile=black -m 3 " .. buf.Path
 
-    if not setContains(_command, filetype) then
-        return
-    end
+    if not setContains(_command, filetype) then return end
 
     bp:Save() -- TODO: is it saving twice
     run_action(bp.Buf, _command, "SortImports", false) -- false=no bottom panel
@@ -293,9 +262,7 @@ function run_action(buf, commands, identifier, bottom_panel)
     local output, err = shell.RunCommand(commands[filetype])
 
     local msg = output
-    if err ~= nil then
-        msg = msg .. tostring(err)
-    end
+    if err ~= nil then msg = msg .. tostring(err) end
 
     if msg ~= "" then
         if bottom_panel then

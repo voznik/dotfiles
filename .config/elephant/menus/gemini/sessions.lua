@@ -43,17 +43,15 @@ function GetEntries()
                     table.insert(entries, {
                         Text = title,
                         Subtext = (time_ago or "Unknown time") .. " | Index: " .. num,
-                        Value = num,  -- Resume uses index number, not uuid
-                        Actions = { default = "lua:ResumeSession" }
+                        Value = num, -- Resume uses index number, not uuid
+                        Actions = { default = "lua:ResumeSession" },
                     })
                 end
             end
         end
     end
 
-    if #entries == 0 then
-        table.insert(entries, { Text = "No sessions found in this project", Icon = "warning" })
-    end
+    if #entries == 0 then table.insert(entries, { Text = "No sessions found in this project", Icon = "warning" }) end
 
     return entries
 end

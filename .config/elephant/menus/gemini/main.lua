@@ -11,8 +11,10 @@ function GetEntries()
     return {
         { Text = "Gemini: New Session", Subtext = "Start fresh session", Actions = { default = "lua:ActionNew" } },
         { Text = "Gemini: Resume Session", Subtext = "List and resume sessions", SubMenu = "gemini_sessions" },
-        { Text = "Gemini: Switch Model", Subtext = "Select from available Gemini models", SubMenu = "gemini_models" }
+        { Text = "Gemini: Switch Model", Subtext = "Select from available Gemini models", SubMenu = "gemini_models" },
     }
 end
 
-function ActionNew() RunInTerminal(GEMINI_CMDS.SESSION_NEW) end
+function ActionNew()
+    RunInTerminal(GEMINI_CMDS.SESSION_NEW)
+end

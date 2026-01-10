@@ -1,0 +1,25 @@
+name = "ai"
+name_pretty = "AI: Commands & Links"
+icon = "✨"
+action = "xdg-open %VALUE%"
+global_search = true
+
+[[entries]]
+text = "AI: Goose"
+submenu = "goose"
+icon = "/home/voznik/.config/elephant/menus/goose/icons/goose.ico"
+
+[[entries]]
+text = "AI: Gemini"
+submenu = "gemini"
+icon = "/home/voznik/.config/elephant/menus/gemini/icons/gemini.ico"
+
+[[entries]]
+text = "AI: Opencode"
+submenu = "opencode"
+icon = "/home/voznik/.config/elephant/menus/opencode/icons/opencode.ico"
+
+[[entries]]
+text = "Server"
+icon = "server"
+value = "https://server.leitfa.de"

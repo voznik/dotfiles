@@ -1,0 +1,12 @@
+[tasks.clean]
+depends = ['cleancache']
+run = "mise cache clean" # runs as a shell command
+
+[tasks.lint]
+description = 'Lint with stylua'
+# env = { RUST_BACKTRACE = '1' } # env vars for the script
+# you can specify a multiline script instead of individual commands
+run = '''
+#!/usr/bin/env lua
+print("Mise is running this Lua script directly via " .. _VERSION)
+'''

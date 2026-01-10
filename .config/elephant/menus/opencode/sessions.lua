@@ -41,15 +41,13 @@ function GetEntries()
                     Text = title or "Untitled Session",
                     Subtext = "ID: " .. id .. (updated and " | " .. updated or ""),
                     Value = id,
-                    Actions = { default = "lua:ResumeSession" }
+                    Actions = { default = "lua:ResumeSession" },
                 })
             end
         end
     end
 
-    if #entries == 0 then
-        table.insert(entries, { Text = "No sessions found", Icon = "warning" })
-    end
+    if #entries == 0 then table.insert(entries, { Text = "No sessions found", Icon = "warning" }) end
 
     return entries
 end

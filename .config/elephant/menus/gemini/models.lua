@@ -12,7 +12,7 @@ local MODELS = {
     "gemini-2.5-flash",
     "gemini-2.5-flash-lite",
     "gemini-3-pro-preview",
-    "gemini-3-flash-preview"
+    "gemini-3-flash-preview",
 }
 
 local function UpdateGeminiConfig(model)
@@ -43,7 +43,7 @@ function GetEntries()
             Text = model,
             Subtext = "Gemini CLI model",
             Value = model,
-            Actions = { default = "lua:SetModel" }
+            Actions = { default = "lua:SetModel" },
         })
     end
 
