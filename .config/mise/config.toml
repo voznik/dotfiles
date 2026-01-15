@@ -1,5 +1,6 @@
 [env]
 _.file = ['.env', '.env.local', '.env.system']
+_.path = "{{env.HOME}}/.bun/bin"
 # 
 MISE_NODE_GPG_VERIFY = "false"
 # IMPORTANT USER ENV
@@ -18,12 +19,13 @@ duckdb = "latest"
 gh = "latest"
 glab = "latest" 
 glow = "latest"
-taplo = "latest"
+navi = "latest"
 # npm registry
 node = "24"
+bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:@fission-ai/openspec" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
-"npm:@google/gemini-cli" = "v0.24.0-preview.0"
+"npm:@google/gemini-cli" = "latest"
 "npm:@google/jules" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
@@ -42,6 +44,7 @@ ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
 "pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.12" } # IMPORTANT:
+"pipx:claude-monitor" = "latest"
 "pipx:git+https://github.com/github/spec-kit.git" = "latest"
 "pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
 # git registry
@@ -50,12 +53,14 @@ ruff = "latest"
 "github:dhth/bmm" = "0.3.0"
 "github:Inlyne-Project/inlyne" = "latest"
 "github:coollabsio/coolify-cli" = "latest"
+"github:github/github-mcp-server" = "latest"
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
 lua-language-server = "latest"
 stylua = "latest"
 shfmt = "latest"
+taplo = "latest"
 
 #
 [settings]

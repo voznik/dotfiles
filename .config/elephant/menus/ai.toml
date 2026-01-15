@@ -20,6 +20,11 @@ submenu = "opencode"
 icon = "/home/voznik/.config/elephant/menus/opencode/icons/opencode.ico"
 
 [[entries]]
+text = "AI: TokScale"
+submenu = "tokscale"
+icon = "📊"
+
+[[entries]]
 text = "Server"
 icon = "server"
 value = "https://server.leitfa.de"

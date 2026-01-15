@@ -54,6 +54,15 @@ function string.trim(s)
     return s:match("^%s*(.-)%s*$")
 end
 
+-- === HELPER: Check if command is available ===
+function IsCommandAvailable(cmd)
+    local handle = io.popen("command -v " .. cmd .. " 2>/dev/null")
+    if not handle then return false end
+    local result = handle:read("*a")
+    handle:close()
+    return result ~= nil and result ~= ""
+end
+
 -- === CONSTANTS: Walker CLI Commands ===
 WALKER_CMDS = {
     PROVIDER_FMT = "walker --provider menus:%s",
@@ -86,6 +95,11 @@ GEMINI_CMDS = {
     SESSION_NEW = "gemini",
     SESSION_LIST = "gemini --list-sessions",
     SESSION_RESUME_FMT = "gemini --resume %s",
+}
+
+-- === CONSTANTS: TokScale CLI Commands ===
+TOKSCALE_CMDS = {
+    TODAY_JSON = "tokscale --today --light --json",
 }
 
 -- === HELPER: Parse parameters from Recipe YAML ===

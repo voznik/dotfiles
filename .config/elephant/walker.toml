@@ -1,17 +1,17 @@
 force_keyboard_focus = false    # forces keyboard forcus to stay in Walker
 close_when_open = true          # close walker when invoking while already opened
 click_to_close = true           # closes walker if clicking outside of the main content area
+single_click_activation = true  # activate items with a single click opposed to a double click
 selection_wrap = false          # wrap list if at bottom or top
 global_argument_delimiter = "#" # query: firefox#https://benz.dev => part after delimiter will be ignored when querying. this should be the same as in the elephant config
-exact_search_prefix = "*"       # disable fuzzy searching
+exact_search_prefix = "'"       # disable fuzzy searching
 theme = "default"               # theme to use
-theme_grid_columns = 1          # introduced in https://github.com/abenz1267/walker/releases/tag/v2.11.3
 disable_mouse = false           # disable mouse (on input and list only)
 debug = false                   # enables debug printing for some stuff, f.e. keybinds
 page_jump_items = 10            # number of items to skip with Page Up/Down
 hide_quick_activation = false   # globally hide the quick activation buttons
 hide_action_hints = false       # globally hide the action hints
-hide_action_hints_dmenu = false  # hide the actions hints for dmenu
+hide_action_hints_dmenu = true  # hide the actions hints for dmenu
 hide_return_action = false      # hide actions that are bound to Return
 resume_last_query = false       # open walker with the last query in place
 actions_as_menu = false         # display all possible actions in a submenu
@@ -45,57 +45,51 @@ show_actions = ["alt j"]
 
 [providers]
 default = [
-  "calc",
-  "windows",
-  "websearch",
-  # "bookmarks",
-  # "clipboard",
-  "menus:ai",
   "desktopapplications",
+  "calc",
+  # "runner",
+  "websearch",
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
-max_results = 20 # global max results
+ignore_preview = [] # providers that should not show previews
+max_results = 50 # global max results
+
+[providers.argument_delimiter] # define the argument delimiter per provider
+# runner = " "
 
 [providers.sets] # define your own defaults/empty sets of providers
-
 [providers.max_results_provider] # define max results per provider in here
-menus = 100
 
 [[providers.prefixes]]
-prefix = "!"
+prefix = ";"
 provider = "providerlist"
 
 [[providers.prefixes]]
 prefix = ">"
-provider = "menus:ai"
+provider = "runner"
 
 [[providers.prefixes]]
-prefix = "\\"
-provider = "bookmarks"
+prefix = "/"
+provider = "files"
 
 [[providers.prefixes]]
-prefix = "_"
-provider = "menus:other"
-
-[[providers.prefixes]]
-prefix = "|"
-# provider = "menus:buku"
-provider = "desktopapplications"
-
-[[providers.prefixes]]
-prefix = ","
+prefix = "."
 provider = "symbols"
 
 [[providers.prefixes]]
-prefix = "+"
+prefix = "!"
 provider = "todo"
+
+[[providers.prefixes]]
+prefix = "%"
+provider = "bookmarks"
 
 [[providers.prefixes]]
 prefix = "="
 provider = "calc"
 
 [[providers.prefixes]]
-prefix = "?"
+prefix = "@"
 provider = "websearch"
 
 [[providers.prefixes]]
@@ -103,58 +97,13 @@ prefix = ":"
 provider = "clipboard"
 
 [[providers.prefixes]]
-prefix = "%"
-provider = "bluetooth"
-
-[[providers.prefixes]]
-prefix = "~"
+prefix = "$"
 provider = "windows"
 
-[[providers.prefixes]]
-prefix = "-"
-provider = "snippets"
-
 [providers.clipboard]
-global_search=false
-command = "wl-paste -n -t text/plain && hyprctl dispatch sendshortcut \"SHIFT,INSERT,activewindow\"" #
-# command = "hyprctl dispatch sendshortcut \"CTRL,V,activewindow\"" #
-# command = "sh -c 'wl-copy && sleep 0.5 && wlrctl keyboard type \"v\" modifiers ctrl'"
-recopy = false
-max_items = 1000
-time_format = "%d.%m. - %H:%M" # format for the clipboard item date
+time_format = "relative" # format for the clipboard item date
 
-[providers.desktopapplications]
-blacklist=["avahi"]
-history=true
-history_when_empty=true
-show_actions=true
-window_integration=true
-only_search_title=true
-
-[providers.menus]
-show_actions=true
-only_search_title=true
-max_results = 100
-
-[providers.menus.goose_recipes]
-exact_search=true
-max_results = 100
-
-# [providers.bookmarks]
-# [[categories]]
-# name = "work"
-# prefix = "w:"
-# [[categories]]
-# name = "personal"
-# prefix = "p:"
-
-[providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
-menus = [
-  { action = "menus:run_prompt", label = "Run", default = true, bind = "Return" },
-  { action = "menus:copy_prompt", label = "Copy", bind = "ctrl y", after = "AsyncClearReload" },
-  { action = "menus:edit", label = "Edit in text editor", bind = "ctrl o", after = "AsyncClearReload" },
-]
-
+[providers.actions] # This will be MERGED/OVERWRITTEN with what the user specifies
 fallback = [
   { action = "menus:open", label = "open", after = "Nothing" },
   { action = "menus:default", label = "run", after = "Close" },
@@ -210,6 +159,15 @@ desktopapplications = [
   { action = "unpin", bind = "ctrl p", after = "AsyncReload" },
   { action = "pinup", bind = "ctrl n", after = "AsyncReload" },
   { action = "pindown", bind = "ctrl m", after = "AsyncReload" },
+]
+
+dnfpackages = [
+  { action = "install", label = "Install Package", bind = "Return", default = true },
+  { action = "remove", label = "Remove Package", bind = "Return", default = true },
+  { action = "show_all", label = "Show All", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_installed", label = "Show Installed", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "refresh", label = "Refresh", bind = "ctrl r", after = "AsyncClearReload" },
+  { action = "visit_url", label = "Open URL", bind = "ctrl o" },
 ]
 
 files = [
@@ -275,8 +233,10 @@ clipboard = [
   { action = "show_images_only", label = "only images", bind = "ctrl i", after = "AsyncClearReload" },
   { action = "show_text_only", label = "only text", bind = "ctrl i", after = "AsyncClearReload" },
   { action = "show_combined", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
-  { action = "pause", bind = "ctrl p" },
-  { action = "unpause", bind = "ctrl p" },
+  { action = "pause", bind = "ctrl shift p" },
+  { action = "unpause", bind = "ctrl shift p" },
+  { action = "unpin", bind = "ctrl p", after = "AsyncClearReload" },
+  { action = "pin", bind = "ctrl p", after = "AsyncClearReload" },
   { action = "edit", bind = "ctrl o" },
   { action = "localsend", bind = "ctrl l" },
 ]

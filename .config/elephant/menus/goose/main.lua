@@ -9,6 +9,16 @@ dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
 function GetEntries()
     -- local icon = GetGooseIconPng()
+    if not IsCommandAvailable("goose") then
+        return {
+            {
+                Text = "Goose is not installed",
+                Subtext = "Please install goose to use this menu",
+                Icon = "⚠️"
+            }
+        }
+    end
+    
     return {
         {
             Text = "Goose: New Session",

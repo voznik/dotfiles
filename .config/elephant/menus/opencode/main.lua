@@ -8,6 +8,16 @@ Icon = os.getenv("HOME") .. "/.config/elephant/menus/opencode/icons/opencode.ico
 dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
 function GetEntries()
+    if not IsCommandAvailable("opencode") then
+        return {
+            {
+                Text = "OpenCode is not installed",
+                Subtext = "Please install opencode to use this menu",
+                Icon = "⚠️"
+            }
+        }
+    end
+    
     return {
         { Text = "OpenCode: New Session", Subtext = "Start fresh session", Actions = { default = "lua:ActionNew" } },
         {

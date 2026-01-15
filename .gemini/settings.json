@@ -6,7 +6,7 @@
     "auth": {
       "selectedType": "oauth-personal"
     },
-    "disableYoloMode": true
+    "disableYoloMode": false
   },
   "general": {
     "disableAutoUpdate": true,
@@ -70,6 +70,10 @@
     "basic-memory": {
       "command": "basic-memory",
       "args": ["mcp"]
+    },
+    "github-mcp-server": {
+      "command": "github-mcp-server",
+      "args": ["stdio", "--log-file=/tmp/github-mcp-server.log"]
     }
   }
 }

@@ -8,6 +8,16 @@ Icon = os.getenv("HOME") .. "/.config/elephant/menus/gemini/icons/gemini.ico"
 dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
 function GetEntries()
+    if not IsCommandAvailable("gemini") then
+        return {
+            {
+                Text = "Gemini CLI is not installed",
+                Subtext = "Please install gemini-cli to use this menu",
+                Icon = "⚠️"
+            }
+        }
+    end
+    
     return {
         { Text = "Gemini: New Session", Subtext = "Start fresh session", Actions = { default = "lua:ActionNew" } },
         { Text = "Gemini: Resume Session", Subtext = "List and resume sessions", SubMenu = "gemini_sessions" },
