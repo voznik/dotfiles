@@ -17,9 +17,9 @@ vim.filetype.add {
   },
   pattern = {
     -- Using an optional priority
-    ['.*/etc/foo/.*%.conf'] = { 'dosini', { priority = 10 } },
+    ['.*/etc/**/.*%.conf'] = { 'dosini', { priority = 10 } },
     -- A pattern containing an environment variable
-    ['${XDG_CONFIG_HOME}/foo/git'] = 'git',
+    ['${XDG_CONFIG_HOME}/**/git'] = 'git',
     ['.*README.(%a+)'] = function(path, bufnr, ext)
       if ext == 'md' then
         return 'markdown'

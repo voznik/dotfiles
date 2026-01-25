@@ -6,7 +6,7 @@ MISE_NODE_GPG_VERIFY = "false"
 # IMPORTANT USER ENV
 LUA_PATH = "{{env.XDG_CONFIG_DIR}}/lua/?.lua;;"
 
-[alias]
+[tool_alias]
 rust = "core:rust"                    # Use core backend
 
 [tools]
@@ -54,13 +54,23 @@ ruff = "latest"
 "github:Inlyne-Project/inlyne" = "latest"
 "github:coollabsio/coolify-cli" = "latest"
 "github:github/github-mcp-server" = "latest"
+"github:nicosuave/memex" = "latest"
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
+# 
 lua-language-server = "latest"
 stylua = "latest"
 shfmt = "latest"
 taplo = "latest"
+act = "latest"
+"npm:markdownlint" = "latest"
+# 
+# "http:packages.httpie.io/binaries/linux/http-latest" = { version = "latest", bin = "httpie" }
+[tools."http:httpie"]
+version = "latest"
+url = "https://packages.httpie.io/binaries/linux/http-{version}"
+bin = "httpie"  # Rename from docker-compose-linux-x86_64 to docker-compose
 
 #
 [settings]

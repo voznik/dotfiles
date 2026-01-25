@@ -116,15 +116,15 @@ provider = "snippets"
 
 [providers.clipboard]
 global_search=false
-command = "wl-paste -n -t text/plain && hyprctl dispatch sendshortcut \"SHIFT,INSERT,activewindow\"" #
-# command = "hyprctl dispatch sendshortcut \"CTRL,V,activewindow\"" #
-# command = "sh -c 'wl-copy && sleep 0.5 && wlrctl keyboard type \"v\" modifiers ctrl'"
+# command = "wl-paste -n -t text/plain && hyprctl dispatch sendshortcut \"SHIFT,INSERT,activewindow\"" #
+# command = "hyprctl dispatch sendshortcut \"SHIFT,CTRL,V,activewindow\"" #
+command = "ydotool key '42:1', '110:1', '110:0', '42:0'"
 recopy = false
 max_items = 1000
 time_format = "%d.%m. - %H:%M" # format for the clipboard item date
 
 [providers.desktopapplications]
-blacklist=["avahi"]
+blacklist=["*avahi*"]
 history=true
 history_when_empty=true
 show_actions=true

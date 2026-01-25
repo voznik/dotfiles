@@ -1,6 +1,7 @@
 -- https://github.com/stevearc/oil.nvim?tab=readme-ov-file#options
 return {
   'stevearc/oil.nvim',
+  enabled = false,
   -- Optional dependencies
   dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if prefer nvim-web-devicons
   config = function()

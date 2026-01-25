@@ -7,7 +7,7 @@ return { -- Useful plugin to show you pending keybinds.
       -- harpoon = '',
       -- telescope = '',
       -- diagnostics = '󰺴',
-      { plugin = 'lazygit.nvim', cat = 'filetype', name = 'git', color = 'green' },
+      { plugin = 'lazygit.nvim', cat = 'filetype', icon = '', color = 'green' },
       { plugin = 'yazi.nvim', cat = 'filetype', icon = '', color = 'cyan' },
       { pattern = 'harpoon', cat = 'filetype', icon = '', color = 'cyan' },
       { cat = 'search', icon = '', color = 'cyan' },
