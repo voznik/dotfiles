@@ -1,0 +1,25 @@
+{
+  "targets": [
+    "geminicli",
+    "cursor",
+    "claudecode",
+    "opencode"
+  ],
+  "features": [
+    "rules",
+    "ignore",
+    "mcp",
+    "commands",
+    "subagents",
+    "skills"
+  ],
+  "baseDirs": [
+    "."
+  ],
+  "delete": false,
+  "verbose": true,
+  "global": true,
+  "simulateCommands": false,
+  "simulateSubagents": false,
+  "modularMcp": false
+}

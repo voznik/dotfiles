@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "share": "disabled",
+  "autoupdate": false,
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "grep *": "allow",
+      "git *": "ask",
+      "ls *": "allow",
+      "find *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "fd *": "allow",
+      "rm *": "deny"
+    },
+    "list": "allow",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    },
+    "edit": "ask"
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["context7-mcp"]
+    },
+    "basic-memory": {
+      "type": "local",
+      "command": ["basic-memory", "mcp"],
+      "enabled": true
+    },
+    "github-mcp-server": {
+      "type": "local",
+      "command": ["github-mcp-server", "stdio", "--log-file=/tmp/github-mcp-server.log"]
+    }
+  },
+  "instructions": ["AGENTS.md", "~/.ai/AGENTS.md", ".cursor/rules/*.md"],
+  "disabled_providers": ["openai"]
+}

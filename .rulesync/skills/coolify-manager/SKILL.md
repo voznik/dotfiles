@@ -3,6 +3,8 @@ name: coolify-manager
 description: >-
   Coolify Server Manager. Use this skill when you need to perform commands on
   user's server on user's behalf
+targets:
+  - '*'
 ---
 ## Overview
 

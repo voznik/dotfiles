@@ -49,8 +49,20 @@ prepend_previewers = [
   { name = "*.xlsx", run = "duckdb" },
   { name = "*.db", run = "duckdb" },
   { name = "*.duckdb", run = "duckdb" },
+  { url = "*.log", run = 'piper -- tail -n 50 "$1" | tac | bat --color=always --style=plain --paging=never -l log' },
   # PIPER
   { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
   { url = "*/", run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
   { mime = "application/sqlite3", run = 'piper -- sqlite3 "$1" ".schema --indent"' },
+]
+
+[opener]
+lnav = [
+  # { run = 'env TERM=xterm-256color COLORTERM= lnav "$1"'
+  { run = 'lnav "$1"' }
+]
+
+[open]
+prepend_rules = [
+  { url = "*.log", use = "lnav" }
 ]

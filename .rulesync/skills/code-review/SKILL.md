@@ -4,6 +4,8 @@ description: >-
   Perform thorough code reviews with security, performance, and maintainability
   analysis. Use when user asks to review code, check for bugs, or audit a
   codebase.
+targets:
+  - '*'
 ---
 # Code Review Skill
 

@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "context7": {
+      "type": "stdio",
+      "command": "context7-mcp",
+      "args": [],
+      "env": {}
+    },
+    "basic-memory": {
+      "type": "stdio",
+      "command": "basic-memory",
+      "args": ["mcp"],
+      "env": {}
+    },
+    "github-mcp-server": {
+      "type": "stdio",
+      "command": "github-mcp-server",
+      "args": ["stdio", "--log-file=/tmp/github-mcp-server.log"],
+      "env": {}
+    },
+    "rulesync-mcp": {
+      "type": "stdio",
+      "command": "rulesync",
+      "args": ["mcp"],
+      "env": {}
+    }
+  }
+}

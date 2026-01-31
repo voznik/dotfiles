@@ -5,6 +5,8 @@ description: >-
   `gemini --yolo`. Claude Code uses this skill to invoke Gemini for complex
   backend logic, intricate algorithms, or persistent bugs. Enables seamless
   AI-to-AI collaboration where Claude Code analyzes and Gemini executes.
+targets:
+  - '*'
 ---
 # Gemini Delegator
 

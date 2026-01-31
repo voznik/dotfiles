@@ -32,28 +32,31 @@ bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:rulesync" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:@karakeep/cli" = "latest"
+"npm:markdownlint" = "latest"
+"npm:moltbot" = "latest"
 # MCPs
 "npm:@upstash/context7-mcp" = "latest"
+"pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.14" }
+"pipx:git+https://github.com/github/spec-kit.git" = "latest"
+"pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
+"github:github/github-mcp-server" = "latest"
 #
 # pip registry
-python= "3.14"
+python= "3.13"
 uv = "latest"
 poetry = "latest"
 cookiecutter = "latest"
 ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
-"pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.12" } # IMPORTANT:
 "pipx:claude-monitor" = "latest"
-"pipx:git+https://github.com/github/spec-kit.git" = "latest"
-"pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
 # git registry
 "github:block/goose" = "latest"
 "github:anomalyco/opencode" = { version = "latest" }
+"github:tstack/lnav" = { version = "0.14.0-beta2" }
 "github:dhth/bmm" = "0.3.0"
 "github:Inlyne-Project/inlyne" = "latest"
 "github:coollabsio/coolify-cli" = "latest"
-"github:github/github-mcp-server" = "latest"
 "github:nicosuave/memex" = "latest"
 # 
 rust = "latest"
@@ -64,7 +67,7 @@ stylua = "latest"
 shfmt = "latest"
 taplo = "latest"
 act = "latest"
-"npm:markdownlint" = "latest"
+"pipx:mcp-proxy" = "latest"
 # 
 # "http:packages.httpie.io/binaries/linux/http-latest" = { version = "latest", bin = "httpie" }
 [tools."http:httpie"]

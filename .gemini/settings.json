@@ -1,7 +1,92 @@
 {
+  "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/refs/heads/main/schemas/settings.schema.json",
   "experimental": {
-    "skills": true
+    "skills": true,
+    "plan": true
   },
+  "hooks": {
+    "enabled": [
+      "BeforeModel",
+      "BeforeTool",
+      "AfterTool"
+    ],
+    "BeforeModel": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/voznik/.claude/hooks/skill-eval/skill-eval.sh",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "read_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file_path=$(echo \"$input\" | jq -r '.tool_input.file_path'); if [[ \"$file_path\" =~ \\.env.*$ ]]; then echo '{\"block\": true, \"message\": \"Reading .env files is not allowed.\"}' >&2; exit 1; fi",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq '.tool_name=\"Bash\"' | uv run /home/voznik/.claude/hooks/damage-control/bash-tool-damage-control.py",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "replace",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq '.tool_name=\"Edit\"' | uv run /home/voznik/.claude/hooks/damage-control/edit-tool-damage-control.py",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq '.tool_name=\"Write\"' | uv run /home/voznik/.claude/hooks/damage-control/write-tool-damage-control.py",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "replace|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "# Prevent editing on main branch\n[ \"$(git branch --show-current)\" != \"main\" ] || { echo '{\"block\": true, \"message\": \"Cannot edit files on main branch. Create a feature branch first.\"}' >&2; exit 2; }",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "write_file|replace",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file_path=$(echo \"$input\" | jq -r '.tool_input.file_path'); if [[ \"$file_path\" == *.json ]]; then mise format \"$file_path\" 2>&1; fi",
+            "timeout": 30000
+          }
+        ]
+      }
+    ]
+  },
+  "hooksConfig": {},
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
@@ -9,11 +94,12 @@
     "disableYoloMode": false
   },
   "general": {
-    "disableAutoUpdate": true,
+    "checkpointing": {
+      "enabled": true
+    },
+    "enableAutoUpdate": false,
     "previewFeatures": true,
-    "model": "gemini-3-pro-preview",
-    "preferredEditor": "zed",
-    "contextFileName": "AGENTS.md"
+    "preferredEditor": "zed"
   },
   "ui": {
     "showStatusInTitle": true,
@@ -24,19 +110,57 @@
     "showLineNumbers": true,
     "showModelInfoInChat": true,
     "accessibility": {
-      "disableLoadingPhrases": true
-    }
+      "enableLoadingPhrases": false
+    },
+    "hideBanner": true,
+    "useAlternateBuffer": true,
+    "theme": "Dracula"
   },
   "telemetry": {
     "enabled": false
   },
   "tools": {
+    "enableHooks": true,
+    "allowed": [
+      "Read(~/.claude)",
+      "Read(~/.gemini)",
+      "Read(~/.config)",
+      "Read(~/.ai)",
+      "Bash(jq:*)",
+      "Bash(mise list:*)",
+      "Bash(find:*)",
+      "Bash(git:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(wc:*)",
+      "Bash(tmux:*)",
+      "SaveMemory",
+      "SaveMemoryTool",
+      "save_memory",
+      "ActivateSkill",
+      "activate_skill",
+      "Write(~/.gemini)",
+      "Replace(~/.gemini)"
+    ],
     "shell": {
       "showColor": true
     }
   },
+  "mcp": {
+    "allowed": [
+      "context7",
+      "basic-memory",
+      "github-mcp-server"
+    ]
+  },
   "context": {
-    "discoveryMaxDirs": 10
+    "discoveryMaxDirs": 10,
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
   },
   "model": {
     "compressionThreshold": 0.2
@@ -65,15 +189,35 @@
   },
   "mcpServers": {
     "context7": {
-      "command": "context7-mcp"
+      "type": "stdio",
+      "command": "context7-mcp",
+      "args": [],
+      "env": {}
     },
     "basic-memory": {
+      "type": "stdio",
       "command": "basic-memory",
-      "args": ["mcp"]
+      "args": [
+        "mcp"
+      ],
+      "env": {}
     },
     "github-mcp-server": {
+      "type": "stdio",
       "command": "github-mcp-server",
-      "args": ["stdio", "--log-file=/tmp/github-mcp-server.log"]
+      "args": [
+        "stdio",
+        "--log-file=/tmp/github-mcp-server.log"
+      ],
+      "env": {}
+    },
+    "rulesync-mcp": {
+      "type": "stdio",
+      "command": "rulesync",
+      "args": [
+        "mcp"
+      ],
+      "env": {}
     }
   }
 }

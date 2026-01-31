@@ -4,6 +4,8 @@ description: >-
   Four-phase debugging methodology with root cause analysis. Use when
   investigating bugs, fixing test failures, or troubleshooting unexpected
   behavior. Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
+targets:
+  - '*'
 ---
 # Systematic Debugging
 
