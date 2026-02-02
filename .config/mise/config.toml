@@ -60,6 +60,7 @@ ruff = "latest"
 "github:Inlyne-Project/inlyne" = "latest"
 "github:coollabsio/coolify-cli" = "latest"
 "github:nicosuave/memex" = "latest"
+"pipx:trilium-alchemy" = "latest"
 # oxc
 # "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
 

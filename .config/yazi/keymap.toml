@@ -60,9 +60,13 @@ on = "<C-d>"
 run = "plugin diff"
 desc = "Diff the selected with the hovered file"
 
-# keymap.toml
 [[mgr.prepend_keymap]]
 on = "T"
+run = "plugin toggle-pane max-preview"
+desc = "Maximize or restore the preview pane"
+
+[[mgr.prepend_keymap]]
+on = "A"
 run = "plugin toggle-pane max-preview"
 desc = "Maximize or restore the preview pane"
 
