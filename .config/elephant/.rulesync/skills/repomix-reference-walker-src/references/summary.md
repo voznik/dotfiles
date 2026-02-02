@@ -12,12 +12,12 @@ It is designed to be easily searchable using grep and other text-based tools.
 
 This skill contains the following reference files:
 
-| File | Contents |
-|------|----------|
-| `project-structure.md` | Directory tree with line counts per file |
-| `files.md` | All file contents (search with `## File: <path>`) |
-| `tech-stack.md` | Languages, frameworks, and dependencies |
-| `summary.md` | This file - purpose and format explanation |
+| File                   | Contents                                          |
+| ---------------------- | ------------------------------------------------- |
+| `project-structure.md` | Directory tree with line counts per file          |
+| `files.md`             | All file contents (search with `## File: <path>`) |
+| `tech-stack.md`        | Languages, frameworks, and dependencies           |
+| `summary.md`           | This file - purpose and format explanation        |
 
 ## Usage Guidelines
 
@@ -32,7 +32,7 @@ This skill contains the following reference files:
 
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Files matching these patterns are excluded: LICENSE, *.lock, **/*.xml, **/*.txt
+- Files matching these patterns are excluded: LICENSE, _.lock, \*\*/_.xml, \*_/_.txt
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Empty lines have been removed from all files
@@ -43,18 +43,19 @@ This skill contains the following reference files:
 
 50 files | 4,702 lines
 
-| Language | Files | Lines |
-|----------|------:|------:|
-| Rust | 26 | 3,222 |
-| YAML | 6 | 162 |
-| Markdown | 4 | 269 |
-| NIX | 4 | 571 |
-| Protocol Buffers | 4 | 90 |
-| TOML | 3 | 259 |
-| No Extension | 2 | 59 |
-| CSS | 1 | 70 |
+| Language         | Files | Lines |
+| ---------------- | ----: | ----: |
+| Rust             |    26 | 3,222 |
+| YAML             |     6 |   162 |
+| Markdown         |     4 |   269 |
+| NIX              |     4 |   571 |
+| Protocol Buffers |     4 |    90 |
+| TOML             |     3 |   259 |
+| No Extension     |     2 |    59 |
+| CSS              |     1 |    70 |
 
 **Largest files:**
+
 - `src/ui/window.rs` (762 lines)
 - `src/main.rs` (412 lines)
 - `src/data.rs` (396 lines)

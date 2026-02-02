@@ -24,7 +24,6 @@
       "Bash(sudo*)"
     ]
   },
-  "model": "sonnet",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -105,5 +104,6 @@
     "type": "command",
     "command": "\"$HOME\"/.claude/scripts/context-bar.sh"
   },
-  "autoUpdates": "disabled"
+  "autoUpdates": "disabled",
+  "model": "sonnet"
 }

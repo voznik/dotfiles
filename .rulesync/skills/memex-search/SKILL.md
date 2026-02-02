@@ -10,6 +10,7 @@ claudecode:
   allowed-tools:
     - 'Bash(memex:*)'
 ---
+
 # Memex Search
 
 Use this skill to index local history and retrieve results in a structured, LLM-friendly way.
@@ -43,6 +44,7 @@ memex search "query" --limit 20
 ```
 
 Each JSON line includes:
+
 - `doc_id`, `ts` (ISO), `session_id`, `project`, `role`, `source_path`
 - `text` (full record text)
 - `snippet` (trimmed single-line summary)
@@ -51,11 +53,11 @@ Each JSON line includes:
 
 ### Mode decision table
 
-| Need | Command |
-| --- | --- |
-| Exact terms | `search "exact term"` |
-| Fuzzy concepts | `search "concept" --semantic` |
-| Mixed | `search "term concept" --hybrid` |
+| Need           | Command                          |
+| -------------- | -------------------------------- |
+| Exact terms    | `search "exact term"`            |
+| Fuzzy concepts | `search "concept" --semantic`    |
+| Mixed          | `search "term concept" --hybrid` |
 
 ### Filters
 
@@ -91,10 +93,10 @@ memex index-service disable
 
 ### Narrow first (fastest reducers)
 
-1) Global search with `--limit`
-2) Reduce with `--project` and `--since/--until`
-3) Optionally `--top-n-per-session` or `--unique-session`
-4) `memex session <id>` for full context
+1. Global search with `--limit`
+2. Reduce with `--project` and `--since/--until`
+3. Optionally `--top-n-per-session` or `--unique-session`
+4. `memex session <id>` for full context
 
 ### Practical narrowing tips
 
@@ -168,8 +170,8 @@ In the TUI (`memex tui`), press `S` to share the selected session.
 
 ## Recommended LLM Flow
 
-1) `memex search "query" --limit 20`
-2) Pick hits using `matches` or `snippet`
-3) `memex show <doc_id>` or `memex session <session_id>`
-4) Refine with `--session`, `--role`, or time filters
-5) Share relevant sessions with `memex share <session_id>`
+1. `memex search "query" --limit 20`
+2. Pick hits using `matches` or `snippet`
+3. `memex show <doc_id>` or `memex session <session_id>`
+4. Refine with `--session`, `--role`, or time filters
+5. Share relevant sessions with `memex share <session_id>`

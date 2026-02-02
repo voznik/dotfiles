@@ -1,1 +1,144 @@
-/home/voznik/.claude/.claude.json
+{
+  "numStartups": 1,
+  "installMethod": "global",
+  "tipsHistory": {
+    "new-user-warmup": 1,
+    "plan-mode-for-complex-tasks": 1,
+    "terminal-setup": 1,
+    "memory-command": 1,
+    "theme-command": 1,
+    "prompt-queue": 1,
+    "enter-to-steer-in-relatime": 1,
+    "todo-list": 1,
+    "ide-upsell-external-terminal": 1
+  },
+  "cachedGrowthBookFeatures": {
+    "tengu_1p_event_batch_config": {
+      "scheduledDelayMillis": 5000,
+      "maxExportBatchSize": 200,
+      "maxQueueSize": 8192
+    },
+    "tengu_scratch": false,
+    "tengu_brass_pebble": false,
+    "tengu_disable_bypass_permissions_mode": false,
+    "tengu_event_sampling_config": {},
+    "tengu_tool_pear": false,
+    "tengu_log_segment_events": false,
+    "tengu_log_datadog_events": true,
+    "tengu_keybinding_customization": false,
+    "tengu_thinkback": false,
+    "tengu_c4w_usage_limit_notifications_enabled": true,
+    "tengu-top-of-feed-tip": {
+      "tip": "",
+      "color": ""
+    },
+    "tengu_react_vulnerability_warning": false,
+    "tengu_code_diff_cli": true,
+    "tengu_post_compact_survey": false,
+    "tengu_claudeai_mcp_connectors": false,
+    "tengu_pid_based_version_locking": true,
+    "enhanced_telemetry_beta": false,
+    "tengu_tool_search_unsupported_models": ["haiku"],
+    "tengu_attribution_header": false,
+    "tengu_cache_plum_violet": false,
+    "tengu_streaming_tool_execution2": false,
+    "tengu_session_memory": false,
+    "tengu_plank_river_frost": "user_intent",
+    "tengu_bash_haiku_prefetch": true,
+    "tengu_permission_explainer": true,
+    "tengu_file_write_optimization": false
+  },
+  "userID": "0a78827b531eb9c32b4edb029346658d4b5c4e7c13eb6da2ebaaa8c988495fd9",
+  "firstStartTime": "2026-02-02T12:25:30.482Z",
+  "sonnet45MigrationComplete": true,
+  "sonnet45MigrationTimestamp": 1770035130484,
+  "opus45MigrationComplete": true,
+  "opusProMigrationComplete": true,
+  "thinkingMigrationComplete": true,
+  "cachedChromeExtensionInstalled": false,
+  "changelogLastFetched": 1770035182798,
+  "oauthAccount": {
+    "accountUuid": "783d7ddb-4b4b-413b-b99b-fb3a91511b1c",
+    "emailAddress": "v.parakonnyi@gmail.com",
+    "organizationUuid": "aee90d27-36f7-40ea-9302-de7811823293",
+    "hasExtraUsageEnabled": false,
+    "displayName": "Vadym",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "organizationName": "v.parakonnyi@gmail.com's Organization"
+  },
+  "claudeCodeFirstTokenDate": "2026-01-08T10:37:50.116439Z",
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "2.1.19",
+  "lastReleaseNotesSeen": "2.1.19",
+  "projects": {
+    "/home/voznik": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [],
+      "reactVulnerabilityCache": {
+        "detected": false,
+        "package": null,
+        "packageName": null,
+        "version": null,
+        "packageManager": null
+      },
+      "lastCost": 0.6583844500000001,
+      "lastAPIDuration": 306426,
+      "lastAPIDurationWithoutRetries": 306397,
+      "lastToolDuration": 4984,
+      "lastDuration": 3573255,
+      "lastLinesAdded": 90,
+      "lastLinesRemoved": 66,
+      "lastTotalInputTokens": 25409,
+      "lastTotalOutputTokens": 12616,
+      "lastTotalCacheCreationInputTokens": 74471,
+      "lastTotalCacheReadInputTokens": 574444,
+      "lastTotalWebSearchRequests": 0,
+      "lastModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 23201,
+          "outputTokens": 1228,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.029341000000000002
+        },
+        "claude-sonnet-4-5-20250929": {
+          "inputTokens": 2208,
+          "outputTokens": 11388,
+          "cacheReadInputTokens": 574444,
+          "cacheCreationInputTokens": 74471,
+          "webSearchRequests": 0,
+          "costUSD": 0.6290434500000001
+        }
+      },
+      "lastSessionId": "ca83b0ad-3608-4f59-b260-539756039963"
+    }
+  },
+  "hasShownOpus45Notice": {
+    "aee90d27-36f7-40ea-9302-de7811823293": true
+  },
+  "s1mAccessCache": {
+    "aee90d27-36f7-40ea-9302-de7811823293": {
+      "hasAccess": false,
+      "hasAccessNotAsDefault": false,
+      "timestamp": 1770035182748
+    }
+  },
+  "groveConfigCache": {
+    "783d7ddb-4b4b-413b-b99b-fb3a91511b1c": {
+      "grove_enabled": true,
+      "timestamp": 1770035182777
+    }
+  },
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true
+}

@@ -3,13 +3,16 @@ model: ollama:qwen2.5-coder:14b
 # temperature: 0.1
 # top_p: 0.1
 ---
-MR diff: __INPUT__
+
+MR diff: **INPUT**
+
 <!-- Given the following git diff, generate a pull request description as if you authored the changes.
 Summary: Provide a concise summary of the overall changes.
 Description: Detail the changes made to existing code using Markdown. Explain the why behind the changes, not just the what. Do not focus much on chnages in tests if any, instead focus on refactoring, and reasons behind it
 Exclusions: Ignore changes to non-essential files like package-lock.json, yarn.lock, configuration files, etc.
 Format: Use Markdown for formatting. Do not include code snippets or diff output
 Best Practices: Follow best practices for writing pull request descriptions (e.g., clear and concise language, explaining the purpose of the changes) -->
+
 Given you are preparing a pull request for your colleagues, summarize the git diff and out in markdown format:
 Add a Summary for summarize the change in at most one paragraph.
 Add a Additions section for laying down the code additions in terms of meaning. Be more detailed here.

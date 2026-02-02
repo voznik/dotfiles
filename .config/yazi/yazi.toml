@@ -59,10 +59,8 @@ prepend_previewers = [
 [opener]
 lnav = [
   # { run = 'env TERM=xterm-256color COLORTERM= lnav "$1"'
-  { run = 'lnav "$1"' }
+  { run = 'lnav "$1"' },
 ]
 
 [open]
-prepend_rules = [
-  { url = "*.log", use = "lnav" }
-]
+prepend_rules = [{ url = "*.log", use = "lnav" }]

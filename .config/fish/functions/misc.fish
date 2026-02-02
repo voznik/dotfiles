@@ -153,3 +153,9 @@ function gwcd --description "Navigate to a worktree branch or back to base direc
 end
 
 ###
+
+alias jcl 'journalctl -f -o json --since "1 hour ago" | lnav'
+
+function jcsl --description "View given service log with lnav"
+    journalctl -u $argv[1] -f -o json | lnav
+end

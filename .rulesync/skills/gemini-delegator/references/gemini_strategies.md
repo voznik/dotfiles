@@ -10,11 +10,11 @@ This reference provides detailed strategies and templates for delegating complex
 
 ## Execution Mode Selection Matrix
 
-| Task Characteristics | Recommended Mode | Key Commands |
-|---------------------|------------------|--------------|
-| Complex, needs iteration | Interactive (`gemini`) | `--model` |
-| Well-defined, clear scope | One-Shot (`gemini "query"`) | `--yolo` |
-| Continuing previous work | Resume (`gemini --resume`) | `--resume latest`, `--list-sessions` |
+| Task Characteristics      | Recommended Mode            | Key Commands                         |
+| ------------------------- | --------------------------- | ------------------------------------ |
+| Complex, needs iteration  | Interactive (`gemini`)      | `--model`                            |
+| Well-defined, clear scope | One-Shot (`gemini "query"`) | `--yolo`                             |
+| Continuing previous work  | Resume (`gemini --resume`)  | `--resume latest`, `--list-sessions` |
 
 ## Task Context Templates
 
@@ -178,6 +178,7 @@ gemini --model gemini-2.5-pro
 ```
 
 **When to use:**
+
 - Problem requires understanding codebase structure
 - Solution approach unclear initially
 - Need to iterate on partial solutions
@@ -200,6 +201,7 @@ gemini --model gemini-2.5-pro --yolo "Well-defined task with clear scope"
 ```
 
 **When to use:**
+
 - Problem scope is clear
 - Requirements are specific
 - Don't need iterative refinement
@@ -227,6 +229,7 @@ gemini --model gemini-2.5-pro --resume latest
 ```
 
 **When to use:**
+
 - Problem is very large
 - Need to validate approach before implementation
 - Want to review design before coding
@@ -244,6 +247,7 @@ gemini --model gemini-3-pro-preview
 ```
 
 **When to use:**
+
 - Problem requires deep logical analysis
 - Previous attempts with standard reasoning failed
 - Algorithmic complexity is high
@@ -336,6 +340,7 @@ gemini --model gemini-2.5-pro --resume latest
 ### Issue: Gemini Doesn't Understand Problem
 
 **Diagnosis:**
+
 - Solution doesn't address root issue
 - Implements wrong thing
 - Misses key constraints
@@ -343,6 +348,7 @@ gemini --model gemini-2.5-pro --resume latest
 **Solutions:**
 
 1. **Add concrete examples:**
+
 ```
 Here's what the code does now:
 [Concrete example with input/output]
@@ -352,6 +358,7 @@ Here's what it should do:
 ```
 
 2. **Show what NOT to do:**
+
 ```
 DO NOT:
 - [Approach that won't work]
@@ -363,6 +370,7 @@ Instead:
 ```
 
 3. **Reference existing code:**
+
 ```
 Follow the pattern used in [file]:
 [Show code snippet to emulate]
@@ -373,6 +381,7 @@ Apply this pattern to [problem]
 ### Issue: Solution Is Incomplete
 
 **Diagnosis:**
+
 - Missing edge cases
 - Partial implementation
 - Skipped error handling
@@ -380,6 +389,7 @@ Apply this pattern to [problem]
 **Solutions:**
 
 1. **Resume and expand scope:**
+
 ```bash
 gemini --model gemini-2.5-pro --resume latest
 # "The solution works for [basic case] but needs:
@@ -389,6 +399,7 @@ gemini --model gemini-2.5-pro --resume latest
 ```
 
 2. **Use interactive mode for iteration:**
+
 ```bash
 gemini --model gemini-2.5-pro
 # Provide problem, iterate on solution
@@ -397,6 +408,7 @@ gemini --model gemini-2.5-pro
 ### Issue: Solution Breaks Existing Code
 
 **Diagnosis:**
+
 - Tests fail
 - Regressions introduced
 - Integration issues
@@ -404,12 +416,14 @@ gemini --model gemini-2.5-pro
 **Solutions:**
 
 1. **Immediate rollback:**
+
 ```bash
 # Revert git changes
 git checkout [files]
 ```
 
 2. **Resume with constraints:**
+
 ```bash
 gemini --model gemini-2.5-pro --resume latest
 # "Previous solution broke [tests/functionality]
@@ -422,6 +436,7 @@ gemini --model gemini-2.5-pro --resume latest
 ```
 
 3. **Incremental approach:**
+
 ```bash
 # Make changes more incrementally
 gemini --model gemini-2.5-pro
@@ -435,6 +450,7 @@ gemini --model gemini-2.5-pro
 ### Backend Logic
 
 ✅ **Do:**
+
 - Provide database schema
 - Specify transaction requirements
 - Include security constraints
@@ -442,6 +458,7 @@ gemini --model gemini-2.5-pro
 - Reference similar patterns in codebase
 
 ❌ **Don't:**
+
 - Leave edge cases unspecified
 - Forget to mention scale requirements
 - Skip error handling requirements
@@ -449,6 +466,7 @@ gemini --model gemini-2.5-pro
 ### Algorithms
 
 ✅ **Do:**
+
 - Specify time/space complexity targets
 - Provide data characteristics
 - Include profiling data
@@ -456,6 +474,7 @@ gemini --model gemini-2.5-pro
 - Mention correctness requirements
 
 ❌ **Don't:**
+
 - Optimize prematurely (profile first)
 - Ignore memory constraints
 - Skip validation of correctness
@@ -463,6 +482,7 @@ gemini --model gemini-2.5-pro
 ### Concurrency/Race Conditions
 
 ✅ **Do:**
+
 - Show timing diagrams
 - Explain concurrent access patterns
 - Provide reproduction rate
@@ -470,6 +490,7 @@ gemini --model gemini-2.5-pro
 - Show thread/process architecture
 
 ❌ **Don't:**
+
 - Omit concurrency level details
 - Skip description of shared state
 - Forget to mention deadlock concerns
@@ -477,6 +498,7 @@ gemini --model gemini-2.5-pro
 ### Persistent Bugs
 
 ✅ **Do:**
+
 - Document reproduction steps
 - Include all error messages/logs
 - Show investigation work done
@@ -484,6 +506,7 @@ gemini --model gemini-2.5-pro
 - Provide environment details
 
 ❌ **Don't:**
+
 - Assume context without stating it
 - Skip mentioning when bug occurs
 - Leave out frequency/conditions

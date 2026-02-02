@@ -12,8 +12,8 @@ instructions: |
   `{"id": 2, "desc": "Buy eggs", "done": false}` => `2. [ ] Buy eggs`
 
 conversation_starters:
-  - "List all todos"
-  - "Clean the entire todo list"
-  - "Add a new todo: Buy milk"
-  - "Done todo id=1"
-  - "Delete todo id=1"
+  - 'List all todos'
+  - 'Clean the entire todo list'
+  - 'Add a new todo: Buy milk'
+  - 'Done todo id=1'
+  - 'Delete todo id=1'

@@ -12,11 +12,11 @@ function GetEntries()
             {
                 Text = "TokScale is not installed",
                 Subtext = "Please install tokscale to use this menu",
-                Icon = "⚠️"
-            }
+                Icon = "⚠️",
+            },
         }
     end
-    
+
     return {
         { Text = "TokScale: Today Usage", Subtext = "View today's token usage by model", SubMenu = "tokscale_today" },
     }

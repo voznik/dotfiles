@@ -258,7 +258,7 @@ function evaluateSkill(
  * @returns {string[]} Additional skill names to suggest
  */
 function getRelatedSkills(matches, skills) {
-  const matchedNames = new Set(matches.map((m) => m.name));
+  const matchedNames = new Set(matches.map(m => m.name));
   const related = new Set();
 
   for (const match of matches) {
@@ -377,7 +377,7 @@ function main() {
 
   process.stdin.setEncoding('utf8');
 
-  process.stdin.on('data', (chunk) => {
+  process.stdin.on('data', chunk => {
     input += chunk;
   });
 

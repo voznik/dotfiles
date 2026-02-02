@@ -1,25 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/dyoshikawa/rulesync/refs/heads/main/config-schema.json",
-  "targets": [
-    "geminicli",
-    "claudecode",
-    "opencode"
-  ],
-  "features": [
-    "rules",
-    "ignore",
-    "mcp",
-    "commands",
-    "subagents",
-    "skills"
-  ],
-  "baseDirs": [
-    "."
-  ],
+  "targets": ["geminicli", "claudecode", "opencode"],
+  "features": ["rules", "ignore", "mcp", "commands", "subagents", "skills"],
+  "baseDirs": ["."],
   "delete": false,
   "verbose": true,
   "global": false,
   "simulateCommands": false,
   "simulateSubagents": false,
-  "modularMcp": false
+  "modularMcp": false,
 }

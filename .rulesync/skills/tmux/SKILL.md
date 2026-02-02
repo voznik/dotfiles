@@ -6,6 +6,7 @@ description: >-
 targets:
   - '*'
 ---
+
 # tmux Skill (Clawdbot)
 
 Use tmux only when you need an interactive TTY. Prefer bash background mode for long-running, non-interactive tasks.
@@ -97,6 +98,7 @@ tmux -S "$SOCKET" capture-pane -p -t agent-1 -S -500
 ```
 
 **Tips:**
+
 - Use separate git worktrees for parallel fixes (no branch conflicts)
 - `pnpm install` first before running codex in fresh clones
 - Check for shell prompt (`❯` or `$`) to detect completion

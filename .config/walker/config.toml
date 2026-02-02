@@ -1,20 +1,20 @@
-force_keyboard_focus = false    # forces keyboard forcus to stay in Walker
-close_when_open = true          # close walker when invoking while already opened
-click_to_close = true           # closes walker if clicking outside of the main content area
-selection_wrap = false          # wrap list if at bottom or top
+force_keyboard_focus = false # forces keyboard forcus to stay in Walker
+close_when_open = true # close walker when invoking while already opened
+click_to_close = true # closes walker if clicking outside of the main content area
+selection_wrap = false # wrap list if at bottom or top
 global_argument_delimiter = "#" # query: firefox#https://benz.dev => part after delimiter will be ignored when querying. this should be the same as in the elephant config
-exact_search_prefix = "*"       # disable fuzzy searching
-theme = "default"               # theme to use
-theme_grid_columns = 1          # introduced in https://github.com/abenz1267/walker/releases/tag/v2.11.3
-disable_mouse = false           # disable mouse (on input and list only)
-debug = false                   # enables debug printing for some stuff, f.e. keybinds
-page_jump_items = 10            # number of items to skip with Page Up/Down
-hide_quick_activation = false   # globally hide the quick activation buttons
-hide_action_hints = false       # globally hide the action hints
-hide_action_hints_dmenu = false  # hide the actions hints for dmenu
-hide_return_action = false      # hide actions that are bound to Return
-resume_last_query = false       # open walker with the last query in place
-actions_as_menu = false         # display all possible actions in a submenu
+exact_search_prefix = "*" # disable fuzzy searching
+theme = "default" # theme to use
+theme_grid_columns = 1 # introduced in https://github.com/abenz1267/walker/releases/tag/v2.11.3
+disable_mouse = false # disable mouse (on input and list only)
+debug = false # enables debug printing for some stuff, f.e. keybinds
+page_jump_items = 10 # number of items to skip with Page Up/Down
+hide_quick_activation = false # globally hide the quick activation buttons
+hide_action_hints = false # globally hide the action hints
+hide_action_hints_dmenu = false # hide the actions hints for dmenu
+hide_return_action = false # hide actions that are bound to Return
+resume_last_query = false # open walker with the last query in place
+actions_as_menu = false # display all possible actions in a submenu
 
 [shell]
 anchor_top = true
@@ -115,7 +115,7 @@ prefix = "-"
 provider = "snippets"
 
 [providers.clipboard]
-global_search=false
+global_search = false
 # command = "wl-paste -n -t text/plain && hyprctl dispatch sendshortcut \"SHIFT,INSERT,activewindow\"" #
 # command = "hyprctl dispatch sendshortcut \"SHIFT,CTRL,V,activewindow\"" #
 command = "ydotool key '42:1', '110:1', '110:0', '42:0'"
@@ -124,20 +124,20 @@ max_items = 1000
 time_format = "%d.%m. - %H:%M" # format for the clipboard item date
 
 [providers.desktopapplications]
-blacklist=["*avahi*"]
-history=true
-history_when_empty=true
-show_actions=true
-window_integration=true
-only_search_title=true
+blacklist = ["*avahi*"]
+history = true
+history_when_empty = true
+show_actions = true
+window_integration = true
+only_search_title = true
 
 [providers.menus]
-show_actions=true
-only_search_title=true
+show_actions = true
+only_search_title = true
 max_results = 100
 
 [providers.menus.goose_recipes]
-exact_search=true
+exact_search = true
 max_results = 100
 
 # [providers.bookmarks]
@@ -222,9 +222,9 @@ files = [
 ]
 
 1password = [
-  { action = "copy_password", label = "copy password", default = true, bind = "Return" },
-  { action = "copy_username", label = "copy username", bind = "shift Return" },
-  { action = "copy_2fa", label = "copy 2fa", bind = "ctrl Return" },
+{ action = "copy_password", label = "copy password", default = true, bind = "Return" },
+{ action = "copy_username", label = "copy username", bind = "shift Return" },
+{ action = "copy_2fa", label = "copy 2fa", bind = "ctrl Return" },
 ]
 
 bitwarden = [

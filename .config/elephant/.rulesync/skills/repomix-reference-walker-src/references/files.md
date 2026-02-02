@@ -1,13 +1,14 @@
 # Files
 
 ## File: .github/ISSUE_TEMPLATE/bug_report.md
-````markdown
+
+```markdown
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ""
-labels: ""
-assignees: ""
+title: ''
+labels: ''
+assignees: ''
 ---
 
 **Describe the bug**
@@ -38,21 +39,23 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
-````
+```
 
 ## File: .github/ISSUE_TEMPLATE/config.yml
-````yaml
+
+```yaml
 blank_issues_enabled: false
-````
+```
 
 ## File: .github/ISSUE_TEMPLATE/feature_request.md
-````markdown
+
+```markdown
 ---
 name: Feature request
 about: Describe a feature you'd like to see in Walker
-title: ""
-labels: ""
-assignees: ""
+title: ''
+labels: ''
+assignees: ''
 ---
 
 **Describe the feature**
@@ -63,10 +66,11 @@ Possible alternatives.
 
 **Describe the behaviour**
 Step by step description of the desired behaviour.
-````
+```
 
 ## File: .github/workflows/build.yml
-````yaml
+
+```yaml
 name: Release
 on:
   push:
@@ -78,89 +82,90 @@ jobs:
   build-x86_64:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          libgtk-4-dev \
-          protobuf-compiler \
-          meson \
-          ninja-build \
-          libwayland-dev \
-          wayland-protocols \
-          gobject-introspection \
-          libgirepository1.0-dev \
-          gtk-doc-tools \
-          libpoppler-glib-dev \
-          valac
-        # Install gtk4-layer-shell from source
-        git clone https://github.com/wmww/gtk4-layer-shell.git /tmp/gtk4-layer-shell
-        cd /tmp/gtk4-layer-shell
-        meson setup build --prefix=/usr
-        ninja -C build
-        sudo ninja -C build install
-        sudo ldconfig
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@stable
-    - name: Build
-      run: cargo build --release --target x86_64-unknown-linux-gnu
-    - name: Strip binary
-      run: strip target/x86_64-unknown-linux-gnu/release/walker
-    - name: Create archive
-      run: |
-        cd target/x86_64-unknown-linux-gnu/release
-        tar -czf walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz walker
-        mv walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz ../../../
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: walker-x86_64-unknown-linux-gnu
-        path: walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+      - uses: actions/checkout@v4
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-4-dev \
+            protobuf-compiler \
+            meson \
+            ninja-build \
+            libwayland-dev \
+            wayland-protocols \
+            gobject-introspection \
+            libgirepository1.0-dev \
+            gtk-doc-tools \
+            libpoppler-glib-dev \
+            valac
+          # Install gtk4-layer-shell from source
+          git clone https://github.com/wmww/gtk4-layer-shell.git /tmp/gtk4-layer-shell
+          cd /tmp/gtk4-layer-shell
+          meson setup build --prefix=/usr
+          ninja -C build
+          sudo ninja -C build install
+          sudo ldconfig
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Build
+        run: cargo build --release --target x86_64-unknown-linux-gnu
+      - name: Strip binary
+        run: strip target/x86_64-unknown-linux-gnu/release/walker
+      - name: Create archive
+        run: |
+          cd target/x86_64-unknown-linux-gnu/release
+          tar -czf walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz walker
+          mv walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz ../../../
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: walker-x86_64-unknown-linux-gnu
+          path: walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
   release:
     needs: [build-x86_64]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-    - name: Generate changelog
-      run: |
-        # Get previous tag
-        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-        # Generate changelog
-        echo "# Changes in ${{ github.ref_name }}" > CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        if [ -n "$PREV_TAG" ]; then
-          echo "## Commits since $PREV_TAG:" >> CHANGELOG.md
-          git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
-        else
-          echo "## All commits:" >> CHANGELOG.md
-          git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
-        fi
-        if [ -f "BREAKING.md" ]; then
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      - name: Generate changelog
+        run: |
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          # Generate changelog
+          echo "# Changes in ${{ github.ref_name }}" > CHANGELOG.md
           echo "" >> CHANGELOG.md
-          echo "## ⚠️ Breaking Changes" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          cat BREAKING.md >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-        fi
-    - name: Create release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          walker-x86_64-unknown-linux-gnu/walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
-        body_path: CHANGELOG.md
-        draft: false
-        prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'rc') }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-````
+          if [ -n "$PREV_TAG" ]; then
+            echo "## Commits since $PREV_TAG:" >> CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
+          else
+            echo "## All commits:" >> CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+          fi
+          if [ -f "BREAKING.md" ]; then
+            echo "" >> CHANGELOG.md
+            echo "## ⚠️ Breaking Changes" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat BREAKING.md >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            walker-x86_64-unknown-linux-gnu/walker-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'rc') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ## File: .github/workflows/github-releases-to-discord.yml
-````yaml
+
+```yaml
 on:
   release:
     types: [released]
@@ -174,16 +179,17 @@ jobs:
         uses: SethCohen/github-releases-to-discord@v1
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          color: "2105893"
-          username: "Release Changelog"
-          avatar_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
-          content: "||@everyone||"
-          footer_title: "Changelog"
+          color: '2105893'
+          username: 'Release Changelog'
+          avatar_url: 'https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png'
+          content: '||@everyone||'
+          footer_title: 'Changelog'
           reduce_headings: true
-````
+```
 
 ## File: .github/workflows/nix_git.yml
-````yaml
+
+```yaml
 name: Nix-Git
 on:
   push:
@@ -209,10 +215,11 @@ jobs:
           authToken: '${{ secrets.CACHIX_GIT_AUTH_TOKEN }}'
       - name: Build default package
         run: nix build -L --extra-substituters "https://walker-git.cachix.org" .#default --print-out-paths | cachix push walker-git
-````
+```
 
 ## File: .github/workflows/nix.yml
-````yaml
+
+```yaml
 name: Nix
 on:
   push:
@@ -238,16 +245,18 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Build default package
         run: nix build -L --extra-substituters "https://walker.cachix.org" .#default --print-out-paths | cachix push walker
-````
+```
 
 ## File: .github/FUNDING.yml
-````yaml
+
+```yaml
 github: [abenz1267]
 ko_fi: andrejbenz
-````
+```
 
 ## File: nix/modules/home-manager.nix
-````nix
+
+```nix
 {
   self,
   elephant,
@@ -468,10 +477,11 @@ in {
     };
   };
 }
-````
+```
 
 ## File: nix/modules/nixos.nix
-````nix
+
+```nix
 {
   self,
   elephant,
@@ -702,10 +712,11 @@ in {
     # };
   };
 }
-````
+```
 
 ## File: nix/package.nix
-````nix
+
+```nix
 {
   rustPlatform,
   lib,
@@ -772,10 +783,11 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "walker";
   };
 }
-````
+```
 
 ## File: resources/themes/default/style.css
-````css
+
+```css
 @define-color window_bg_color #1f1f28;
 @define-color accent_bg_color #54546d;
 @define-color theme_fg_color #f2ecbc;
@@ -846,10 +858,11 @@ color: @error_fg_color;
 ⋮----
 :not(.calc).current {
 .preview-content.archlinuxpkgs {
-````
+```
 
 ## File: resources/config.toml
-````toml
+
+```toml
 force_keyboard_focus = false    # forces keyboard forcus to stay in Walker
 close_when_open = true          # close walker when invoking while already opened
 click_to_close = true           # closes walker if clicking outside of the main content area
@@ -1079,10 +1092,11 @@ bookmarks = [
   { action = "create", bind = "ctrl a", after = "AsyncClearReload" },
   { action = "search", bind = "ctrl a", after = "AsyncClearReload" },
 ]
-````
+```
 
 ## File: src/preview/mod.rs
-````rust
+
+```rust
 use crate::config::get_config;
 use crate::protos::generated_proto::query::query_response::Item;
 use crate::renderers::create_drag_source;
@@ -1438,10 +1452,11 @@ let ratio = width_ratio.min(height_ratio);
 .ok_or("Failed to resize image")?
 ⋮----
 Ok(texture)
-````
+```
 
 ## File: src/protos/activate.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -1456,10 +1471,11 @@ message ActivateRequest {
   string arguments = 5;
   bool single = 6;
 }
-````
+```
 
 ## File: src/protos/mod.rs
-````rust
+
+```rust
 pub mod generated_proto {
 include!(concat!(env!("OUT_DIR"), "/generated_proto/mod.rs"));
 ⋮----
@@ -1490,10 +1506,11 @@ pub fn dmenu_score(&self) -> u32 {
 ⋮----
 pub fn set_dmenu_score(&self, val: u32) {
 *self.imp().dmenu_score.borrow_mut() = val;
-````
+```
 
 ## File: src/protos/providerstate.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -1509,10 +1526,11 @@ message ProviderStateResponse {
   repeated string actions = 2;
   string provider = 3;
 }
-````
+```
 
 ## File: src/protos/query.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -1559,10 +1577,11 @@ message QueryResponse {
    Item item = 2;
    int32 qid =3;
 }
-````
+```
 
 ## File: src/protos/subscribe.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -1578,10 +1597,11 @@ message SubscribeRequest {
 message SubscribeResponse {
   string value = 2;
 }
-````
+```
 
 ## File: src/providers/actionsmenu.rs
-````rust
+
+```rust
 use crate::providers::Provider;
 ⋮----
 pub struct ActionsMenu {
@@ -1594,10 +1614,11 @@ fn get_name(&self) -> &str {
 ⋮----
 fn get_item_layout(&self) -> String {
 include_str!("../../resources/themes/default/item_actionsmenu.xml").to_string()
-````
+```
 
 ## File: src/providers/archlinuxpkgs.rs
-````rust
+
+```rust
 use crate::providers::Provider;
 ⋮----
 pub struct ArchLinuxPkgs {
@@ -1610,10 +1631,11 @@ fn get_name(&self) -> &str {
 ⋮----
 fn get_item_layout(&self) -> String {
 include_str!("../../resources/themes/default/item_archlinuxpkgs.xml").to_string()
-````
+```
 
 ## File: src/providers/bookmarks.rs
-````rust
+
+```rust
 use std::path::Path;
 ⋮----
 pub struct Bookmarks {
@@ -1639,10 +1661,11 @@ let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
 function(&image, Some(&item.icon));
 ⋮----
 shared_image_transformer(b, i, item);
-````
+```
 
 ## File: src/providers/calc.rs
-````rust
+
+```rust
 use std::path::Path;
 ⋮----
 pub struct Calc {
@@ -1666,10 +1689,11 @@ let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
 } else if !item.icon.is_empty() {
 ⋮----
 function(&image, Some(&item.icon))
-````
+```
 
 ## File: src/providers/clipboard.rs
-````rust
+
+```rust
 use chrono::DateTime;
 ⋮----
 pub struct Clipboard {
@@ -1696,10 +1720,11 @@ label.set_label(item.text.trim());
 fn subtext_transformer(&self, item: &Item, label: &gtk4::Label) {
 ⋮----
 label.set_label("Image");
-````
+```
 
 ## File: src/providers/default_provider.rs
-````rust
+
+```rust
 use crate::providers::Provider;
 ⋮----
 pub struct DefaultProvider {
@@ -1710,10 +1735,11 @@ pub fn new(name: String) -> Self {
 impl Provider for DefaultProvider {
 fn get_name(&self) -> &str {
 self.name.as_str()
-````
+```
 
 ## File: src/providers/dmenu.rs
-````rust
+
+```rust
 use crate::providers::Provider;
 ⋮----
 pub struct Dmenu {
@@ -1726,10 +1752,11 @@ fn get_name(&self) -> &str {
 ⋮----
 fn get_item_layout(&self) -> String {
 include_str!("../../resources/themes/default/item_dmenu.xml").to_string()
-````
+```
 
 ## File: src/providers/emergency.rs
-````rust
+
+```rust
 use crate::providers::Provider;
 ⋮----
 pub struct Emergency {
@@ -1742,10 +1769,11 @@ fn get_name(&self) -> &str {
 ⋮----
 fn get_item_layout(&self) -> String {
 include_str!("../../resources/themes/default/item_dmenu.xml").to_string()
-````
+```
 
 ## File: src/providers/files.rs
-````rust
+
+```rust
 use std::env;
 use std::path::Path;
 ⋮----
@@ -1788,10 +1816,11 @@ let info = file.query_info(
 && let Some(icon) = info.icon()
 ⋮----
 image.set_from_gicon(&icon);
-````
+```
 
 ## File: src/providers/mod.rs
-````rust
+
+```rust
 pub mod actionsmenu;
 pub mod archlinuxpkgs;
 pub mod bookmarks;
@@ -1936,10 +1965,11 @@ Box::new(DefaultProvider::new(provider.to_string())),
 ⋮----
 .set(providers)
 .expect("couldn't initialize providers.")
-````
+```
 
 ## File: src/providers/providerlist.rs
-````rust
+
+```rust
 pub struct Providerlist {
 ⋮----
 impl Providerlist {
@@ -1958,10 +1988,11 @@ label.set_text(format!("( {} )", &prefix.prefix).as_str());
 ⋮----
 fn get_item_layout(&self) -> String {
 include_str!("../../resources/themes/default/item_providerlist.xml").to_string()
-````
+```
 
 ## File: src/providers/symbols.rs
-````rust
+
+```rust
 pub struct Symbols {
 ⋮----
 impl Symbols {
@@ -1981,10 +2012,11 @@ fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
 && !item.icon.is_empty()
 ⋮----
 image.set_label(&item.icon);
-````
+```
 
 ## File: src/providers/todo.rs
-````rust
+
+```rust
 use std::path::Path;
 ⋮----
 pub struct Todo {
@@ -2008,10 +2040,11 @@ let function = if !item.icon.is_empty() && Path::new(&item.icon).is_absolute() {
 } else if !item.icon.is_empty() {
 ⋮----
 function(&image, Some(&item.icon))
-````
+```
 
 ## File: src/providers/unicode.rs
-````rust
+
+```rust
 pub struct Unicode {
 ⋮----
 impl Unicode {
@@ -2028,10 +2061,11 @@ fn image_transformer(&self, b: &Builder, _: &ListItem, item: &Item) {
 && !item.icon.is_empty()
 ⋮----
 image.set_label(&format!("{unicode_char}"));
-````
+```
 
 ## File: src/renderers/mod.rs
-````rust
+
+```rust
 use crate::config::get_config;
 use crate::protos::generated_proto::query::query_response::Item;
 use crate::providers::PROVIDERS;
@@ -2103,10 +2137,11 @@ Some(cp)
 ⋮----
 drag_source.connect_drag_begin(|_, _| with_window(|w| w.window.set_visible(false)));
 drag_source.connect_drag_end(|_, _, _| with_window(|w| quit(&w.app, false)));
-````
+```
 
 ## File: src/state/mod.rs
-````rust
+
+```rust
 use std::collections::HashSet;
 ⋮----
 use crate::data::get_provider_state;
@@ -2414,10 +2449,11 @@ pub fn set_global_provider_state(state: ProviderStateResponse) {
 if !state.actions.is_empty() {
 set_global_provider_actions(Some(state.actions.clone()));
 set_global_keybind_hints(state.actions, state.provider);
-````
+```
 
 ## File: src/theme/mod.rs
-````rust
+
+```rust
 use crate::config::get_config;
 use crate::providers::PROVIDERS;
 use crate::state::add_theme;
@@ -2564,15 +2600,17 @@ pub fn with_themes<F, R>(f: F) -> R
 THEMES.with(|state| {
 let data = state.get().expect("Themes not initialized");
 f(data)
-````
+```
 
 ## File: src/ui/mod.rs
-````rust
+
+```rust
 pub mod window;
-````
+```
 
 ## File: src/ui/window.rs
-````rust
+
+```rust
 thread_local! {
 ⋮----
 pub fn set_css_provider(provider: CssProvider) {
@@ -3335,10 +3373,11 @@ p.set_visible(s.n_items() == 0);
 w.scroll.set_visible(s.n_items() != 0);
 while let Some(child) = w.item_keybinds.first_child() {
 w.item_keybinds.remove(&child);
-````
+```
 
 ## File: src/config.rs
-````rust
+
+```rust
 const DEFAULT_CONFIG: &str = include_str!("../resources/config.toml");
 ⋮----
 pub struct EmergencyEntry {
@@ -3454,10 +3493,11 @@ pub fn load() -> Result<(), Box<dyn std::error::Error>> {
 ⋮----
 pub fn get_config() -> &'static Walker {
 LOADED_CONFIG.get().expect("config not initialized")
-````
+```
 
 ## File: src/data.rs
-````rust
+
+```rust
 use crate::config::get_config;
 ⋮----
 use crate::protos::generated_proto::activate::ActivateRequest;
@@ -3854,10 +3894,11 @@ while !Path::new(path).exists() {
 if is_dmenu() {
 ⋮----
 if !handled && !is_dmenu() {
-````
+```
 
 ## File: src/keybinds.rs
-````rust
+
+```rust
 use crate::config::get_config;
 use crate::providers::PROVIDERS;
 use crate::state::get_global_provider_actions;
@@ -4081,10 +4122,11 @@ pub fn get_provider_global_bind(
 let global_actions = get_global_provider_actions()?;
 ⋮----
 .find(|action| global_actions.contains(&action.action))
-````
+```
 
 ## File: src/main.rs
-````rust
+
+```rust
 mod config;
 mod data;
 mod keybinds;
@@ -4497,25 +4539,28 @@ activate(&app_clone);
 Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {}
 ⋮----
 eprintln!("Error accepting connection: {}", e);
-````
+```
 
 ## File: .gitignore
-````
+
+```
 target
 .zed
-````
+```
 
 ## File: BREAKING.md
-````markdown
+
+```markdown
 ## Theme
 
 The following GTK elements are no mandatory: `Keybinds`, `GlobalKeybinds` and `ItemKeybinds`.
 
 Please refer to the default theme for reference.
-````
+```
 
 ## File: build.rs
-````rust
+
+```rust
 use protobuf_codegen::Codegen;
 fn main() {
 ⋮----
@@ -4526,10 +4571,11 @@ fn main() {
 .input("src/protos/providerstate.proto")
 .include("src/protos")
 .run_from_script();
-````
+```
 
 ## File: Cargo.toml
-````toml
+
+```toml
 [package]
 name = "walker"
 version = "2.12.2"
@@ -4558,10 +4604,11 @@ xdg = "3.0.0"
 [build-dependencies]
 protobuf-codegen = "3.4"
 protoc-bin-vendored = "3.0"
-````
+```
 
 ## File: flake.nix
-````nix
+
+```nix
 {
   description = ''
     Multi-Purpose Launcher with a lot of features. Highly Customizable and fast.
@@ -4617,10 +4664,11 @@ protoc-bin-vendored = "3.0"
     };
   };
 }
-````
+```
 
 ## File: makefile
-````makefile
+
+```makefile
 PREFIX ?= /usr/local
 DESTDIR ?=
 BINDIR = $(DESTDIR)$(PREFIX)/bin
@@ -4678,9 +4726,10 @@ help:
 	@echo "Variables:"
 	@echo "  PREFIX    - Installation prefix (default: /usr/local)"
 	@echo "  DESTDIR   - Destination directory for staged installs"
-````
+```
 
 ## File: README.md
+
 ````markdown
 # Walker - A Modern Application Launcher
 
@@ -4897,7 +4946,8 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 ````
 
 ## File: rust-toolchain.toml
-````toml
+
+```toml
 [toolchain]
 channel = "stable"
-````
+```

@@ -8,58 +8,88 @@ local formatter = require("formatter")
 
 local path = os.getenv("usage_path") or arg[1]
 if not path then
-    print("Usage: mise format <path>")
-    os.exit(1)
+	print("Usage: mise format <path>")
+	os.exit(1)
 end
 
 -- Make path absolute if relative
 if not path:match("^/") then
-    path = (os.getenv("PWD") or ".") .. "/" .. path
+	path = (os.getenv("PWD") or ".") .. "/" .. path
 end
 
--- Check if path contains wildcards
-if path:match("[*?]") then
-    local handle = io.popen("ls -1d " .. path .. " 2>/dev/null")
-    local files = handle:read("*a")
-    handle:close()
-
-    for file in files:gmatch("[^\n]+") do
-        local ext = file:match("%.([^%.]+)$")
-        if ext and formatter.formatters[ext] then
-            -- Make file path absolute
-            local abs_file = file
-            if not file:match("^/") then
-                abs_file = (os.getenv("PWD") or ".") .. "/" .. file
-            end
-            formatter.format(abs_file)
-        end
-    end
-    os.exit(0)
-end
-
--- Check if it's a directory
+-- Utilities
 local function is_dir(p)
-    local result = os.execute("test -d '" .. p .. "'")
-    return result == true or result == 0
+	local result = os.execute("test -d '" .. p .. "'")
+	return result == true or result == 0
 end
 
-if is_dir(path) then
-    -- Format all supported files in directory
-    local handle = io.popen("find '" .. path .. "' -maxdepth 1 -type f")
-    local files = handle:read("*a")
-    handle:close()
+local function build_ignore_args()
+	local args = ""
+	local home_gitignore = os.getenv("HOME") .. "/.gitignore"
+	local f = io.open(home_gitignore, "r")
+	if f then
+		f:close()
+		args = " --ignore-file " .. home_gitignore
+	end
 
-    for file in files:gmatch("[^\n]+") do
-        local ext = file:match("%.([^%.]+)$")
-        if ext and formatter.formatters[ext] then
-            formatter.format(file)
-        end
-    end
+	local excludes = { "node_modules", ".git", ".cache", "build", "dist", "vendor", "target" }
+	for _, excl in ipairs(excludes) do
+		args = args .. " --glob '!" .. excl .. "/*'"
+	end
+	return args
+end
+
+local function discover_files(base_path, ext_filter)
+	local cmd = "rg --files --hidden " .. build_ignore_args() .. " " .. base_path .. " 2>/dev/null"
+
+	if ext_filter then
+		cmd = cmd .. " | grep -E '\\.(" .. table.concat(ext_filter, "|") .. ")$'"
+	end
+
+	return io.popen(cmd)
+end
+
+local function format_file(filepath)
+	local ext = filepath:match("%.([^%.]+)$")
+	if ext and formatter.formatters[ext] then
+		formatter.format(filepath)
+	end
+end
+
+-- Main logic
+if is_dir(path) then
+	-- Bulk format with oxfmt (handles JS/TS/JSON/YAML/CSS/MD/HTML)
+	os.execute("oxfmt --write --no-error-on-unmatched-pattern '" .. path .. "' 2>/dev/null")
+
+	-- Format files needing special formatters (Lua, Python, Go, Shell, Rust, Fish)
+	local special_exts = {}
+	for ext in pairs(formatter.special) do
+		table.insert(special_exts, ext)
+	end
+
+	if #special_exts > 0 then
+		local handle = discover_files(path, special_exts)
+		if handle then
+			for file in handle:lines() do
+				format_file(file)
+			end
+			handle:close()
+		end
+	end
+elseif path:match("[*?]") then
+	-- Handle glob patterns
+	local handle = discover_files(path)
+	if handle then
+		for file in handle:lines() do
+			format_file(file)
+		end
+		handle:close()
+	end
 else
-    -- Format single file
-    local success, err = formatter.format(path)
-    if not success then
-        print("Error: " .. (err or "Format failed"))
-        os.exit(1)
-    end
+	-- Format single file
+	local success, err = formatter.format(path)
+	if not success then
+		print("Error: " .. (err or "Format failed"))
+		os.exit(1)
+	end
 end

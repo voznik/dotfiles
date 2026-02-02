@@ -14,11 +14,11 @@ function GetEntries()
             {
                 Text = "Goose is not installed",
                 Subtext = "Please install goose to use this menu",
-                Icon = "⚠️"
-            }
+                Icon = "⚠️",
+            },
         }
     end
-    
+
     return {
         {
             Text = "Goose: New Session",

@@ -13,11 +13,11 @@ function GetEntries()
             {
                 Text = "OpenCode is not installed",
                 Subtext = "Please install opencode to use this menu",
-                Icon = "⚠️"
-            }
+                Icon = "⚠️",
+            },
         }
     end
-    
+
     return {
         { Text = "OpenCode: New Session", Subtext = "Start fresh session", Actions = { default = "lua:ActionNew" } },
         {

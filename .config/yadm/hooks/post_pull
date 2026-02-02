@@ -1,0 +1,16 @@
+#!/bin/bash
+# yadm post_pull hook
+
+# Only run if the pull command succeeded
+if [ "$YADM_HOOK_EXIT" -ne 0 ]; then
+    exit 0
+fi
+
+# Check if the mise config file was changed in the pull
+# HEAD@{1} is the state before the pull, HEAD is the state after
+if yadm diff --name-only HEAD@{1} HEAD | grep -q ".config/mise/config.toml"; then
+    echo ">>> Mise configuration updated. Running mise install..."
+    # Run mise install
+    # Using --yes or similar if needed, but mise install is usually non-interactive
+    mise install
+fi

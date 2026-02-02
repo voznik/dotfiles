@@ -1,0 +1,26 @@
+#!/bin/bash
+# yadm pre_commit hook to format staged files
+
+# Get staged files (excluding deleted)
+# yadm diff --cached --name-only returns paths relative to the home directory
+STAGED_FILES=$(yadm diff --cached --name-only --diff-filter=d)
+
+if [ -z "$STAGED_FILES" ]; then
+    exit 0
+fi
+
+for FILE in $STAGED_FILES; do
+    # Construct absolute path
+    ABS_PATH="$HOME/$FILE"
+    
+    # Only process if it's a regular file and still exists
+    if [ -f "$ABS_PATH" ]; then
+        # Run the mise format task
+        # This uses our Lua formatter which handles oxfmt/stylua/ruff/etc.
+        # It also safely handles read-only files.
+        mise run format "$ABS_PATH"
+        
+        # Re-stage the formatted file
+        yadm add "$ABS_PATH"
+    fi
+done

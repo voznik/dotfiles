@@ -1,46 +1,39 @@
 -- Shared formatter module for mise and micro
 local M = {}
 
--- Formatter configurations - ALL in one place
-M.formatters = {
-	json = "biome format --write",
-	html = "biome format --write",
-	htm = "biome format --write",
-	css = "biome format --write",
-	js = "biome format --write",
-	mjs = "biome format --write",
-	cjs = "biome format --write",
-	ts = "biome format --write",
-	mts = "biome format --write",
-	cts = "biome format --write",
-	jsx = "biome format --write",
-	tsx = "biome format --write",
-	vue = "biome format --write",
-	yaml = "yq -i -y '.'",
-	yml = "yq -i -y '.'",
-	toml = "taplo format",
-	go = "gofmt -w",
-	rs = "rustfmt -v -l --backup --edition=2021",
-	py = "ruff format",
-	lua = "stylua",
-	sh = "shfmt -w",
-	fish = "fish_indent -w",
+-- Special formatters for languages not covered by oxfmt
+M.special = {
+    go = 'gofmt -w',
+    rs = 'rustfmt -v -l --backup --edition=2021',
+    py = 'ruff format',
+    lua = 'stylua',
+    sh = 'shfmt -w',
+    fish = 'fish_indent -w',
 }
+
+-- Metatable to provide oxfmt as default for everything not in special
+M.formatters = setmetatable({}, {
+    __index = function(_, ext)
+        if M.special[ext] then return M.special[ext] end
+        -- Default to oxfmt; it handles its own detection and ignores
+        return 'oxfmt --write --no-error-on-unmatched-pattern'
+    end,
+})
+
+-- Helper to check command exit status
+local function success(result)
+    return result == true or result == 0
+end
 
 -- Format a file
 function M.format(filepath)
-	local ext = filepath:match("%.([^%.]+)$")
-	if not ext then
-		return false, "No extension"
-	end
+    local ext = filepath:match '%.([^%.]+)$' or ''
 
-	local cmd = M.formatters[ext]
-	if not cmd then
-		return false, "Unsupported: ." .. ext
-	end
+    -- Check if file is writable to avoid tool panics (e.g. oxfmt)
+    if not success(os.execute("test -w '" .. filepath .. "'")) then return true, 'Skipped: Read-only' end
 
-	local result = os.execute(cmd .. " " .. filepath)
-	return result == true or result == 0
+    local cmd = M.formatters[ext]
+    return success(os.execute(cmd .. ' ' .. filepath))
 end
 
 return M

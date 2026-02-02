@@ -1,219 +1,221 @@
 # Files
 
 ## File: .github/workflows/build.yml
-````yaml
+
+```yaml
 name: Build Elephant
 on:
   push:
-    branches: [ main, develop ]
-    tags: [ 'v*' ]
+    branches: [main, develop]
+    tags: ['v*']
   pull_request:
-    branches: [ main ]
+    branches: [main]
 permissions:
   contents: write
 env:
-  GO_VERSION: "1.24.8"
-  PROJECT_NAME: "elephant"
+  GO_VERSION: '1.24.8'
+  PROJECT_NAME: 'elephant'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ env.GO_VERSION }}
-    - name: Install cross-compilation tools
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc-aarch64-linux-gnu libwayland-dev
-    - name: Create build directory
-      run: mkdir -p build
-    - name: Download Go modules
-      run: go mod download
-    - name: Build elephant for linux/amd64
-      run: |
-        echo "Building elephant for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -o build/elephant-linux-amd64 ./cmd/elephant/elephant.go
-    - name: Build desktopapplications plugin for linux/amd64
-      run: |
-        echo "Building desktopapplications plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/desktopapplications-linux-amd64.so ./internal/providers/desktopapplications
-    - name: Build files plugin for linux/amd64
-      run: |
-        echo "Building files plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/files-linux-amd64.so ./internal/providers/files
-    - name: Build clipboard plugin for linux/amd64
-      run: |
-        echo "Building clipboard plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/clipboard-linux-amd64.so ./internal/providers/clipboard
-    - name: Build runner plugin for linux/amd64
-      run: |
-        echo "Building runner plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/runner-linux-amd64.so ./internal/providers/runner
-    - name: Build symbols plugin for linux/amd64
-      run: |
-        echo "Building symbols plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/symbols-linux-amd64.so ./internal/providers/symbols
-    - name: Build calc plugin for linux/amd64
-      run: |
-        echo "Building calc plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/calc-linux-amd64.so ./internal/providers/calc
-    - name: Build providerlist plugin for linux/amd64
-      run: |
-        echo "Building providerlist plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/providerlist-linux-amd64.so ./internal/providers/providerlist
-    - name: Build menus plugin for linux/amd64
-      run: |
-        echo "Building menus plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/menus-linux-amd64.so ./internal/providers/menus
-    - name: Build websearch plugin for linux/amd64
-      run: |
-        echo "Building websearch plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/websearch-linux-amd64.so ./internal/providers/websearch
-    - name: Build archlinuxpkgs plugin for linux/amd64
-      run: |
-        echo "Building archlinuxpkgs plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/archlinuxpkgs-linux-amd64.so ./internal/providers/archlinuxpkgs
-    - name: Build todo plugin for linux/amd64
-      run: |
-        echo "Building todo plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/todo-linux-amd64.so ./internal/providers/todo
-    - name: Build unicode plugin for linux/amd64
-      run: |
-        echo "Building unicode plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/unicode-linux-amd64.so ./internal/providers/unicode
-    - name: Build bluetooth plugin for linux/amd64
-      run: |
-        echo "Building bluetooth plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/bluetooth-linux-amd64.so ./internal/providers/bluetooth
-    - name: Build windows plugin for linux/amd64
-      run: |
-        echo "Building windows plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/windows-linux-amd64.so ./internal/providers/windows
-    - name: Build snippets plugin for linux/amd64
-      run: |
-        echo "Building snippets plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/snippets-linux-amd64.so ./internal/providers/snippets
-    - name: Build nirisessions plugin for linux/amd64
-      run: |
-        echo "Building nirisessions plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/nirisessions-linux-amd64.so ./internal/providers/nirisessions
-    - name: Build bookmarks plugin for linux/amd64
-      run: |
-        echo "Building bookmarks plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/bookmarks-linux-amd64.so ./internal/providers/bookmarks
-    - name: Build 1password plugin for linux/amd64
-      run: |
-        echo "Building 1password plugin for linux/amd64..."
-        GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/1password-linux-amd64.so ./internal/providers/1password
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: build/
-        retention-days: 7
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Install cross-compilation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu libwayland-dev
+      - name: Create build directory
+        run: mkdir -p build
+      - name: Download Go modules
+        run: go mod download
+      - name: Build elephant for linux/amd64
+        run: |
+          echo "Building elephant for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -o build/elephant-linux-amd64 ./cmd/elephant/elephant.go
+      - name: Build desktopapplications plugin for linux/amd64
+        run: |
+          echo "Building desktopapplications plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/desktopapplications-linux-amd64.so ./internal/providers/desktopapplications
+      - name: Build files plugin for linux/amd64
+        run: |
+          echo "Building files plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/files-linux-amd64.so ./internal/providers/files
+      - name: Build clipboard plugin for linux/amd64
+        run: |
+          echo "Building clipboard plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/clipboard-linux-amd64.so ./internal/providers/clipboard
+      - name: Build runner plugin for linux/amd64
+        run: |
+          echo "Building runner plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/runner-linux-amd64.so ./internal/providers/runner
+      - name: Build symbols plugin for linux/amd64
+        run: |
+          echo "Building symbols plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/symbols-linux-amd64.so ./internal/providers/symbols
+      - name: Build calc plugin for linux/amd64
+        run: |
+          echo "Building calc plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/calc-linux-amd64.so ./internal/providers/calc
+      - name: Build providerlist plugin for linux/amd64
+        run: |
+          echo "Building providerlist plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/providerlist-linux-amd64.so ./internal/providers/providerlist
+      - name: Build menus plugin for linux/amd64
+        run: |
+          echo "Building menus plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/menus-linux-amd64.so ./internal/providers/menus
+      - name: Build websearch plugin for linux/amd64
+        run: |
+          echo "Building websearch plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/websearch-linux-amd64.so ./internal/providers/websearch
+      - name: Build archlinuxpkgs plugin for linux/amd64
+        run: |
+          echo "Building archlinuxpkgs plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/archlinuxpkgs-linux-amd64.so ./internal/providers/archlinuxpkgs
+      - name: Build todo plugin for linux/amd64
+        run: |
+          echo "Building todo plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/todo-linux-amd64.so ./internal/providers/todo
+      - name: Build unicode plugin for linux/amd64
+        run: |
+          echo "Building unicode plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/unicode-linux-amd64.so ./internal/providers/unicode
+      - name: Build bluetooth plugin for linux/amd64
+        run: |
+          echo "Building bluetooth plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/bluetooth-linux-amd64.so ./internal/providers/bluetooth
+      - name: Build windows plugin for linux/amd64
+        run: |
+          echo "Building windows plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/windows-linux-amd64.so ./internal/providers/windows
+      - name: Build snippets plugin for linux/amd64
+        run: |
+          echo "Building snippets plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/snippets-linux-amd64.so ./internal/providers/snippets
+      - name: Build nirisessions plugin for linux/amd64
+        run: |
+          echo "Building nirisessions plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/nirisessions-linux-amd64.so ./internal/providers/nirisessions
+      - name: Build bookmarks plugin for linux/amd64
+        run: |
+          echo "Building bookmarks plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/bookmarks-linux-amd64.so ./internal/providers/bookmarks
+      - name: Build 1password plugin for linux/amd64
+        run: |
+          echo "Building 1password plugin for linux/amd64..."
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -buildmode=plugin -o build/1password-linux-amd64.so ./internal/providers/1password
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/
+          retention-days: 7
   release:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Get version
-      id: version
-      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: build-artifacts
-        path: build/
-    - name: Create archives
-      run: |
-        echo "Creating archives..."
-        cd build
-        # Archive main elephant binaries
-        tar -czf elephant-linux-amd64.tar.gz elephant-linux-amd64
-        # Archive desktopapplications plugin
-        tar -czf desktopapplications-linux-amd64.tar.gz desktopapplications-linux-amd64.so
-        # Archive files plugin
-        tar -czf files-linux-amd64.tar.gz files-linux-amd64.so
-        # Archive clipboard plugin
-        tar -czf clipboard-linux-amd64.tar.gz clipboard-linux-amd64.so
-        # Archive runner plugin
-        tar -czf runner-linux-amd64.tar.gz runner-linux-amd64.so
-        # Archive symbols plugin
-        tar -czf symbols-linux-amd64.tar.gz symbols-linux-amd64.so
-        # Archive calc plugin
-        tar -czf calc-linux-amd64.tar.gz calc-linux-amd64.so
-        # Archive providerlist plugin
-        tar -czf providerlist-linux-amd64.tar.gz providerlist-linux-amd64.so
-        # Archive menus plugin
-        tar -czf menus-linux-amd64.tar.gz menus-linux-amd64.so
-        # Archive websearch plugin
-        tar -czf websearch-linux-amd64.tar.gz websearch-linux-amd64.so
-        # Archive archlinuxpkgs plugin
-        tar -czf archlinuxpkgs-linux-amd64.tar.gz archlinuxpkgs-linux-amd64.so
-        # Archive todo plugin
-        tar -czf todo-linux-amd64.tar.gz todo-linux-amd64.so
-        # Archive unicode plugin
-        tar -czf unicode-linux-amd64.tar.gz unicode-linux-amd64.so
-        # Archive bluetooth plugin
-        tar -czf bluetooth-linux-amd64.tar.gz bluetooth-linux-amd64.so
-        # Archive windows plugin
-        tar -czf windows-linux-amd64.tar.gz windows-linux-amd64.so
-        # Archive snippets plugin
-        tar -czf snippets-linux-amd64.tar.gz snippets-linux-amd64.so
-        # Archive nirisessions plugin
-        tar -czf nirisessions-linux-amd64.tar.gz nirisessions-linux-amd64.so
-        # Archive bookmarks plugin
-        tar -czf bookmarks-linux-amd64.tar.gz bookmarks-linux-amd64.so
-        # Archive 1password plugin
-        tar -czf 1password-linux-amd64.tar.gz 1password-linux-amd64.so
-        echo "Build completed successfully!"
-        echo "Created archives:"
-        ls -la *.tar.gz
-    - name: Generate changelog
-      run: |
-        # Get previous tag
-        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-        # Generate changelog
-        echo "# Changes in ${{ steps.version.outputs.VERSION }}" > CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        if [ -n "$PREV_TAG" ]; then
-          echo "## Commits since $PREV_TAG:" >> CHANGELOG.md
-          git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
-        else
-          echo "## All commits:" >> CHANGELOG.md
-          git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
-        fi
-        if [ -f "BREAKING.md" ]; then
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/
+      - name: Create archives
+        run: |
+          echo "Creating archives..."
+          cd build
+          # Archive main elephant binaries
+          tar -czf elephant-linux-amd64.tar.gz elephant-linux-amd64
+          # Archive desktopapplications plugin
+          tar -czf desktopapplications-linux-amd64.tar.gz desktopapplications-linux-amd64.so
+          # Archive files plugin
+          tar -czf files-linux-amd64.tar.gz files-linux-amd64.so
+          # Archive clipboard plugin
+          tar -czf clipboard-linux-amd64.tar.gz clipboard-linux-amd64.so
+          # Archive runner plugin
+          tar -czf runner-linux-amd64.tar.gz runner-linux-amd64.so
+          # Archive symbols plugin
+          tar -czf symbols-linux-amd64.tar.gz symbols-linux-amd64.so
+          # Archive calc plugin
+          tar -czf calc-linux-amd64.tar.gz calc-linux-amd64.so
+          # Archive providerlist plugin
+          tar -czf providerlist-linux-amd64.tar.gz providerlist-linux-amd64.so
+          # Archive menus plugin
+          tar -czf menus-linux-amd64.tar.gz menus-linux-amd64.so
+          # Archive websearch plugin
+          tar -czf websearch-linux-amd64.tar.gz websearch-linux-amd64.so
+          # Archive archlinuxpkgs plugin
+          tar -czf archlinuxpkgs-linux-amd64.tar.gz archlinuxpkgs-linux-amd64.so
+          # Archive todo plugin
+          tar -czf todo-linux-amd64.tar.gz todo-linux-amd64.so
+          # Archive unicode plugin
+          tar -czf unicode-linux-amd64.tar.gz unicode-linux-amd64.so
+          # Archive bluetooth plugin
+          tar -czf bluetooth-linux-amd64.tar.gz bluetooth-linux-amd64.so
+          # Archive windows plugin
+          tar -czf windows-linux-amd64.tar.gz windows-linux-amd64.so
+          # Archive snippets plugin
+          tar -czf snippets-linux-amd64.tar.gz snippets-linux-amd64.so
+          # Archive nirisessions plugin
+          tar -czf nirisessions-linux-amd64.tar.gz nirisessions-linux-amd64.so
+          # Archive bookmarks plugin
+          tar -czf bookmarks-linux-amd64.tar.gz bookmarks-linux-amd64.so
+          # Archive 1password plugin
+          tar -czf 1password-linux-amd64.tar.gz 1password-linux-amd64.so
+          echo "Build completed successfully!"
+          echo "Created archives:"
+          ls -la *.tar.gz
+      - name: Generate changelog
+        run: |
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          # Generate changelog
+          echo "# Changes in ${{ steps.version.outputs.VERSION }}" > CHANGELOG.md
           echo "" >> CHANGELOG.md
-          echo "## ⚠️ Breaking Changes" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          cat BREAKING.md >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-        fi
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.version.outputs.VERSION }}
-        name: Release ${{ steps.version.outputs.VERSION }}
-        body_path: CHANGELOG.md
-        draft: false
-        prerelease: ${{ contains(steps.version.outputs.VERSION, 'beta') || contains(steps.version.outputs.VERSION, 'alpha') || contains(steps.version.outputs.VERSION, 'rc') }}
-        files: build/*.tar.gz
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-````
+          if [ -n "$PREV_TAG" ]; then
+            echo "## Commits since $PREV_TAG:" >> CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
+          else
+            echo "## All commits:" >> CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+          fi
+          if [ -f "BREAKING.md" ]; then
+            echo "" >> CHANGELOG.md
+            echo "## ⚠️ Breaking Changes" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat BREAKING.md >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: Release ${{ steps.version.outputs.VERSION }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.VERSION, 'beta') || contains(steps.version.outputs.VERSION, 'alpha') || contains(steps.version.outputs.VERSION, 'rc') }}
+          files: build/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ## File: .github/workflows/github-releases-to-discord.yml
-````yaml
+
+```yaml
 on:
   release:
     types: [published]
@@ -227,23 +229,24 @@ jobs:
         uses: SethCohen/github-releases-to-discord@v1
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          color: "2105893"
-          username: "Release Changelog"
-          avatar_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
-          content: "||@everyone||"
-          footer_title: "Changelog"
+          color: '2105893'
+          username: 'Release Changelog'
+          avatar_url: 'https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png'
+          content: '||@everyone||'
+          footer_title: 'Changelog'
           reduce_headings: true
-````
+```
 
 ## File: .github/workflows/update-vendor-hash.yml
-````yaml
+
+```yaml
 name: Update Vendor Hash
 on:
   workflow_dispatch:
   push:
     paths:
-      - "go.mod"
-      - "go.sum"
+      - 'go.mod'
+      - 'go.sum'
 jobs:
   update-vendor-hash:
     runs-on: ubuntu-latest
@@ -262,15 +265,16 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "chore(nix): update vendor hash"
-          title: "Update vendor hash"
-          body: "Automated vendor hash update"
+          commit-message: 'chore(nix): update vendor hash'
+          title: 'Update vendor hash'
+          body: 'Automated vendor hash update'
           branch: update-vendor-hash
           delete-branch: true
-````
+```
 
 ## File: .github/changelog_config.json
-````json
+
+```json
 {
   "categories": [
     {
@@ -342,16 +346,18 @@ jobs:
   },
   "base_branches": ["main", "master"]
 }
-````
+```
 
 ## File: .github/FUNDING.yml
-````yaml
+
+```yaml
 github: [abenz1267]
 ko_fi: andrejbenz
-````
+```
 
 ## File: assets/elephant.service
-````
+
+```
 [Unit]
 Description=Elephant
 After=graphical-session.target
@@ -363,10 +369,11 @@ Restart=on-failure
 
 [Install]
 WantedBy=graphical-session.target
-````
+```
 
 ## File: cmd/elephant/elephant.go
-````go
+
+```go
 package main
 import (
 	"context"
@@ -414,10 +421,11 @@ _ "embed"
 var version string
 func main()
 func runBeforeCommands()
-````
+```
 
 ## File: internal/comm/client/activate.go
-````go
+
+```go
 // Package client provides simple functions to communicate with the socket.
 package client
 import (
@@ -439,19 +447,21 @@ import (
 func Activate(data string)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/client/common.go
-````go
+
+```go
 package client
 const (
 	done  = 255
 	empty = 254
 )
-````
+```
 
 ## File: internal/comm/client/menu.go
-````go
+
+```go
 package client
 import (
 	"bytes"
@@ -470,10 +480,11 @@ import (
 func RequestMenu(menu string)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/client/providerstate.go
-````go
+
+```go
 // Package client provides simple functions to communicate with the socket.
 package client
 import (
@@ -499,10 +510,11 @@ import (
 func ProviderState(data string, j bool)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/client/query.go
-````go
+
+```go
 // Package client provides simple functions to communicate with the socket.
 package client
 import (
@@ -540,10 +552,11 @@ func init()
 func Query(data string, async, j bool)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/handlers/activationrequesthandler.go
-````go
+
+```go
 package handlers
 import (
 	"bytes"
@@ -571,10 +584,11 @@ type ActivateRequest struct{}
 func (a *ActivateRequest) Handle(format uint8, cid uint32, conn net.Conn, data []byte)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/handlers/common.go
-````go
+
+```go
 package handlers
 import (
 	"bytes"
@@ -587,10 +601,11 @@ import (
 func writeStatus(status int, conn net.Conn) (bool, error)
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/handlers/menurequesthandler.go
-````go
+
+```go
 package handlers
 import (
 	"encoding/json"
@@ -610,10 +625,11 @@ import (
 ⋮----
 type MenuRequest struct{}
 func (a *MenuRequest) Handle(format uint8, cid uint32, conn net.Conn, data []byte)
-````
+```
 
 ## File: internal/comm/handlers/queryrequesthandler.go
-````go
+
+```go
 package handlers
 import (
 	"bytes"
@@ -674,10 +690,11 @@ var mut sync.Mutex
 var wg sync.WaitGroup
 ⋮----
 func sortEntries(a *pb.QueryResponse_Item, b *pb.QueryResponse_Item) int
-````
+```
 
 ## File: internal/comm/handlers/staterequesthandler.go
-````go
+
+```go
 package handlers
 import (
 	"bytes"
@@ -708,10 +725,11 @@ var b []byte
 var err error
 ⋮----
 var buffer bytes.Buffer
-````
+```
 
 ## File: internal/comm/handlers/subscriberequesthandler.go
-````go
+
+```go
 // Package handlers providers all the communication handlers
 package handlers
 import (
@@ -785,10 +803,11 @@ var err error
 var buffer bytes.Buffer
 ⋮----
 func equals(a *pb.QueryResponse_Item, b *pb.QueryResponse_Item) bool
-````
+```
 
 ## File: internal/comm/comm.go
-````go
+
+```go
 // Package comm provides functionallity to communitate with elephant
 package comm
 import (
@@ -830,10 +849,11 @@ const (
 func init()
 func StartListen()
 func handle(conn net.Conn, cid uint32)
-````
+```
 
 ## File: internal/install/install.go
-````go
+
+```go
 // Package install provides the ability to install menus from elephant-community
 package install
 import (
@@ -868,10 +888,11 @@ func Install(menus []string)
 func cloneOrPull() error
 func pull(path string) error
 func clone() error
-````
+```
 
 ## File: internal/providers/1password/1password.go
-````go
+
+```go
 package main
 import (
 	"encoding/json"
@@ -897,10 +918,11 @@ func checkAvailable()
 func initItems()
 ⋮----
 var items []OpItem
-````
+```
 
 ## File: internal/providers/1password/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -940,9 +962,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/1password/README.md
+
 ````markdown
 ### Elephant 1Password
 
@@ -960,6 +983,7 @@ Access your 1Password Vaults.
 - `op` (1password CLI)
 
 #### Category icons example (case insensitive)
+
 ```toml
 [category_icons]
 login = "dialog-password-symbolic"
@@ -972,7 +996,8 @@ document = "folder-documents-symbolic
 ````
 
 ## File: internal/providers/1password/setup.go
-````go
+
+```go
 package main
 import (
 	"fmt"
@@ -1027,10 +1052,11 @@ func Query(conn net.Conn, query string, single bool, exact bool, _ uint8) []*pb.
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -1070,10 +1096,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/package_gen_test.go
-````go
+
+```go
 // Code generated by github.com/tinylib/msgp DO NOT EDIT.
 package main
 import (
@@ -1103,10 +1130,11 @@ func BenchmarkUnmarshalPackage(b *testing.B)
 func TestEncodeDecodePackage(t *testing.T)
 func BenchmarkEncodePackage(b *testing.B)
 func BenchmarkDecodePackage(b *testing.B)
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/package_gen.go
-````go
+
+```go
 // Code generated by github.com/tinylib/msgp DO NOT EDIT.
 package main
 import (
@@ -1200,10 +1228,11 @@ func (z *CachedData) Msgsize() (s int)
 // string "FirstSubmitted"
 ⋮----
 // string "LastModified"
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/package.go
-````go
+
+```go
 package main
 //go:generate msgp
 type CachedData struct {
@@ -1227,10 +1256,11 @@ type Package struct {
 	FirstSubmitted int64
 	LastModified   int64
 }
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/README.md
-````markdown
+
+```markdown
 ### Elephant Archlinux Packages
 
 Find, install and delete packages. Including AUR.
@@ -1247,10 +1277,11 @@ Find, install and delete packages. Including AUR.
 #### Requirements
 
 - `yay` or `paru` for AUR
-````
+```
 
 ## File: internal/providers/archlinuxpkgs/setup.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -1361,10 +1392,11 @@ func setupAURPkgs()
 var aurPackages []AURPackage
 ⋮----
 func getInstalled()
-````
+```
 
 ## File: internal/providers/bluetooth/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -1404,10 +1436,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/bluetooth/README.md
-````markdown
+
+```markdown
 ### Elephant Bluetooth
 
 Simple bluetooth management. Connect/Disconnect. Pair/Remove. Trust/Untrust.
@@ -1415,10 +1448,11 @@ Simple bluetooth management. Connect/Disconnect. Pair/Remove. Trust/Untrust.
 #### Requirements
 
 - `bluetoothctl`
-````
+```
 
 ## File: internal/providers/bluetooth/setup.go
-````go
+
+```go
 // Package symbols provides symbols/emojis.
 package main
 import (
@@ -1485,10 +1519,11 @@ func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
 func getDevices()
-````
+```
 
 ## File: internal/providers/bookmarks/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -1528,9 +1563,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/bookmarks/README.md
+
 ````markdown
 ### Elephant Bookmarks
 
@@ -1610,7 +1646,8 @@ command = "chromium --app=%VALUE%"
 ````
 
 ## File: internal/providers/bookmarks/setup.go
-````go
+
+```go
 package main
 import (
 	_ "embed"
@@ -1752,10 +1789,11 @@ var posRes []int32
 var startRes int32
 var match string
 var modifier int32
-````
+```
 
 ## File: internal/providers/calc/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -1795,10 +1833,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/calc/README.md
-````markdown
+
+```markdown
 ### Elephant Calc
 
 Perform calculation and unit-conversions.
@@ -1816,10 +1855,11 @@ Perform calculation and unit-conversions.
 #### Usage
 
 Refer to the official [libqalculate docs](https://github.com/Qalculate/libqalculate).
-````
+```
 
 ## File: internal/providers/calc/setup.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -1911,10 +1951,11 @@ var b bytes.Buffer
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/clipboard/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -1954,10 +1995,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/clipboard/README.md
-````markdown
+
+```markdown
 ### Elephant Clipboard
 
 Store clipboard history.
@@ -1973,10 +2015,11 @@ Store clipboard history.
 
 - `wl-clipboard`
 - `imagemagick`
-````
+```
 
 ## File: internal/providers/clipboard/setup.go
-````go
+
+```go
 // Package clipboard provides access to the clipboard history.
 package main
 import (
@@ -2145,10 +2188,11 @@ func getMimetypes() []string
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/desktopapplications/activate.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -2202,10 +2246,11 @@ func pinItem(identifier string)
 var b bytes.Buffer
 ⋮----
 func appHasWindow(f *DesktopFile) (wl.ProxyId, bool)
-````
+```
 
 ## File: internal/providers/desktopapplications/doc.go
-````go
+
+```go
 package main
 import (
 	"fmt"
@@ -2216,10 +2261,11 @@ import (
 "github.com/abenz1267/elephant/v2/internal/util"
 ⋮----
 func PrintDoc()
-````
+```
 
 ## File: internal/providers/desktopapplications/files.go
-````go
+
+```go
 package main
 import (
 	"io/fs"
@@ -2299,10 +2345,11 @@ func isSymlink(filename string) (string, bool)
 if targetPath == filename { // probably not needed, but maybe?
 ⋮----
 func fileExists(path string) bool
-````
+```
 
 ## File: internal/providers/desktopapplications/hyprland.go
-````go
+
+```go
 package main
 import (
 	"bufio"
@@ -2330,10 +2377,11 @@ type Hyprland struct{}
 func (Hyprland) GetCurrentWindows() []string
 func (Hyprland) GetWorkspace() string
 func (c Hyprland) MoveToWorkspace(workspace, initialWMClass string)
-````
+```
 
 ## File: internal/providers/desktopapplications/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -2373,10 +2421,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/desktopapplications/niri.go
-````go
+
+```go
 package main
 import (
 	"bufio"
@@ -2418,10 +2467,11 @@ type OpenedOrChangedEvent struct {
 func (c Niri) MoveToWorkspace(workspace, initialWMClass string)
 ⋮----
 var e OpenedOrChangedEvent
-````
+```
 
 ## File: internal/providers/desktopapplications/parser.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -2496,10 +2546,11 @@ var (
 // Remove field codes
 ⋮----
 func splitIntoParsebles(in []byte) [][]byte
-````
+```
 
 ## File: internal/providers/desktopapplications/query.go
-````go
+
+```go
 package main
 import (
 	"fmt"
@@ -2549,10 +2600,11 @@ var posRes []int32
 var startRes int32
 ⋮----
 var modifier int32
-````
+```
 
 ## File: internal/providers/desktopapplications/README.md
-````markdown
+
+```markdown
 ### Elephant Desktop Applications
 
 Run installed desktop applications.
@@ -2563,10 +2615,11 @@ Run installed desktop applications.
 - pin items
 - alias items
 - auto-detect `uwsm`/`app2unit`
-````
+```
 
 ## File: internal/providers/desktopapplications/setup.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -2643,10 +2696,11 @@ func parseRegexp()
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/files/activate.go
-````go
+
+```go
 package main
 import (
 	"fmt"
@@ -2679,10 +2733,11 @@ const (
 func Activate(single bool, identifier, action string, query string, args string, format uint8, conn net.Conn)
 ⋮----
 var path string
-````
+```
 
 ## File: internal/providers/files/db.go
-````go
+
+```go
 package main
 import (
 	"database/sql"
@@ -2726,10 +2781,11 @@ var result []File
 var rows *sql.Rows
 ⋮----
 func deleteFileByPath(path string)
-````
+```
 
 ## File: internal/providers/files/file.go
-````go
+
+```go
 package main
 import "time"
 //go:generate msgp
@@ -2738,10 +2794,11 @@ type File struct {
 	Path       string
 	Changed    time.Time
 }
-````
+```
 
 ## File: internal/providers/files/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -2781,10 +2838,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/files/query.go
-````go
+
+```go
 package main
 import (
 	"log/slog"
@@ -2805,9 +2863,10 @@ import (
 "github.com/abenz1267/elephant/v2/pkg/pb/pb"
 ⋮----
 func Query(conn net.Conn, query string, _ bool, exact bool, _ uint8) []*pb.QueryResponse_Item
-````
+```
 
 ## File: internal/providers/files/README.md
+
 ````markdown
 ### Elephant Files
 
@@ -2833,7 +2892,8 @@ ignored_dirs = ["/home/andrej/Documents/", "/home/andrej/Videos"]
 ````
 
 ## File: internal/providers/files/setup.go
-````go
+
+```go
 package main
 import (
 	"bufio"
@@ -2911,10 +2971,11 @@ func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
 func shouldWatch(path string) bool
-````
+```
 
 ## File: internal/providers/menus/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -2954,9 +3015,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/menus/README.md
+
 ````markdown
 ### Elephant Menus
 
@@ -3167,7 +3229,8 @@ end
 ````
 
 ## File: internal/providers/menus/setup.go
-````go
+
+```go
 package main
 import (
 	_ "embed"
@@ -3242,10 +3305,11 @@ var modifier int32
 func itemToEntry(format uint8, query string, conn net.Conn, menuActions map[string]string, namePretty string, single bool, icon string, me *common.Entry) *pb.QueryResponse_Item
 ⋮----
 var actions []string
-````
+```
 
 ## File: internal/providers/nirisessions/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -3285,9 +3349,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/nirisessions/README.md
+
 ````markdown
 ### Elephant Niri Sessions
 
@@ -3359,7 +3424,8 @@ windows = [
 ````
 
 ## File: internal/providers/nirisessions/setup.go
-````go
+
+```go
 package main
 import (
 	"bufio"
@@ -3442,10 +3508,11 @@ func Query(conn net.Conn, query string, single bool, exact bool, _ uint8) []*pb.
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/providerlist/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -3485,17 +3552,19 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/providerlist/README.md
-````markdown
+
+```markdown
 ### Elephant Providerlist
 
 Lists all installed providers and configured menus.
-````
+```
 
 ## File: internal/providers/providerlist/setup.go
-````go
+
+```go
 package main
 import (
 	_ "embed"
@@ -3542,10 +3611,11 @@ func Query(conn net.Conn, query string, single bool, exact bool, _ uint8) []*pb.
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/runner/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -3585,10 +3655,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/runner/README.md
-````markdown
+
+```markdown
 ### Elephant Runner
 
 Execute everything installed in your $PATH.
@@ -3597,10 +3668,11 @@ Execute everything installed in your $PATH.
 
 - finds all executables items in $PATH
 - ... or define an explicit list yourself
-````
+```
 
 ## File: internal/providers/runner/setup.go
-````go
+
+```go
 // Package runner provides access to binaries in $PATH.
 package main
 import (
@@ -3690,10 +3762,11 @@ var usageScore int32
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/snippets/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -3733,9 +3806,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/snippets/README.md
+
 ````markdown
 ### Elephant Snippets
 
@@ -3761,7 +3835,8 @@ content = "this will be pasted"
 ````
 
 ## File: internal/providers/snippets/setup.go
-````go
+
+```go
 package main
 import (
 	"fmt"
@@ -3826,10 +3901,11 @@ var startRes int32
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/symbols/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -3869,10 +3945,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/symbols/parse.go
-````go
+
+```go
 package main
 import (
 	"crypto/md5"
@@ -3925,10 +4002,11 @@ var symbols = make(map[string]*Symbol)
 func parse()
 ⋮----
 var ldml LDML
-````
+```
 
 ## File: internal/providers/symbols/README.md
-````markdown
+
+```markdown
 ### Elephant Symbols
 
 Search for emojis and symbols
@@ -3936,10 +4014,11 @@ Search for emojis and symbols
 #### Requirements
 
 - `wl-clipboard`
-````
+```
 
 ## File: internal/providers/symbols/setup.go
-````go
+
+```go
 // Package symbols provides symbols/emojis.
 package main
 import (
@@ -4004,10 +4083,11 @@ var usageScore int32
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/todo/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -4047,9 +4127,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/todo/README.md
+
 ````markdown
 ### Elephant Todo
 
@@ -4102,7 +4183,8 @@ Similar to creating, you can simply search for like `today` to get all items for
 ````
 
 ## File: internal/providers/todo/setup.go
-````go
+
+```go
 package main
 import (
 	"bytes"
@@ -4249,10 +4331,11 @@ func State(provider string) *pb.ProviderStateResponse
 func itemToEntry(urgent time.Time, i int, v Item) *pb.QueryResponse_Item
 func isSameDay(t1, t2 *time.Time) bool
 func endOfDay(t time.Time) time.Time
-````
+```
 
 ## File: internal/providers/unicode/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -4292,10 +4375,11 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/unicode/README.md
-````markdown
+
+```markdown
 ### Elephant Unicode
 
 Search for unicode symbols
@@ -4303,10 +4387,11 @@ Search for unicode symbols
 #### Requirements
 
 - `wl-clipboard`
-````
+```
 
 ## File: internal/providers/unicode/setup.go
-````go
+
+```go
 // Package symbols provides symbols/emojis.
 package main
 import (
@@ -4365,10 +4450,11 @@ var usageScore int32
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/websearch/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -4408,9 +4494,10 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/websearch/README.md
+
 ````markdown
 ### Elephant Websearch
 
@@ -4427,7 +4514,8 @@ url = "https://www.google.com/search?q=%TERM%"
 ````
 
 ## File: internal/providers/websearch/setup.go
-````go
+
+```go
 package main
 import (
 	_ "embed"
@@ -4507,10 +4595,11 @@ var usageScore int32
 func Icon() string
 func HideFromProviderlist() bool
 func State(provider string) *pb.ProviderStateResponse
-````
+```
 
 ## File: internal/providers/windows/makefile
-````
+
+```
 DESTDIR ?=
 CONFIGDIR = $(DESTDIR)/etc/xdg/elephant/providers
 
@@ -4550,17 +4639,19 @@ help:
 	@echo "  DESTDIR   - Destination directory for staged installs"
 	@echo ""
 	@echo "Note: This builds a Go plugin (.so file) for elephant"
-````
+```
 
 ## File: internal/providers/windows/README.md
-````markdown
+
+```markdown
 ### Elephant Windows
 
 Find and focus opened windows.
-````
+```
 
 ## File: internal/providers/windows/setup.go
-````go
+
+```go
 // Package windows provides window focusing.
 package main
 import (
@@ -4636,10 +4727,11 @@ var match string
 ⋮----
 func findIcons()
 func walkFunction(path string, d fs.DirEntry, err error) error
-````
+```
 
 ## File: internal/providers/load.go
-````go
+
+```go
 // Package providers provides common provider functions.
 package providers
 import (
@@ -4698,10 +4790,11 @@ var (
 func Load(setup bool)
 ⋮----
 var mut sync.Mutex
-````
+```
 
 ## File: internal/util/doc.go
-````go
+
+```go
 // Package util provides general utility.
 package util
 import (
@@ -4727,10 +4820,11 @@ func printStructTable(c any, structName string)
 func printStructDesc(c any)
 ⋮----
 var nestedStructs []reflect.Type
-````
+```
 
 ## File: internal/util/preview.go
-````go
+
+```go
 package util
 var (
 	PreviewTypeText    = "text"
@@ -4738,10 +4832,11 @@ var (
 	PreviewTypeCommand = "command"
 	PreviewTypeFile    = "file"
 )
-````
+```
 
 ## File: nix/modules/home-manager.nix
-````nix
+
+```nix
 flake: {
   config,
   lib,
@@ -5049,10 +5144,11 @@ in {
     };
   };
 }
-````
+```
 
 ## File: nix/modules/nixos.nix
-````nix
+
+```nix
 flake: {
   config,
   lib,
@@ -5373,10 +5469,11 @@ in {
     };
   };
 }
-````
+```
 
 ## File: pkg/common/history/history.go
-````go
+
+```go
 // Package history provides functions to save and load history in a streamlined way.
 package history
 import (
@@ -5427,20 +5524,22 @@ var lastUsed time.Time
 ⋮----
 func (h *History) CalcUsageScore(query, identifier string) int32
 func Load(provider string) *History
-````
+```
 
 ## File: pkg/common/wlr/tracker.go
-````go
+
+```go
 package wlr
 var (
 	addChan     chan string
 	deleteChan  chan string
 	OpenWindows = make(map[string]uint)
 func init()
-````
+```
 
 ## File: pkg/common/wlr/wlr-foreign-toplevel-management-unstable-v1.go
-````go
+
+```go
 // This file is autogenerated from: wlr-foreign-toplevel-management-unstable-v1.xml
 // Do not edit
 // Package wlr implements the wlr_foreign_toplevel_management_unstable_v1 protocol
@@ -5652,10 +5751,11 @@ type ZwlrForeignToplevelHandleV1ParentHandler interface {
 func (p *ZwlrForeignToplevelHandleV1) AddParentHandler(h ZwlrForeignToplevelHandleV1ParentHandler)
 // RemoveParentHandler adds the Parent handler
 func (p *ZwlrForeignToplevelHandleV1) RemoveParentHandler(h ZwlrForeignToplevelHandleV1ParentHandler)
-````
+```
 
 ## File: pkg/common/wlr/wm.go
-````go
+
+```go
 package wlr
 import (
 	"log/slog"
@@ -5706,10 +5806,11 @@ func (*Window) HandleZwlrForeignToplevelManagerV1Toplevel(e ZwlrForeignToplevelM
 func (h *Window) HandleZwlrForeignToplevelHandleV1Closed(e ZwlrForeignToplevelHandleV1ClosedEvent)
 func (h *Window) HandleZwlrForeignToplevelHandleV1AppId(e ZwlrForeignToplevelHandleV1AppIdEvent)
 func (h *Window) HandleZwlrForeignToplevelHandleV1Title(e ZwlrForeignToplevelHandleV1TitleEvent)
-````
+```
 
 ## File: pkg/common/config.go
-````go
+
+```go
 // Package common provides common functions used by all providers.
 package common
 import (
@@ -5756,10 +5857,11 @@ var err error
 ⋮----
 func GetElephantConfig() *ElephantConfig
 func LoadConfig(provider string, config any)
-````
+```
 
 ## File: pkg/common/files.go
-````go
+
+```go
 package common
 import (
 	"errors"
@@ -5785,10 +5887,11 @@ func CacheFile(file string) string
 var ErrConfigNotExists = errors.New("provider config doesn't exist")
 func ProviderConfig(provider string) (string, error)
 func FileExists(filename string) bool
-````
+```
 
 ## File: pkg/common/fzf.go
-````go
+
+```go
 package common
 import (
 	"slices"
@@ -5809,10 +5912,11 @@ var res algo.Result
 var pos *[]int
 ⋮----
 var int32Slice []int32
-````
+```
 
 ## File: pkg/common/git.go
-````go
+
+```go
 package common
 import (
 	"fmt"
@@ -5870,10 +5974,11 @@ var mu sync.Mutex
 ⋮----
 // TODO: this needs better commit messages somehow...
 func GitPush(provider, file string, w *git.Worktree, r *git.Repository)
-````
+```
 
 ## File: pkg/common/menucfg.go
-````go
+
+```go
 package common
 import (
 	"crypto/md5"
@@ -5989,10 +6094,11 @@ var (
 func LoadMenus()
 func createLuaMenu(path string)
 func createTomlMenu(path string)
-````
+```
 
 ## File: pkg/common/runprefix.go
-````go
+
+```go
 package common
 import (
 	"log/slog"
@@ -6007,10 +6113,11 @@ import (
 var runPrefix = ""
 func InitRunPrefix()
 func LaunchPrefix(override string) string
-````
+```
 
 ## File: pkg/common/terminal.go
-````go
+
+```go
 package common
 import (
 	"bytes"
@@ -6047,10 +6154,11 @@ func GetTerminal() string
 func WrapWithTerminal(in string) string
 func findTerminalApps()
 func ForceTerminalForFile(file string) bool
-````
+```
 
 ## File: pkg/common/util.go
-````go
+
+```go
 package common
 import (
 	"log/slog"
@@ -6064,10 +6172,11 @@ import (
 ⋮----
 func ReplaceResultOrStdinCmd(replace, result string) *exec.Cmd
 func ClipboardText() string
-````
+```
 
 ## File: pkg/pb/pb/activate.pb.go
-````go
+
+```go
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.36.7
@@ -6162,10 +6271,11 @@ func init()
 func file_activate_proto_init()
 ⋮----
 type x struct{}
-````
+```
 
 ## File: pkg/pb/pb/menu.pb.go
-````go
+
+```go
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.36.7
@@ -6244,10 +6354,11 @@ func init()
 func file_menu_proto_init()
 ⋮----
 type x struct{}
-````
+```
 
 ## File: pkg/pb/pb/providerstate.pb.go
-````go
+
+```go
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.36.7
@@ -6345,10 +6456,11 @@ func init()
 func file_providerstate_proto_init()
 ⋮----
 type x struct{}
-````
+```
 
 ## File: pkg/pb/pb/query.pb.go
-````go
+
+```go
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.36.7
@@ -6564,10 +6676,11 @@ func init()
 func file_query_proto_init()
 ⋮----
 type x struct{}
-````
+```
 
 ## File: pkg/pb/pb/subscribe.pb.go
-````go
+
+```go
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.36.7
@@ -6665,10 +6778,11 @@ func init()
 func file_subscribe_proto_init()
 ⋮----
 type x struct{}
-````
+```
 
 ## File: pkg/pb/activate.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -6683,10 +6797,11 @@ message ActivateRequest {
   string arguments = 5;
   bool single = 6;
 }
-````
+```
 
 ## File: pkg/pb/makefile
-````
+
+```
 .PHONY: proto clean
 
 proto:
@@ -6699,10 +6814,11 @@ clean:
 	rm -rf pb/
 
 rebuild: clean proto
-````
+```
 
 ## File: pkg/pb/menu.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -6712,10 +6828,11 @@ option go_package = "./pb";
 message MenuRequest {
    string menu = 1;
 }
-````
+```
 
 ## File: pkg/pb/providerstate.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -6731,10 +6848,11 @@ message ProviderStateResponse {
   repeated string actions = 2;
   string provider = 3;
 }
-````
+```
 
 ## File: pkg/pb/query.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -6781,10 +6899,11 @@ message QueryResponse {
    Item item = 2;
    int32 qid =3;
 }
-````
+```
 
 ## File: pkg/pb/subscribe.proto
-````protobuf
+
+```protobuf
 syntax = "proto3";
 
 package pb;
@@ -6800,10 +6919,11 @@ message SubscribeRequest {
 message SubscribeResponse {
   string value = 2;
 }
-````
+```
 
 ## File: .air.toml
-````toml
+
+```toml
 root = "."
 tmp_dir = "tmp"
 
@@ -6872,24 +6992,27 @@ clean_on_exit = true
 [screen]
 clear_on_rebuild = true
 keep_scroll = true
-````
+```
 
 ## File: .gitignore
-````
+
+```
 *.so
 cmd/elephant/elephant
 tmp
-````
+```
 
 ## File: BREAKING.md
-````markdown
+
+```markdown
 ## Files
 
 `fd_flags` is now a string array to avoid incorrect parsing.
-````
+```
 
 ## File: flake.nix
-````nix
+
+```nix
 {
   description = ''
     Elephant - a powerful data provider service and backend for building custom application launchers and desktop utilities.
@@ -7117,10 +7240,11 @@ tmp
       };
     };
 }
-````
+```
 
 ## File: go.mod
-````
+
+```
 module github.com/abenz1267/elephant/v2
 
 go 1.25.0
@@ -7184,10 +7308,11 @@ require (
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 )
-````
+```
 
 ## File: makefile
-````makefile
+
+```makefile
 PREFIX ?= /usr/local
 DESTDIR ?=
 BINDIR = $(DESTDIR)$(PREFIX)/bin
@@ -7229,9 +7354,10 @@ help:
 	@echo "Variables:"
 	@echo "  PREFIX    - Installation prefix (default: /usr/local)"
 	@echo "  DESTDIR   - Destination directory for staged installs"
-````
+```
 
 ## File: README.md
+
 ````markdown
 # Elephant 🐘
 

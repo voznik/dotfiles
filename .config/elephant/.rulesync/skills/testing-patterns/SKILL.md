@@ -8,32 +8,34 @@ description: LUA testing patterns, factory functions, mocking strategies, and TD
 ## Testing Philosophy
 
 **Test-Driven Development (TDD):**
+
 - Write failing test FIRST
 - Implement minimal code to pass
 - Refactor after green
 - Never write production code without a failing test
 
 **Behavior-Driven Testing:**
+
 - Test behavior, not implementation
 - Focus on public APIs and business requirements
 - Avoid testing implementation details
 - Use descriptive test names that describe behavior
 
 **Factory Pattern:**
+
 - Provide sensible defaults
 - Allow overriding specific properties
 - Keep tests DRY and maintainable
 
 ## Test Utilities
 
-Lust is a small library that tests Lua code.  It's useful because it is a single file and isn't very
+Lust is a small library that tests Lua code. It's useful because it is a single file and isn't very
 opinionated, which can make it easier to quickly add testing to a Lua project.
 
 It supports nested describe/it blocks, before/after handlers, expect-style assertions, function
 spies, and colors.
 
-Usage
----
+## Usage
 
 Use the `utils/lust.lua` file from a project root directory and require it, which returns a table that includes all of the functionality.
 
@@ -59,20 +61,19 @@ describe('my project', function()
 end)
 ```
 
-Documentation
----
+## Documentation
 
 ##### `lust.describe(name, func)`
 
-Used to declare a group of tests.  `name` is a string used to describe the group, and `func` is a function containing all tests and `describe` blocks in the group.  Groups created using `describe` can be nested.
+Used to declare a group of tests. `name` is a string used to describe the group, and `func` is a function containing all tests and `describe` blocks in the group. Groups created using `describe` can be nested.
 
 ##### `lust.it(name, func)`
 
-Used to declare a test, which consists of a set of assertions.  `name` is a string used to describe the test, and `func` is a function containing the assertions.
+Used to declare a test, which consists of a set of assertions. `name` is a string used to describe the test, and `func` is a function containing the assertions.
 
 ### Assertions
 
-Lust uses "expect style" assertions.  An assertion begins with `lust.expect(value)` and other modifiers can be chained after that:
+Lust uses "expect style" assertions. An assertion begins with `lust.expect(value)` and other modifiers can be chained after that:
 
 ##### `lust.expect(x).to.exist()`
 
@@ -80,11 +81,11 @@ Fails only if `x` is `nil`.
 
 ##### `lust.expect(x).to.equal(y, [eps])`
 
-Performs a strict equality test, failing if `x` and `y` have different types or values.  Tables are tested by recursively ensuring that both tables contain the same set of keys and values.  Metatables are not taken into consideration.  The optional `eps` parameter is used as a threshold for numbers to test for approximate floating point equality.
+Performs a strict equality test, failing if `x` and `y` have different types or values. Tables are tested by recursively ensuring that both tables contain the same set of keys and values. Metatables are not taken into consideration. The optional `eps` parameter is used as a threshold for numbers to test for approximate floating point equality.
 
 ##### `lust.expect(x).to.be(y)`
 
-Performs an equality test using the `==` operator.  Fails if `x ~= y`.
+Performs an equality test using the `==` operator. Fails if `x ~= y`.
 
 ##### `lust.expect(x).to.be.truthy()`
 
@@ -92,11 +93,11 @@ Fails if `x` is `nil` or `false`.
 
 ##### `lust.expect(x).to.be.a(y)`
 
-If `y` is a string, fails if `type(x)` is not equal to `y`.  If `y` is a table, walks up `x`'s metatable chain and fails if `y` is not encountered.
+If `y` is a string, fails if `type(x)` is not equal to `y`. If `y` is a table, walks up `x`'s metatable chain and fails if `y` is not encountered.
 
 ##### `lust.expect(x).to.have(y)`
 
-If `x` is a table, ensures that at least one of its keys contains the value `y` using the `==` operator.  If `x` is not a table, this assertion fails.
+If `x` is a table, ensures that at least one of its keys contains the value `y` using the `==` operator. If `x` is not a table, this assertion fails.
 
 ##### `lust.expect(f).to.fail()`
 
@@ -118,13 +119,13 @@ Negates the assertion.
 
 ##### `lust.spy(table, key, run)` and `lust.spy(function, run)`
 
-Spies on a function and tracks the number of times it was called and the arguments it was called with.  There are 3 ways to specify arguments to this function:
+Spies on a function and tracks the number of times it was called and the arguments it was called with. There are 3 ways to specify arguments to this function:
 
 - Specify `nil`.
 - Specify a function.
 - Specify a table and a name of a function in that table.
 
-The return value is a table that will contain one element for each call to the function. Each element of this table is a table containing the arguments passed to that particular invocation of the function.  The table can also be called as a function, in which case it will call the function it is spying on.  The third argument, `run`, is a function that will be called immediately upon creation of the spy.  Example:
+The return value is a table that will contain one element for each call to the function. Each element of this table is a table containing the arguments passed to that particular invocation of the function. The table can also be called as a function, in which case it will call the function it is spying on. The third argument, `run`, is a function that will be called immediately upon creation of the spy. Example:
 
 ```lua
 local object = {
@@ -162,15 +163,15 @@ lust.expect(spy[2]).to.equal({'rain', 'bows'})
 
 ### Befores and Afters
 
-You can define functions that are called before and after every call to `lust.it` using `lust.before` and `lust.after`.  They are scoped to the `describe` block that contains them as well as any inner `describe` blocks.
+You can define functions that are called before and after every call to `lust.it` using `lust.before` and `lust.after`. They are scoped to the `describe` block that contains them as well as any inner `describe` blocks.
 
 ##### `lust.before(fn)`
 
-Set a function that is called before every test inside this `describe` block.  `fn` will be passed a single string containing the name of the test about to be run.
+Set a function that is called before every test inside this `describe` block. `fn` will be passed a single string containing the name of the test about to be run.
 
 ##### `lust.after(fn)`
 
-Set a function that is called after every test inside this `describe` block.  `fn` will be passed a single string containing the name of the test that was finished.
+Set a function that is called after every test inside this `describe` block. `fn` will be passed a single string containing the name of the test that was finished.
 
 ### Custom Assertions
 
@@ -193,8 +194,8 @@ lust.expect({}).to.be.empty()
 lust.expect('').to.be.empty()
 ```
 
-First we define the assertion in the `lust.paths` table.  Each path is a table containing a `test`
-function which performs the assertion.  It returns three values: the result of the test (true for
+First we define the assertion in the `lust.paths` table. Each path is a table containing a `test`
+function which performs the assertion. It returns three values: the result of the test (true for
 pass, false for fail), followed by two messages: the first for a normal expectation failure, the
 second for when the expectation is negated.
 
@@ -209,7 +210,6 @@ If Lua is embedded in an application and does not run in a console environment t
 local lust = require('lust').nocolor()
 ```
 
-License
----
+## License
 
 https://github.com/bjornbytes/lust/blob/master/LICENSE

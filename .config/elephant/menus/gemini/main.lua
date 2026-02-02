@@ -13,11 +13,11 @@ function GetEntries()
             {
                 Text = "Gemini CLI is not installed",
                 Subtext = "Please install gemini-cli to use this menu",
-                Icon = "⚠️"
-            }
+                Icon = "⚠️",
+            },
         }
     end
-    
+
     return {
         { Text = "Gemini: New Session", Subtext = "Start fresh session", Actions = { default = "lua:ActionNew" } },
         { Text = "Gemini: Resume Session", Subtext = "List and resume sessions", SubMenu = "gemini_sessions" },

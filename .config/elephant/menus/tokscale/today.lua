@@ -6,32 +6,38 @@ dofile(os.getenv("HOME") .. "/.config/elephant/utils/shared.lua")
 
 function GetEntries()
     local handle = io.popen(PrepareShellCommand(TOKSCALE_CMDS.TODAY_JSON))
-    if not handle then 
-        return {{
-            Text = "Error: Could not execute tokscale command",
-            Subtext = "Please check if tokscale is installed and working",
-            Icon = "⚠️"
-        }}
+    if not handle then
+        return {
+            {
+                Text = "Error: Could not execute tokscale command",
+                Subtext = "Please check if tokscale is installed and working",
+                Icon = "⚠️",
+            },
+        }
     end
-    
+
     local json_output = handle:read("*a")
     handle:close()
 
     if not json_output or json_output == "" then
-        return {{
-            Text = "No token usage data available",
-            Subtext = "tokscale returned empty output",
-            Icon = "ℹ️"
-        }}
+        return {
+            {
+                Text = "No token usage data available",
+                Subtext = "tokscale returned empty output",
+                Icon = "ℹ️",
+            },
+        }
     end
 
     local data = jsonDecode(json_output)
     if not data or not data.entries then
-        return {{
-            Text = "Error: Could not parse token usage data",
-            Subtext = "tokscale output format may have changed",
-            Icon = "⚠️"
-        }}
+        return {
+            {
+                Text = "Error: Could not parse token usage data",
+                Subtext = "tokscale output format may have changed",
+                Icon = "⚠️",
+            },
+        }
     end
 
     local entries = {}
@@ -45,13 +51,18 @@ function GetEntries()
         table.insert(entries, {
             Text = entry.source .. "/" .. entry.model,
             Subtext = subtext,
-            Value = jsonEncode(entry)
+            Value = jsonEncode(entry),
         })
     end
 
     local total = {
-        Text = string.format("Total: %d messages, %s tokens, $%.2f", data.totalMessages or 0, (data.totalInput or 0) + (data.totalOutput or 0), data.totalCost or 0),
-        Subtext = "Today's aggregate usage"
+        Text = string.format(
+            "Total: %d messages, %s tokens, $%.2f",
+            data.totalMessages or 0,
+            (data.totalInput or 0) + (data.totalOutput or 0),
+            data.totalCost or 0
+        ),
+        Subtext = "Today's aggregate usage",
     }
     table.insert(entries, total)
 

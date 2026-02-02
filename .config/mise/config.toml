@@ -7,7 +7,7 @@ MISE_NODE_GPG_VERIFY = "false"
 LUA_PATH = "{{env.XDG_CONFIG_DIR}}/lua/?.lua;;"
 
 [tool_alias]
-rust = "core:rust"                    # Use core backend
+rust = "core:rust" # Use core backend
 
 [tools]
 # mise registry
@@ -17,7 +17,7 @@ yq = "latest"
 atuin = "latest"
 duckdb = "latest"
 gh = "latest"
-glab = "latest" 
+glab = "latest"
 glow = "latest"
 navi = "latest"
 # npm registry
@@ -34,6 +34,8 @@ bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:@karakeep/cli" = "latest"
 "npm:markdownlint" = "latest"
 "npm:moltbot" = "latest"
+"npm:oxfmt" = "latest"
+"npm:oxlint" = "latest"
 # MCPs
 "npm:@upstash/context7-mcp" = "latest"
 "pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.14" }
@@ -42,7 +44,7 @@ bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "github:github/github-mcp-server" = "latest"
 #
 # pip registry
-python= "3.13"
+python = "3.13"
 uv = "latest"
 poetry = "latest"
 cookiecutter = "latest"
@@ -58,6 +60,14 @@ ruff = "latest"
 "github:Inlyne-Project/inlyne" = "latest"
 "github:coollabsio/coolify-cli" = "latest"
 "github:nicosuave/memex" = "latest"
+# oxc
+# "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
+
+[shell_alias]
+# Map the specific binaries released by that repo to shorter commands
+# oxlint = "oxc-project-oxc-oxlint"
+oxfmtb = "oxfmt-linux-x64-gnu"
+
 # 
 rust = "latest"
 "github:cargo-bins/cargo-binstall" = "latest"
@@ -73,7 +83,7 @@ act = "latest"
 [tools."http:httpie"]
 version = "latest"
 url = "https://packages.httpie.io/binaries/linux/http-{version}"
-bin = "httpie"  # Rename from docker-compose-linux-x86_64 to docker-compose
+bin = "httpie" # Rename from docker-compose-linux-x86_64 to docker-compose
 
 #
 [settings]
@@ -86,5 +96,5 @@ pipx.uvx = true
 [task_config]
 dir = "{{cwd}}"
 includes = [
-    "{{ config_root }}/tasks"  # Global tasks available everywhere
+  "{{ config_root }}/tasks", # Global tasks available everywhere
 ]

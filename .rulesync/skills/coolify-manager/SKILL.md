@@ -6,9 +6,11 @@ description: >-
 targets:
   - '*'
 ---
+
 ## Overview
 
 Use this skill when you need to:
+
 - Report server/resource/application status
 - Cnahge server/resource/application setting
 
@@ -30,13 +32,16 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify server domains <uuid>` - Get server domains by UUID
 
 ### Projects
+
 - `coolify projects list` - List all projects
 - `coolify projects get <uuid>` - Get project environments
 
 ### Resources
+
 - `coolify resources list` - List all resources
 
 ### Applications
+
 - `coolify app list` - List all applications
 - `coolify app get <uuid>` - Get application details
 - `coolify app update <uuid>` - Update application configuration
@@ -65,6 +70,7 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify app logs <uuid>` - Get application logs
 
 #### Application Environment Variables
+
 - `coolify app env list <app_uuid>` - List all environment variables
 - `coolify app env get <app_uuid> <env_uuid_or_key>` - Get a specific environment variable
 - `coolify app env create <app_uuid>` - Create a new environment variable
@@ -84,6 +90,7 @@ Commands can use `server` or `servers` interchangeably.
   - **Behavior**: Updates existing variables, creates missing ones. Does NOT delete variables not in the file.
 
 #### Application Deployments
+
 - `coolify app deployments list <app-uuid>` - List all deployments for an application
 - `coolify app deployments logs <app-uuid> [deployment-uuid]` - Get deployment logs (formatted as human-readable text)
   - If only `app-uuid` is provided: retrieves logs from the **latest/most recent deployment only**
@@ -93,6 +100,7 @@ Commands can use `server` or `servers` interchangeably.
   - `--debuglogs` - Show debug logs (includes hidden commands and internal operations)
 
 ### Databases
+
 - `coolify database list` - List all databases
 - `coolify database get <uuid>` - Get database details
 - `coolify database create <type>` - Create a new database
@@ -122,6 +130,7 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify database restart <uuid>` - Restart a database
 
 #### Database Backups
+
 - `coolify database backup list <database_uuid>` - List all backup configurations
 - `coolify database backup create <database_uuid>` - Create a new backup configuration
   - `--frequency <cron>` - Backup frequency (cron expression)
@@ -145,6 +154,7 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify database backup delete-execution <database_uuid> <backup_uuid> <execution_uuid>` - Delete a backup execution
 
 ### Services
+
 - `coolify service list` - List all services
 - `coolify service get <uuid>` - Get service details
 - `coolify service start <uuid>` - Start a service
@@ -153,6 +163,7 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify service delete <uuid>` - Delete a service
 
 #### Service Environment Variables
+
 - `coolify service env list <service_uuid>` - List all environment variables
 - `coolify service env get <service_uuid> <env_uuid_or_key>` - Get a specific environment variable
 - `coolify service env create <service_uuid>` - Create a new environment variable
@@ -167,6 +178,7 @@ Commands can use `server` or `servers` interchangeably.
   - **Behavior**: Updates existing variables, creates missing ones. Does NOT delete variables not in the file.
 
 ### Deployments
+
 - `coolify deploy uuid <uuid>` - Deploy a resource by UUID
   - `-f, --force` - Force deployment
 - `coolify deploy name <name>` - Deploy a resource by name
@@ -179,6 +191,7 @@ Commands can use `server` or `servers` interchangeably.
   - `-f, --force` - Skip confirmation prompt
 
 ### GitHub Apps
+
 - `coolify github list` - List all GitHub App integrations
 - `coolify github get <app_uuid>` - Get GitHub App details
 - `coolify github create` - Create a new GitHub App integration
@@ -202,6 +215,7 @@ Commands can use `server` or `servers` interchangeably.
 - `coolify github branches <app_uuid> <owner/repo>` - List branches for a repository
 
 ### Teams
+
 - `coolify team list` - List all teams
 - `coolify team get <team_id>` - Get team details
 - `coolify team current` - Get current team

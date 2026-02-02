@@ -12,12 +12,12 @@ It is designed to be easily searchable using grep and other text-based tools.
 
 This skill contains the following reference files:
 
-| File | Contents |
-|------|----------|
-| `project-structure.md` | Directory tree with line counts per file |
-| `files.md` | All file contents (search with `## File: <path>`) |
-| `tech-stack.md` | Languages, frameworks, and dependencies |
-| `summary.md` | This file - purpose and format explanation |
+| File                   | Contents                                          |
+| ---------------------- | ------------------------------------------------- |
+| `project-structure.md` | Directory tree with line counts per file          |
+| `files.md`             | All file contents (search with `## File: <path>`) |
+| `tech-stack.md`        | Languages, frameworks, and dependencies           |
+| `summary.md`           | This file - purpose and format explanation        |
 
 ## Usage Guidelines
 
@@ -32,7 +32,7 @@ This skill contains the following reference files:
 
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Files matching these patterns are excluded: LICENSE, *.lock, **/*.xml, **/*.txt
+- Files matching these patterns are excluded: LICENSE, _.lock, \*\*/_.xml, \*_/_.txt
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Empty lines have been removed from all files
@@ -43,20 +43,21 @@ This skill contains the following reference files:
 
 125 files | 7,014 lines
 
-| Language | Files | Lines |
-|----------|------:|------:|
-| Go | 68 | 3,981 |
-| No Extension | 21 | 758 |
-| Markdown | 20 | 850 |
-| Protocol Buffers | 5 | 99 |
-| YAML | 4 | 259 |
-| NIX | 3 | 854 |
-| JSON | 1 | 71 |
-| SERVICE | 1 | 11 |
-| TOML | 1 | 68 |
-| MOD | 1 | 63 |
+| Language         | Files | Lines |
+| ---------------- | ----: | ----: |
+| Go               |    68 | 3,981 |
+| No Extension     |    21 |   758 |
+| Markdown         |    20 |   850 |
+| Protocol Buffers |     5 |    99 |
+| YAML             |     4 |   259 |
+| NIX              |     3 |   854 |
+| JSON             |     1 |    71 |
+| SERVICE          |     1 |    11 |
+| TOML             |     1 |    68 |
+| MOD              |     1 |    63 |
 
 **Largest files:**
+
 - `nix/modules/nixos.nix` (320 lines)
 - `nix/modules/home-manager.nix` (307 lines)
 - `README.md` (279 lines)

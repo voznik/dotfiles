@@ -1,6 +1,6 @@
 ---
 description: 'Review a pull request'
-targets: ["*"]
+targets: ['*']
 ---
 
 target_pr = $ARGUMENTS
