@@ -14,12 +14,14 @@ Mine conversation history for user feedback patterns (frustrations, corrections,
 ## End Goal
 
 **The purpose of this skill is to update CLAUDE.md files.** Either:
+
 - `~/.claude/CLAUDE.md` (user-level, applies to all projects)
 - `.claude/CLAUDE.md` or `CLAUDE.md` (project-level, applies to current project)
 
 **CRITICAL: Ask scope upfront.** Before doing any analysis, ask the user:
 
 > Which CLAUDE.md would you like me to improve?
+>
 > 1. **User-level** (`~/.claude/CLAUDE.md`) - applies to all projects
 > 2. **Project-level** (`.claude/CLAUDE.md` or `CLAUDE.md`) - applies to current project only
 > 3. **Both** - analyze and propose changes for both files
@@ -27,6 +29,7 @@ Mine conversation history for user feedback patterns (frustrations, corrections,
 This determines which file(s) to read, which patterns are relevant, and where to propose changes.
 
 **CRITICAL:** Before making ANY changes to CLAUDE.md:
+
 1. Ask the user which scope they want (user, project, or both)
 2. Read the existing CLAUDE.md file(s) to understand current rules
 3. Present findings and proposed additions to the user
@@ -41,6 +44,7 @@ Use a "leader + explorer" pattern with subagents:
 2. **Explore agents:** Spawn to search memex, fetch sessions, and gather evidence
 
 Example flow:
+
 ```
 Leader: "I'll analyze your conversation history for patterns. Launching explore agents..."
   -> Explore agent 1: Search for frustration patterns
@@ -65,20 +69,24 @@ Leader: [Makes approved edits]
 ### Negative Signals (frustration, corrections)
 
 **Strong frustration:**
+
 - `fuck`, `fucking`, `ffs`, `wtf`, `shit`, `damn`, `crap`, `goddamn`
 - `ugh`, `argh`, `smh`, `jfc`
 
 **Corrections and negations:**
+
 - `no,`, `no!`, `nope`, `wrong`, `incorrect`, `that's not`
 - `I said`, `I meant`, `I already told you`, `I just said`
 - `don't`, `stop`, `quit`, `never`, `not what I asked`
 
 **Exasperation:**
+
 - `again?`, `still?`, `why do you keep`, `how many times`
 - `I've told you`, `we've been over this`, `for the nth time`
 - `please just`, `can you just`, `just do`
 
 **Disappointment:**
+
 - `disappointing`, `frustrated`, `annoying`, `useless`
 - `doesn't work`, `broken`, `failed`, `messed up`
 - `you broke`, `you deleted`, `you removed`, `you changed`
@@ -86,17 +94,20 @@ Leader: [Makes approved edits]
 ### Positive Signals (praise, successful outcomes)
 
 **Gratitude and approval:**
+
 - `thanks`, `thank you`, `thx`, `ty`, `appreciated`
 - `nice`, `great`, `awesome`, `perfect`, `excellent`
 - `wow`, `amazing`, `impressive`, `love it`, `nailed it`
 - `good job`, `well done`, `exactly`, `yes!`
 
 **Successful completions:**
+
 - `open pr`, `create pr`, `make pr`, `submit pr`
 - `commit`, `push`, `merge`, `ship it`, `deploy`
 - `lgtm`, `approved`, `looks good`
 
 **Progress indicators:**
+
 - `works`, `working`, `fixed`, `solved`, `done`
 - `finally`, `got it`, `that's it`, `bingo`
 
@@ -194,12 +205,14 @@ memex search "cargo|rustc|borrow" --project <PROJECT_NAME> --role user --unique-
 ### Project vs User-Level Patterns
 
 When analyzing project-level scope:
+
 - Focus on patterns specific to this codebase (file structure, naming conventions)
 - Look for stack-specific frustrations (language, framework, build tools)
 - Identify project-specific workflows (deploy process, test commands)
 - Find codebase-specific knowledge (where things are, how they connect)
 
 When analyzing user-level scope:
+
 - Search across ALL projects (omit `--project` flag)
 - Look for behavioral patterns that repeat everywhere
 - Identify universal tool preferences
@@ -230,6 +243,7 @@ Wait for all agents to complete before proceeding.
 ### Phase 3: Proposal (leader -> user)
 
 Present findings to user with:
+
 - Summary of patterns found (positive and negative)
 - Specific proposed additions for each CLAUDE.md
 - Clear before/after showing where text will be added
@@ -259,7 +273,9 @@ Present findings to user with:
 
 **Suggested CLAUDE.md addition:**
 ```
+
 [The actual text to add to CLAUDE.md]
+
 ```
 
 **Scope:** [project|user] - where this should go
@@ -280,7 +296,9 @@ Present findings to user with:
 
 **Suggested CLAUDE.md addition:**
 ```
+
 [The actual text to add to CLAUDE.md - reinforcing the good pattern]
+
 ```
 
 **Scope:** [project|user] - where this should go
@@ -301,6 +319,7 @@ Organize suggestions into these categories:
 ### Negative Example
 
 **Search:**
+
 ```bash
 memex search "you deleted|you removed|you broke" --role user --unique-session --limit 20
 ```
@@ -308,8 +327,10 @@ memex search "you deleted|you removed|you broke" --role user --unique-session --
 **Finding:** 5 sessions where user complained about deleted code
 
 **Suggested addition:**
+
 ```markdown
 # Code Guidelines
+
 - NEVER delete code unless explicitly asked. Comment it out or ask first.
 - When refactoring, preserve all existing functionality unless told to remove it.
 ```
@@ -317,6 +338,7 @@ memex search "you deleted|you removed|you broke" --role user --unique-session --
 ### Positive Example
 
 **Search:**
+
 ```bash
 memex search "wow|amazing|perfect" --role user --unique-session --limit 20
 ```
@@ -324,8 +346,10 @@ memex search "wow|amazing|perfect" --role user --unique-session --limit 20
 **Finding:** 8 sessions where user praised quick PR creation with good descriptions
 
 **Suggested addition:**
+
 ```markdown
 # Workflow
+
 - When asked to create a PR, do it immediately without asking for confirmation.
 - Write concise PR descriptions: summary bullets + test plan. No fluff.
 ```
@@ -361,12 +385,14 @@ memex show <doc_id> --verbose
 When proposing changes, recommend the appropriate scope but **always ask the user** which file to update.
 
 **User-level (~/.claude/CLAUDE.md):**
+
 - General behavioral patterns (communication style, verbosity)
 - Tool preferences that apply everywhere
 - Universal coding practices
 - Cross-project learnings
 
 **Project-level (.claude/CLAUDE.md or CLAUDE.md):**
+
 - Stack-specific preferences
 - Project conventions and patterns
 - Codebase-specific knowledge

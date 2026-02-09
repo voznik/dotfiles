@@ -1,32 +1,16 @@
 return {
   'https://codeberg.org/esensar/nvim-dev-container',
-  -- dependencies = 'nvim-treesitter/nvim-treesitter',
+  dependencies = 'nvim-treesitter/nvim-treesitter',
   config = function()
     require('devcontainer').setup {
       nvim_install_as_root = false,
-      nvim_installation_commands_provider = function(path_binaries, version_string)
-        return {
-          { 'apt-get', 'update' },
-          {
-            'apt-get',
-            '-y',
-            'install',
-            'apt-utils',
-            'curl',
-            'fzf',
-            'ripgrep',
-            'tree',
-            'xclip',
-            'tzdata',
-          },
-          { 'sh', '-c', 'curl -L -o /tmp/nvim-linux-x86_64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz' },
-          { 'sh', '-c', 'tar -xzf /tmp/nvim-linux-x86_64.tar.gz -C /tmp' },
-          { 'sh', '-c', 'mv /tmp/nvim-linux-x86_64 /usr/local/' },
-          { 'sh', '-c', 'ln -s /usr/local/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim' },
-          { 'sh', '-c', 'mkdir -p /tmp/nvim-dev-container' },
-          { 'sh', '-c', 'chown 1000:1000 /tmp/nvim-dev-container' },
-        }
-      end,
+      -- nvim_installation_commands_provider = function(path_binaries, version_string)
+      --   return {
+      --     { 'sh', '-c', 'mkdir -p ~/.local/bin' },
+      --     { 'sh', '-c', 'ln -sf /usr/bin/nvim ~/.local/bin/nvim' },
+      --     { 'sh', '-c', 'mkdir -p /tmp/nvim-dev-container' },
+      --   }
+      -- end,
       -- Can be set to false to prevent generating default commands
       -- Default commands are listed below
       generate_commands = true,
@@ -38,7 +22,7 @@ return {
         -- can be set to true to automatically remove any started containers and any built images when exiting vim
         clean = true,
         -- can be set to true to automatically restart containers when devcontainer.json file is updated
-        update = false,
+        update = true,
       },
       -- can be changed to increase or decrease logging from library
       log_level = 'debug',

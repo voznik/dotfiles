@@ -14,6 +14,7 @@ You now have expertise in conducting comprehensive code reviews. Follow this str
 ### 1. Security (Critical)
 
 Check for:
+
 - [ ] **Injection vulnerabilities**: SQL, command, XSS, template injection
 - [ ] **Authentication issues**: Hardcoded credentials, weak auth
 - [ ] **Authorization flaws**: Missing access controls, IDOR
@@ -32,6 +33,7 @@ grep -r "password\|secret\|api_key" --include="*.py" --include="*.js"
 ### 2. Correctness
 
 Check for:
+
 - [ ] **Logic errors**: Off-by-one, null handling, edge cases
 - [ ] **Race conditions**: Concurrent access without synchronization
 - [ ] **Resource leaks**: Unclosed files, connections, memory
@@ -41,6 +43,7 @@ Check for:
 ### 3. Performance
 
 Check for:
+
 - [ ] **N+1 queries**: Database calls in loops
 - [ ] **Memory issues**: Large allocations, retained references
 - [ ] **Blocking operations**: Sync I/O in async code
@@ -50,6 +53,7 @@ Check for:
 ### 4. Maintainability
 
 Check for:
+
 - [ ] **Naming**: Clear, consistent, descriptive
 - [ ] **Complexity**: Functions > 50 lines, deep nesting > 3 levels
 - [ ] **Duplication**: Copy-pasted code blocks
@@ -59,6 +63,7 @@ Check for:
 ### 5. Testing
 
 Check for:
+
 - [ ] **Coverage**: Critical paths tested
 - [ ] **Edge cases**: Null, empty, boundary values
 - [ ] **Mocking**: External dependencies isolated
@@ -70,20 +75,25 @@ Check for:
 ## Code Review: [file/component name]
 
 ### Summary
+
 [1-2 sentence overview]
 
 ### Critical Issues
+
 1. **[Issue]** (line X): [Description]
    - Impact: [What could go wrong]
    - Fix: [Suggested solution]
 
 ### Improvements
+
 1. **[Suggestion]** (line X): [Description]
 
 ### Positive Notes
+
 - [What was done well]
 
 ### Verdict
+
 [ ] Ready to merge
 [ ] Needs minor changes
 [ ] Needs major revision
@@ -92,6 +102,7 @@ Check for:
 ## Common Patterns to Flag
 
 ### Python
+
 ```python
 # Bad: SQL injection
 cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
@@ -111,18 +122,19 @@ def append(item, lst=None):
 ```
 
 ### JavaScript/TypeScript
+
 ```javascript
 // Bad: Prototype pollution
-Object.assign(target, userInput)
+Object.assign(target, userInput);
 // Good:
-Object.assign(target, sanitize(userInput))
+Object.assign(target, sanitize(userInput));
 
 // Bad: eval usage
-eval(userCode)
+eval(userCode);
 // Good: Never use eval with user input
 
 // Bad: Callback hell
-getData(x => process(x, y => save(y, z => done(z))))
+getData(x => process(x, y => save(y, z => done(z))));
 // Good:
 const data = await getData();
 const processed = await process(data);

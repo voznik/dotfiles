@@ -9,6 +9,9 @@ LUA_PATH = "{{env.XDG_CONFIG_DIR}}/lua/?.lua;;"
 [tool_alias]
 rust = "core:rust" # Use core backend
 
+[tools.rust]
+version = "latest"
+
 [tools]
 # mise registry
 ripgrep = "latest"
@@ -25,7 +28,7 @@ node = "24"
 bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:@fission-ai/openspec" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
-"npm:@google/gemini-cli" = "latest"
+"npm:@google/gemini-cli" = "0.27.3"
 "npm:@google/jules" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
@@ -52,7 +55,7 @@ ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
 "pipx:claude-monitor" = "latest"
-# git registry
+# gh registry
 "github:block/goose" = "latest"
 "github:anomalyco/opencode" = { version = "latest" }
 "github:tstack/lnav" = { version = "0.14.0-beta2" }
@@ -61,17 +64,7 @@ ruff = "latest"
 "github:coollabsio/coolify-cli" = "latest"
 "github:nicosuave/memex" = "latest"
 "pipx:trilium-alchemy" = "latest"
-# oxc
-# "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
 
-[shell_alias]
-# Map the specific binaries released by that repo to shorter commands
-# oxlint = "oxc-project-oxc-oxlint"
-oxfmtb = "oxfmt-linux-x64-gnu"
-
-# 
-rust = "latest"
-"github:cargo-bins/cargo-binstall" = "latest"
 # 
 lua-language-server = "latest"
 stylua = "latest"
@@ -79,6 +72,8 @@ shfmt = "latest"
 taplo = "latest"
 act = "latest"
 "pipx:mcp-proxy" = "latest"
+zola = "latest"
+"github:trailbaseio/trailbase" = "latest"
 # 
 # "http:packages.httpie.io/binaries/linux/http-latest" = { version = "latest", bin = "httpie" }
 [tools."http:httpie"]

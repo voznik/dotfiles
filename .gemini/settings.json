@@ -5,11 +5,7 @@
     "plan": true
   },
   "hooks": {
-    "enabled": [
-      "BeforeModel",
-      "BeforeTool",
-      "AfterTool"
-    ],
+    "enabled": ["BeforeModel", "BeforeTool", "AfterTool"],
     "BeforeModel": [
       {
         "hooks": [
@@ -106,6 +102,8 @@
     "footer": {
       "hideContextPercentage": false
     },
+    "dynamicWindowTitle": false,
+    "hideTips": true,
     "showMemoryUsage": true,
     "showLineNumbers": true,
     "showModelInfoInChat": true,
@@ -113,7 +111,7 @@
       "enableLoadingPhrases": false
     },
     "hideBanner": true,
-    "useAlternateBuffer": true,
+    "useAlternateBuffer": false,
     "theme": "Dracula"
   },
   "telemetry": {
@@ -145,22 +143,17 @@
       "Replace(~/.gemini)"
     ],
     "shell": {
-      "showColor": true
-    }
+      "showColor": true,
+      "enableInteractiveShell": false
+    },
+    "enableToolOutputTruncation": false
   },
   "mcp": {
-    "allowed": [
-      "context7",
-      "basic-memory",
-      "github-mcp-server"
-    ]
+    "allowed": ["context7", "basic-memory", "github-mcp-server"]
   },
   "context": {
     "discoveryMaxDirs": 10,
-    "fileName": [
-      "AGENTS.md",
-      "GEMINI.md"
-    ]
+    "fileName": ["AGENTS.md", "GEMINI.md"]
   },
   "model": {
     "compressionThreshold": 0.2
@@ -197,26 +190,19 @@
     "basic-memory": {
       "type": "stdio",
       "command": "basic-memory",
-      "args": [
-        "mcp"
-      ],
+      "args": ["mcp"],
       "env": {}
     },
     "github-mcp-server": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": [
-        "stdio",
-        "--log-file=/tmp/github-mcp-server.log"
-      ],
+      "args": ["stdio", "--log-file=/tmp/github-mcp-server.log"],
       "env": {}
     },
     "rulesync-mcp": {
       "type": "stdio",
       "command": "rulesync",
-      "args": [
-        "mcp"
-      ],
+      "args": ["mcp"],
       "env": {}
     }
   }

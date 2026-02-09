@@ -55,5 +55,10 @@
     "bindings": {
       "ctrl-shift-r": null
     }
+  },
+  {
+    "bindings": {
+      "ctrl-q": null
+    }
   }
 ]

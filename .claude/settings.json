@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_SHELL": "bash"
   },
   "permissions": {
     "allow": [
@@ -14,6 +15,8 @@
       "Bash(wc:*)"
     ],
     "deny": [
+      "Read(~/.ssh/id*)",
+      "Read(~/.env*)",
       "Read(**/credentials)",
       "Read(**/*.env*)",
       "Bash(apt*)",
@@ -24,7 +27,19 @@
       "Bash(sudo*)"
     ]
   },
+  "model": "sonnet",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/setup-mise.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
@@ -104,6 +119,5 @@
     "type": "command",
     "command": "\"$HOME\"/.claude/scripts/context-bar.sh"
   },
-  "autoUpdates": "disabled",
-  "model": "sonnet"
+  "autoUpdates": "disabled"
 }
