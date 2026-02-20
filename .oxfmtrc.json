@@ -1,0 +1,14 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "htmlWhitespaceSensitivity": "ignore",
+    "jsxBracketSameLine": true,
+    "printWidth": 100,
+    "experimentalSortPackageJson": false,
+    "ignorePatterns": ["/dist", "/tmp", "/.cache", "/node_*", "/out", "/coverage"]
+}

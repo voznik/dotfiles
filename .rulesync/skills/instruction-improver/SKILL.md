@@ -1,14 +1,14 @@
 ---
 name: instruction-improver
 description: >-
-  Search memex for user feedback patterns (frustration, corrections, praise,
-  successful outcomes) to identify recurring mistakes and wins, then generate
-  CLAUDE.md or AGENTS.md improvements.
+    Search memex for user feedback patterns (frustration, corrections, praise,
+    successful outcomes) to identify recurring mistakes and wins, then generate
+    CLAUDE.md or AGENTS.md improvements.
 targets:
-  - '*'
+    - '*'
 claudecode:
-  allowed-tools:
-    - 'Bash(memex:*)'
+    allowed-tools:
+        - 'Bash(memex:*)'
 ---
 
 # Instruction Improver
@@ -241,8 +241,8 @@ Wait for all agents to complete before proceeding.
 1. **Review agent findings** - identify recurring themes
 2. **Cross-reference with existing rules** - avoid duplicates
 3. **Categorize by scope:**
-   - User-level: general behaviors, universal preferences
-   - Project-level: stack-specific, codebase-specific
+    - User-level: general behaviors, universal preferences
+    - Project-level: stack-specific, codebase-specific
 
 ### Phase 3: Proposal (leader -> user)
 

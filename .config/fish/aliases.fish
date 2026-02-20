@@ -2,3 +2,4 @@ alias docker_gpu='sudo docker run -it --network=host --device=/dev/kfd --device=
 alias lazypodman='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker'
 # alias jcl 'journalctl -f -o json --since "1 hour ago" | lnav'
 alias ksh='killssh'
+alias coolify="coolify --token '$COOLIFY_API_TOKEN'"

@@ -1,10 +1,10 @@
 ---
 name: gemini-delegator
 description: >-
-  Automatically delegate complex, logic-intensive tasks to Gemini CLI via
-  `gemini --yolo`. Claude Code uses this skill to invoke Gemini for complex
-  backend logic, intricate algorithms, or persistent bugs. Enables seamless
-  AI-to-AI collaboration where Claude Code analyzes and Gemini executes.
+    Automatically delegate complex, logic-intensive tasks to Gemini CLI via
+    `gemini --yolo`. Claude Code uses this skill to invoke Gemini for complex
+    backend logic, intricate algorithms, or persistent bugs. Enables seamless
+    AI-to-AI collaboration where Claude Code analyzes and Gemini executes.
 ---
 
 # Gemini Delegator
@@ -19,20 +19,20 @@ When Claude Code determines a task is suitable for delegation:
 
 1. **Analysis Phase**: Claude Code analyzes the task complexity, context, and requirements
 2. **Decision**: Determines if delegation would be beneficial based on:
-   - Task has been attempted 2+ times without success
-   - High logic complexity (nested conditions, complex algorithms)
-   - Backend/algorithm intensive work
-   - Need for different problem-solving approach
+    - Task has been attempted 2+ times without success
+    - High logic complexity (nested conditions, complex algorithms)
+    - Backend/algorithm intensive work
+    - Need for different problem-solving approach
 
 3. **Delegation**: Automatically invokes Gemini:
 
-   ```bash
-   gemini --model gemini-2.5-pro --yolo "detailed task context with:
-   - Problem description
-   - Architecture and constraints
-   - Previous attempts and failures
-   - Success criteria"
-   ```
+    ```bash
+    gemini --model gemini-2.5-pro --yolo "detailed task context with:
+    - Problem description
+    - Architecture and constraints
+    - Previous attempts and failures
+    - Success criteria"
+    ```
 
 4. **Validation**: Claude Code reviews Gemini's solution for correctness and completeness
 5. **Integration**: Returns validated solution to user with transparency about using Gemini
@@ -44,31 +44,31 @@ When Claude Code determines a task is suitable for delegation:
 Activate this skill specifically for:
 
 1. **Complex Backend Logic**
-   - Intricate business logic implementations
-   - Complex data processing pipelines
-   - Sophisticated algorithm implementations
-   - Multi-layered service architectures
-   - Advanced state management systems
+    - Intricate business logic implementations
+    - Complex data processing pipelines
+    - Sophisticated algorithm implementations
+    - Multi-layered service architectures
+    - Advanced state management systems
 
 2. **Logic-Intensive Problems**
-   - Complex conditional logic with many edge cases
-   - Intricate data transformations
-   - Complex query optimization
-   - Advanced caching strategies
-   - Sophisticated error handling flows
+    - Complex conditional logic with many edge cases
+    - Intricate data transformations
+    - Complex query optimization
+    - Advanced caching strategies
+    - Sophisticated error handling flows
 
 3. **Persistent Unsolved Problems**
-   - Bugs that remain after multiple fix attempts
-   - Performance issues that resist optimization
-   - Race conditions and concurrency problems
-   - Memory leaks that are hard to track
-   - Integration issues between complex systems
+    - Bugs that remain after multiple fix attempts
+    - Performance issues that resist optimization
+    - Race conditions and concurrency problems
+    - Memory leaks that are hard to track
+    - Integration issues between complex systems
 
 4. **When Different Perspective Needed**
-   - Tasks attempted multiple times without success
-   - Problems requiring alternative approaches
-   - Situations where fresh analysis would help
-   - Complex refactoring that's gotten stuck
+    - Tasks attempted multiple times without success
+    - Problems requiring alternative approaches
+    - Situations where fresh analysis would help
+    - Complex refactoring that's gotten stuck
 
 ## DO NOT Use This Skill For
 
@@ -326,15 +326,15 @@ After Gemini provides solution:
 
 2. **Run Tests**
 
-   ```bash
-   npm test
-   # or appropriate test command
-   ```
+    ```bash
+    npm test
+    # or appropriate test command
+    ```
 
 3. **Performance Testing**
-   - Benchmark critical paths
-   - Load testing for backend changes
-   - Profile memory usage
+    - Benchmark critical paths
+    - Load testing for backend changes
+    - Profile memory usage
 
 ## Integration with Claude Code Workflow
 
@@ -345,12 +345,12 @@ This skill enables seamless AI-to-AI collaboration:
 1. **User Request**: "Fix this race condition bug that I've been trying to solve for hours"
 2. **Claude Code Analysis**: Recognizes this fits delegation criteria (persistent problem, complex)
 3. **Automatic Delegation**:
-   ```bash
-   gemini --model gemini-2.5-pro --yolo "Debug race condition in payment processing:
-   [Full context from previous attempts]
-   [Architecture details]
-   [Attempted fixes and why they failed]"
-   ```
+    ```bash
+    gemini --model gemini-2.5-pro --yolo "Debug race condition in payment processing:
+    [Full context from previous attempts]
+    [Architecture details]
+    [Attempted fixes and why they failed]"
+    ```
 4. **Gemini Execution**: Analyzes, generates solution, applies fix
 5. **Claude Code Validation**: Reviews solution, runs tests, checks integration
 6. **User Response**: "I've used Gemini to fix the race condition. The issue was... [explanation]"

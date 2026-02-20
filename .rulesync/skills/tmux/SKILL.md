@@ -1,10 +1,10 @@
 ---
 name: tmux
 description: >-
-  Remote-control tmux sessions for interactive CLIs by sending keystrokes and
-  scraping pane output.
+    Remote-control tmux sessions for interactive CLIs by sending keystrokes and
+    scraping pane output.
 targets:
-  - '*'
+    - '*'
 ---
 
 # tmux Skill (Clawdbot)

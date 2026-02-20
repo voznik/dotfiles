@@ -136,8 +136,23 @@ shilocation
 # Config
 .config/BraveSoftware
 .config/gcloud
+
+.claude/*
+!.claude/settings.json
+!.claude/skills
+!.claude/scripts
+!.claude/commands
+
 .gemini/*
 !.gemini/settings.json
+!.gemini/skills
+!.gemini/commands
+!.gemini/AGENTS.md
+
+.opencode/*
+!.opencode/oepncode.json
+!.opencode/skill
+!.opencode/command
 
 .config/doublecmd/*
 !.config/doublecmd/doublecmd.xml

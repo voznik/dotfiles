@@ -1,11 +1,11 @@
 ---
 name: code-review
 description: >-
-  Perform thorough code reviews with security, performance, and maintainability
-  analysis. Use when user asks to review code, check for bugs, or audit a
-  codebase.
+    Perform thorough code reviews with security, performance, and maintainability
+    analysis. Use when user asks to review code, check for bugs, or audit a
+    codebase.
 targets:
-  - '*'
+    - '*'
 ---
 
 # Code Review Skill
@@ -84,8 +84,8 @@ Check for:
 ### Critical Issues
 
 1. **[Issue]** (line X): [Description]
-   - Impact: [What could go wrong]
-   - Fix: [Suggested solution]
+    - Impact: [What could go wrong]
+    - Fix: [Suggested solution]
 
 ### Improvements
 
