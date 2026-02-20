@@ -19,9 +19,17 @@ mkdir -p "$SOCKET_DIR"
 SOCKET="$SOCKET_DIR/clawdbot.sock"
 SESSION=clawdbot-python
 
+# Always detect base indices to avoid "can't find window: 0" errors
+B_IDX=$(tmux -S "$SOCKET" show-options -gv base-index 2>/dev/null || echo 0)
+P_IDX=$(tmux -S "$SOCKET" show-options -gv pane-base-index 2>/dev/null || echo 0)
+TARGET="$SESSION:$B_IDX.$P_IDX"
+
 tmux -S "$SOCKET" new -d -s "$SESSION" -n shell
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 -- 'PYTHON_BASIC_REPL=1 python3 -q' Enter
-tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -200
+tmux -S "$SOCKET" send-keys -t "$TARGET" -- 'PYTHON_BASIC_REPL=1 python3 -q' Enter
+
+# Use wait-for-text instead of blind sleeps
+# {baseDir}/scripts/wait-for-text.sh -t "$TARGET" -p '>>>'
+tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200
 ```
 
 After starting a session, always print monitor commands:
@@ -29,7 +37,7 @@ After starting a session, always print monitor commands:
 ```
 To monitor:
   tmux -S "$SOCKET" attach -t "$SESSION"
-  tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -200
+  tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200
 ```
 
 ## Socket convention
@@ -39,7 +47,9 @@ To monitor:
 
 ## Targeting panes and naming
 
-- Target format: `session:window.pane` (defaults to `:0.0`).
+- **CRITICAL**: Do NOT assume `:0.0`. Detect `base-index` and `pane-base-index`.
+- Target format: `session:window.pane`.
+- Alternative: Use `session:active` for the currently focused pane.
 - Keep names short; avoid spaces.
 - Inspect: `tmux -S "$SOCKET" list-sessions`, `tmux -S "$SOCKET" list-panes -a`.
 
@@ -50,13 +60,13 @@ To monitor:
 
 ## Sending input safely
 
-- Prefer literal sends: `tmux -S "$SOCKET" send-keys -t target -l -- "$cmd"`.
-- Control keys: `tmux -S "$SOCKET" send-keys -t target C-c`.
+- Prefer literal sends: `tmux -S "$SOCKET" send-keys -t "$TARGET" -l -- "$cmd"`.
+- Control keys: `tmux -S "$SOCKET" send-keys -t "$TARGET" C-c`.
 
 ## Watching output
 
-- Capture recent history: `tmux -S "$SOCKET" capture-pane -p -J -t target -S -200`.
-- Wait for prompts: `{baseDir}/scripts/wait-for-text.sh -t session:0.0 -p 'pattern'`.
+- Capture recent history: `tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200`.
+- Wait for prompts: `{baseDir}/scripts/wait-for-text.sh -t "$TARGET" -p 'pattern'`.
 - Attaching is OK; detach with `Ctrl+b d`.
 
 ## Spawning processes

@@ -27,16 +27,31 @@
   "mcp": {
     "context7": {
       "type": "local",
-      "command": ["context7-mcp"]
+      "command": ["context7-mcp"],
+      "enabled": true,
+      "environment": {}
     },
     "basic-memory": {
       "type": "local",
       "command": ["basic-memory", "mcp"],
-      "enabled": true
+      "enabled": true,
+      "environment": {}
     },
     "github-mcp-server": {
       "type": "local",
-      "command": ["github-mcp-server", "stdio", "--log-file=/tmp/github-mcp-server.log"]
+      "command": [
+        "github-mcp-server",
+        "stdio",
+        "--log-file=/tmp/github-mcp-server.log"
+      ],
+      "enabled": true,
+      "environment": {}
+    },
+    "rulesync-mcp": {
+      "type": "local",
+      "command": ["rulesync", "mcp"],
+      "enabled": true,
+      "environment": {}
     }
   },
   "instructions": ["AGENTS.md", "~/.ai/AGENTS.md", ".cursor/rules/*.md"],

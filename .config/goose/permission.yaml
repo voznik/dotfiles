@@ -1,0 +1,7 @@
+user:
+  always_allow:
+    - todo__todo_write
+    - repomix__file_system_read_file
+    - todo_write
+  ask_before: []
+  never_allow: []

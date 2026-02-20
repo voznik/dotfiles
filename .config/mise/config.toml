@@ -12,6 +12,15 @@ rust = "core:rust" # Use core backend
 [tools.rust]
 version = "latest"
 
+[tools.go]
+version = "latest"
+
+[tools.node]
+version = "24"
+
+[tools.python]
+version = "3.13"
+
 [tools]
 # mise registry
 ripgrep = "latest"
@@ -23,12 +32,14 @@ gh = "latest"
 glab = "latest"
 glow = "latest"
 navi = "latest"
+rustic = "latest"
+restic = "latest"
+
 # npm registry
-node = "24"
 bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:@fission-ai/openspec" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
-"npm:@google/gemini-cli" = "0.27.3"
+"npm:@google/gemini-cli" = "latest"
 "npm:@google/jules" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:repomix" = "latest"
@@ -36,18 +47,17 @@ bun = { version = "latest", postinstall = "bun install -g tokscale" }
 "npm:@biomejs/biome" = "latest"
 "npm:@karakeep/cli" = "latest"
 "npm:markdownlint" = "latest"
-"npm:moltbot" = "latest"
 "npm:oxfmt" = "latest"
 "npm:oxlint" = "latest"
+
 # MCPs
 "npm:@upstash/context7-mcp" = "latest"
 "pipx:basic-memory" = { version = "latest", uvx_args = "--python 3.14" }
-"pipx:git+https://github.com/github/spec-kit.git" = "latest"
 "pipx:git+https://github.com/oraios/serena.git" = { version = "latest", uvx_args = "--python 3.12" }
+"pipx:mcp-proxy" = "latest"
 "github:github/github-mcp-server" = "latest"
-#
+
 # pip registry
-python = "3.13"
 uv = "latest"
 poetry = "latest"
 cookiecutter = "latest"
@@ -55,6 +65,7 @@ ruff = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:buku" = "latest"
 "pipx:claude-monitor" = "latest"
+
 # gh registry
 "github:block/goose" = "latest"
 "github:anomalyco/opencode" = { version = "latest" }
@@ -64,17 +75,21 @@ ruff = "latest"
 "github:coollabsio/coolify-cli" = "latest"
 "github:nicosuave/memex" = "latest"
 "pipx:trilium-alchemy" = "latest"
+"github:amir20/dtop" = "latest"
+"github:trailbaseio/trailbase" = "latest"
+# oxc
+# "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
 
-# 
-lua-language-server = "latest"
+# lua-language-server = "latest"
 stylua = "latest"
 shfmt = "latest"
 taplo = "latest"
 act = "latest"
-"pipx:mcp-proxy" = "latest"
 zola = "latest"
-"github:trailbaseio/trailbase" = "latest"
-# 
+
+# go
+"go:github.com/steveyegge/beads/cmd/bd" = "latest"
+
 # "http:packages.httpie.io/binaries/linux/http-latest" = { version = "latest", bin = "httpie" }
 [tools."http:httpie"]
 version = "latest"
