@@ -39,11 +39,11 @@ Common validation errors by priority:
 
 ```json
 {
-    "type": "missing_required",
-    "property": "channel",
-    "message": "Channel name is required",
-    "node": "Slack",
-    "path": "parameters.channel"
+  "type": "missing_required",
+  "property": "channel",
+  "message": "Channel name is required",
+  "node": "Slack",
+  "path": "parameters.channel"
 }
 ```
 
@@ -72,7 +72,7 @@ Common validation errors by priority:
 ```javascript
 // Use get_node to see what's required
 const info = get_node({
-    nodeType: 'nodes-base.slack',
+  nodeType: 'nodes-base.slack',
 });
 // Check properties marked as "required": true
 ```
@@ -83,11 +83,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "missing_required",
-    "property": "url",
-    "message": "URL is required for HTTP Request",
-    "node": "HTTP Request",
-    "path": "parameters.url"
+  "type": "missing_required",
+  "property": "url",
+  "message": "URL is required for HTTP Request",
+  "node": "HTTP Request",
+  "path": "parameters.url"
 }
 ```
 
@@ -117,11 +117,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "missing_required",
-    "property": "query",
-    "message": "SQL query is required",
-    "node": "Postgres",
-    "path": "parameters.query"
+  "type": "missing_required",
+  "property": "query",
+  "message": "SQL query is required",
+  "node": "Postgres",
+  "path": "parameters.query"
 }
 ```
 
@@ -149,11 +149,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "missing_required",
-    "property": "body",
-    "message": "Request body is required when sendBody is true",
-    "node": "HTTP Request",
-    "path": "parameters.body"
+  "type": "missing_required",
+  "property": "body",
+  "message": "Request body is required when sendBody is true",
+  "node": "HTTP Request",
+  "path": "parameters.body"
 }
 ```
 
@@ -205,11 +205,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_value",
-    "property": "operation",
-    "message": "Operation must be one of: post, update, delete, get",
-    "current": "send",
-    "allowed": ["post", "update", "delete", "get"]
+  "type": "invalid_value",
+  "property": "operation",
+  "message": "Operation must be one of: post, update, delete, get",
+  "current": "send",
+  "allowed": ["post", "update", "delete", "get"]
 }
 ```
 
@@ -237,11 +237,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_value",
-    "property": "method",
-    "message": "Method must be one of: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS",
-    "current": "FETCH",
-    "allowed": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
+  "type": "invalid_value",
+  "property": "method",
+  "message": "Method must be one of: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS",
+  "current": "FETCH",
+  "allowed": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
 }
 ```
 
@@ -269,10 +269,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_value",
-    "property": "channel",
-    "message": "Channel name must start with # and be lowercase (e.g., #general)",
-    "current": "General"
+  "type": "invalid_value",
+  "property": "channel",
+  "message": "Channel name must start with # and be lowercase (e.g., #general)",
+  "current": "General"
 }
 ```
 
@@ -302,11 +302,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_value",
-    "property": "resource",
-    "message": "Resource must be one of: channel, message, user, file",
-    "current": "Message",
-    "allowed": ["channel", "message", "user", "file"]
+  "type": "invalid_value",
+  "property": "resource",
+  "message": "Resource must be one of: channel, message, user, file",
+  "current": "Message",
+  "allowed": ["channel", "message", "user", "file"]
 }
 ```
 
@@ -350,11 +350,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "type_mismatch",
-    "property": "limit",
-    "message": "Expected number, got string",
-    "expected": "number",
-    "current": "100"
+  "type": "type_mismatch",
+  "property": "limit",
+  "message": "Expected number, got string",
+  "expected": "number",
+  "current": "100"
 }
 ```
 
@@ -384,11 +384,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "type_mismatch",
-    "property": "channel",
-    "message": "Expected string, got number",
-    "expected": "string",
-    "current": 12345
+  "type": "type_mismatch",
+  "property": "channel",
+  "message": "Expected string, got number",
+  "expected": "string",
+  "current": 12345
 }
 ```
 
@@ -418,11 +418,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "type_mismatch",
-    "property": "sendHeaders",
-    "message": "Expected boolean, got string",
-    "expected": "boolean",
-    "current": "true"
+  "type": "type_mismatch",
+  "property": "sendHeaders",
+  "message": "Expected boolean, got string",
+  "expected": "boolean",
+  "current": "true"
 }
 ```
 
@@ -452,11 +452,11 @@ const info = get_node({
 
 ```json
 {
-    "type": "type_mismatch",
-    "property": "tags",
-    "message": "Expected array, got object",
-    "expected": "array",
-    "current": { "tag": "important" }
+  "type": "type_mismatch",
+  "property": "tags",
+  "message": "Expected array, got object",
+  "expected": "array",
+  "current": { "tag": "important" }
 }
 ```
 
@@ -501,10 +501,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_expression",
-    "property": "text",
-    "message": "Expressions must be wrapped in {{}}",
-    "current": "$json.name"
+  "type": "invalid_expression",
+  "property": "text",
+  "message": "Expressions must be wrapped in {{}}",
+  "current": "$json.name"
 }
 ```
 
@@ -536,10 +536,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_expression",
-    "property": "value",
-    "message": "Referenced node 'HTTP Requets' does not exist",
-    "current": "={{$node['HTTP Requets'].json.data}}"
+  "type": "invalid_expression",
+  "property": "value",
+  "message": "Referenced node 'HTTP Requets' does not exist",
+  "current": "={{$node['HTTP Requets'].json.data}}"
 }
 ```
 
@@ -567,10 +567,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_expression",
-    "property": "text",
-    "message": "Cannot access property 'user' of undefined",
-    "current": "={{$json.data.user.name}}"
+  "type": "invalid_expression",
+  "property": "text",
+  "message": "Cannot access property 'user' of undefined",
+  "current": "={{$json.data.user.name}}"
 }
 ```
 
@@ -596,10 +596,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_expression",
-    "property": "value",
-    "message": "Property 'email' not found in $json",
-    "current": "={{$json.email}}"
+  "type": "invalid_expression",
+  "property": "value",
+  "message": "Property 'email' not found in $json",
+  "current": "={{$json.email}}"
 }
 ```
 
@@ -643,10 +643,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_reference",
-    "property": "expression",
-    "message": "Node 'Transform Data' does not exist in workflow",
-    "referenced_node": "Transform Data"
+  "type": "invalid_reference",
+  "property": "expression",
+  "message": "Node 'Transform Data' does not exist in workflow",
+  "referenced_node": "Transform Data"
 }
 ```
 
@@ -678,10 +678,10 @@ const info = get_node({
 
 ```json
 {
-    "type": "invalid_reference",
-    "message": "Connection references node 'Slack1' which does not exist",
-    "source": "HTTP Request",
-    "target": "Slack1"
+  "type": "invalid_reference",
+  "message": "Connection references node 'Slack1' which does not exist",
+  "source": "HTTP Request",
+  "target": "Slack1"
 }
 ```
 
@@ -689,12 +689,12 @@ const info = get_node({
 
 ```javascript
 n8n_update_partial_workflow({
-    id: 'workflow-id',
-    operations: [
-        {
-            type: 'cleanStaleConnections',
-        },
-    ],
+  id: 'workflow-id',
+  operations: [
+    {
+      type: 'cleanStaleConnections',
+    },
+  ],
 });
 ```
 
@@ -704,11 +704,11 @@ n8n_update_partial_workflow({
 
 ```json
 {
-    "type": "invalid_reference",
-    "property": "expression",
-    "message": "Node 'Get Weather' does not exist (did you mean 'Weather API'?)",
-    "referenced_node": "Get Weather",
-    "suggestions": ["Weather API"]
+  "type": "invalid_reference",
+  "property": "expression",
+  "message": "Node 'Get Weather' does not exist (did you mean 'Weather API'?)",
+  "referenced_node": "Get Weather",
+  "suggestions": ["Weather API"]
 }
 ```
 
@@ -748,10 +748,10 @@ n8n_update_partial_workflow({
 
 ```json
 {
-    "type": "best_practice",
-    "property": "onError",
-    "message": "Slack API can have rate limits and connection issues",
-    "suggestion": "Add error handling: onError: 'continueRegularOutput'"
+  "type": "best_practice",
+  "property": "onError",
+  "message": "Slack API can have rate limits and connection issues",
+  "suggestion": "Add error handling: onError: 'continueRegularOutput'"
 }
 ```
 
@@ -785,10 +785,10 @@ n8n_update_partial_workflow({
 
 ```json
 {
-    "type": "best_practice",
-    "property": "retryOnFail",
-    "message": "External API calls should retry on failure",
-    "suggestion": "Add retryOnFail: true, maxTries: 3, waitBetweenTries: 1000"
+  "type": "best_practice",
+  "property": "retryOnFail",
+  "message": "External API calls should retry on failure",
+  "suggestion": "Add retryOnFail: true, maxTries: 3, waitBetweenTries: 1000"
 }
 ```
 
@@ -812,11 +812,11 @@ n8n_update_partial_workflow({
 
 ```json
 {
-    "type": "deprecated",
-    "property": "typeVersion",
-    "message": "typeVersion 1 is deprecated for Slack node, use version 2",
-    "current": 1,
-    "recommended": 2
+  "type": "deprecated",
+  "property": "typeVersion",
+  "message": "typeVersion 1 is deprecated for Slack node, use version 2",
+  "current": 1,
+  "recommended": 2
 }
 ```
 
@@ -846,10 +846,10 @@ n8n_update_partial_workflow({
 
 ```json
 {
-    "type": "performance",
-    "property": "query",
-    "message": "SELECT without LIMIT can return massive datasets",
-    "suggestion": "Add LIMIT clause or use pagination"
+  "type": "performance",
+  "property": "query",
+  "message": "SELECT without LIMIT can return massive datasets",
+  "suggestion": "Add LIMIT clause or use pagination"
 }
 ```
 
@@ -991,14 +991,14 @@ result.suggestions.forEach(sug => {
 ```javascript
 // Before configuring, check requirements
 const info = get_node({
-    nodeType: 'nodes-base.slack',
+  nodeType: 'nodes-base.slack',
 });
 
 // Look for required fields
 info.properties.forEach(prop => {
-    if (prop.required) {
-        console.log(`Required: ${prop.name} (${prop.type})`);
-    }
+  if (prop.required) {
+    console.log(`Required: ${prop.name} (${prop.type})`);
+  }
 });
 ```
 

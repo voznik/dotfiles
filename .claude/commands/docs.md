@@ -1,7 +1,6 @@
 Execute the Claude Code Docs helper script at ~/.claude-code-docs/claude-docs-helper.sh
 
 Usage:
-
 - /docs - List all available documentation topics
 - /docs <topic> - Read specific documentation with link to official docs
 - /docs -t - Check sync status without reading a doc
@@ -22,11 +21,11 @@ When showing what's new:
 📚 Recent documentation updates:
 
 • 5 hours ago:
-📎 https://github.com/ericbuess/claude-code-docs/commit/eacd8e1
-📄 data-usage: https://docs.anthropic.com/en/docs/claude-code/data-usage
-➕ Added: Privacy safeguards
-📄 security: https://docs.anthropic.com/en/docs/claude-code/security
-✨ Data flow and dependencies section moved here
+  📎 https://github.com/ericbuess/claude-code-docs/commit/eacd8e1
+  📄 data-usage: https://docs.anthropic.com/en/docs/claude-code/data-usage
+     ➕ Added: Privacy safeguards
+  📄 security: https://docs.anthropic.com/en/docs/claude-code/security
+     ✨ Data flow and dependencies section moved here
 
 📎 Full changelog: https://github.com/ericbuess/claude-code-docs/commits/main/docs
 📚 COMMUNITY MIRROR - NOT AFFILIATED WITH ANTHROPIC

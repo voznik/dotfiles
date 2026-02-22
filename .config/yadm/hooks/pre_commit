@@ -5,22 +5,35 @@
 # yadm diff --cached --name-only returns paths relative to the home directory
 STAGED_FILES=$(yadm diff --cached --name-only --diff-filter=d)
 
+# On --amend with nothing newly staged, fall back to files changed in HEAD
+YADM_GIT_DIR=$(yadm rev-parse --git-dir 2>/dev/null)
+if [ -z "$STAGED_FILES" ] && [ -f "$YADM_GIT_DIR/ORIG_HEAD" ]; then
+    STAGED_FILES=$(yadm diff --name-only --diff-filter=d ORIG_HEAD HEAD)
+fi
+
 if [ -z "$STAGED_FILES" ]; then
     exit 0
 fi
 
+FILES_TO_FORMAT=()
 for FILE in $STAGED_FILES; do
-    # Construct absolute path
     ABS_PATH="$HOME/$FILE"
-    
-    # Only process if it's a regular file and still exists
     if [ -f "$ABS_PATH" ]; then
-        # Run the mise format task
-        # This uses our Lua formatter which handles oxfmt/stylua/ruff/etc.
-        # It also safely handles read-only files.
-        mise run format "$ABS_PATH"
-        
-        # Re-stage the formatted file
-        yadm add "$ABS_PATH"
+        FILES_TO_FORMAT+=("$ABS_PATH")
     fi
 done
+
+if [ ${#FILES_TO_FORMAT[@]} -gt 0 ]; then
+    # Run the mise format task once with all files
+    # This uses our Lua formatter which handles oxfmt/stylua/ruff/etc.
+    # It also safely handles read-only files.
+    mise run format "${FILES_TO_FORMAT[@]}"
+
+    # Brief wait for any async formatter subprocesses to finish writing
+    sleep 0.5
+
+    # Re-stage all formatted files (skip gitignored ones silently)
+    for F in "${FILES_TO_FORMAT[@]}"; do
+        yadm add "$F" 2>/dev/null || true
+    done
+fi

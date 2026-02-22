@@ -1,7 +1,8 @@
 [env]
 _.file = ['.env', '.env.local', '.env.system']
 _.path = "{{env.HOME}}/.bun/bin"
-# 
+# NAVI_PATH = "{{ exec(command='fd -e cheat -E \"*fly*\" . \"' ~ env.HOME ~ '/.local/share/navi/cheats\" | paste -sd \":\" -') }}"
+#
 MISE_NODE_GPG_VERIFY = "false"
 # IMPORTANT USER ENV
 LUA_PATH = "{{env.XDG_CONFIG_DIR}}/lua/?.lua;;"
@@ -31,7 +32,7 @@ duckdb = "latest"
 gh = "latest"
 glab = "latest"
 glow = "latest"
-navi = "latest"
+navi = { version = "latest", postinstall = "bash -c 'if [ -z \"$NAVI_TAG_RULES\" ]; then fd -e cheat fly \"$HOME/.local/share/navi/cheats\" -x mv {} {}.disabled 2>/dev/null; fi'" }
 rustic = "latest"
 restic = "latest"
 
@@ -98,6 +99,7 @@ bin = "httpie" # Rename from docker-compose-linux-x86_64 to docker-compose
 
 #
 [settings]
+env_shell_expand = true
 experimental = true
 status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }
 idiomatic_version_file_enable_tools = ['node']

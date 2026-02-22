@@ -57,10 +57,12 @@ prepend_previewers = [
 ]
 
 [opener]
+edit = [{ run = '${EDITOR:-vi} "$@"', block = true, desc = "Edit" }]
+zed = [{ run = 'zeditor "$@"', orphan = true, desc = "Zed" }]
 lnav = [
   # { run = 'env TERM=xterm-256color COLORTERM= lnav "$1"'
   { run = 'lnav "$1"' },
 ]
 
 [open]
-prepend_rules = [{ url = "*.log", use = "lnav" }]
+prepend_rules = [{ url = "*.log", use = "lnav" }, { mime = "text/*", use = ["edit", "zed"] }]

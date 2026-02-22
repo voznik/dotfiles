@@ -105,14 +105,14 @@ Error Trigger → Log Error → Notify Admin → Retry Logic (optional)
 // Code node - filter issues
 const issues = $input.all();
 return issues
-    .filter(item => item.json.labels.some(l => l.name === 'bug'))
-    .map(item => ({
-        json: {
-            id: item.json.id,
-            title: item.json.title,
-            created_at: item.json.created_at,
-        },
-    }));
+  .filter(item => item.json.labels.some(l => l.name === 'bug'))
+  .map(item => ({
+    json: {
+      id: item.json.id,
+      title: item.json.title,
+      created_at: item.json.created_at,
+    },
+  }));
 ```
 
 ### 2. API to API Integration
@@ -180,7 +180,7 @@ return issues
 
 ```javascript
 {
-    authentication: 'none';
+  authentication: 'none';
 }
 ```
 
@@ -273,21 +273,21 @@ return issues
 ```javascript
 // Entire response
 {
-    {
-        $json;
-    }
+  {
+    $json;
+  }
 }
 
 // Specific fields
 {
-    {
-        $json.data.id;
-    }
+  {
+    $json.data.id;
+  }
 }
 {
-    {
-        $json.results[0].name;
-    }
+  {
+    $json.results[0].name;
+  }
 }
 ```
 
@@ -310,13 +310,13 @@ const items = $input.first().json;
 const currentPage = $json.page || 1;
 
 return [
-    {
-        json: {
-            items: items.results,
-            page: currentPage + 1,
-            has_more: items.next !== null,
-        },
+  {
+    json: {
+      items: items.results,
+      page: currentPage + 1,
+      has_more: items.next !== null,
     },
+  },
 ];
 ```
 
@@ -337,13 +337,13 @@ const linkHeader = $input.first().json.headers['link'];
 const hasNext = linkHeader && linkHeader.includes('rel="next"');
 
 return [
-    {
-        json: {
-            items: $input.first().json.body,
-            has_next: hasNext,
-            next_url: hasNext ? parseNextUrl(linkHeader) : null,
-        },
+  {
+    json: {
+      items: $input.first().json.body,
+      has_next: hasNext,
+      next_url: hasNext ? parseNextUrl(linkHeader) : null,
     },
+  },
 ];
 ```
 
@@ -396,17 +396,17 @@ const maxRetries = 3;
 let retryCount = $json.retryCount || 0;
 
 if ($json.error && retryCount < maxRetries) {
-    const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+  const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
 
-    return [
-        {
-            json: {
-                ...$json,
-                retryCount: retryCount + 1,
-                waitTime: delay,
-            },
-        },
-    ];
+  return [
+    {
+      json: {
+        ...$json,
+        retryCount: retryCount + 1,
+        waitTime: delay,
+      },
+    },
+  ];
 }
 ```
 
@@ -419,17 +419,17 @@ const remaining = parseInt(headers['x-ratelimit-remaining'] || '999');
 const resetTime = parseInt(headers['x-ratelimit-reset'] || '0');
 
 if (remaining < 10) {
-    const now = Math.floor(Date.now() / 1000);
-    const waitSeconds = resetTime - now;
+  const now = Math.floor(Date.now() / 1000);
+  const waitSeconds = resetTime - now;
 
-    return [
-        {
-            json: {
-                shouldWait: true,
-                waitSeconds: Math.max(waitSeconds, 0),
-            },
-        },
-    ];
+  return [
+    {
+      json: {
+        shouldWait: true,
+        waitSeconds: Math.max(waitSeconds, 0),
+      },
+    },
+  ];
 }
 
 return [{ json: { shouldWait: false } }];
@@ -558,7 +558,7 @@ const failures = $json.recentFailures || 0;
 const threshold = 5;
 
 if (failures >= threshold) {
-    throw new Error('Circuit breaker open - too many failures');
+  throw new Error('Circuit breaker open - too many failures');
 }
 
 return [{ json: { canProceed: true } }];
@@ -575,11 +575,11 @@ return [{ json: { canProceed: true } }];
 const response = $input.first().json;
 
 return response.data.items.map(item => ({
-    json: {
-        id: item.id,
-        name: item.attributes.name,
-        email: item.attributes.contact.email,
-    },
+  json: {
+    id: item.id,
+    name: item.attributes.name,
+    email: item.attributes.contact.email,
+  },
 }));
 ```
 
@@ -589,12 +589,12 @@ return response.data.items.map(item => ({
 // Code node - flatten nested array
 const items = $input.all();
 const flattened = items.flatMap(item =>
-    item.json.results.map(result => ({
-        json: {
-            parent_id: item.json.id,
-            ...result,
-        },
-    }))
+  item.json.results.map(result => ({
+    json: {
+      parent_id: item.json.id,
+      ...result,
+    },
+  }))
 );
 
 return flattened;

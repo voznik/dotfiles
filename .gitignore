@@ -158,3 +158,6 @@ shilocation
 !.config/doublecmd/doublecmd.xml
 .config/copyq/*
 !.config/copyq/copyq.conf
+
+!.rulesync/*
+!rulesync.jsonc

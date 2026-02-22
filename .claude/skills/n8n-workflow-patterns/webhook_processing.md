@@ -128,19 +128,19 @@ Webhook → [Validate] → [Transform] → [Action] → [Response/Notify]
 
 ```javascript
 Name: {
-    {
-        $json.body.name;
-    }
+  {
+    $json.body.name;
+  }
 }
 Email: {
-    {
-        $json.body.email;
-    }
+  {
+    $json.body.email;
+  }
 }
 Message: {
-    {
-        $json.body.message;
-    }
+  {
+    $json.body.message;
+  }
 }
 ```
 
@@ -160,7 +160,7 @@ const secret = $credentials.stripeWebhookSecret;
 const expectedSig = crypto.createHmac('sha256', secret).update($input.item.body).digest('hex');
 
 if (signature !== expectedSig) {
-    throw new Error('Invalid webhook signature');
+  throw new Error('Invalid webhook signature');
 }
 
 return $input.item.body; // Return validated body
@@ -235,22 +235,22 @@ URL: {{$json.body.pull_request.html_url}}
 
 ```json
 {
-    "headers": {
-        "content-type": "application/json",
-        "user-agent": "...",
-        "x-custom-header": "..."
-    },
-    "params": {
-        "id": "123" // From URL: /webhook/form/:id
-    },
-    "query": {
-        "token": "abc" // From URL: /webhook/form?token=abc
-    },
-    "body": {
-        // ⚠️ YOUR DATA IS HERE!
-        "name": "John",
-        "email": "john@example.com"
-    }
+  "headers": {
+    "content-type": "application/json",
+    "user-agent": "...",
+    "x-custom-header": "..."
+  },
+  "params": {
+    "id": "123" // From URL: /webhook/form/:id
+  },
+  "query": {
+    "token": "abc" // From URL: /webhook/form?token=abc
+  },
+  "body": {
+    // ⚠️ YOUR DATA IS HERE!
+    "name": "John",
+    "email": "john@example.com"
+  }
 }
 ```
 
@@ -259,50 +259,50 @@ URL: {{$json.body.pull_request.html_url}}
 ```javascript
 // Headers
 {
-    {
-        $json.headers['content-type'];
-    }
+  {
+    $json.headers['content-type'];
+  }
 }
 {
-    {
-        $json.headers['x-api-key'];
-    }
+  {
+    $json.headers['x-api-key'];
+  }
 }
 
 // URL Parameters
 {
-    {
-        $json.params.id;
-    }
+  {
+    $json.params.id;
+  }
 }
 
 // Query Parameters
 {
-    {
-        $json.query.token;
-    }
+  {
+    $json.query.token;
+  }
 }
 {
-    {
-        $json.query.page;
-    }
+  {
+    $json.query.page;
+  }
 }
 
 // Body (MOST COMMON)
 {
-    {
-        $json.body.email;
-    }
+  {
+    $json.body.email;
+  }
 }
 {
-    {
-        $json.body.user.name;
-    }
+  {
+    $json.body.user.name;
+  }
 }
 {
-    {
-        $json.body.items[0].price;
-    }
+  {
+    $json.body.items[0].price;
+  }
 }
 ```
 
@@ -339,12 +339,12 @@ const signature = $input.item.headers['x-signature'];
 const secret = $credentials.webhookSecret;
 
 const calculatedSig = crypto
-    .createHmac('sha256', secret)
-    .update(JSON.stringify($input.item.body))
-    .digest('hex');
+  .createHmac('sha256', secret)
+  .update(JSON.stringify($input.item.body))
+  .digest('hex');
 
 if (signature !== `sha256=${calculatedSig}`) {
-    throw new Error('Invalid signature');
+  throw new Error('Invalid signature');
 }
 
 return $input.item.body;
@@ -395,7 +395,7 @@ return $input.item.body;
 
 ```javascript
 {
-    responseMode: 'lastNode';
+  responseMode: 'lastNode';
 }
 ```
 
@@ -432,7 +432,7 @@ Error Flow:
 
 ```javascript
 {
-    workflowId: 'current-workflow-id';
+  workflowId: 'current-workflow-id';
 }
 ```
 
@@ -518,12 +518,12 @@ curl -X POST https://n8n.example.com/webhook/form-submit \
 - Webhook timeout: 120 seconds (default)
 - For large data, consider async processing:
 
-    ```
-    Webhook → Queue (Redis/DB) → Response (immediate)
+  ```
+  Webhook → Queue (Redis/DB) → Response (immediate)
 
-    Separate Workflow:
-    Schedule → Check Queue → Process
-    ```
+  Separate Workflow:
+  Schedule → Check Queue → Process
+  ```
 
 ### High Volume
 
@@ -546,9 +546,9 @@ curl -X POST https://n8n.example.com/webhook/form-submit \
 
 ```javascript
 {
-    {
-        $json.email;
-    }
+  {
+    $json.email;
+  }
 } // Empty or undefined
 ```
 
@@ -556,9 +556,9 @@ curl -X POST https://n8n.example.com/webhook/form-submit \
 
 ```javascript
 {
-    {
-        $json.body.email;
-    }
+  {
+    $json.body.email;
+  }
 } // Data is under .body
 ```
 

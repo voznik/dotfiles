@@ -24,54 +24,54 @@ mise.toml
 
 ```jsonc
 {
-    "name": "project_dev",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": "..",
+  "name": "project_dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+  },
+  "init": true,
+  "remoteUser": "dev-user",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
+      "userUid": 1000,
+      "userGid": 1001,
     },
-    "init": true,
-    "remoteUser": "dev-user",
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+  },
 
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-            "userUid": 1000,
-            "userGid": 1001,
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {},
+  "mounts": [
+    {
+      "source": "./.devcontainer/bash_history",
+      "target": "/home/dev-user/.bash_history",
+      "type": "bind",
     },
+    { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
+    { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
+  ],
 
-    "mounts": [
-        {
-            "source": "./.devcontainer/bash_history",
-            "target": "/home/dev-user/.bash_history",
-            "type": "bind",
-        },
-        { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
-        { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
-    ],
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+  },
 
-    "containerEnv": {
-        "MISE_DATA_DIR": "/mnt/mise-data",
+  "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:8000:8000"],
+
+  "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
+
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [],
     },
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
-    },
+  },
 
-    "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:8000:8000"],
-
-    "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
-
-    "customizations": {
-        "vscode": {
-            "settings": {},
-            "extensions": [],
-        },
-    },
-
-    "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
+  "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
 }
 ```
 

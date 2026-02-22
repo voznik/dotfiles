@@ -10,13 +10,13 @@ Use features for **system-level concerns only** - languages and CLI tools should
 
 ```json
 {
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user"
-        },
-        "ghcr.io/devcontainers/features/sshd:1": {}
-    }
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  }
 }
 ```
 

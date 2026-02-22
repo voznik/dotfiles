@@ -1,11 +1,10 @@
 ---
 name: memex-search
 description: >-
-    Search, filter, and retrieve Claude/Codex history indexed by the memex CLI.
-    Use when the user wants to index history, run lexical/semantic/hybrid search,
-    fetch full transcripts, or produce LLM-friendly JSON output for RAG.
+  Search, filter, and retrieve Claude/Codex history indexed by the memex CLI.
+  Use when the user wants to index history, run lexical/semantic/hybrid search,
+  fetch full transcripts, or produce LLM-friendly JSON output for RAG.
 ---
-
 # Memex Search
 
 Use this skill to index local history and retrieve results in a structured, LLM-friendly way.
@@ -13,22 +12,22 @@ Use this skill to index local history and retrieve results in a structured, LLM-
 ## Indexing
 
 - Build or update the index (incremental):
-    - `memex index`
+  - `memex index`
 - Continuous index:
-    - `memex index-service enable --continuous`
+  - `memex index-service enable --continuous`
 - Full rebuild (clears index):
-    - `memex reindex`
+  - `memex reindex`
 - Embeddings are on by default.
 - Disable embeddings:
-    - `memex index --no-embeddings`
+  - `memex index --no-embeddings`
 - Backfill embeddings only:
-    - `memex embed`
+  - `memex embed`
 - Common flags:
-    - `--source <path>` for Claude logs
-    - `--include-agents` to include agent transcripts
-    - `--codex/--no-codex` to include or skip Codex logs
-    - `--model <minilm|bge|nomic|gemma|potion>` to select embedding model
-    - `--root <path>` to change data root (default: `~/.memex`)
+  - `--source <path>` for Claude logs
+  - `--include-agents` to include agent transcripts
+  - `--codex/--no-codex` to include or skip Codex logs
+  - `--model <minilm|bge|nomic|gemma|potion>` to select embedding model
+  - `--root <path>` to change data root (default: `~/.memex`)
 
 ## Search (LLM default JSON)
 
@@ -130,15 +129,15 @@ background index service or `index --watch`, and consider setting
 - Semantic: `--semantic`
 - Hybrid (BM25 + vectors, RRF): `--hybrid`
 - Recency tuning:
-    - `--recency-weight <float>`
-    - `--recency-half-life-days <float>`
+  - `--recency-weight <float>`
+  - `--recency-half-life-days <float>`
 
 ## Fetch Full Context
 
 - One record:
-    - `memex show <doc_id>`
+  - `memex show <doc_id>`
 - Full transcript:
-    - `memex session <session_id>`
+  - `memex session <session_id>`
 
 Both commands return JSON by default.
 

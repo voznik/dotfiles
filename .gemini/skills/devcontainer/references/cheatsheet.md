@@ -61,9 +61,9 @@
 ### Run Arguments
 
 - `runArgs`: Array of extra `docker run` arguments
-    - `"--cap-add=SYS_PTRACE"` - Enable debugging
-    - `"--memory=4gb"` - Memory limit
-    - `"--cpus=2"` - CPU limit
+  - `"--cap-add=SYS_PTRACE"` - Enable debugging
+  - `"--memory=4gb"` - Memory limit
+  - `"--cpus=2"` - CPU limit
 
 ### Customizations
 

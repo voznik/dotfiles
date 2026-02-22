@@ -1,12 +1,12 @@
 ---
 name: devcontainer
 description: >-
-    Create, configure, and troubleshoot devcontainer environments using mise for
-    tool/env management. Use when the user asks to set up, modify, or debug a
-    devcontainer, or needs to connect host-side AI tools (claude, opencode,
-    gemini) into a running container.
+  Create, configure, and troubleshoot devcontainer environments using mise for
+  tool/env management. Use when the user asks to set up, modify, or debug a
+  devcontainer, or needs to connect host-side AI tools (claude, opencode,
+  gemini) into a running container.
 targets:
-    - '*'
+  - '*'
 ---
 
 # Devcontainer Skill
@@ -34,26 +34,26 @@ To set up a devcontainer from scratch in a new/empty folder:
 
 1. Create the directory structure:
 
-    ```
-    project/
-    ├── .devcontainer/
-    │   ├── devcontainer.json
-    │   ├── bash_history          # touch this file
-    │   ├── bashrc.override.sh
-    │   └── post-create.sh
-    └── mise.toml
-    ```
+   ```
+   project/
+   ├── .devcontainer/
+   │   ├── devcontainer.json
+   │   ├── bash_history          # touch this file
+   │   ├── bashrc.override.sh
+   │   └── post-create.sh
+   └── mise.toml
+   ```
 
 2. Pick a base image. Use whatever fits the project:
-    - **Third-party app image**: `lscr.io/linuxserver/grav`, `bitnami/wordpress`, `gitea/gitea`
-    - **Official language image**: `python:3.13`, `node:22`, `php:8.3`
-    - **Bare OS**: `ubuntu:24.04`, `debian:bookworm`
-    - **Devcontainer image** (if nothing else fits): `mcr.microsoft.com/devcontainers/base:ubuntu`
+   - **Third-party app image**: `lscr.io/linuxserver/grav`, `bitnami/wordpress`, `gitea/gitea`
+   - **Official language image**: `python:3.13`, `node:22`, `php:8.3`
+   - **Bare OS**: `ubuntu:24.04`, `debian:bookworm`
+   - **Devcontainer image** (if nothing else fits): `mcr.microsoft.com/devcontainers/base:ubuntu`
 
 3. Choose setup mode:
-    - **Simple** (`image`): single container, no external services → use `assets/devcontainer-simple.md`
-    - **Compose** (`dockerComposeFile`): multiple services or existing compose file → use `assets/devcontainer-compose.md`
-    - **Dockerfile** (`build.dockerfile`): need cached system packages → use `assets/devcontainer-dockerfile.md`
+   - **Simple** (`image`): single container, no external services → use `assets/devcontainer-simple.md`
+   - **Compose** (`dockerComposeFile`): multiple services or existing compose file → use `assets/devcontainer-compose.md`
+   - **Dockerfile** (`build.dockerfile`): need cached system packages → use `assets/devcontainer-dockerfile.md`
 
 4. Run: `devcontainer up --workspace-folder .`
 
@@ -78,27 +78,27 @@ These use s6-overlay (needs PID 1), PUID/PGID for permissions, and Alpine's `apk
 ```jsonc
 // devcontainer.json
 {
-    "dockerComposeFile": ["../docker-compose.local.yml"],
-    "service": "app",
-    "workspaceFolder": "/config/www/user", // or wherever the editable content lives
-    "overrideCommand": false,
-    // Do NOT set "init": true - s6-overlay needs PID 1
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-            "userUid": 1000,
-            "userGid": 1001, // Avoid 1000, taken by 'users' group on Alpine
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        // Do NOT use sshd feature on Alpine - install via Dockerfile instead
+  "dockerComposeFile": ["../docker-compose.local.yml"],
+  "service": "app",
+  "workspaceFolder": "/config/www/user", // or wherever the editable content lives
+  "overrideCommand": false,
+  // Do NOT set "init": true - s6-overlay needs PID 1
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
+      "userUid": 1000,
+      "userGid": 1001, // Avoid 1000, taken by 'users' group on Alpine
     },
-    "containerEnv": {
-        "PUID": "1000",
-        "PGID": "1001",
-        "MISE_DATA_DIR": "/mnt/mise-data",
-    },
-    "remoteUser": "dev-user",
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    // Do NOT use sshd feature on Alpine - install via Dockerfile instead
+  },
+  "containerEnv": {
+    "PUID": "1000",
+    "PGID": "1001",
+    "MISE_DATA_DIR": "/mnt/mise-data",
+  },
+  "remoteUser": "dev-user",
 }
 ```
 
@@ -114,22 +114,22 @@ RUN echo "dev-user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/dev-user
 ```yaml
 # docker-compose.local.yml
 services:
-    app:
-        build:
-            context: .
-            dockerfile: .devcontainer/Dockerfile
-        volumes:
-            - .:/opt/project:z # Project source (devcontainer configs, mise.toml)
-            - app_data:/config # Grav persistent data
-        environment:
-            - PUID=1000
-            - PGID=1001
-            - TZ=Etc/UTC
-        ports:
-            - '127.0.0.1:2222:2222'
-            - '127.0.0.1:80:80'
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/opt/project:z # Project source (devcontainer configs, mise.toml)
+      - app_data:/config # Grav persistent data
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=Etc/UTC
+    ports:
+      - '127.0.0.1:2222:2222'
+      - '127.0.0.1:80:80'
 volumes:
-    app_data: {}
+  app_data: {}
 ```
 
 ### Official Language Images (Debian-based)
@@ -138,17 +138,17 @@ These are typically Debian/Ubuntu, so all features work.
 
 ```jsonc
 {
-    "image": "php:8.3-cli",
-    "init": true,
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {},
+  "image": "php:8.3-cli",
+  "init": true,
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
     },
-    "remoteUser": "dev-user",
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+  },
+  "remoteUser": "dev-user",
 }
 ```
 
@@ -162,10 +162,10 @@ Some images have a suitable user already (e.g., `www-data` in PHP/nginx images, 
 
 ```jsonc
 {
-    "containerEnv": {
-        "SHELL": "/bin/bash",
-    },
-    "remoteUser": "www-data",
+  "containerEnv": {
+    "SHELL": "/bin/bash",
+  },
+  "remoteUser": "www-data",
 }
 ```
 
@@ -203,63 +203,63 @@ Before generating config, determine:
 
 ```jsonc
 {
-    "name": "project_dev",
-    "dockerComposeFile": ["../docker-compose.local.yml"],
-    "service": "django",
-    "workspaceFolder": "/app",
-    "init": true,
-    "overrideCommand": false,
-    "remoteUser": "dev-user",
+  "name": "project_dev",
+  "dockerComposeFile": ["../docker-compose.local.yml"],
+  "service": "django",
+  "workspaceFolder": "/app",
+  "init": true,
+  "overrideCommand": false,
+  "remoteUser": "dev-user",
 
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-            "userUid": 1000,
-            "userGid": 1001,
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {},
-        "ghcr.io/devcontainers-extra/features/mkcert:1": {},
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
+      "userUid": 1000,
+      "userGid": 1001,
     },
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainers-extra/features/mkcert:1": {},
+  },
 
-    "mounts": [
-        // Persist bash history across rebuilds
-        {
-            "source": "./.devcontainer/bash_history",
-            "target": "/home/dev-user/.bash_history",
-            "type": "bind",
-        },
-        // Share host aliases
-        { "source": "~/.bash_aliases", "target": "/home/dev-user/.bash_aliases", "type": "bind" },
-        // Share host SSH keys (for git, remote access)
-        { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
-        // Persist mise tool installations across rebuilds
-        { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
-    ],
-
-    "containerEnv": {
-        "MISE_DATA_DIR": "/mnt/mise-data",
+  "mounts": [
+    // Persist bash history across rebuilds
+    {
+      "source": "./.devcontainer/bash_history",
+      "target": "/home/dev-user/.bash_history",
+      "type": "bind",
     },
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+    // Share host aliases
+    { "source": "~/.bash_aliases", "target": "/home/dev-user/.bash_aliases", "type": "bind" },
+    // Share host SSH keys (for git, remote access)
+    { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
+    // Persist mise tool installations across rebuilds
+    { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
+  ],
+
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+  },
+
+  // Use appPort instead of forwardPorts for devcontainer CLI compatibility.
+  // forwardPorts is not yet fully supported by the CLI.
+  // See https://github.com/devcontainers/cli/issues/22
+  "appPort": ["127.0.0.1:2222:2222"],
+
+  "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
+
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [],
     },
+  },
 
-    // Use appPort instead of forwardPorts for devcontainer CLI compatibility.
-    // forwardPorts is not yet fully supported by the CLI.
-    // See https://github.com/devcontainers/cli/issues/22
-    "appPort": ["127.0.0.1:2222:2222"],
-
-    "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
-
-    "customizations": {
-        "vscode": {
-            "settings": {},
-            "extensions": [],
-        },
-    },
-
-    "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
+  "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
 }
 ```
 

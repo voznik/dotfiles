@@ -1,4 +1,9 @@
 [[mgr.prepend_keymap]]
+on = "e"
+run = "open --use=zed"
+desc = "Open with Zed"
+
+[[mgr.prepend_keymap]]
 on = "enter"
 run = "plugin smart-enter"
 desc = "Enter the child directory, or open the file"
@@ -35,6 +40,16 @@ run = "cd ~/workspace"
 desc = "Cd to ~/workspace"
 
 [[mgr.prepend_keymap]]
+on = ["g", "y"]
+run = "cd ~/.config/yazi"
+desc = "Cd to ~/.config/yazi"
+
+[[mgr.prepend_keymap]]
+on = ["g", "R"]
+run = "cd ~/.rulesync"
+desc = "Cd to ~/.rulesync"
+
+[[mgr.prepend_keymap]]
 on = ["g", "r"]
 run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"'
 
@@ -50,10 +65,7 @@ desc = "open with duckdb ui"
 
 [[mgr.prepend_keymap]]
 on = "y"
-run = [
-  'shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list',
-  "yank",
-]
+run = ['shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list', "yank"]
 
 [[mgr.prepend_keymap]]
 on = "<C-d>"

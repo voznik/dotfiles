@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#MISE description="Run rulesync generate with post-processing fixes"
+#MISE dir="{{config_root}}"
+
+set -euo pipefail
+
+FIXES_DIR="$(dirname "$MISE_TASK_DIR")/rulesync.d"
+
+# shellcheck source=../rulesync.d/lib.sh
+source "$FIXES_DIR/lib.sh"
+
+# Parse args
+DRY_RUN=false
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run|--check) DRY_RUN=true ;;
+  esac
+done
+
+# Run rulesync generate, passing through all args
+rulesync generate "$@"
+
+if [[ "$DRY_RUN" == true ]]; then
+  exit 0
+fi
+
+check_deps jq
+
+log "Applying agent-specific fixes..."
+
+failures=()
+for fix in "$FIXES_DIR"/[0-9][0-9]-*.sh; do
+  [[ -f "$fix" ]] || continue
+  name=$(basename "$fix")
+  log "Running: $name"
+  if ( source "$fix" ); then
+    log "  ✓ $name"
+  else
+    log "  ✗ $name (failed — continuing)"
+    failures+=("$name")
+  fi
+done
+
+[[ ${#failures[@]} -eq 0 ]] || { echo "[post-rulesync] FAILED: ${failures[*]}"; exit 1; }
+
+log "Done."

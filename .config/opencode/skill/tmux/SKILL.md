@@ -1,21 +1,20 @@
 ---
 name: tmux
 description: >-
-    Remote-control tmux sessions for interactive CLIs by sending keystrokes and
-    scraping pane output.
+  Remote-control tmux sessions for interactive CLIs by sending keystrokes and
+  scraping pane output.
 ---
-
-# tmux Skill (Clawdbot)
+# tmux Skill
 
 Use tmux only when you need an interactive TTY. Prefer bash background mode for long-running, non-interactive tasks.
 
 ## Quickstart (isolated socket, bash tool)
 
 ```bash
-SOCKET_DIR="${CLAWDBOT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/clawdbot-tmux-sockets}"
+SOCKET_DIR="${TMP_CLI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/tmp-cli-tmux-sockets}"
 mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/clawdbot.sock"
-SESSION=clawdbot-python
+SOCKET="$SOCKET_DIR/tmp-cli.sock"
+SESSION=tmp-cli-python
 
 # Always detect base indices to avoid "can't find window: 0" errors
 B_IDX=$(tmux -S "$SOCKET" show-options -gv base-index 2>/dev/null || echo 0)
@@ -26,7 +25,7 @@ tmux -S "$SOCKET" new -d -s "$SESSION" -n shell
 tmux -S "$SOCKET" send-keys -t "$TARGET" -- 'PYTHON_BASIC_REPL=1 python3 -q' Enter
 
 # Use wait-for-text instead of blind sleeps
-# {baseDir}/scripts/wait-for-text.sh -t "$TARGET" -p '>>>'
+# ~/.rulesync/scripts/wait-for-text.sh -t "$TARGET" -p '>>>'
 tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200
 ```
 
@@ -40,8 +39,8 @@ To monitor:
 
 ## Socket convention
 
-- Use `CLAWDBOT_TMUX_SOCKET_DIR` (default `${TMPDIR:-/tmp}/clawdbot-tmux-sockets`).
-- Default socket path: `"$CLAWDBOT_TMUX_SOCKET_DIR/clawdbot.sock"`.
+- Use `TMP_CLI_TMUX_SOCKET_DIR` (default `${TMPDIR:-/tmp}/tmp-cli-tmux-sockets`).
+- Default socket path: `"$TMP_CLI_TMUX_SOCKET_DIR/tmp-cli.sock"`.
 
 ## Targeting panes and naming
 
@@ -53,8 +52,8 @@ To monitor:
 
 ## Finding sessions
 
-- List sessions on your socket: `{baseDir}/scripts/find-sessions.sh -S "$SOCKET"`.
-- Scan all sockets: `{baseDir}/scripts/find-sessions.sh --all` (uses `CLAWDBOT_TMUX_SOCKET_DIR`).
+- List sessions on your socket: `~/.rulesync/scripts/find-sessions.sh -S "$SOCKET"`.
+- Scan all sockets: `~/.rulesync/scripts/find-sessions.sh --all` (uses `TMP_CLI_TMUX_SOCKET_DIR`).
 
 ## Sending input safely
 
@@ -64,7 +63,7 @@ To monitor:
 ## Watching output
 
 - Capture recent history: `tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200`.
-- Wait for prompts: `{baseDir}/scripts/wait-for-text.sh -t "$TARGET" -p 'pattern'`.
+- Wait for prompts: `~/.rulesync/scripts/wait-for-text.sh -t "$TARGET" -p 'pattern'`.
 - Attaching is OK; detach with `Ctrl+b d`.
 
 ## Spawning processes
@@ -76,12 +75,12 @@ To monitor:
 - tmux is supported on macOS/Linux. On Windows, use WSL and install tmux inside WSL.
 - This skill is gated to `darwin`/`linux` and requires `tmux` on PATH.
 
-## Orchestrating Coding Agents (Codex, Claude Code)
+## Orchestrating Coding Agents (Gemini, Claude Code)
 
 tmux excels at running multiple coding agents in parallel:
 
 ```bash
-SOCKET="${TMPDIR:-/tmp}/codex-army.sock"
+SOCKET="${TMPDIR:-/tmp}/gemini-army.sock"
 
 # Create multiple sessions
 for i in 1 2 3 4 5; do
@@ -89,8 +88,8 @@ for i in 1 2 3 4 5; do
 done
 
 # Launch agents in different workdirs
-tmux -S "$SOCKET" send-keys -t agent-1 "cd /tmp/project1 && codex --yolo 'Fix bug X'" Enter
-tmux -S "$SOCKET" send-keys -t agent-2 "cd /tmp/project2 && codex --yolo 'Fix bug Y'" Enter
+tmux -S "$SOCKET" send-keys -t agent-1 "cd /tmp/project1 && gemini --yolo 'Fix bug X'" Enter
+tmux -S "$SOCKET" send-keys -t agent-2 "cd /tmp/project2 && gemini --yolo 'Fix bug Y'" Enter
 
 # Poll for completion (check if prompt returned)
 for sess in agent-1 agent-2; do
@@ -108,9 +107,9 @@ tmux -S "$SOCKET" capture-pane -p -t agent-1 -S -500
 **Tips:**
 
 - Use separate git worktrees for parallel fixes (no branch conflicts)
-- `pnpm install` first before running codex in fresh clones
+- `pnpm install` first before running gemini in fresh clones
 - Check for shell prompt (`❯` or `$`) to detect completion
-- Codex needs `--yolo` or `--full-auto` for non-interactive fixes
+- gemini needs `--yolo` for non-interactive fixes
 
 ## Cleanup
 
@@ -120,10 +119,10 @@ tmux -S "$SOCKET" capture-pane -p -t agent-1 -S -500
 
 ## Helper: wait-for-text.sh
 
-`{baseDir}/scripts/wait-for-text.sh` polls a pane for a regex (or fixed string) with a timeout.
+`~/.rulesync/scripts/wait-for-text.sh` polls a pane for a regex (or fixed string) with a timeout.
 
 ```bash
-{baseDir}/scripts/wait-for-text.sh -t session:0.0 -p 'pattern' [-F] [-T 20] [-i 0.5] [-l 2000]
+~/.rulesync/scripts/wait-for-text.sh -t session:0.0 -p 'pattern' [-F] [-T 20] [-i 0.5] [-l 2000]
 ```
 
 - `-t`/`--target` pane target (required)

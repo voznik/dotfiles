@@ -1,3 +1,12 @@
+# Activate mise for all shells (including non-interactive, e.g. Claude Code)
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash --shims)"
+fi
+
+if [ -f $HOME/.bash_aliases ]; then
+	source $HOME/.bash_aliases
+fi
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -28,12 +37,7 @@ if [[ -f /usr/share/doc/find-the-command/ftc.bash ]]; then
 fi
 
 
-## Useful aliases
-
-if [ -d $HOME/.bash_aliases ]; then
-	source $HOME/.bash_aliases
-fi
-
+## Useful aliase
 # Replace ls with eza
 if [[ -x /usr/bin/eza ]]; then
   alias ls='eza -al --color=always --group-directories-first --icons'     # preferred listing

@@ -13,5 +13,8 @@
   "diffgutter": true,
   "matchbracestyle": "highlight",
   "mkparents": true,
-  "savecursor": true
+  "savecursor": true,
+  "keymenu": false,
+  "statusformatl": "  micro | $(filename) $(modified)",
+  "statusformatr": "($(line),$(col)) $(lines) | $(opt:filetype) "
 }

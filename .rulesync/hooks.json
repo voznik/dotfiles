@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "command": "$SHELL -c 'mise format'",
+        "timeout": 30,
+        "matcher": "Edit|MultiEdit|Write"
+      }
+    ],
+    "preCompact": [
+      {
+        "type": "command",
+        "command": "bd prime"
+      }
+    ],
+    "preToolUse": [
+      {
+        "type": "command",
+        "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/bash-tool-damage-control.py'",
+        "timeout": 5,
+        "matcher": "Bash"
+      },
+      {
+        "type": "command",
+        "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/edit-tool-damage-control.py'",
+        "timeout": 5,
+        "matcher": "Edit"
+      },
+      {
+        "type": "command",
+        "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/write-tool-damage-control.py'",
+        "timeout": 5,
+        "matcher": "Write"
+      },
+      {
+        "type": "command",
+        "command": "$HOME/.rulesync/hooks/prevent-main-edit.sh",
+        "timeout": 5,
+        "matcher": "Edit|MultiEdit|Write"
+      },
+      {
+        "type": "command",
+        "command": "$HOME/.claude-code-docs/claude-docs-helper.sh hook-check",
+        "matcher": "Read"
+      }
+    ],
+    "sessionStart": [
+      {
+        "type": "command",
+        "command": "$HOME/.rulesync/hooks/setup.sh",
+        "timeout": 10
+      },
+      {
+        "type": "command",
+        "command": "$HOME/.rulesync/hooks/github-mcp-toggle.sh",
+        "timeout": 5
+      },
+      {
+        "type": "command",
+        "command": "$SHELL -c 'bd prime'"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "type": "command",
+        "command": "$HOME/.rulesync/hooks/skill-eval/skill-eval.sh",
+        "timeout": 5
+      }
+    ]
+  }
+}

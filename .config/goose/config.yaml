@@ -1,10 +1,12 @@
-GOOSE_MODE: approve
 GOOSE_RECIPE_PATH: $HOME/.ai/recipes
 GOOSE_PROMPT_PATH: $HOME/.ai/prompts
 OLLAMA_HOST: localhost
 GOOSE_PROVIDER: gemini-cli
 GOOSE_MODEL: gemini-2.5-pro
 GEMINI_CLI_COMMAND: gemini
+GOOSE_CLI_MIN_PRIORITY: 0.0
+GOOSE_MODE: smart_approve
+GOOSE_ENABLE_ROUTER: false
 extensions:
   developer:
     enabled: true
@@ -52,7 +54,7 @@ extensions:
     enabled: true
     type: stdio
     name: context7
-    description: ""
+    description: ''
     cmd: context7-mcp
     args: []
     envs: {}
@@ -124,7 +126,23 @@ extensions:
     display_name: Apps
     bundled: true
     available_tools: []
+  tom:
+    enabled: true
+    type: platform
+    name: tom
+    description: Inject custom context into every turn via GOOSE_MOIM_MESSAGE_TEXT and GOOSE_MOIM_MESSAGE_FILE environment variables
+    display_name: Top Of Mind
+    bundled: true
+    available_tools: []
+  summon:
+    enabled: true
+    type: platform
+    name: summon
+    description: Load knowledge and delegate tasks to subagents
+    display_name: Summon
+    bundled: true
+    available_tools: []
 CLAUDE_CODE_COMMAND: claude
-OPENAI_HOST: https://api.mistral.ai
-OPENAI_BASE_PATH: v1/chat/completions
+# OPENAI_HOST: https://api.mistral.ai
+# OPENAI_BASE_PATH: v1/chat/completions
 GOOSE_TELEMETRY_ENABLED: false

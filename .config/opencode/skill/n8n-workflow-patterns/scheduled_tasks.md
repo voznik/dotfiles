@@ -383,7 +383,7 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```javascript
 // In workflow settings
 {
-    timezone: 'America/New_York'; // EST/EDT
+  timezone: 'America/New_York'; // EST/EDT
 }
 ```
 
@@ -642,7 +642,7 @@ Schedule (9 AM)  // 9 AM in which timezone?
 ```javascript
 // Workflow settings
 {
-    timezone: 'America/New_York';
+  timezone: 'America/New_York';
 }
 ```
 

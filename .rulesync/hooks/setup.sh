@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [ -n "$CLAUDE_ENV_FILE" ]; then
+if [ -n "$CLAUDE_ENV_FILE" ] || [ -n "$GEMINI_CLI" ]; then
+	export SHELL=bash
 	# Load mise environment
 	eval "$(mise env -s bash)" 2>/dev/null
 

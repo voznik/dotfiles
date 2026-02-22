@@ -445,17 +445,17 @@ Error Trigger:
 const sourceData = $input.all();
 
 return sourceData.map(item => ({
-    json: {
-        // Source → Target mapping
-        user_id: item.json.id,
-        full_name: `${item.json.first_name} ${item.json.last_name}`,
-        email_address: item.json.email,
-        registration_date: new Date(item.json.created_at).toISOString(),
-        // Computed fields
-        is_premium: item.json.plan_type === 'pro',
-        // Default values
-        status: item.json.status || 'active',
-    },
+  json: {
+    // Source → Target mapping
+    user_id: item.json.id,
+    full_name: `${item.json.first_name} ${item.json.last_name}`,
+    email_address: item.json.email,
+    registration_date: new Date(item.json.created_at).toISOString(),
+    // Computed fields
+    is_premium: item.json.plan_type === 'pro',
+    // Default values
+    status: item.json.status || 'active',
+  },
 }));
 ```
 
@@ -464,18 +464,18 @@ return sourceData.map(item => ({
 ```javascript
 // Code node - convert data types
 return $input.all().map(item => ({
-    json: {
-        // String to number
-        user_id: parseInt(item.json.user_id),
-        // String to date
-        created_at: new Date(item.json.created_at),
-        // Number to boolean
-        is_active: item.json.active === 1,
-        // JSON string to object
-        metadata: JSON.parse(item.json.metadata || '{}'),
-        // Null handling
-        email: item.json.email || null,
-    },
+  json: {
+    // String to number
+    user_id: parseInt(item.json.user_id),
+    // String to date
+    created_at: new Date(item.json.created_at),
+    // Number to boolean
+    is_active: item.json.active === 1,
+    // JSON string to object
+    metadata: JSON.parse(item.json.metadata || '{}'),
+    // Null handling
+    email: item.json.email || null,
+  },
 }));
 ```
 
@@ -486,22 +486,22 @@ return $input.all().map(item => ({
 const items = $input.all();
 
 const summary = items.reduce((acc, item) => {
-    const date = item.json.created_at.split('T')[0];
-    if (!acc[date]) {
-        acc[date] = { count: 0, total: 0 };
-    }
-    acc[date].count++;
-    acc[date].total += item.json.amount;
-    return acc;
+  const date = item.json.created_at.split('T')[0];
+  if (!acc[date]) {
+    acc[date] = { count: 0, total: 0 };
+  }
+  acc[date].count++;
+  acc[date].total += item.json.amount;
+  return acc;
 }, {});
 
 return Object.entries(summary).map(([date, data]) => ({
-    json: {
-        date,
-        count: data.count,
-        total: data.total,
-        average: data.total / data.count,
-    },
+  json: {
+    date,
+    count: data.count,
+    total: data.total,
+    average: data.total / data.count,
+  },
 }));
 ```
 
@@ -670,21 +670,21 @@ const name = $json.name;
 
 // Validation
 if (!email || !email.includes('@')) {
-    throw new Error('Invalid email address');
+  throw new Error('Invalid email address');
 }
 
 if (!name || name.length < 2) {
-    throw new Error('Invalid name');
+  throw new Error('Invalid name');
 }
 
 // Sanitization
 return [
-    {
-        json: {
-            email: email.toLowerCase().trim(),
-            name: name.trim(),
-        },
+  {
+    json: {
+      email: email.toLowerCase().trim(),
+      name: name.trim(),
     },
+  },
 ];
 ```
 
@@ -703,12 +703,12 @@ let encrypted = cipher.update($json.sensitive_data, 'utf8', 'hex');
 encrypted += cipher.final('hex');
 
 return [
-    {
-        json: {
-            encrypted_data: encrypted,
-            iv: iv.toString('hex'),
-        },
+  {
+    json: {
+      encrypted_data: encrypted,
+      iv: iv.toString('hex'),
     },
+  },
 ];
 ```
 

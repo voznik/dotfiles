@@ -551,7 +551,7 @@ Error Workflow:
 const result = $input.first().json;
 
 if (!result || !result.data) {
-    throw new Error('Tool returned invalid data');
+  throw new Error('Tool returned invalid data');
 }
 
 return [{ json: result }];
@@ -628,11 +628,11 @@ GRANT SELECT ON public.* TO ai_agent_ro;
 const query = $json.query;
 
 if (
-    query.toLowerCase().includes('drop ') ||
-    query.toLowerCase().includes('delete ') ||
-    query.toLowerCase().includes('update ')
+  query.toLowerCase().includes('drop ') ||
+  query.toLowerCase().includes('delete ') ||
+  query.toLowerCase().includes('update ')
 ) {
-    throw new Error('Invalid query - write operations not allowed');
+  throw new Error('Invalid query - write operations not allowed');
 }
 ```
 
@@ -773,7 +773,7 @@ Tool returns 10MB of data → exceeds token limit
 
 ```javascript
 {
-    query: 'SELECT * FROM table LIMIT 10'; // Only 10 rows
+  query: 'SELECT * FROM table LIMIT 10'; // Only 10 rows
 }
 ```
 

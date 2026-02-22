@@ -23,57 +23,57 @@ mise.toml                 # Tool versions, env vars, tasks
 
 ```jsonc
 {
-    "name": "project_dev",
-    "dockerComposeFile": ["../docker-compose.local.yml"],
-    "service": "app",
-    "workspaceFolder": "/app",
-    "init": true,
-    "overrideCommand": false,
-    "remoteUser": "dev-user",
+  "name": "project_dev",
+  "dockerComposeFile": ["../docker-compose.local.yml"],
+  "service": "app",
+  "workspaceFolder": "/app",
+  "init": true,
+  "overrideCommand": false,
+  "remoteUser": "dev-user",
 
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-            "userUid": 1000,
-            "userGid": 1001,
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {},
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
+      "userUid": 1000,
+      "userGid": 1001,
     },
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+  },
 
-    "mounts": [
-        {
-            "source": "./.devcontainer/bash_history",
-            "target": "/home/dev-user/.bash_history",
-            "type": "bind",
-        },
-        { "source": "~/.bash_aliases", "target": "/home/dev-user/.bash_aliases", "type": "bind" },
-        { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
-        { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
-    ],
-
-    "containerEnv": {
-        "MISE_DATA_DIR": "/mnt/mise-data",
+  "mounts": [
+    {
+      "source": "./.devcontainer/bash_history",
+      "target": "/home/dev-user/.bash_history",
+      "type": "bind",
     },
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+    { "source": "~/.bash_aliases", "target": "/home/dev-user/.bash_aliases", "type": "bind" },
+    { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
+    { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
+  ],
+
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+  },
+
+  // Use appPort for devcontainer CLI compatibility.
+  // forwardPorts is not fully supported by the CLI.
+  "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:8000:8000"],
+
+  "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
+
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [],
     },
+  },
 
-    // Use appPort for devcontainer CLI compatibility.
-    // forwardPorts is not fully supported by the CLI.
-    "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:8000:8000"],
-
-    "runArgs": ["--cap-add=SYS_PTRACE", "--memory=4gb"],
-
-    "customizations": {
-        "vscode": {
-            "settings": {},
-            "extensions": [],
-        },
-    },
-
-    "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
+  "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
 }
 ```
 
@@ -153,34 +153,34 @@ eval "$(ssh-agent -s)"
 
 ```yaml
 volumes:
-    app_postgres_data: {}
+  app_postgres_data: {}
 
 services:
-    app:
-        build:
-            context: .
-            dockerfile: ./compose/local/Dockerfile
-        container_name: app_local
-        depends_on:
-            - postgres
-        volumes:
-            - .:/app:z
-        env_file:
-            - ./.env
-        ports:
-            - '2222:2222'
-            - '8000:8000'
-        command: /start
+  app:
+    build:
+      context: .
+      dockerfile: ./compose/local/Dockerfile
+    container_name: app_local
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.env
+    ports:
+      - '2222:2222'
+      - '8000:8000'
+    command: /start
 
-    postgres:
-        image: postgres:16
-        container_name: app_local_postgres
-        volumes:
-            - app_postgres_data:/var/lib/postgresql/data
-        environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: app
+  postgres:
+    image: postgres:16
+    container_name: app_local_postgres
+    volumes:
+      - app_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
 ```
 
 ### Third-party app image (e.g. linuxserver.io)
@@ -189,23 +189,23 @@ Use any pre-built image directly. The devcontainer attaches to the running servi
 
 ```yaml
 services:
-    app:
-        image: lscr.io/linuxserver/grav
-        container_name: grav_local
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Etc/UTC
-        volumes:
-            - .:/config/www/user # Mount project files into Grav's user dir
-            - grav_data:/config
-        ports:
-            - '2222:2222'
-            - '80:80'
-            - '443:443'
+  app:
+    image: lscr.io/linuxserver/grav
+    container_name: grav_local
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - .:/config/www/user # Mount project files into Grav's user dir
+      - grav_data:/config
+    ports:
+      - '2222:2222'
+      - '80:80'
+      - '443:443'
 
 volumes:
-    grav_data: {}
+  grav_data: {}
 ```
 
 ## CLI Usage

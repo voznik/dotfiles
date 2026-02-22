@@ -14,3 +14,10 @@ if yadm diff --name-only HEAD@{1} HEAD | grep -q ".config/mise/config.toml"; the
     # Using --yes or similar if needed, but mise install is usually non-interactive
     mise install
 fi
+
+# Check if any rulesync config files were changed in the pull
+if yadm diff --name-only HEAD@{1} HEAD | grep -q "^\.rulesync/"; then
+    echo ">>> Rulesync configuration updated. Running mise rulesync..."
+    # Regenerate all AI tool configs from the rulesync source of truth
+    mise rulesync
+fi

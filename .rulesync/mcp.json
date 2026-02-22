@@ -10,13 +10,21 @@
       "type": "stdio",
       "command": "basic-memory",
       "args": ["mcp"],
+      "enabledTools": [
+        "build_context",
+        "read_content",
+        "read_note",
+        "search_notes",
+        "search",
+        "write_note",
+        "edit_note",
+        "recent_activity"
+      ],
       "env": {}
     },
-    "github-mcp-server": {
-      "type": "stdio",
-      "command": "github-mcp-server",
-      "args": ["stdio", "--log-file=/tmp/github-mcp-server.log"],
-      "env": {}
+    "mise": {
+      "command": "mise",
+      "args": ["mcp"]
     },
     "rulesync-mcp": {
       "type": "stdio",

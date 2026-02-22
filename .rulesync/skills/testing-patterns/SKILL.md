@@ -1,11 +1,11 @@
 ---
 name: testing-patterns
 description: >-
-    Jest testing patterns, factory functions, mocking strategies, and TDD
-    workflow. Use when writing unit tests, creating test factories, or following
-    TDD red-green-refactor cycle.
+  Jest testing patterns, factory functions, mocking strategies, and TDD
+  workflow. Use when writing unit tests, creating test factories, or following
+  TDD red-green-refactor cycle.
 targets:
-    - '*'
+  - '*'
 ---
 
 # Testing Patterns and Utilities
@@ -128,9 +128,9 @@ jest.mock('utils/analytics');
 
 // Mock with factory function
 jest.mock('utils/analytics', () => ({
-    Analytics: {
-        logEvent: jest.fn(),
-    },
+  Analytics: {
+    logEvent: jest.fn(),
+  },
 }));
 
 // Access mock in test
@@ -141,16 +141,16 @@ const mockLogEvent = jest.requireMock('utils/analytics').Analytics.logEvent;
 
 ```typescript
 jest.mock('./GetItems.generated', () => ({
-    useGetItemsQuery: jest.fn(),
+  useGetItemsQuery: jest.fn(),
 }));
 
 const mockUseGetItemsQuery = jest.requireMock('./GetItems.generated').useGetItemsQuery as jest.Mock;
 
 // In test
 mockUseGetItemsQuery.mockReturnValue({
-    data: { items: [] },
-    loading: false,
-    error: undefined,
+  data: { items: [] },
+  loading: false,
+  error: undefined,
 });
 ```
 
@@ -158,22 +158,22 @@ mockUseGetItemsQuery.mockReturnValue({
 
 ```typescript
 describe('ComponentName', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    describe('Rendering', () => {
-        it('should render component with default props', () => {});
-        it('should render loading state when loading', () => {});
-    });
+  describe('Rendering', () => {
+    it('should render component with default props', () => {});
+    it('should render loading state when loading', () => {});
+  });
 
-    describe('User interactions', () => {
-        it('should call onPress when button is clicked', async () => {});
-    });
+  describe('User interactions', () => {
+    it('should call onPress when button is clicked', async () => {});
+  });
 
-    describe('Edge cases', () => {
-        it('should handle empty data gracefully', () => {});
-    });
+  describe('Edge cases', () => {
+    it('should handle empty data gracefully', () => {});
+  });
 });
 ```
 
@@ -188,7 +188,7 @@ expect(screen.queryByText('Goodbye')).toBeNull();
 
 // Element appears asynchronously
 await waitFor(() => {
-    expect(screen.findByText('Loaded')).toBeTruthy();
+  expect(screen.findByText('Loaded')).toBeTruthy();
 });
 ```
 
@@ -228,10 +228,10 @@ expect(screen.getByText('John Doe')).toBeTruthy();
 ```typescript
 // Bad - duplicated, inconsistent test data
 it('test 1', () => {
-    const user = { id: '1', name: 'John', email: 'john@test.com', role: 'user' };
+  const user = { id: '1', name: 'John', email: 'john@test.com', role: 'user' };
 });
 it('test 2', () => {
-    const user = { id: '2', name: 'Jane', email: 'jane@test.com' }; // Missing role!
+  const user = { id: '2', name: 'Jane', email: 'jane@test.com' }; // Missing role!
 });
 
 // Good - reusable factory

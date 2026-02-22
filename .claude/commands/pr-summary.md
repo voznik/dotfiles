@@ -11,29 +11,29 @@ Generate a pull request summary for the current branch.
 
 1. **Analyze changes**:
 
-    ```bash
-    git log main..HEAD --oneline
-    git diff main...HEAD --stat
-    ```
+   ```bash
+   git log main..HEAD --oneline
+   git diff main...HEAD --stat
+   ```
 
 2. **Generate summary** with:
-    - Brief description of what changed
-    - List of files modified
-    - Breaking changes (if any)
-    - Testing notes
+   - Brief description of what changed
+   - List of files modified
+   - Breaking changes (if any)
+   - Testing notes
 
 3. **Format as PR body**:
 
-    ```markdown
-    ## Summary
+   ```markdown
+   ## Summary
 
-    [1-3 bullet points describing the changes]
+   [1-3 bullet points describing the changes]
 
-    ## Changes
+   ## Changes
 
-    - [List of significant changes]
+   - [List of significant changes]
 
-    ## Test Plan
+   ## Test Plan
 
-    - [ ] [Testing checklist items]
-    ```
+   - [ ] [Testing checklist items]
+   ```

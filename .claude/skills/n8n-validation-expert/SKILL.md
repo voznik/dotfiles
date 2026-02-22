@@ -1,10 +1,10 @@
 ---
 name: n8n-validation-expert
 description: >-
-    Interpret validation errors and guide fixing them. Use when encountering
-    validation errors, validation warnings, false positives, operator structure
-    issues, or need help understanding validation results. Also use when asking
-    about validation profiles, error types, or the validation loop process.
+  Interpret validation errors and guide fixing them. Use when encountering
+  validation errors, validation warnings, false positives, operator structure
+  issues, or need help understanding validation results. Also use when asking
+  about validation profiles, error types, or the validation loop process.
 ---
 
 # n8n Validation Expert
@@ -45,10 +45,10 @@ Validation is typically iterative:
 
 ```json
 {
-    "type": "missing_required",
-    "property": "channel",
-    "message": "Channel name is required",
-    "fix": "Provide a channel name (lowercase, no spaces, 1-80 characters)"
+  "type": "missing_required",
+  "property": "channel",
+  "message": "Channel name is required",
+  "fix": "Provide a channel name (lowercase, no spaces, 1-80 characters)"
 }
 ```
 
@@ -66,10 +66,10 @@ Validation is typically iterative:
 
 ```json
 {
-    "type": "best_practice",
-    "property": "errorHandling",
-    "message": "Slack API can have rate limits",
-    "suggestion": "Add onError: 'continueRegularOutput' with retryOnFail"
+  "type": "best_practice",
+  "property": "errorHandling",
+  "message": "Slack API can have rate limits",
+  "suggestion": "Add onError: 'continueRegularOutput' with retryOnFail"
 }
 ```
 
@@ -109,14 +109,14 @@ Validation is typically iterative:
 ```javascript
 // Iteration 1
 let config = {
-    resource: 'channel',
-    operation: 'create',
+  resource: 'channel',
+  operation: 'create',
 };
 
 const result1 = validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'runtime',
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'runtime',
 });
 // → Error: Missing "name"
 
@@ -126,9 +126,9 @@ const result1 = validate_node({
 config.name = 'general';
 
 const result2 = validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'runtime',
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'runtime',
 });
 // → Error: Missing "text"
 
@@ -138,9 +138,9 @@ const result2 = validate_node({
 config.text = 'Hello!';
 
 const result3 = validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'runtime',
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'runtime',
 });
 // → Valid! ✅
 ```
@@ -543,9 +543,9 @@ validate_node({
 
 ```javascript
 if (result.valid) {
-    // ✅ Configuration is valid
+  // ✅ Configuration is valid
 } else {
-    // ❌ Has errors - must fix before deployment
+  // ❌ Has errors - must fix before deployment
 }
 ```
 
@@ -553,8 +553,8 @@ if (result.valid) {
 
 ```javascript
 result.errors.forEach(error => {
-    console.log(`Error in ${error.property}: ${error.message}`);
-    console.log(`Fix: ${error.fix}`);
+  console.log(`Error in ${error.property}: ${error.message}`);
+  console.log(`Fix: ${error.fix}`);
 });
 ```
 
@@ -562,9 +562,9 @@ result.errors.forEach(error => {
 
 ```javascript
 result.warnings.forEach(warning => {
-    console.log(`Warning: ${warning.message}`);
-    console.log(`Suggestion: ${warning.suggestion}`);
-    // Decide if you need to address this
+  console.log(`Warning: ${warning.message}`);
+  console.log(`Suggestion: ${warning.suggestion}`);
+  // Decide if you need to address this
 });
 ```
 
@@ -613,7 +613,7 @@ validate_workflow({
 
 ```json
 {
-    "error": "Connection from 'Transform' to 'NonExistent' - target node not found"
+  "error": "Connection from 'Transform' to 'NonExistent' - target node not found"
 }
 ```
 
@@ -623,7 +623,7 @@ validate_workflow({
 
 ```json
 {
-    "error": "Circular dependency detected: Node A → Node B → Node A"
+  "error": "Circular dependency detected: Node A → Node B → Node A"
 }
 ```
 
@@ -633,7 +633,7 @@ validate_workflow({
 
 ```json
 {
-    "warning": "Multiple trigger nodes found - only one will execute"
+  "warning": "Multiple trigger nodes found - only one will execute"
 }
 ```
 
@@ -643,7 +643,7 @@ validate_workflow({
 
 ```json
 {
-    "warning": "Node 'Transform' is not connected to workflow flow"
+  "warning": "Node 'Transform' is not connected to workflow flow"
 }
 ```
 
@@ -684,12 +684,12 @@ validate_workflow({
 
 ```javascript
 n8n_update_partial_workflow({
-    id: 'workflow-id',
-    operations: [
-        {
-            type: 'cleanStaleConnections',
-        },
-    ],
+  id: 'workflow-id',
+  operations: [
+    {
+      type: 'cleanStaleConnections',
+    },
+  ],
 });
 ```
 
@@ -701,14 +701,14 @@ n8n_update_partial_workflow({
 
 ```javascript
 n8n_autofix_workflow({
-    id: 'workflow-id',
-    applyFixes: false, // Preview first
+  id: 'workflow-id',
+  applyFixes: false, // Preview first
 });
 
 // Review fixes, then apply
 n8n_autofix_workflow({
-    id: 'workflow-id',
-    applyFixes: true,
+  id: 'workflow-id',
+  applyFixes: true,
 });
 ```
 

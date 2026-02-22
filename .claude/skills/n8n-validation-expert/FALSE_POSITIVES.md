@@ -48,9 +48,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "best_practice",
-    "message": "No error handling configured",
-    "suggestion": "Add continueOnFail: true and retryOnFail: true"
+  "type": "best_practice",
+  "message": "No error handling configured",
+  "suggestion": "Add continueOnFail: true and retryOnFail: true"
 }
 ```
 
@@ -160,9 +160,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "best_practice",
-    "message": "External API calls should retry on failure",
-    "suggestion": "Add retryOnFail: true with exponential backoff"
+  "type": "best_practice",
+  "message": "External API calls should retry on failure",
+  "suggestion": "Add retryOnFail: true with exponential backoff"
 }
 ```
 
@@ -242,9 +242,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "best_practice",
-    "message": "API may have rate limits",
-    "suggestion": "Add rate limiting or batch requests"
+  "type": "best_practice",
+  "message": "API may have rate limits",
+  "suggestion": "Add rate limiting or batch requests"
 }
 ```
 
@@ -345,9 +345,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "performance",
-    "message": "SELECT without LIMIT can return massive datasets",
-    "suggestion": "Add LIMIT clause or use pagination"
+  "type": "performance",
+  "message": "SELECT without LIMIT can return massive datasets",
+  "suggestion": "Add LIMIT clause or use pagination"
 }
 ```
 
@@ -413,9 +413,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "best_practice",
-    "message": "Webhook doesn't validate input data",
-    "suggestion": "Add IF node to validate required fields"
+  "type": "best_practice",
+  "message": "Webhook doesn't validate input data",
+  "suggestion": "Add IF node to validate required fields"
 }
 ```
 
@@ -500,9 +500,9 @@ Many warnings are context-dependent:
 
 ```json
 {
-    "type": "security",
-    "message": "Credentials should not be hardcoded",
-    "suggestion": "Use n8n credential system"
+  "type": "security",
+  "message": "Credentials should not be hardcoded",
+  "suggestion": "Use n8n credential system"
 }
 ```
 
@@ -566,9 +566,9 @@ Many warnings are context-dependent:
 
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'ai-friendly', // Fewer warnings during development
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'ai-friendly', // Fewer warnings during development
 });
 ```
 
@@ -576,9 +576,9 @@ validate_node({
 
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'runtime', // Balanced validation
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'runtime', // Balanced validation
 });
 ```
 
@@ -586,9 +586,9 @@ validate_node({
 
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'strict', // All warnings, review each one
+  nodeType: 'nodes-base.slack',
+  config,
+  profile: 'strict', // All warnings, review each one
 });
 ```
 
@@ -682,9 +682,9 @@ When accepting a warning, document why:
 
 ```json
 {
-    "type": "metadata_incomplete",
-    "message": "IF node missing conditions.options metadata",
-    "node": "IF"
+  "type": "metadata_incomplete",
+  "message": "IF node missing conditions.options metadata",
+  "node": "IF"
 }
 ```
 
@@ -700,9 +700,9 @@ When accepting a warning, document why:
 
 ```json
 {
-    "type": "configuration_mismatch",
-    "message": "Switch has 3 rules but 4 output connections",
-    "node": "Switch"
+  "type": "configuration_mismatch",
+  "message": "Switch has 3 rules but 4 output connections",
+  "node": "Switch"
 }
 ```
 
@@ -718,8 +718,8 @@ When accepting a warning, document why:
 
 ```json
 {
-    "type": "credentials_invalid",
-    "message": "Cannot validate credentials without execution context"
+  "type": "credentials_invalid",
+  "message": "Cannot validate credentials without execution context"
 }
 ```
 

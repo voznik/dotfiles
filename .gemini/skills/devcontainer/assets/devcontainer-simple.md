@@ -24,59 +24,59 @@ Use any Linux-based image that fits the project. Devcontainer features install o
 
 ```jsonc
 {
-    "name": "project_dev",
-    // Use whatever image fits: app image, language image, or bare OS
-    // Examples:
-    //   "lscr.io/linuxserver/grav"
-    //   "php:8.3-cli"
-    //   "node:22"
-    //   "ubuntu:24.04"
-    "image": "ubuntu:24.04",
-    "init": true,
-    // Set overrideCommand to false when using an app image with its own CMD
-    // "overrideCommand": false,
-    "remoteUser": "dev-user",
+  "name": "project_dev",
+  // Use whatever image fits: app image, language image, or bare OS
+  // Examples:
+  //   "lscr.io/linuxserver/grav"
+  //   "php:8.3-cli"
+  //   "node:22"
+  //   "ubuntu:24.04"
+  "image": "ubuntu:24.04",
+  "init": true,
+  // Set overrideCommand to false when using an app image with its own CMD
+  // "overrideCommand": false,
+  "remoteUser": "dev-user",
 
-    "features": {
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": false,
-            "username": "dev-user",
-            "userUid": 1000,
-            "userGid": 1001,
-        },
-        "ghcr.io/devcontainers-extra/features/mise:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {},
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "username": "dev-user",
+      "userUid": 1000,
+      "userGid": 1001,
     },
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+  },
 
-    "mounts": [
-        {
-            "source": "./.devcontainer/bash_history",
-            "target": "/home/dev-user/.bash_history",
-            "type": "bind",
-        },
-        { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
-        { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
-    ],
-
-    "containerEnv": {
-        "MISE_DATA_DIR": "/mnt/mise-data",
+  "mounts": [
+    {
+      "source": "./.devcontainer/bash_history",
+      "target": "/home/dev-user/.bash_history",
+      "type": "bind",
     },
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+    { "source": "~/.ssh", "target": "/home/dev-user/.ssh", "type": "bind" },
+    { "source": "mise-data-volume", "target": "/mnt/mise-data", "type": "volume" },
+  ],
+
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims",
+  },
+
+  "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:3000:3000"],
+
+  "runArgs": ["--cap-add=SYS_PTRACE"],
+
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [],
     },
+  },
 
-    "appPort": ["127.0.0.1:2222:2222", "127.0.0.1:3000:3000"],
-
-    "runArgs": ["--cap-add=SYS_PTRACE"],
-
-    "customizations": {
-        "vscode": {
-            "settings": {},
-            "extensions": [],
-        },
-    },
-
-    "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
+  "postCreateCommand": "chmod +x ./.devcontainer/post-create.sh && ./.devcontainer/post-create.sh > post-create.log",
 }
 ```
 

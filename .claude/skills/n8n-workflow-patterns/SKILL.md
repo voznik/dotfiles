@@ -1,11 +1,11 @@
 ---
 name: n8n-workflow-patterns
 description: >-
-    Proven workflow architectural patterns from real n8n workflows. Use when
-    building new workflows, designing workflow structure, choosing workflow
-    patterns, planning workflow architecture, or asking about webhook processing,
-    HTTP API integration, database operations, AI agent workflows, or scheduled
-    tasks.
+  Proven workflow architectural patterns from real n8n workflows. Use when
+  building new workflows, designing workflow structure, choosing workflow
+  patterns, planning workflow architecture, or asking about webhook processing,
+  HTTP API integration, database operations, AI agent workflows, or scheduled
+  tasks.
 ---
 
 # n8n Workflow Patterns
@@ -19,24 +19,24 @@ Proven architectural patterns for building n8n workflows.
 Based on analysis of real workflow usage:
 
 1. **[Webhook Processing](webhook_processing.md)** (Most Common)
-    - Receive HTTP requests → Process → Output
-    - Pattern: Webhook → Validate → Transform → Respond/Notify
+   - Receive HTTP requests → Process → Output
+   - Pattern: Webhook → Validate → Transform → Respond/Notify
 
 2. **[HTTP API Integration](http_api_integration.md)**
-    - Fetch from REST APIs → Transform → Store/Use
-    - Pattern: Trigger → HTTP Request → Transform → Action → Error Handler
+   - Fetch from REST APIs → Transform → Store/Use
+   - Pattern: Trigger → HTTP Request → Transform → Action → Error Handler
 
 3. **[Database Operations](database_operations.md)**
-    - Read/Write/Sync database data
-    - Pattern: Schedule → Query → Transform → Write → Verify
+   - Read/Write/Sync database data
+   - Pattern: Schedule → Query → Transform → Write → Verify
 
 4. **[AI Agent Workflow](ai_agent_workflow.md)**
-    - AI agents with tools and memory
-    - Pattern: Trigger → AI Agent (Model + Tools + Memory) → Output
+   - AI agents with tools and memory
+   - Pattern: Trigger → AI Agent (Model + Tools + Memory) → Output
 
 5. **[Scheduled Tasks](scheduled_tasks.md)**
-    - Recurring automation workflows
-    - Pattern: Schedule → Fetch → Process → Deliver → Log
+   - Recurring automation workflows
+   - Pattern: Schedule → Fetch → Process → Deliver → Log
 
 ---
 
@@ -228,9 +228,9 @@ See: n8n Expression Syntax skill
 
 ```javascript
 {
-    {
-        $json[0].field;
-    }
+  {
+    $json[0].field;
+  }
 } // First item only
 ```
 
