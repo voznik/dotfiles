@@ -1,9 +1,38 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "autoUpdates": "disabled",
   "env": {
     "CLAUDE_CODE_SHELL": "bash",
     "ENABLE_TOOL_SEARCH": "true"
+  },
+  "permissions": {
+    "allow": [
+      "Read(~/.claude)",
+      "Read(~/.rulesync)",
+      "Bash(jq:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(~/.claude-code-docs/claude-docs-helper.sh *)"
+    ],
+    "deny": [
+      "Read(~/.ssh/id*)",
+      "Read(~/.env*)",
+      "Read(**/credentials)",
+      "Read(**/*.env*)",
+      "Bash(apt*)",
+      "Bash(yum*)",
+      "Bash(dnf*)",
+      "Bash(pacman*)",
+      "Bash(brew*)",
+      "Bash(sudo*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:schemastore.org)",
+      "WebFetch(domain:www.schemastore.org)",
+      "WebFetch(domain:json.schemastore.org)",
+      "Task(claude-code-guide)"
+    ]
   },
   "hooks": {
     "PostToolUse": [
@@ -111,38 +140,10 @@
       }
     ]
   },
-  "permissions": {
-    "allow": [
-      "Read(~/.claude)",
-      "Read(~/.rulesync)",
-      "Bash(jq:*)",
-      "Bash(find:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(wc:*)",
-      "Bash(~/.claude-code-docs/claude-docs-helper.sh *)"
-    ],
-    "deny": [
-      "Read(~/.ssh/id*)",
-      "Read(~/.env*)",
-      "Read(**/credentials)",
-      "Read(**/*.env*)",
-      "Bash(apt*)",
-      "Bash(yum*)",
-      "Bash(dnf*)",
-      "Bash(pacman*)",
-      "Bash(brew*)",
-      "Bash(sudo*)",
-      "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:code.claude.com)",
-      "WebFetch(domain:schemastore.org)",
-      "WebFetch(domain:www.schemastore.org)",
-      "WebFetch(domain:json.schemastore.org)",
-      "Task(claude-code-guide)"
-    ]
-  },
   "statusLine": {
-    "command": "\"$HOME\"/.claude/scripts/context-bar.sh",
-    "type": "command"
-  }
+    "type": "command",
+    "command": "\"$HOME\"/.claude/scripts/context-bar.sh"
+  },
+  "autoUpdates": "disabled",
+  "model": "sonnet"
 }

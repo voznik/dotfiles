@@ -212,6 +212,16 @@
       "args": [
         "mcp"
       ],
+      "enabledTools": [
+        "build_context",
+        "read_content",
+        "read_note",
+        "search_notes",
+        "search",
+        "write_note",
+        "edit_note",
+        "recent_activity"
+      ],
       "env": {},
       "includeTools": [
         "build_context",

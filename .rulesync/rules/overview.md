@@ -32,3 +32,24 @@ globs: ['**/*']
 - When interacting with the user's environment, tools, or shell tasks, ALWAYS prefer native `mise` CLI commands (e.g., `mise tasks`, `mise list -g`, `mise run`) over direct filesystem inspection. `mise` is the authoritative source of truth for the system configuration.
 - Autonomous Verification Protocol: When inside a tmux session, if a solution involves configuration changes for a shell tool (e.g., gemini, yazi, lnav), automatically use the `tmux` skill to run, debug, and verify the changes personally by capturing shell output, instead of asking the user to verify.
 - Gemini CLI `tools.allowed` list uses PascalCase aliases (Read, Write, Replace, Bash) while `hooks.matchers` use snake_case tool names (read_file, write_file, replace, run_shell_command). Hooks receive input via STDIN, not environment variables.
+
+## Script Development
+
+**When user requests "small/tiny" scripts:**
+- Start minimal (~10-15 lines max), NOT with large hardcoded solutions
+- Test each transformation step (jq, cut, split) BEFORE writing code
+- Verify tool behavior (e.g., `pacman -Q` does fuzzy matching, use exact checks)
+
+**Wrong:**
+```bash
+# Untested jq that splits "npm:@scope/pkg" → ["npm", "@scope/pkg"] → "pkg" (breaks scoped packages)
+jq -r 'keys[] | split(":") | .[-1] | split("/") | .[-1]'
+```
+
+**Correct:**
+```bash
+# Filter out prefixed packages, test output first
+jq -r 'keys[] | select(contains(":") | not)'  # Test with: mise list -g --json | ...
+# Then verify exact package name matching to avoid false positives
+[[ "$pkg_name" == "$tool" ]] && dupes+=("$pkg_name")
+```

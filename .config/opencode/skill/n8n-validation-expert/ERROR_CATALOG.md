@@ -8,14 +8,14 @@ Comprehensive catalog of n8n validation errors with real examples and fixes.
 
 Common validation errors by priority:
 
-| Error Type         | Priority | Severity | Auto-Fix |
-| ------------------ | -------- | -------- | -------- |
-| missing_required   | Highest  | Error    | ❌       |
-| invalid_value      | High     | Error    | ❌       |
-| type_mismatch      | Medium   | Error    | ❌       |
-| invalid_expression | Medium   | Error    | ❌       |
-| invalid_reference  | Low      | Error    | ❌       |
-| operator_structure | Lowest   | Warning  | ✅       |
+| Error Type | Priority | Severity | Auto-Fix |
+|---|---|---|---|
+| missing_required | Highest | Error | ❌ |
+| invalid_value | High | Error | ❌ |
+| type_mismatch | Medium | Error | ❌ |
+| invalid_expression | Medium | Error | ❌ |
+| invalid_reference | Low | Error | ❌ |
+| operator_structure | Lowest | Warning | ✅ |
 
 ---
 
@@ -26,7 +26,6 @@ Common validation errors by priority:
 **What it means**: Required field is not provided in node configuration
 
 **When it occurs**:
-
 - Creating new nodes without all required fields
 - Copying configurations between different operations
 - Switching operations that have different requirements
@@ -36,7 +35,6 @@ Common validation errors by priority:
 #### Example 1: Slack Channel Missing
 
 **Error**:
-
 ```json
 {
   "type": "missing_required",
@@ -48,7 +46,6 @@ Common validation errors by priority:
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -58,7 +55,6 @@ Common validation errors by priority:
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -68,11 +64,10 @@ Common validation errors by priority:
 ```
 
 **How to identify required fields**:
-
 ```javascript
 // Use get_node to see what's required
 const info = get_node({
-  nodeType: 'nodes-base.slack',
+  nodeType: "nodes-base.slack"
 });
 // Check properties marked as "required": true
 ```
@@ -80,7 +75,6 @@ const info = get_node({
 #### Example 2: HTTP Request Missing URL
 
 **Error**:
-
 ```json
 {
   "type": "missing_required",
@@ -92,7 +86,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "method": "GET",
@@ -102,7 +95,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "method": "GET",
@@ -114,7 +106,6 @@ const info = get_node({
 #### Example 3: Database Query Missing Connection
 
 **Error**:
-
 ```json
 {
   "type": "missing_required",
@@ -126,7 +117,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "operation": "executeQuery"
@@ -135,7 +125,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "operation": "executeQuery",
@@ -146,7 +135,6 @@ const info = get_node({
 #### Example 4: Conditional Fields
 
 **Error**:
-
 ```json
 {
   "type": "missing_required",
@@ -158,7 +146,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "method": "POST",
@@ -169,7 +156,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "method": "POST",
@@ -192,7 +178,6 @@ const info = get_node({
 **What it means**: Provided value doesn't match allowed options or format
 
 **When it occurs**:
-
 - Using wrong enum value
 - Typos in operation names
 - Invalid format for specialized fields (emails, URLs, channels)
@@ -202,7 +187,6 @@ const info = get_node({
 #### Example 1: Invalid Operation
 
 **Error**:
-
 ```json
 {
   "type": "invalid_value",
@@ -214,7 +198,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -223,7 +206,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -234,7 +216,6 @@ const info = get_node({
 #### Example 2: Invalid HTTP Method
 
 **Error**:
-
 ```json
 {
   "type": "invalid_value",
@@ -246,7 +227,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "method": "FETCH",  // ❌ Invalid
@@ -255,7 +235,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "method": "GET",  // ✅ Use valid HTTP method
@@ -266,7 +245,6 @@ const info = get_node({
 #### Example 3: Invalid Channel Format
 
 **Error**:
-
 ```json
 {
   "type": "invalid_value",
@@ -277,7 +255,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -287,7 +264,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -299,7 +275,6 @@ const info = get_node({
 #### Example 4: Invalid Enum with Case Sensitivity
 
 **Error**:
-
 ```json
 {
   "type": "invalid_value",
@@ -313,7 +288,6 @@ const info = get_node({
 **Note**: Enums are case-sensitive!
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "Message",  // ❌ Capital M
@@ -322,7 +296,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",  // ✅ Lowercase
@@ -337,7 +310,6 @@ const info = get_node({
 **What it means**: Value is wrong data type (string instead of number, etc.)
 
 **When it occurs**:
-
 - Hardcoding values that should be numbers
 - Using expressions where literals are expected
 - JSON serialization issues
@@ -347,7 +319,6 @@ const info = get_node({
 #### Example 1: String Instead of Number
 
 **Error**:
-
 ```json
 {
   "type": "type_mismatch",
@@ -359,7 +330,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "operation": "executeQuery",
@@ -369,7 +339,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "operation": "executeQuery",
@@ -381,7 +350,6 @@ const info = get_node({
 #### Example 2: Number Instead of String
 
 **Error**:
-
 ```json
 {
   "type": "type_mismatch",
@@ -393,7 +361,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -403,7 +370,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -415,7 +381,6 @@ const info = get_node({
 #### Example 3: Boolean as String
 
 **Error**:
-
 ```json
 {
   "type": "type_mismatch",
@@ -427,7 +392,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "method": "GET",
@@ -437,7 +401,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "method": "GET",
@@ -449,19 +412,17 @@ const info = get_node({
 #### Example 4: Object Instead of Array
 
 **Error**:
-
 ```json
 {
   "type": "type_mismatch",
   "property": "tags",
   "message": "Expected array, got object",
   "expected": "array",
-  "current": { "tag": "important" }
+  "current": {"tag": "important"}
 }
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "name": "New Channel",
@@ -470,7 +431,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "name": "New Channel",
@@ -485,7 +445,6 @@ const info = get_node({
 **What it means**: n8n expression has syntax errors or invalid references
 
 **When it occurs**:
-
 - Missing `{{}}` around expressions
 - Typos in variable names
 - Referencing non-existent nodes or fields
@@ -498,7 +457,6 @@ const info = get_node({
 #### Example 1: Missing Curly Braces
 
 **Error**:
-
 ```json
 {
   "type": "invalid_expression",
@@ -509,7 +467,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -520,7 +477,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -533,7 +489,6 @@ const info = get_node({
 #### Example 2: Invalid Node Reference
 
 **Error**:
-
 ```json
 {
   "type": "invalid_expression",
@@ -544,7 +499,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "field": "data",
@@ -553,7 +507,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "field": "data",
@@ -564,7 +517,6 @@ const info = get_node({
 #### Example 3: Invalid Property Access
 
 **Error**:
-
 ```json
 {
   "type": "invalid_expression",
@@ -575,7 +527,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "text": "={{$json.data.user.name}}"  // ❌ Structure doesn't exist
@@ -583,7 +534,6 @@ const info = get_node({
 ```
 
 **Fix** (with safe navigation):
-
 ```javascript
 {
   "text": "={{$json.data?.user?.name || 'Unknown'}}"  // ✅ Safe navigation + fallback
@@ -593,7 +543,6 @@ const info = get_node({
 #### Example 4: Webhook Data Access Error
 
 **Error**:
-
 ```json
 {
   "type": "invalid_expression",
@@ -606,7 +555,6 @@ const info = get_node({
 **Common Gotcha**: Webhook data is under `.body`!
 
 **Broken Configuration**:
-
 ```javascript
 {
   "field": "email",
@@ -615,7 +563,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "field": "email",
@@ -630,7 +577,6 @@ const info = get_node({
 **What it means**: Configuration references a node that doesn't exist in the workflow
 
 **When it occurs**:
-
 - Node was renamed or deleted
 - Typo in node name
 - Copy-pasting from another workflow
@@ -640,7 +586,6 @@ const info = get_node({
 #### Example 1: Deleted Node Reference
 
 **Error**:
-
 ```json
 {
   "type": "invalid_reference",
@@ -651,7 +596,6 @@ const info = get_node({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "value": "={{$node['Transform Data'].json.result}}"  // ❌ Node deleted
@@ -659,7 +603,6 @@ const info = get_node({
 ```
 
 **Fix**:
-
 ```javascript
 // Option 1: Update to existing node
 {
@@ -675,7 +618,6 @@ const info = get_node({
 #### Example 2: Connection to Non-Existent Node
 
 **Error**:
-
 ```json
 {
   "type": "invalid_reference",
@@ -686,22 +628,18 @@ const info = get_node({
 ```
 
 **Fix**: Use `cleanStaleConnections` operation:
-
 ```javascript
 n8n_update_partial_workflow({
-  id: 'workflow-id',
-  operations: [
-    {
-      type: 'cleanStaleConnections',
-    },
-  ],
-});
+  id: "workflow-id",
+  operations: [{
+    type: "cleanStaleConnections"
+  }]
+})
 ```
 
 #### Example 3: Renamed Node Not Updated
 
 **Error**:
-
 ```json
 {
   "type": "invalid_reference",
@@ -713,7 +651,6 @@ n8n_update_partial_workflow({
 ```
 
 **Broken Configuration**:
-
 ```javascript
 {
   "value": "={{$node['Get Weather'].json.temperature}}"  // ❌ Old name
@@ -721,7 +658,6 @@ n8n_update_partial_workflow({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "value": "={{$node['Weather API'].json.temperature}}"  // ✅ Current name
@@ -745,7 +681,6 @@ n8n_update_partial_workflow({
 #### Example 1: Missing Error Handling
 
 **Warning**:
-
 ```json
 {
   "type": "best_practice",
@@ -756,7 +691,6 @@ n8n_update_partial_workflow({
 ```
 
 **Current Configuration**:
-
 ```javascript
 {
   "resource": "message",
@@ -767,7 +701,6 @@ n8n_update_partial_workflow({
 ```
 
 **Recommended Fix**:
-
 ```javascript
 {
   "resource": "message",
@@ -782,7 +715,6 @@ n8n_update_partial_workflow({
 #### Example 2: No Retry Logic
 
 **Warning**:
-
 ```json
 {
   "type": "best_practice",
@@ -809,7 +741,6 @@ n8n_update_partial_workflow({
 #### Example 1: Old typeVersion
 
 **Warning**:
-
 ```json
 {
   "type": "deprecated",
@@ -821,7 +752,6 @@ n8n_update_partial_workflow({
 ```
 
 **Fix**:
-
 ```javascript
 {
   "type": "n8n-nodes-base.slack",
@@ -843,7 +773,6 @@ n8n_update_partial_workflow({
 #### Example 1: Unbounded Query
 
 **Warning**:
-
 ```json
 {
   "type": "performance",
@@ -854,13 +783,11 @@ n8n_update_partial_workflow({
 ```
 
 **Current**:
-
 ```sql
 SELECT * FROM users WHERE active = true
 ```
 
 **Fix**:
-
 ```sql
 SELECT * FROM users WHERE active = true LIMIT 1000
 ```
@@ -882,7 +809,6 @@ SELECT * FROM users WHERE active = true LIMIT 1000
 #### Fixed Automatically: Binary Operators
 
 **Before** (you create this):
-
 ```javascript
 {
   "type": "boolean",
@@ -892,7 +818,6 @@ SELECT * FROM users WHERE active = true LIMIT 1000
 ```
 
 **After** (auto-sanitization fixes it):
-
 ```javascript
 {
   "type": "boolean",
@@ -906,7 +831,6 @@ SELECT * FROM users WHERE active = true LIMIT 1000
 #### Fixed Automatically: Unary Operators
 
 **Before**:
-
 ```javascript
 {
   "type": "boolean",
@@ -916,7 +840,6 @@ SELECT * FROM users WHERE active = true LIMIT 1000
 ```
 
 **After**:
-
 ```javascript
 {
   "type": "boolean",
@@ -936,7 +859,6 @@ SELECT * FROM users WHERE active = true LIMIT 1000
 **Problem**: Too many errors at once
 
 **Solution**:
-
 ```javascript
 // Step 1: Minimal valid config
 let config = {
@@ -962,7 +884,6 @@ validate_node({nodeType: "nodes-base.slack", config, profile: "runtime"});
 **Problem**: Multiple errors
 
 **Solution**:
-
 ```javascript
 const result = validate_node_operation({...});
 
@@ -987,11 +908,10 @@ result.suggestions.forEach(sug => {
 **Problem**: Don't know what's required
 
 **Solution**:
-
 ```javascript
 // Before configuring, check requirements
 const info = get_node({
-  nodeType: 'nodes-base.slack',
+  nodeType: "nodes-base.slack"
 });
 
 // Look for required fields
@@ -1007,7 +927,6 @@ info.properties.forEach(prop => {
 ## Summary
 
 **Most Common Errors**:
-
 1. `missing_required` (45%) - Always check get_node
 2. `invalid_value` (28%) - Check allowed values
 3. `type_mismatch` (12%) - Use correct data types
@@ -1015,11 +934,9 @@ info.properties.forEach(prop => {
 5. `invalid_reference` (5%) - Clean stale connections
 
 **Auto-Fixed**:
-
 - `operator_structure` - Trust auto-sanitization!
 
 **Related Skills**:
-
 - **[SKILL.md](SKILL.md)** - Main validation guide
 - **[FALSE_POSITIVES.md](FALSE_POSITIVES.md)** - When to ignore warnings
 - **n8n Expression Syntax** - Fix expression errors

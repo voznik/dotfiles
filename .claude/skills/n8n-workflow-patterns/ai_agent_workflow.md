@@ -32,19 +32,15 @@ n8n supports **8 AI connection types** for building agent workflows:
 ## Core Components
 
 ### 1. Trigger
-
 **Options**:
-
 - **Webhook** - Chat interfaces, API calls (most common)
 - **Manual** - Testing and development
 - **Schedule** - Periodic AI tasks
 
 ### 2. AI Agent Node
-
 **Purpose**: Orchestrate LLM with tools and memory
 
 **Configuration**:
-
 ```javascript
 {
   agent: "conversationalAgent",  // or "openAIFunctionsAgent"
@@ -54,22 +50,18 @@ n8n supports **8 AI connection types** for building agent workflows:
 ```
 
 **Connections**:
-
 - **ai_languageModel input** - Connected to LLM node
 - **ai_tool inputs** - Connected to tool nodes
 - **ai_memory input** - Connected to memory node (optional)
 
 ### 3. Language Model
-
 **Available providers**:
-
 - OpenAI (GPT-4, GPT-3.5)
 - Anthropic (Claude)
 - Google (Gemini)
 - Local models (Ollama, LM Studio)
 
 **Example** (OpenAI Chat Model):
-
 ```javascript
 {
   model: "gpt-4",
@@ -79,11 +71,9 @@ n8n supports **8 AI connection types** for building agent workflows:
 ```
 
 ### 4. Tools (ANY Node Can Be a Tool!)
-
 **Critical insight**: Connect ANY n8n node to agent via `ai_tool` port
 
 **Common tool types**:
-
 - HTTP Request - Call APIs
 - Database nodes - Query data
 - Code - Custom functions
@@ -91,21 +81,17 @@ n8n supports **8 AI connection types** for building agent workflows:
 - Pre-built tool nodes (Calculator, Wikipedia, etc.)
 
 ### 5. Memory (Optional but Recommended)
-
 **Purpose**: Maintain conversation context
 
 **Types**:
-
 - **Buffer Memory** - Store recent messages
 - **Window Buffer Memory** - Store last N messages
 - **Summary Memory** - Summarize conversation
 
 ### 6. Output Processing
-
 **Purpose**: Format AI response for delivery
 
 **Common patterns**:
-
 - Return directly (chat response)
 - Store in database (conversation history)
 - Send to communication channel (Slack, email)
@@ -115,11 +101,9 @@ n8n supports **8 AI connection types** for building agent workflows:
 ## Common Use Cases
 
 ### 1. Conversational Chatbot
-
 **Flow**: Webhook (chat message) → AI Agent → Webhook Response
 
 **Example** (Customer support bot):
-
 ```
 1. Webhook (path: "chat", POST)
    - Receives: {user_id, message, session_id}
@@ -138,7 +122,6 @@ n8n supports **8 AI connection types** for building agent workflows:
 ```
 
 **AI Agent prompt**:
-
 ```
 You are a customer support assistant.
 You can:
@@ -150,11 +133,9 @@ Be helpful and professional.
 ```
 
 ### 2. Document Q&A
-
 **Flow**: Upload docs → Embed → Store → Query with AI
 
 **Example** (Internal documentation assistant):
-
 ```
 Setup Phase (run once):
 1. Read Files (load documentation)
@@ -172,11 +153,9 @@ Query Phase (recurring):
 ```
 
 ### 3. Data Analysis Assistant
-
 **Flow**: Request → AI Agent (with data tools) → Analysis → Visualization
 
 **Example** (SQL analyst agent):
-
 ```
 1. Webhook (data question: "What were sales last month?")
 
@@ -191,7 +170,6 @@ Query Phase (recurring):
 ```
 
 **Postgres Tool Configuration**:
-
 ```javascript
 {
   name: "query_database",
@@ -201,11 +179,9 @@ Query Phase (recurring):
 ```
 
 ### 4. Workflow Automation Agent
-
 **Flow**: Command → AI Agent → Execute actions → Report
 
 **Example** (DevOps assistant):
-
 ```
 1. Slack (slash command: /deploy production)
 
@@ -225,11 +201,9 @@ Query Phase (recurring):
 ```
 
 ### 5. Email Processing Agent
-
 **Flow**: Email received → AI Agent → Categorize → Route → Respond
 
 **Example** (Support ticket router):
-
 ```
 1. Email Trigger (new support email)
 
@@ -257,13 +231,11 @@ Query Phase (recurring):
 **Critical concept**: Any n8n node can become an AI tool!
 
 **Requirements**:
-
 1. Connect node to AI Agent via `ai_tool` port (NOT main port)
 2. Configure tool name and description
 3. Define input schema (optional)
 
 **Example** (HTTP Request as tool):
-
 ```javascript
 {
   // Tool metadata (for AI)
@@ -282,7 +254,6 @@ Query Phase (recurring):
 ```
 
 **How it works**:
-
 1. AI Agent sees tool: `search_github_issues(query, repo)`
 2. AI decides to use it: `search_github_issues("bug", "n8n-io/n8n")`
 3. n8n executes HTTP Request with parameters
@@ -300,7 +271,6 @@ Query Phase (recurring):
 - **Custom Tool** - Define with Code node
 
 **Example** (Calculator Tool):
-
 ```
 AI Agent
   ├─ OpenAI Chat Model
@@ -315,7 +285,6 @@ AI: *uses calculator tool* → "426.05"
 **Pattern**: Postgres/MySQL node connected as ai_tool
 
 **Configuration**:
-
 ```javascript
 {
   // Tool metadata
@@ -342,7 +311,6 @@ GRANT SELECT ON customers, orders TO ai_readonly;
 **Pattern**: Custom Python/JavaScript function
 
 **Example** (Data processor):
-
 ```javascript
 // Tool metadata
 {
@@ -371,7 +339,6 @@ return [{
 ## Memory Configuration
 
 ### Buffer Memory
-
 **Stores all messages** (until cleared)
 
 ```javascript
@@ -382,7 +349,6 @@ return [{
 ```
 
 ### Window Buffer Memory
-
 **Stores last N messages** (recommended)
 
 ```javascript
@@ -394,7 +360,6 @@ return [{
 ```
 
 ### Summary Memory
-
 **Summarizes old messages** (for long conversations)
 
 ```javascript
@@ -406,7 +371,6 @@ return [{
 ```
 
 **How it works**:
-
 1. Conversation grows beyond limit
 2. AI summarizes old messages
 3. Summary stored, old messages discarded
@@ -417,11 +381,9 @@ return [{
 ## Agent Types
 
 ### 1. Conversational Agent
-
 **Best for**: General chat, customer support
 
 **Features**:
-
 - Natural conversation flow
 - Memory integration
 - Tool use with reasoning
@@ -429,11 +391,9 @@ return [{
 **When to use**: Most common use case
 
 ### 2. OpenAI Functions Agent
-
 **Best for**: Tool-heavy workflows, structured outputs
 
 **Features**:
-
 - Optimized for function calling
 - Better tool selection
 - Structured responses
@@ -441,11 +401,9 @@ return [{
 **When to use**: Multiple tools, need reliable tool calling
 
 ### 3. ReAct Agent
-
 **Best for**: Step-by-step reasoning
 
 **Features**:
-
 - Think → Act → Observe loop
 - Visible reasoning process
 - Good for debugging
@@ -457,7 +415,6 @@ return [{
 ## Prompt Engineering for Agents
 
 ### System Prompt Structure
-
 ```
 You are a [ROLE].
 
@@ -475,7 +432,6 @@ Format:
 ```
 
 ### Example (Customer Support)
-
 ```
 You are a customer support assistant for Acme Corp.
 
@@ -496,7 +452,6 @@ Format:
 ```
 
 ### Example (Data Analyst)
-
 ```
 You are a data analyst assistant with access to the company database.
 
@@ -522,7 +477,6 @@ Format:
 ## Error Handling
 
 ### Pattern 1: Tool Execution Errors
-
 ```
 AI Agent (continueOnFail on tool nodes)
   → IF (tool error occurred)
@@ -531,7 +485,6 @@ AI Agent (continueOnFail on tool nodes)
 ```
 
 ### Pattern 2: LLM API Errors
-
 ```
 Main Workflow:
   AI Agent → Process Response
@@ -545,7 +498,6 @@ Error Workflow:
 ```
 
 ### Pattern 3: Invalid Tool Outputs
-
 ```javascript
 // Code node - validate tool output
 const result = $input.first().json;
@@ -562,7 +514,6 @@ return [{ json: result }];
 ## Performance Optimization
 
 ### 1. Choose Right Model
-
 ```
 Fast & cheap: GPT-3.5-turbo, Claude 3 Haiku
 Balanced: GPT-4, Claude 3 Sonnet
@@ -570,7 +521,6 @@ Powerful: GPT-4-turbo, Claude 3 Opus
 ```
 
 ### 2. Limit Context Window
-
 ```javascript
 {
   memoryType: "windowBufferMemory",
@@ -579,17 +529,15 @@ Powerful: GPT-4-turbo, Claude 3 Opus
 ```
 
 ### 3. Optimize Tool Descriptions
-
 ```javascript
 // ❌ Vague
-description: 'Search for things';
+description: "Search for things"
 
 // ✅ Clear and concise
-description: 'Search GitHub issues by keyword and repository. Returns top 5 matching issues with titles and URLs.';
+description: "Search GitHub issues by keyword and repository. Returns top 5 matching issues with titles and URLs."
 ```
 
 ### 4. Cache Embeddings
-
 For document Q&A, embed documents once:
 
 ```
@@ -601,7 +549,6 @@ Query (fast):
 ```
 
 ### 5. Async Tools for Slow Operations
-
 ```
 AI Agent → [Queue slow tool request]
        → Return immediate response
@@ -613,7 +560,6 @@ AI Agent → [Queue slow tool request]
 ## Security Considerations
 
 ### 1. Read-Only Database Tools
-
 ```sql
 -- Create limited user for AI tools
 CREATE USER ai_agent_ro WITH PASSWORD 'secure';
@@ -622,22 +568,18 @@ GRANT SELECT ON public.* TO ai_agent_ro;
 ```
 
 ### 2. Validate Tool Inputs
-
 ```javascript
 // Code node - validate before execution
 const query = $json.query;
 
-if (
-  query.toLowerCase().includes('drop ') ||
-  query.toLowerCase().includes('delete ') ||
-  query.toLowerCase().includes('update ')
-) {
+if (query.toLowerCase().includes('drop ') ||
+    query.toLowerCase().includes('delete ') ||
+    query.toLowerCase().includes('update ')) {
   throw new Error('Invalid query - write operations not allowed');
 }
 ```
 
 ### 3. Rate Limiting
-
 ```
 Webhook → IF (check user rate limit)
         ├─ [Within limit] → AI Agent
@@ -645,16 +587,16 @@ Webhook → IF (check user rate limit)
 ```
 
 ### 4. Sanitize User Input
-
 ```javascript
 // Code node
-const userInput = $json.body.message.trim().substring(0, 1000); // Max 1000 chars
+const userInput = $json.body.message
+  .trim()
+  .substring(0, 1000);  // Max 1000 chars
 
 return [{ json: { sanitized: userInput } }];
 ```
 
 ### 5. Monitor Tool Usage
-
 ```
 AI Agent → Log Tool Calls
         → IF (suspicious pattern)
@@ -666,9 +608,7 @@ AI Agent → Log Tool Calls
 ## Testing AI Agents
 
 ### 1. Start with Manual Trigger
-
 Replace webhook with manual trigger:
-
 ```
 Manual Trigger
   → Set (mock user input)
@@ -677,17 +617,13 @@ Manual Trigger
 ```
 
 ### 2. Test Tools Independently
-
 Before connecting to agent:
-
 ```
 Manual Trigger → Tool Node → Verify output format
 ```
 
 ### 3. Test with Standard Questions
-
 Create test suite:
-
 ```
 1. "Hello" - Test basic response
 2. "Search for bug reports" - Test tool calling
@@ -696,7 +632,6 @@ Create test suite:
 ```
 
 ### 4. Monitor Token Usage
-
 ```javascript
 // Code node - log token usage
 console.log('Input tokens:', $node['AI Agent'].json.usage.input_tokens);
@@ -704,7 +639,6 @@ console.log('Output tokens:', $node['AI Agent'].json.usage.output_tokens);
 ```
 
 ### 5. Test Edge Cases
-
 - Empty input
 - Very long input
 - Tool returns no results
@@ -716,64 +650,54 @@ console.log('Output tokens:', $node['AI Agent'].json.usage.output_tokens);
 ## Common Gotchas
 
 ### 1. ❌ Wrong: Connecting tools to main port
-
 ```
 HTTP Request → AI Agent  // Won't work as tool!
 ```
 
 ### ✅ Correct: Use ai_tool connection type
-
 ```
 HTTP Request --[ai_tool]--> AI Agent
 ```
 
 ### 2. ❌ Wrong: Vague tool descriptions
-
 ```
 description: "Get data"  // AI won't know when to use this
 ```
 
 ### ✅ Correct: Specific descriptions
-
 ```
 description: "Query customer orders by email address. Returns order ID, status, and shipping info."
 ```
 
 ### 3. ❌ Wrong: No memory for conversations
-
 ```
 Every message is standalone - no context!
 ```
 
 ### ✅ Correct: Add memory
-
 ```
 Window Buffer Memory --[ai_memory]--> AI Agent
 ```
 
 ### 4. ❌ Wrong: Giving AI write access
-
 ```
 Postgres (full access) as tool  // AI could DELETE data!
 ```
 
 ### ✅ Correct: Read-only access
-
 ```
 Postgres (read-only user) as tool  // Safe
 ```
 
 ### 5. ❌ Wrong: Unbounded tool responses
-
 ```
 Tool returns 10MB of data → exceeds token limit
 ```
 
 ### ✅ Correct: Limit tool output
-
 ```javascript
 {
-  query: 'SELECT * FROM table LIMIT 10'; // Only 10 rows
+  query: "SELECT * FROM table LIMIT 10"  // Only 10 rows
 }
 ```
 
@@ -784,20 +708,17 @@ Tool returns 10MB of data → exceeds token limit
 From n8n template library (234 AI templates):
 
 **Simple Chatbot**:
-
 ```
 Webhook → AI Agent (GPT-4 + Memory) → Webhook Response
 ```
 
 **Document Q&A**:
-
 ```
 Setup: Files → Embed → Vector Store
 Query: Webhook → AI Agent (GPT-4 + Vector Store Tool) → Response
 ```
 
 **SQL Analyst**:
-
 ```
 Webhook → AI Agent (GPT-4 + Postgres Tool) → Format → Response
 ```
@@ -809,7 +730,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 ## Checklist for AI Agent Workflows
 
 ### Planning
-
 - [ ] Define agent purpose and capabilities
 - [ ] List required tools (APIs, databases, etc.)
 - [ ] Design conversation flow
@@ -817,7 +737,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 - [ ] Consider token costs
 
 ### Implementation
-
 - [ ] Choose appropriate LLM model
 - [ ] Write clear system prompt
 - [ ] Connect tools via ai_tool ports (NOT main)
@@ -826,7 +745,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 - [ ] Test each tool independently
 
 ### Security
-
 - [ ] Use read-only database access for tools
 - [ ] Validate tool inputs
 - [ ] Sanitize user inputs
@@ -834,7 +752,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 - [ ] Monitor for abuse
 
 ### Testing
-
 - [ ] Test with diverse inputs
 - [ ] Verify tool calling works
 - [ ] Check memory persistence
@@ -842,7 +759,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 - [ ] Monitor token usage and costs
 
 ### Deployment
-
 - [ ] Add error handling
 - [ ] Set up logging
 - [ ] Monitor performance
@@ -854,7 +770,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 ## Summary
 
 **Key Points**:
-
 1. **8 AI connection types** - Use ai_tool for tools, ai_memory for context
 2. **ANY node can be a tool** - Connect to ai_tool port
 3. **Memory is essential** for conversations (Window Buffer recommended)
@@ -864,7 +779,6 @@ Use `search_templates({query: "ai agent"})` to find more!
 **Pattern**: Trigger → AI Agent (Model + Tools + Memory) → Output
 
 **Related**:
-
 - [webhook_processing.md](webhook_processing.md) - Receiving chat messages
 - [http_api_integration.md](http_api_integration.md) - Tools that call APIs
 - [database_operations.md](database_operations.md) - Database tools for agents

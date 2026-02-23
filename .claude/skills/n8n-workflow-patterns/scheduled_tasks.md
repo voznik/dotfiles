@@ -17,48 +17,38 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ## Core Components
 
 ### 1. Schedule Trigger
-
 **Purpose**: Execute workflow at specified times
 
 **Modes**:
-
 - **Interval** - Every X minutes/hours/days
 - **Cron** - Specific times (advanced)
 - **Days & Hours** - Simple recurring schedule
 
 ### 2. Data Source
-
 **Common sources**:
-
 - HTTP Request (APIs)
 - Database queries
 - File reads
 - Service-specific nodes
 
 ### 3. Processing
-
 **Typical operations**:
-
 - Filter/transform data
 - Aggregate statistics
 - Generate reports
 - Check conditions
 
 ### 4. Delivery
-
 **Output channels**:
-
 - Email
 - Slack/Discord/Teams
 - File storage
 - Database writes
 
 ### 5. Logging
-
 **Purpose**: Track execution history
 
 **Methods**:
-
 - Database log entries
 - File append
 - Monitoring service
@@ -68,11 +58,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ## Schedule Configuration
 
 ### Interval Mode
-
 **Best for**: Simple recurring tasks
 
 **Examples**:
-
 ```javascript
 // Every 15 minutes
 {
@@ -97,11 +85,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### Days & Hours Mode
-
 **Best for**: Specific days and times
 
 **Examples**:
-
 ```javascript
 // Weekdays at 9 AM
 {
@@ -121,11 +107,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### Cron Mode (Advanced)
-
 **Best for**: Complex schedules
 
 **Examples**:
-
 ```javascript
 // Every weekday at 9 AM
 {
@@ -147,14 +131,12 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 **Cron format**: `minute hour day month weekday`
-
 - `*` = any value
 - `*/15` = every 15 units
 - `1-5` = range (Monday-Friday)
 - `1,15` = specific values
 
 **Cron examples**:
-
 ```
 0 */6 * * *      Every 6 hours
 0 9,17 * * *     At 9 AM and 5 PM daily
@@ -168,11 +150,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ## Common Use Cases
 
 ### 1. Daily Reports
-
 **Flow**: Schedule → Fetch data → Aggregate → Format → Email
 
 **Example** (Sales report):
-
 ```
 1. Schedule (daily at 9 AM)
 
@@ -198,11 +178,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 2. Data Synchronization
-
 **Flow**: Schedule → Fetch from source → Transform → Write to target
 
 **Example** (CRM to data warehouse sync):
-
 ```
 1. Schedule (every hour)
 
@@ -225,11 +203,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 3. Monitoring & Health Checks
-
 **Flow**: Schedule → Check endpoints → Alert if down
 
 **Example** (Website uptime monitor):
-
 ```
 1. Schedule (every 5 minutes)
 
@@ -255,11 +231,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 4. Cleanup & Maintenance
-
 **Flow**: Schedule → Find old data → Archive/Delete → Report
 
 **Example** (Database cleanup):
-
 ```
 1. Schedule (weekly on Sunday at 2 AM)
 
@@ -283,11 +257,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 5. Data Enrichment
-
 **Flow**: Schedule → Find incomplete records → Enrich → Update
 
 **Example** (Enrich contacts with company data):
-
 ```
 1. Schedule (nightly at 3 AM)
 
@@ -315,11 +287,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 6. Backup Automation
-
 **Flow**: Schedule → Export data → Compress → Store → Verify
 
 **Example** (Database backup):
-
 ```
 1. Schedule (daily at 2 AM)
 
@@ -348,11 +318,9 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ```
 
 ### 7. Content Publishing
-
 **Flow**: Schedule → Fetch content → Format → Publish
 
 **Example** (Automated social media posts):
-
 ```
 1. Schedule (every 3 hours during business hours)
    - Cron: 0 9,12,15,18 * * 1-5
@@ -379,16 +347,14 @@ Schedule Trigger → [Fetch Data] → [Process] → [Deliver] → [Log/Notify]
 ## Timezone Considerations
 
 ### Set Workflow Timezone
-
 ```javascript
 // In workflow settings
 {
-  timezone: 'America/New_York'; // EST/EDT
+  timezone: "America/New_York"  // EST/EDT
 }
 ```
 
 ### Common Timezones
-
 ```
 America/New_York    - Eastern (US)
 America/Chicago     - Central (US)
@@ -402,7 +368,6 @@ UTC                 - Universal Time
 ```
 
 ### Handle Daylight Saving
-
 **Best practice**: Use timezone-aware scheduling
 
 ```javascript
@@ -424,18 +389,15 @@ UTC                 - Universal Time
 ## Error Handling
 
 ### Pattern 1: Error Trigger Workflow
-
 **Main workflow**: Normal execution
 **Error workflow**: Alerts and recovery
 
 **Main**:
-
 ```
 Schedule → Fetch → Process → Deliver
 ```
 
 **Error**:
-
 ```
 Error Trigger (for main workflow)
   → Set (extract error details)
@@ -445,7 +407,6 @@ Error Trigger (for main workflow)
 ```
 
 ### Pattern 2: Retry with Backoff
-
 ```
 Schedule → HTTP Request (continueOnFail: true)
   → IF (error)
@@ -459,7 +420,6 @@ Schedule → HTTP Request (continueOnFail: true)
 ```
 
 ### Pattern 3: Partial Failure Handling
-
 ```
 Schedule → Split In Batches
   → Process (continueOnFail: true)
@@ -474,7 +434,6 @@ Schedule → Split In Batches
 ## Performance Optimization
 
 ### 1. Batch Processing
-
 For large datasets:
 
 ```
@@ -485,7 +444,6 @@ Schedule → Query (LIMIT 10000)
 ```
 
 ### 2. Parallel Processing
-
 When operations are independent:
 
 ```
@@ -497,7 +455,6 @@ Schedule
 ```
 
 ### 3. Skip if Already Running
-
 Prevent overlapping executions:
 
 ```
@@ -511,7 +468,6 @@ Schedule → Redis (check lock)
 ```
 
 ### 4. Early Exit on No Data
-
 Don't waste time if nothing to process:
 
 ```
@@ -527,7 +483,6 @@ Schedule → Query (check if work exists)
 ## Monitoring & Logging
 
 ### Pattern 1: Execution Log Table
-
 ```sql
 CREATE TABLE workflow_executions (
   id SERIAL PRIMARY KEY,
@@ -541,7 +496,6 @@ CREATE TABLE workflow_executions (
 ```
 
 **Log execution**:
-
 ```
 Schedule
   → Set (record start)
@@ -550,7 +504,6 @@ Schedule
 ```
 
 ### Pattern 2: Metrics Collection
-
 ```
 Schedule → [Execute]
   → Code (calculate metrics)
@@ -562,7 +515,6 @@ Schedule → [Execute]
 ```
 
 ### Pattern 3: Summary Notifications
-
 Daily/weekly execution summaries:
 
 ```
@@ -580,9 +532,7 @@ Schedule (daily at 6 PM) → Query execution logs
 ## Testing Scheduled Workflows
 
 ### 1. Use Manual Trigger for Testing
-
 **Development pattern**:
-
 ```
 Manual Trigger (for testing)
   → [Same workflow logic]
@@ -592,7 +542,6 @@ Manual Trigger (for testing)
 ```
 
 ### 2. Test with Different Times
-
 ```javascript
 // Code node - simulate different times
 const testTime = new Date('2024-01-15T09:00:00Z');
@@ -600,7 +549,6 @@ return [{ json: { currentTime: testTime } }];
 ```
 
 ### 3. Dry Run Mode
-
 ```
 Schedule → Set (dryRun: true)
   → IF (dryRun)
@@ -610,7 +558,6 @@ Schedule → Set (dryRun: true)
 ```
 
 ### 4. Shorter Interval for Testing
-
 ```javascript
 // Testing: every 1 minute
 {
@@ -632,29 +579,25 @@ Schedule → Set (dryRun: true)
 ## Common Gotchas
 
 ### 1. ❌ Wrong: Ignoring timezone
-
 ```javascript
 Schedule (9 AM)  // 9 AM in which timezone?
 ```
 
 ### ✅ Correct: Set workflow timezone
-
 ```javascript
 // Workflow settings
 {
-  timezone: 'America/New_York';
+  timezone: "America/New_York"
 }
 ```
 
 ### 2. ❌ Wrong: Overlapping executions
-
 ```
 Schedule (every 5 min) → Long-running task (10 min)
 // Two executions running simultaneously!
 ```
 
 ### ✅ Correct: Add execution lock
-
 ```
 Schedule → Redis (check lock)
   → IF (locked) → Skip
@@ -662,40 +605,34 @@ Schedule → Redis (check lock)
 ```
 
 ### 3. ❌ Wrong: No error handling
-
 ```
 Schedule → API call → Process (fails silently)
 ```
 
 ### ✅ Correct: Add error workflow
-
 ```
 Main: Schedule → Execute
 Error: Error Trigger → Alert
 ```
 
 ### 4. ❌ Wrong: Processing all data at once
-
 ```
 Schedule → SELECT 1000000 records → Process (OOM)
 ```
 
 ### ✅ Correct: Batch processing
-
 ```
 Schedule → SELECT with pagination → Split In Batches → Process
 ```
 
 ### 5. ❌ Wrong: Hardcoded dates
-
 ```javascript
-query: "SELECT * FROM orders WHERE date = '2024-01-15'";
+query: "SELECT * FROM orders WHERE date = '2024-01-15'"
 ```
 
 ### ✅ Correct: Dynamic dates
-
 ```javascript
-query: "SELECT * FROM orders WHERE date = CURRENT_DATE - INTERVAL '1 day'";
+query: "SELECT * FROM orders WHERE date = CURRENT_DATE - INTERVAL '1 day'"
 ```
 
 ---
@@ -705,7 +642,6 @@ query: "SELECT * FROM orders WHERE date = CURRENT_DATE - INTERVAL '1 day'";
 From n8n template library:
 
 **Template #2947** (Weather to Slack):
-
 ```
 Schedule (daily 8 AM)
   → HTTP Request (weather API)
@@ -714,7 +650,6 @@ Schedule (daily 8 AM)
 ```
 
 **Daily backup**:
-
 ```
 Schedule (nightly 2 AM)
   → Postgres (export data)
@@ -723,7 +658,6 @@ Schedule (nightly 2 AM)
 ```
 
 **Monitoring**:
-
 ```
 Schedule (every 5 min)
   → HTTP Request (health check)
@@ -737,7 +671,6 @@ Use `search_templates({query: "schedule"})` to find more!
 ## Checklist for Scheduled Workflows
 
 ### Planning
-
 - [ ] Define schedule frequency (interval, cron, days & hours)
 - [ ] Set workflow timezone
 - [ ] Estimate execution duration
@@ -745,7 +678,6 @@ Use `search_templates({query: "schedule"})` to find more!
 - [ ] Consider timezone and DST
 
 ### Implementation
-
 - [ ] Configure Schedule Trigger
 - [ ] Set workflow timezone in settings
 - [ ] Add early exit for no-op cases
@@ -753,7 +685,6 @@ Use `search_templates({query: "schedule"})` to find more!
 - [ ] Add execution logging
 
 ### Error Handling
-
 - [ ] Create Error Trigger workflow
 - [ ] Implement retry logic
 - [ ] Add alert notifications
@@ -761,7 +692,6 @@ Use `search_templates({query: "schedule"})` to find more!
 - [ ] Handle partial failures gracefully
 
 ### Monitoring
-
 - [ ] Log each execution (start, end, status)
 - [ ] Track metrics (duration, records, success rate)
 - [ ] Set up daily/weekly summaries
@@ -769,7 +699,6 @@ Use `search_templates({query: "schedule"})` to find more!
 - [ ] Monitor resource usage
 
 ### Testing
-
 - [ ] Test with Manual Trigger first
 - [ ] Verify timezone behavior
 - [ ] Test error scenarios
@@ -777,7 +706,6 @@ Use `search_templates({query: "schedule"})` to find more!
 - [ ] Validate output quality
 
 ### Deployment
-
 - [ ] Document workflow purpose
 - [ ] Set up monitoring
 - [ ] Configure alerts
@@ -790,7 +718,6 @@ Use `search_templates({query: "schedule"})` to find more!
 ## Advanced Patterns
 
 ### Dynamic Scheduling
-
 **Change schedule based on conditions**:
 
 ```
@@ -802,7 +729,6 @@ Schedule (check every hour) → Code (check if it's time to run)
 ```
 
 ### Dependent Schedules
-
 **Chain workflows**:
 
 ```
@@ -813,7 +739,6 @@ Workflow B: Generate report (depends on fresh data)
 ```
 
 ### Conditional Execution
-
 **Skip based on external factors**:
 
 ```
@@ -829,7 +754,6 @@ Schedule → HTTP Request (check feature flag)
 ## Summary
 
 **Key Points**:
-
 1. **Set workflow timezone** explicitly
 2. **Batch processing** for large datasets
 3. **Error handling** is critical (Error Trigger + retries)
@@ -839,13 +763,11 @@ Schedule → HTTP Request (check feature flag)
 **Pattern**: Schedule → Fetch → Process → Deliver → Log
 
 **Schedule Modes**:
-
 - **Interval**: Simple recurring (every X minutes/hours)
 - **Days & Hours**: Specific days and times
 - **Cron**: Advanced complex schedules
 
 **Related**:
-
 - [http_api_integration.md](http_api_integration.md) - Fetching data on schedule
 - [database_operations.md](database_operations.md) - Scheduled database tasks
 - [webhook_processing.md](webhook_processing.md) - Alternative to scheduling

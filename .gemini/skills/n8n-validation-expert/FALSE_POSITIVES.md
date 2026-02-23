@@ -11,7 +11,6 @@ When validation warnings are acceptable and how to handle them.
 **Key insight**: Not all warnings need to be fixed!
 
 Many warnings are context-dependent:
-
 - ~40% of warnings are acceptable in specific use cases
 - Using `ai-friendly` profile reduces false positives by 60%
 
@@ -20,7 +19,6 @@ Many warnings are context-dependent:
 ## Philosophy
 
 ### ✅ Good Practice
-
 ```
 1. Run validation with 'runtime' profile
 2. Fix all ERRORS
@@ -31,7 +29,6 @@ Many warnings are context-dependent:
 ```
 
 ### ❌ Bad Practice
-
 ```
 1. Ignore all warnings blindly
 2. Use 'minimal' profile to avoid warnings
@@ -45,19 +42,17 @@ Many warnings are context-dependent:
 ### 1. Missing Error Handling
 
 **Warning**:
-
 ```json
 {
-    "type": "best_practice",
-    "message": "No error handling configured",
-    "suggestion": "Add continueOnFail: true and retryOnFail: true"
+  "type": "best_practice",
+  "message": "No error handling configured",
+  "suggestion": "Add continueOnFail: true and retryOnFail: true"
 }
 ```
 
 #### When Acceptable
 
 **✅ Development/Testing Workflows**
-
 ```javascript
 // Testing workflow - failures are obvious
 {
@@ -77,7 +72,6 @@ Many warnings are context-dependent:
 **Reasoning**: You WANT to see failures during testing.
 
 **✅ Non-Critical Notifications**
-
 ```javascript
 // Nice-to-have notification
 {
@@ -93,7 +87,6 @@ Many warnings are context-dependent:
 **Reasoning**: Notification failure doesn't affect core functionality.
 
 **✅ Manual Trigger Workflows**
-
 ```javascript
 // Manual workflow - user is watching
 {
@@ -112,7 +105,6 @@ Many warnings are context-dependent:
 #### When to Fix
 
 **❌ Production Automation**
-
 ```javascript
 // BAD: Critical workflow without error handling
 {
@@ -128,7 +120,6 @@ Many warnings are context-dependent:
 ```
 
 **Fix**:
-
 ```javascript
 {
   "parameters": {
@@ -142,7 +133,6 @@ Many warnings are context-dependent:
 ```
 
 **❌ Critical Integrations**
-
 ```javascript
 // BAD: Payment processing without error handling
 {
@@ -157,19 +147,17 @@ Many warnings are context-dependent:
 ### 2. No Retry Logic
 
 **Warning**:
-
 ```json
 {
-    "type": "best_practice",
-    "message": "External API calls should retry on failure",
-    "suggestion": "Add retryOnFail: true with exponential backoff"
+  "type": "best_practice",
+  "message": "External API calls should retry on failure",
+  "suggestion": "Add retryOnFail: true with exponential backoff"
 }
 ```
 
 #### When Acceptable
 
 **✅ APIs with Built-in Retry**
-
 ```javascript
 // Stripe has its own retry mechanism
 {
@@ -183,7 +171,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Idempotent Operations**
-
 ```javascript
 // GET request - safe to retry manually if needed
 {
@@ -194,7 +181,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Local/Internal Services**
-
 ```javascript
 // Internal API with high reliability
 {
@@ -206,7 +192,6 @@ Many warnings are context-dependent:
 #### When to Fix
 
 **❌ Flaky External APIs**
-
 ```javascript
 // BAD: Known unreliable API without retries
 {
@@ -224,7 +209,6 @@ Many warnings are context-dependent:
 ```
 
 **❌ Non-Idempotent Operations**
-
 ```javascript
 // BAD: POST without retry - may lose data
 {
@@ -239,19 +223,17 @@ Many warnings are context-dependent:
 ### 3. Missing Rate Limiting
 
 **Warning**:
-
 ```json
 {
-    "type": "best_practice",
-    "message": "API may have rate limits",
-    "suggestion": "Add rate limiting or batch requests"
+  "type": "best_practice",
+  "message": "API may have rate limits",
+  "suggestion": "Add rate limiting or batch requests"
 }
 ```
 
 #### When Acceptable
 
 **✅ Internal APIs**
-
 ```javascript
 // Internal microservice - no rate limits
 {
@@ -261,7 +243,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Low-Volume Workflows**
-
 ```javascript
 // Runs once per day
 {
@@ -283,7 +264,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ APIs with Server-Side Limits**
-
 ```javascript
 // API returns 429 and n8n handles it
 {
@@ -302,7 +282,6 @@ Many warnings are context-dependent:
 #### When to Fix
 
 **❌ High-Volume Public APIs**
-
 ```javascript
 // BAD: Loop hitting rate-limited API
 {
@@ -342,19 +321,17 @@ Many warnings are context-dependent:
 ### 4. Unbounded Database Queries
 
 **Warning**:
-
 ```json
 {
-    "type": "performance",
-    "message": "SELECT without LIMIT can return massive datasets",
-    "suggestion": "Add LIMIT clause or use pagination"
+  "type": "performance",
+  "message": "SELECT without LIMIT can return massive datasets",
+  "suggestion": "Add LIMIT clause or use pagination"
 }
 ```
 
 #### When Acceptable
 
 **✅ Small Known Datasets**
-
 ```javascript
 // Config table with ~10 rows
 {
@@ -364,7 +341,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Aggregation Queries**
-
 ```javascript
 // COUNT/SUM operations
 {
@@ -374,7 +350,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Development/Testing**
-
 ```javascript
 // Testing with small dataset
 {
@@ -386,7 +361,6 @@ Many warnings are context-dependent:
 #### When to Fix
 
 **❌ Production Queries on Large Tables**
-
 ```javascript
 // BAD: User table could have millions of rows
 {
@@ -410,19 +384,17 @@ Many warnings are context-dependent:
 ### 5. Missing Input Validation
 
 **Warning**:
-
 ```json
 {
-    "type": "best_practice",
-    "message": "Webhook doesn't validate input data",
-    "suggestion": "Add IF node to validate required fields"
+  "type": "best_practice",
+  "message": "Webhook doesn't validate input data",
+  "suggestion": "Add IF node to validate required fields"
 }
 ```
 
 #### When Acceptable
 
 **✅ Internal Webhooks**
-
 ```javascript
 // Webhook from your own backend
 {
@@ -435,7 +407,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Trusted Sources**
-
 ```javascript
 // Webhook from Stripe (cryptographically signed)
 {
@@ -451,7 +422,6 @@ Many warnings are context-dependent:
 #### When to Fix
 
 **❌ Public Webhooks**
-
 ```javascript
 // BAD: Public webhook without validation
 {
@@ -497,19 +467,17 @@ Many warnings are context-dependent:
 ### 6. Hardcoded Credentials
 
 **Warning**:
-
 ```json
 {
-    "type": "security",
-    "message": "Credentials should not be hardcoded",
-    "suggestion": "Use n8n credential system"
+  "type": "security",
+  "message": "Credentials should not be hardcoded",
+  "suggestion": "Use n8n credential system"
 }
 ```
 
 #### When Acceptable
 
 **✅ Public APIs (No Auth)**
-
 ```javascript
 // Truly public API with no secrets
 {
@@ -519,7 +487,6 @@ Many warnings are context-dependent:
 ```
 
 **✅ Demo/Example Workflows**
-
 ```javascript
 // Example workflow in documentation
 {
@@ -534,7 +501,6 @@ Many warnings are context-dependent:
 #### When to Fix (Always!)
 
 **❌ Real Credentials**
-
 ```javascript
 // BAD: Real API key in workflow
 {
@@ -563,51 +529,45 @@ Many warnings are context-dependent:
 ### Strategy 1: Progressive Strictness
 
 **Development**:
-
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'ai-friendly', // Fewer warnings during development
-});
+  nodeType: "nodes-base.slack",
+  config,
+  profile: "ai-friendly"  // Fewer warnings during development
+})
 ```
 
 **Pre-Production**:
-
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'runtime', // Balanced validation
-});
+  nodeType: "nodes-base.slack",
+  config,
+  profile: "runtime"  // Balanced validation
+})
 ```
 
 **Production Deployment**:
-
 ```javascript
 validate_node({
-    nodeType: 'nodes-base.slack',
-    config,
-    profile: 'strict', // All warnings, review each one
-});
+  nodeType: "nodes-base.slack",
+  config,
+  profile: "strict"  // All warnings, review each one
+})
 ```
 
 ### Strategy 2: Profile by Workflow Type
 
 **Quick Automations**:
-
 - Profile: `ai-friendly`
 - Accept: Most warnings
 - Fix: Only errors + security warnings
 
 **Business-Critical Workflows**:
-
 - Profile: `strict`
 - Accept: Very few warnings
 - Fix: Everything possible
 
 **Integration Testing**:
-
 - Profile: `minimal`
 - Accept: All warnings (just testing connections)
 - Fix: Only errors that prevent execution
@@ -679,12 +639,11 @@ When accepting a warning, document why:
 ### Issue #304: IF Node Metadata Warning
 
 **Warning**:
-
 ```json
 {
-    "type": "metadata_incomplete",
-    "message": "IF node missing conditions.options metadata",
-    "node": "IF"
+  "type": "metadata_incomplete",
+  "message": "IF node missing conditions.options metadata",
+  "node": "IF"
 }
 ```
 
@@ -697,12 +656,11 @@ When accepting a warning, document why:
 ### Issue #306: Switch Branch Count
 
 **Warning**:
-
 ```json
 {
-    "type": "configuration_mismatch",
-    "message": "Switch has 3 rules but 4 output connections",
-    "node": "Switch"
+  "type": "configuration_mismatch",
+  "message": "Switch has 3 rules but 4 output connections",
+  "node": "Switch"
 }
 ```
 
@@ -715,11 +673,10 @@ When accepting a warning, document why:
 ### Issue #338: Credential Validation in Test Mode
 
 **Warning**:
-
 ```json
 {
-    "type": "credentials_invalid",
-    "message": "Cannot validate credentials without execution context"
+  "type": "credentials_invalid",
+  "message": "Cannot validate credentials without execution context"
 }
 ```
 
@@ -734,28 +691,24 @@ When accepting a warning, document why:
 ## Summary
 
 ### Always Fix
-
 - ❌ Security warnings
 - ❌ Hardcoded credentials
 - ❌ SQL injection risks
 - ❌ Production workflow errors
 
 ### Usually Fix
-
 - ⚠️ Error handling (production)
 - ⚠️ Retry logic (external APIs)
 - ⚠️ Input validation (public webhooks)
 - ⚠️ Rate limiting (high volume)
 
 ### Often Acceptable
-
 - ✅ Error handling (dev/test)
 - ✅ Retry logic (internal APIs)
 - ✅ Rate limiting (low volume)
 - ✅ Query limits (small datasets)
 
 ### Always Acceptable
-
 - ✅ Known n8n issues (#304, #306, #338)
 - ✅ Auto-sanitization warnings
 - ✅ Metadata completeness (auto-fixed)
@@ -763,6 +716,5 @@ When accepting a warning, document why:
 **Golden Rule**: If you accept a warning, document WHY.
 
 **Related Files**:
-
 - **[SKILL.md](SKILL.md)** - Main validation guide
 - **[ERROR_CATALOG.md](ERROR_CATALOG.md)** - Error types and fixes
