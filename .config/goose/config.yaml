@@ -1,8 +1,8 @@
 GOOSE_RECIPE_PATH: $HOME/.ai/recipes
 GOOSE_PROMPT_PATH: $HOME/.ai/prompts
 OLLAMA_HOST: localhost
-GOOSE_PROVIDER: gemini-cli
-GOOSE_MODEL: gemini-2.5-pro
+GOOSE_PROVIDER: ollama
+GOOSE_MODEL: lfm2.5-thinking:latest
 GEMINI_CLI_COMMAND: gemini
 GOOSE_CLI_MIN_PRIORITY: 0.0
 GOOSE_MODE: smart_approve
@@ -85,7 +85,7 @@ extensions:
     description: Repomix - Pack repositories into AI-friendly formats
     cmd: repomix
     args:
-      - --mcp
+    - --mcp
     envs: {}
     env_keys: []
     timeout: 250
@@ -98,7 +98,7 @@ extensions:
     description: s
     cmd: basic-memory
     args:
-      - mcp
+    - mcp
     envs: {}
     env_keys: []
     timeout: 250
@@ -111,8 +111,8 @@ extensions:
     description: GitHub MCP Server
     cmd: github-mcp-server
     args:
-      - stdio
-      - --log-file=/tmp/github-mcp-server.log
+    - stdio
+    - --log-file=/tmp/github-mcp-server.log
     envs: {}
     env_keys: []
     timeout: 250
@@ -143,6 +143,4 @@ extensions:
     bundled: true
     available_tools: []
 CLAUDE_CODE_COMMAND: claude
-# OPENAI_HOST: https://api.mistral.ai
-# OPENAI_BASE_PATH: v1/chat/completions
 GOOSE_TELEMETRY_ENABLED: false

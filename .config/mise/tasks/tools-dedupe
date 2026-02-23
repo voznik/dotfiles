@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#MISE description="Uninstall Arch packages that are managed by mise"
+
+set -euo pipefail
+
+dupes=()
+while IFS= read -r tool; do
+    if pkg=$(pacman -Q "$tool" 2>/dev/null); then
+        pkg_name="${pkg%% *}"
+        # Only include if package name EXACTLY matches the mise tool name
+        [[ "$pkg_name" == "$tool" ]] && dupes+=("$pkg_name")
+    fi
+done < <(mise list -g --json | jq -r 'keys[] | select(contains(":") | not)')
+
+[[ ${#dupes[@]} -eq 0 ]] && echo "✨ No duplicates" && exit 0
+
+echo "Found duplicates:"
+printf '%s\n' "${dupes[@]}" | nl -w2 -s') '
+echo
+choice=$(printf "No\nYes" | fzf --prompt "Uninstall these? " --height 3)
+[[ "$choice" == "Yes" ]] && sudo pacman -Rns "${dupes[@]}"

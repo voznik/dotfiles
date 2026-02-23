@@ -1,0 +1,31 @@
+# server-leitfade project — SSH to server
+# Matches both literal host and $COOLIFY_USER@$COOLIFY_DOMAIN env var forms
+
+# Deny destructive docker commands (highest priority)
+[[rule]]
+toolName = "run_shell_command"
+argsPattern = "ssh.*(voznik@server\\.leitfa\\.de|\\$COOLIFY_USER@\\$COOLIFY_DOMAIN).*docker\\s+(rm|rmi|system\\s+prune|stop|kill)\\b"
+decision = "deny"
+priority = 900
+deny_message = "Destructive docker commands are blocked by policy."
+
+# Allow all SSH to the server (deny rule above catches destructive ops)
+[[rule]]
+toolName = "run_shell_command"
+argsPattern = "ssh.*(voznik@server\\.leitfa\\.de|\\$COOLIFY_USER@\\$COOLIFY_DOMAIN)"
+decision = "allow"
+priority = 500
+
+# Coolify CLI
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "coolify"
+decision = "allow"
+priority = 500
+
+# echo (for testing)
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "echo"
+decision = "allow"
+priority = 500

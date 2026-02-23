@@ -8,18 +8,20 @@ Usage: wait-for-text.sh -t target -p pattern [options]
 Poll a tmux pane for text and exit when found.
 
 Options:
-  -t, --target    tmux target (session:window.pane), required
-  -p, --pattern   regex pattern to look for, required
-  -F, --fixed     treat pattern as a fixed string (grep -F)
-  -T, --timeout   seconds to wait (integer, default: 15)
-  -i, --interval  poll interval in seconds (default: 0.5)
-  -l, --lines     number of history lines to inspect (integer, default: 1000)
-  -h, --help      show this help
+  -t, --target       tmux target (session name or session:window.pane), required
+  -p, --pattern      regex pattern to look for, required
+  -S, --socket-path  tmux socket path (passed to tmux -S)
+  -F, --fixed        treat pattern as a fixed string (grep -F)
+  -T, --timeout      seconds to wait (integer, default: 15)
+  -i, --interval     poll interval in seconds (default: 0.5)
+  -l, --lines        number of history lines to inspect (integer, default: 1000)
+  -h, --help         show this help
 USAGE
 }
 
 target=""
 pattern=""
+socket_path=""
 grep_flag="-E"
 timeout=15
 interval=0.5
@@ -33,6 +35,10 @@ while [[ $# -gt 0 ]]; do
 		;;
 	-p | --pattern)
 		pattern="${2-}"
+		shift 2
+		;;
+	-S | --socket-path)
+		socket_path="${2-}"
 		shift 2
 		;;
 	-F | --fixed)
@@ -89,8 +95,10 @@ start_epoch=$(date +%s)
 deadline=$((start_epoch + timeout))
 
 while true; do
-	# -J joins wrapped lines, -S uses negative index to read last N lines
-	pane_text="$(tmux capture-pane -p -J -t "$target" -S "-${lines}" 2>/dev/null || true)"
+	# -J joins wrapped lines, -S (capture-pane flag) uses negative index to read last N lines
+	tmux_cmd=(tmux)
+	[[ -n "$socket_path" ]] && tmux_cmd+=(-S "$socket_path")
+	pane_text="$("${tmux_cmd[@]}" capture-pane -p -J -t "$target" -S "-${lines}" 2>/dev/null || true)"
 
 	if printf '%s\n' "$pane_text" | grep $grep_flag -- "$pattern" >/dev/null 2>&1; then
 		exit 0

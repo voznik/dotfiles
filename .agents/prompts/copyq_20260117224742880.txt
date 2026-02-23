@@ -1,0 +1,2 @@
+Use codebase_search if you're not sure how to do some code snippets idiomatically convention wise or if some code that can be reused exists
+

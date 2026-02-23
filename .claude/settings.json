@@ -41,7 +41,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$SHELL -c 'mise format'",
+            "command": "$SHELL -c 'jq -r .tool_input.file_path | xargs mise format'",
             "timeout": 30
           }
         ]
@@ -144,6 +144,5 @@
     "type": "command",
     "command": "\"$HOME\"/.claude/scripts/context-bar.sh"
   },
-  "autoUpdates": "disabled",
-  "model": "sonnet"
+  "autoUpdates": "disabled"
 }

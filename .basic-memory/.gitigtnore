@@ -1,0 +1,3 @@
+*.db*
+.install_id
+watch-status.json

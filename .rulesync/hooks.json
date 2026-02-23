@@ -1,10 +1,12 @@
 {
+  "$schema": "",
   "version": 1,
   "hooks": {
     "postToolUse": [
       {
         "type": "command",
-        "command": "$SHELL -c 'mise format'",
+        "description": "Format edited file using mise format",
+        "command": "$SHELL -c 'jq -r .tool_input.file_path | xargs mise format'",
         "timeout": 30,
         "matcher": "Edit|MultiEdit|Write"
       }
@@ -12,36 +14,42 @@
     "preCompact": [
       {
         "type": "command",
+        "description": "Prime bd before context compaction",
         "command": "bd prime"
       }
     ],
     "preToolUse": [
       {
         "type": "command",
+        "description": "Damage control safety check for Bash tool",
         "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/bash-tool-damage-control.py'",
         "timeout": 5,
         "matcher": "Bash"
       },
       {
         "type": "command",
+        "description": "Damage control safety check for Edit tool",
         "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/edit-tool-damage-control.py'",
         "timeout": 5,
         "matcher": "Edit"
       },
       {
         "type": "command",
+        "description": "Damage control safety check for Write tool",
         "command": "$SHELL -c 'uv run $HOME/.rulesync/hooks/damage-control/write-tool-damage-control.py'",
         "timeout": 5,
         "matcher": "Write"
       },
       {
         "type": "command",
+        "description": "Prevent edits to main branch files",
         "command": "$HOME/.rulesync/hooks/prevent-main-edit.sh",
         "timeout": 5,
         "matcher": "Edit|MultiEdit|Write"
       },
       {
         "type": "command",
+        "description": "Check Claude Code docs relevance on Read",
         "command": "$HOME/.claude-code-docs/claude-docs-helper.sh hook-check",
         "matcher": "Read"
       }
@@ -49,22 +57,26 @@
     "sessionStart": [
       {
         "type": "command",
+        "description": "Run rulesync setup on session start",
         "command": "$HOME/.rulesync/hooks/setup.sh",
         "timeout": 10
       },
       {
         "type": "command",
+        "description": "Toggle GitHub MCP server on session start",
         "command": "$HOME/.rulesync/hooks/github-mcp-toggle.sh",
         "timeout": 5
       },
       {
         "type": "command",
+        "description": "Prime bd on session start",
         "command": "$SHELL -c 'bd prime'"
       }
     ],
     "beforeSubmitPrompt": [
       {
         "type": "command",
+        "description": "Evaluate and activate relevant skills before prompt submission",
         "command": "$HOME/.rulesync/hooks/skill-eval/skill-eval.sh",
         "timeout": 5
       }

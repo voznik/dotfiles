@@ -1,0 +1,116 @@
+# Migration from tools.allowed and tools.exclude
+
+# Deny rules
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "rm"
+decision = "deny"
+priority = 100
+deny_message = "Deletion of files via shell is restricted by policy."
+
+# Allow rules for run_shell_command
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "jq"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "mise list"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "find"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "git"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "grep"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "ls"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "tail"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "head"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "wc"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "tmux"
+decision = "allow"
+priority = 100
+
+# Allow rules for memory and skills
+[[rule]]
+toolName = "save_memory"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "SaveMemory"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "SaveMemoryTool"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "activate_skill"
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "ActivateSkill"
+decision = "allow"
+priority = 100
+
+# File system tool restrictions
+# Matches are against JSON argument string.
+[[rule]]
+toolName = "read_file"
+argsPattern = '"file_path":"/home/voznik/\.(claude|gemini|config|ai)'
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "write_file"
+argsPattern = '"file_path":"/home/voznik/\.gemini'
+decision = "allow"
+priority = 100
+
+[[rule]]
+toolName = "replace"
+argsPattern = '"file_path":"/home/voznik/\.gemini'
+decision = "allow"
+priority = 100

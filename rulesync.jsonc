@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/dyoshikawa/rulesync/refs/heads/main/config-schema.json",
-  "targets": ["geminicli", "cursor", "claudecode", "opencode"],
+  "targets": ["geminicli", "goose", "claudecode", "opencode"],
   "features": ["rules", "ignore", "mcp", "commands", "subagents", "skills", "hooks"],
   "baseDirs": ["."],
-  "delete": false,
+  "delete": true,
   "verbose": true,
   "global": true,
   "silent": false,

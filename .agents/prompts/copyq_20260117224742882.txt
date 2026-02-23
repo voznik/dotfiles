@@ -1,0 +1,3 @@
+First plan what to do out loud. To do that, use codebase_search and grep etc. to get enough context of underlying source code and coding concepts I use so that you can actually plan idiomatically. Before you start implementing, challenge your plan if it is based on enough concepts and source code (DRY!) before you start implementing it.
+
+

@@ -1,0 +1,4 @@
+Please implement these pytests now idiomatically and DRY( reuse existing fixtures in dialogpilot for multitenancy, time freezing, auth client, factories for objects etc.) according to @testing_guide.md . Please also check @testing_guide.md .
+
+Please make sure that tests meet my specs - not code under test. Ideally,code under test should perform accordingly to assert successfully inside given test. First read the given pytest file to understand how idiomatic test code looks for it.
+

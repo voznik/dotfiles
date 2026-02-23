@@ -19,6 +19,9 @@ version = "latest"
 [tools.node]
 version = "24"
 
+[tools.bun]
+version = "1.3.10"
+
 [tools.python]
 version = "3.13"
 
@@ -29,15 +32,17 @@ gum = "latest"
 yq = "latest"
 atuin = "latest"
 duckdb = "latest"
+"aqua:minio/mc" = "latest"
 gh = "latest"
 glab = "latest"
 glow = "latest"
 navi = { version = "latest", postinstall = "bash -c 'if [ -z \"$NAVI_TAG_RULES\" ]; then fd -e cheat fly \"$HOME/.local/share/navi/cheats\" -x mv {} {}.disabled 2>/dev/null; fi'" }
 rustic = "latest"
 restic = "latest"
+ast-grep = "latest"
 
 # npm registry
-bun = { version = "latest", postinstall = "bun install -g tokscale" }
+pnpm = "latest"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
@@ -78,6 +83,8 @@ ruff = "latest"
 "pipx:trilium-alchemy" = "latest"
 "github:amir20/dtop" = "latest"
 "github:trailbaseio/trailbase" = "latest"
+"github:Dicklesworthstone/pi_agent_rust" = "latest"
+"github:Dicklesworthstone/coding_agent_session_search" = "latest"
 # oxc
 # "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
 
@@ -90,6 +97,7 @@ zola = "latest"
 
 # go
 "go:github.com/steveyegge/beads/cmd/bd" = "latest"
+"go:github.com/Gylmynnn/goclean" = "latest"
 
 # "http:packages.httpie.io/binaries/linux/http-latest" = { version = "latest", bin = "httpie" }
 [tools."http:httpie"]
@@ -111,3 +119,11 @@ dir = "{{cwd}}"
 includes = [
   "{{ config_root }}/tasks", # Global tasks available everywhere
 ]
+
+[tasks.tokscale]
+description = ""
+run = "bunx tokscale@latest"
+
+[tasks.skopeo]
+description = "wrap skopeo"
+run = "podman run docker://quay.io/skopeo/stable:latest"

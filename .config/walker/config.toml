@@ -66,15 +66,19 @@ prefix = "!"
 provider = "providerlist"
 
 [[providers.prefixes]]
+prefix = "_"
+provider = "bitwarden"
+
+[[providers.prefixes]]
 prefix = ">"
 provider = "menus:ai"
 
 [[providers.prefixes]]
-prefix = "\\"
+prefix = "$"
 provider = "bookmarks"
 
 [[providers.prefixes]]
-prefix = "_"
+prefix = "("
 provider = "menus:other"
 
 [[providers.prefixes]]
@@ -111,7 +115,7 @@ prefix = "~"
 provider = "windows"
 
 [[providers.prefixes]]
-prefix = "-"
+prefix = "<"
 provider = "snippets"
 
 [providers.clipboard]
@@ -164,9 +168,7 @@ fallback = [
 
 dmenu = [{ action = "select", default = true, bind = "Return" }]
 
-providerlist = [
-  { action = "activate", default = true, bind = "Return", after = "ClearReload" },
-]
+providerlist = [{ action = "activate", default = true, bind = "Return", after = "ClearReload" }]
 
 bluetooth = [
   { action = "find", bind = "ctrl f", after = "AsyncClearReload" },
@@ -221,22 +223,6 @@ files = [
   { action = "refresh_index", label = "reload", bind = "ctrl r", after = "AsyncReload" },
 ]
 
-1password = [
-{ action = "copy_password", label = "copy password", default = true, bind = "Return" },
-{ action = "copy_username", label = "copy username", bind = "shift Return" },
-{ action = "copy_2fa", label = "copy 2fa", bind = "ctrl Return" },
-]
-
-bitwarden = [
-  { action = "copypassword", label = "copy password", default = true, bind = "Return" },
-  { action = "typepassword", label = "type password", default = true, bind = "ctrl p" },
-  { action = "copyusername", label = "copy username", bind = "shift Return" },
-  { action = "typeusername", label = "type username", bind = "ctrl u" },
-  { action = "copyotp", label = "copy 2fa", bind = "ctrl Return" },
-  { action = "typeotp", label = "type 2fa", bind = "ctrl t" },
-  { action = "syncvault", label = "sync", bind = "ctrl s" },
-]
-
 todo = [
   { action = "save", default = true, bind = "Return", after = "AsyncClearReload" },
   { action = "save_next", label = "save & new", bind = "shift Return", after = "AsyncClearReload" },
@@ -255,17 +241,23 @@ runner = [
   { action = "runterminal", label = "run in terminal", bind = "shift Return" },
 ]
 
-symbols = [
-  { action = "run_cmd", label = "select", default = true, bind = "Return" },
-]
+symbols = [{ action = "run_cmd", label = "select", default = true, bind = "Return" }]
 
-unicode = [
-  { action = "run_cmd", label = "select", default = true, bind = "Return" },
-]
+unicode = [{ action = "run_cmd", label = "select", default = true, bind = "Return" }]
 
 nirisessions = [
   { action = "start", label = "start", default = true, bind = "Return" },
   { action = "start_new", label = "start blank", bind = "ctrl Return" },
+]
+
+bitwarden = [
+  { action = "copypassword", label = "copy password", default = true, bind = "Return" },
+  { action = "typepassword", label = "type password", default = true, bind = "ctrl p" },
+  { action = "copyusername", label = "copy username", bind = "shift Return" },
+  { action = "typeusername", label = "type username", bind = "ctrl u" },
+  { action = "copyotp", label = "copy 2fa", bind = "ctrl Return" },
+  { action = "typeotp", label = "type 2fa", bind = "ctrl t" },
+  { action = "syncvault", label = "sync", bind = "ctrl s" },
 ]
 
 clipboard = [
@@ -275,8 +267,10 @@ clipboard = [
   { action = "show_images_only", label = "only images", bind = "ctrl i", after = "AsyncClearReload" },
   { action = "show_text_only", label = "only text", bind = "ctrl i", after = "AsyncClearReload" },
   { action = "show_combined", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
-  { action = "pause", bind = "ctrl p" },
-  { action = "unpause", bind = "ctrl p" },
+  { action = "pause", bind = "ctrl shift p" },
+  { action = "unpause", bind = "ctrl shift p" },
+  { action = "unpin", bind = "ctrl p", after = "AsyncClearReload" },
+  { action = "pin", bind = "ctrl p", after = "AsyncClearReload" },
   { action = "edit", bind = "ctrl o" },
   { action = "localsend", bind = "ctrl l" },
 ]

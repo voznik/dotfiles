@@ -1,0 +1,40 @@
+{
+  "env": "dev",
+  "projects": {
+    "basic": "/home/voznik/Documents/PKM/basic",
+    "work": "/home/voznik/workspace/.docs"
+  },
+  "default_project": "basic",
+  "default_project_mode": true,
+  "log_level": "DEBUG",
+  "database_backend": "sqlite",
+  "database_url": null,
+  "db_pool_size": 10,
+  "db_pool_overflow": 20,
+  "db_pool_recycle": 180,
+  "sync_delay": 1000,
+  "watch_project_reload_interval": 1000,
+  "update_permalinks_on_move": true,
+  "sync_changes": true,
+  "sync_thread_pool_size": 2,
+  "sync_max_concurrent_files": 10,
+  "kebab_filenames": false,
+  "disable_permalinks": false,
+  "skip_initialization_sync": true,
+  "format_on_save": false,
+  "formatter_command": null,
+  "formatters": {},
+  "formatter_timeout": 5.0,
+  "project_root": null,
+  "cloud_client_id": "client_01KG45TCZKR83Y192S466X84WW",
+  "cloud_domain": "https://dreamy-cosmos-19-staging.authkit.app",
+  "cloud_host": "http://basic-memory.127.0.0.1.nip.io",
+  "cloud_mode": false,
+  "cloud_projects": {
+    "test-project": {
+      "local_path": "/home/voznik/Documents/PKM/test-project",
+      "last_sync": "2026-01-29T19:49:34.940582",
+      "bisync_initialized": true
+    }
+  }
+}

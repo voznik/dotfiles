@@ -1,6 +1,3 @@
-# Generic Colorizer Git Clone
-grc
-
 # GitConfig Private
 .gitconfig_private
 
@@ -11,8 +8,7 @@ grc
 .env*
 !.env.example
 .bash_history
-!.bash_logout
-**/*.log
+**/*.log*
 **/logs/*
 **/.migrations/*
 /tmp
@@ -32,7 +28,8 @@ tmp/**/*
 **/buffers*
 .fire*
 **/gum*
-**/*.bak
+**/*.bak*
+**/*.lock*
 
 # Apple
 .DS_Store
@@ -124,11 +121,8 @@ shilocation
 
 
 # Top secret stuff!
-.ssh/id_*
-.ssh/*.pem
-.ssh/known_hosts*
-.ssh/environment*
-.ssh/master/*
+.ssh
+.keychain
 
 # Ignore any file with LOCAL in the name (good for per-machine vars/functions)
 *LOCAL*
@@ -139,25 +133,16 @@ shilocation
 
 .claude/*
 !.claude/settings.json
-!.claude/skills
-!.claude/scripts
-!.claude/commands
 
 .gemini/*
 !.gemini/settings.json
-!.gemini/skills
-!.gemini/commands
-!.gemini/AGENTS.md
 
 .opencode/*
 !.opencode/oepncode.json
-!.opencode/skill
-!.opencode/command
 
 .config/doublecmd/*
 !.config/doublecmd/doublecmd.xml
 .config/copyq/*
 !.config/copyq/copyq.conf
 
-!.rulesync/*
-!rulesync.jsonc
+!.rulesync

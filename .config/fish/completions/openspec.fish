@@ -36,31 +36,31 @@ function __fish_openspec_items
     __fish_openspec_specs
 end
 # init command
-complete -c openspec -n __fish_openspec_no_subcommand -a init -d 'Initialize OpenSpec in your project'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'init' -d 'Initialize OpenSpec in your project'
 # update command
-complete -c openspec -n __fish_openspec_no_subcommand -a update -d 'Update OpenSpec instruction files'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'update' -d 'Update OpenSpec instruction files'
 # list command
-complete -c openspec -n __fish_openspec_no_subcommand -a list -d 'List items (changes by default, or specs with --specs)'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'list' -d 'List items (changes by default, or specs with --specs)'
 # view command
-complete -c openspec -n __fish_openspec_no_subcommand -a view -d 'Display an interactive dashboard of specs and changes'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'view' -d 'Display an interactive dashboard of specs and changes'
 # validate command
-complete -c openspec -n __fish_openspec_no_subcommand -a validate -d 'Validate changes and specs'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'validate' -d 'Validate changes and specs'
 # show command
-complete -c openspec -n __fish_openspec_no_subcommand -a show -d 'Show a change or spec'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'show' -d 'Show a change or spec'
 # archive command
-complete -c openspec -n __fish_openspec_no_subcommand -a archive -d 'Archive a completed change and update main specs'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'archive' -d 'Archive a completed change and update main specs'
 # feedback command
-complete -c openspec -n __fish_openspec_no_subcommand -a feedback -d 'Submit feedback about OpenSpec'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'feedback' -d 'Submit feedback about OpenSpec'
 # change command
-complete -c openspec -n __fish_openspec_no_subcommand -a change -d 'Manage OpenSpec change proposals (deprecated)'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'change' -d 'Manage OpenSpec change proposals (deprecated)'
 # spec command
-complete -c openspec -n __fish_openspec_no_subcommand -a spec -d 'Manage OpenSpec specifications'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'spec' -d 'Manage OpenSpec specifications'
 # completion command
-complete -c openspec -n __fish_openspec_no_subcommand -a completion -d 'Manage shell completions for OpenSpec CLI'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'completion' -d 'Manage shell completions for OpenSpec CLI'
 # config command
-complete -c openspec -n __fish_openspec_no_subcommand -a config -d 'View and modify global OpenSpec configuration'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'config' -d 'View and modify global OpenSpec configuration'
 # schema command
-complete -c openspec -n __fish_openspec_no_subcommand -a schema -d 'Manage workflow schemas'
+complete -c openspec -n '__fish_openspec_no_subcommand' -a 'schema' -d 'Manage workflow schemas'
 
 # init flags
 complete -c openspec -n '__fish_openspec_using_subcommand init' -l tools -r -d 'Configure AI tools non-interactively (e.g., "all", "none", or comma-separated tool IDs)'
@@ -77,8 +77,8 @@ complete -c openspec -n '__fish_openspec_using_subcommand list' -l changes -d 'L
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l all -d 'Validate all changes and specs'
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l changes -d 'Validate all changes'
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l specs -d 'Validate all specs'
-complete -c openspec -n '__fish_openspec_using_subcommand validate' -l type -a change -d 'Specify item type when ambiguous'
-complete -c openspec -n '__fish_openspec_using_subcommand validate' -l type -a spec -d 'Specify item type when ambiguous'
+complete -c openspec -n '__fish_openspec_using_subcommand validate' -l type -a 'change' -d 'Specify item type when ambiguous'
+complete -c openspec -n '__fish_openspec_using_subcommand validate' -l type -a 'spec' -d 'Specify item type when ambiguous'
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l strict -d 'Enable strict validation mode'
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l json -d 'Output validation results as JSON'
 complete -c openspec -n '__fish_openspec_using_subcommand validate' -l concurrency -r -d 'Max concurrent validations (defaults to env OPENSPEC_CONCURRENCY or 6)'
@@ -87,8 +87,8 @@ complete -c openspec -n '__fish_openspec_using_subcommand validate' -a '(__fish_
 
 # show flags
 complete -c openspec -n '__fish_openspec_using_subcommand show' -l json -d 'Output as JSON'
-complete -c openspec -n '__fish_openspec_using_subcommand show' -l type -a change -d 'Specify item type when ambiguous'
-complete -c openspec -n '__fish_openspec_using_subcommand show' -l type -a spec -d 'Specify item type when ambiguous'
+complete -c openspec -n '__fish_openspec_using_subcommand show' -l type -a 'change' -d 'Specify item type when ambiguous'
+complete -c openspec -n '__fish_openspec_using_subcommand show' -l type -a 'spec' -d 'Specify item type when ambiguous'
 complete -c openspec -n '__fish_openspec_using_subcommand show' -l no-interactive -d 'Disable interactive prompts'
 complete -c openspec -n '__fish_openspec_using_subcommand show' -l deltas-only -d 'Show only deltas (JSON only, change-specific)'
 complete -c openspec -n '__fish_openspec_using_subcommand show' -l requirements-only -d 'Alias for --deltas-only (deprecated, change-specific)'
@@ -106,9 +106,9 @@ complete -c openspec -n '__fish_openspec_using_subcommand archive' -a '(__fish_o
 # feedback flags
 complete -c openspec -n '__fish_openspec_using_subcommand feedback' -l body -r -d 'Detailed description for the feedback'
 
-complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand show' -a show -d 'Show a change proposal'
-complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand list' -a list -d 'List all active changes (deprecated)'
-complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand validate' -a validate -d 'Validate a change proposal'
+complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand show' -a 'show' -d 'Show a change proposal'
+complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand list' -a 'list' -d 'List all active changes (deprecated)'
+complete -c openspec -n '__fish_openspec_using_subcommand change; and not __fish_openspec_using_subcommand validate' -a 'validate' -d 'Validate a change proposal'
 
 # change show flags
 complete -c openspec -n '__fish_openspec_using_subcommand change; and __fish_openspec_using_subcommand show' -l json -d 'Output as JSON'
@@ -125,9 +125,9 @@ complete -c openspec -n '__fish_openspec_using_subcommand change; and __fish_ope
 complete -c openspec -n '__fish_openspec_using_subcommand change; and __fish_openspec_using_subcommand validate' -l no-interactive -d 'Disable interactive prompts'
 complete -c openspec -n '__fish_openspec_using_subcommand change; and __fish_openspec_using_subcommand validate' -a '(__fish_openspec_changes)' -f
 
-complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand show' -a show -d 'Show a specification'
-complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand list' -a list -d 'List all specifications'
-complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand validate' -a validate -d 'Validate a specification'
+complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand show' -a 'show' -d 'Show a specification'
+complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand list' -a 'list' -d 'List all specifications'
+complete -c openspec -n '__fish_openspec_using_subcommand spec; and not __fish_openspec_using_subcommand validate' -a 'validate' -d 'Validate a specification'
 
 # spec show flags
 complete -c openspec -n '__fish_openspec_using_subcommand spec; and __fish_openspec_using_subcommand show' -l json -d 'Output as JSON'
@@ -145,9 +145,9 @@ complete -c openspec -n '__fish_openspec_using_subcommand spec; and __fish_opens
 complete -c openspec -n '__fish_openspec_using_subcommand spec; and __fish_openspec_using_subcommand validate' -l no-interactive -d 'Disable interactive prompts'
 complete -c openspec -n '__fish_openspec_using_subcommand spec; and __fish_openspec_using_subcommand validate' -a '(__fish_openspec_specs)' -f
 
-complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand generate' -a generate -d 'Generate completion script for a shell (outputs to stdout)'
-complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand install' -a install -d 'Install completion script for a shell'
-complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand uninstall' -a uninstall -d 'Uninstall completion script for a shell'
+complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand generate' -a 'generate' -d 'Generate completion script for a shell (outputs to stdout)'
+complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand install' -a 'install' -d 'Install completion script for a shell'
+complete -c openspec -n '__fish_openspec_using_subcommand completion; and not __fish_openspec_using_subcommand uninstall' -a 'uninstall' -d 'Uninstall completion script for a shell'
 
 # completion generate flags
 complete -c openspec -n '__fish_openspec_using_subcommand completion; and __fish_openspec_using_subcommand generate' -a 'zsh bash fish powershell' -f
@@ -158,15 +158,16 @@ complete -c openspec -n '__fish_openspec_using_subcommand completion; and __fish
 complete -c openspec -n '__fish_openspec_using_subcommand completion; and __fish_openspec_using_subcommand uninstall' -s y -l yes -d 'Skip confirmation prompts'
 complete -c openspec -n '__fish_openspec_using_subcommand completion; and __fish_openspec_using_subcommand uninstall' -a 'zsh bash fish powershell' -f
 
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand path' -a path -d 'Show config file location'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand list' -a list -d 'Show all current settings'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand get' -a get -d 'Get a specific value (raw, scriptable)'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand set' -a set -d 'Set a value (auto-coerce types)'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand unset' -a unset -d 'Remove a key (revert to default)'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand reset' -a reset -d 'Reset configuration to defaults'
-complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand edit' -a edit -d 'Open config in \$EDITOR'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand path' -a 'path' -d 'Show config file location'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand list' -a 'list' -d 'Show all current settings'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand get' -a 'get' -d 'Get a specific value (raw, scriptable)'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand set' -a 'set' -d 'Set a value (auto-coerce types)'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand unset' -a 'unset' -d 'Remove a key (revert to default)'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand reset' -a 'reset' -d 'Reset configuration to defaults'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand edit' -a 'edit' -d 'Open config in \$EDITOR'
+complete -c openspec -n '__fish_openspec_using_subcommand config; and not __fish_openspec_using_subcommand profile' -a 'profile' -d 'Configure workflow profile (interactive picker or preset shortcut)'
 
-complete -c openspec -n '__fish_openspec_using_subcommand config' -l scope -a global -d 'Config scope (only "global" supported currently)'
+complete -c openspec -n '__fish_openspec_using_subcommand config' -l scope -a 'global' -d 'Config scope (only "global" supported currently)'
 # config path flags
 # config list flags
 complete -c openspec -n '__fish_openspec_using_subcommand config; and __fish_openspec_using_subcommand list' -l json -d 'Output as JSON'
@@ -179,11 +180,12 @@ complete -c openspec -n '__fish_openspec_using_subcommand config; and __fish_ope
 complete -c openspec -n '__fish_openspec_using_subcommand config; and __fish_openspec_using_subcommand reset' -l all -d 'Reset all configuration (required)'
 complete -c openspec -n '__fish_openspec_using_subcommand config; and __fish_openspec_using_subcommand reset' -s y -l yes -d 'Skip confirmation prompts'
 # config edit flags
+# config profile flags
 
-complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand which' -a which -d 'Show where a schema resolves from'
-complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand validate' -a validate -d 'Validate a schema structure and templates'
-complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand fork' -a fork -d 'Copy an existing schema to project for customization'
-complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand init' -a init -d 'Create a new project-local schema'
+complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand which' -a 'which' -d 'Show where a schema resolves from'
+complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand validate' -a 'validate' -d 'Validate a schema structure and templates'
+complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand fork' -a 'fork' -d 'Copy an existing schema to project for customization'
+complete -c openspec -n '__fish_openspec_using_subcommand schema; and not __fish_openspec_using_subcommand init' -a 'init' -d 'Create a new project-local schema'
 
 # schema which flags
 complete -c openspec -n '__fish_openspec_using_subcommand schema; and __fish_openspec_using_subcommand which' -l json -d 'Output as JSON'

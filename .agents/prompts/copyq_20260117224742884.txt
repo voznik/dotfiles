@@ -1,0 +1,10 @@
+Implement this plan now as planned! 
+For each file: If you feel that you need more context while implementing a file to make it idiomatic and DRY, please grep and/or open files you think could carry relevant/helpful code 
+
+
+Do not fix linter errors.
+Do not implement pytests yet.
+
+
+Implement now
+

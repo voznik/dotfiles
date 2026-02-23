@@ -3,3 +3,4 @@ alias lazypodman='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocke
 # alias jcl 'journalctl -f -o json --since "1 hour ago" | lnav'
 alias ksh='killssh'
 alias coolify="coolify --token '$COOLIFY_API_TOKEN'"
+alias tokscale="bunx tokscale@latest"

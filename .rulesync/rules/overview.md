@@ -33,6 +33,8 @@ globs: ['**/*']
 - Autonomous Verification Protocol: When inside a tmux session, if a solution involves configuration changes for a shell tool (e.g., gemini, yazi, lnav), automatically use the `tmux` skill to run, debug, and verify the changes personally by capturing shell output, instead of asking the user to verify.
 - Gemini CLI `tools.allowed` list uses PascalCase aliases (Read, Write, Replace, Bash) while `hooks.matchers` use snake_case tool names (read_file, write_file, replace, run_shell_command). Hooks receive input via STDIN, not environment variables.
 
+---
+
 ## Script Development
 
 **When user requests "small/tiny" scripts:**
@@ -53,3 +55,70 @@ jq -r 'keys[] | select(contains(":") | not)'  # Test with: mise list -g --json |
 # Then verify exact package name matching to avoid false positives
 [[ "$pkg_name" == "$tool" ]] && dupes+=("$pkg_name")
 ```
+---
+
+## ast-grep vs ripgrep
+
+**Use `ast-grep` when structure matters.** It parses code and matches AST nodes, ignoring comments/strings, and can **safely rewrite** code.
+
+- Refactors/codemods: rename APIs, change import forms
+- Policy checks: enforce patterns across a repo
+- Editor/automation: LSP mode, `--json` output
+
+**Use `ripgrep` when text is enough.** Fastest way to grep literals/regex.
+
+- Recon: find strings, TODOs, log lines, config values
+- Pre-filter: narrow candidate files before ast-grep
+
+### Rule of Thumb
+
+- Need correctness or **applying changes** → `ast-grep`
+- Need raw speed or **hunting text** → `rg`
+- Often combine: `rg` to shortlist files, then `ast-grep` to match/modify
+
+### Rust Examples
+
+```bash
+# Find structured code (ignores comments)
+ast-grep run -l Rust -p 'fn $NAME($$$ARGS) -> $RET { $$$BODY }'
+
+# Find all unwrap() calls
+ast-grep run -l Rust -p '$EXPR.unwrap()'
+
+# Quick textual hunt
+rg -n 'println!' -t rust
+
+# Combine speed + precision
+rg -l -t rust 'unwrap\(' | xargs ast-grep run -l Rust -p '$X.unwrap()' --json
+```
+
+---
+
+## cass — Cross-Agent Session Search
+
+`cass` indexes prior agent conversations (Claude Code, Codex, Cursor, Gemini, ChatGPT, etc.) so we can reuse solved problems.
+
+**Rules:** Never run bare `cass` (TUI). Always use `--robot` or `--json`.
+
+### Examples
+
+```bash
+cass health
+cass search "async runtime" --robot --limit 5
+cass view /path/to/session.jsonl -n 42 --json
+cass expand /path/to/session.jsonl -n 42 -C 3 --json
+cass capabilities --json
+cass robot-docs guide
+```
+
+### Tips
+
+- Use `--fields minimal` for lean output
+- Filter by agent with `--agent`
+- Use `--days N` to limit to recent history
+
+stdout is data-only, stderr is diagnostics; exit code 0 means success.
+
+Treat cass as a way to avoid re-solving problems other agents already handled.
+
+---

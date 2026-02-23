@@ -11,125 +11,197 @@ targets:
 
 Use tmux only when you need an interactive TTY. Prefer bash background mode for long-running, non-interactive tasks.
 
-## Quickstart (isolated socket, bash tool)
+---
+
+## CRITICAL: Sending input to TUI apps (gemini, opencode, aider, etc.)
+
+TUI apps have their own input areas. They intercept raw keystrokes.
+The ONLY reliable way to type text and submit it is the **two-step raw tmux** method below.
+
+### THE PROVEN PATTERN (use this, nothing else):
 
 ```bash
-SOCKET_DIR="${TMP_CLI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/tmp-cli-tmux-sockets}"
-mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/tmp-cli.sock"
-SESSION=tmp-cli-python
+# Step 1: Type the text using -l (literal flag -- prevents key interpretation)
+SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/tmp-cli.sock"
+tmux -S "$SOCKET" send-keys -t SESSION_NAME -l 'Your question here'
 
-# Always detect base indices to avoid "can't find window: 0" errors
-B_IDX=$(tmux -S "$SOCKET" show-options -gv base-index 2>/dev/null || echo 0)
-P_IDX=$(tmux -S "$SOCKET" show-options -gv pane-base-index 2>/dev/null || echo 0)
-TARGET="$SESSION:$B_IDX.$P_IDX"
-
-tmux -S "$SOCKET" new -d -s "$SESSION" -n shell
-tmux -S "$SOCKET" send-keys -t "$TARGET" -- 'PYTHON_BASIC_REPL=1 python3 -q' Enter
-
-# Use wait-for-text instead of blind sleeps
-# ~/.rulesync/scripts/wait-for-text.sh -t "$TARGET" -p '>>>'
-tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200
+# Step 2: Small pause, then press Enter as a SEPARATE send-keys call
+sleep 0.3
+tmux -S "$SOCKET" send-keys -t SESSION_NAME Enter
 ```
 
-After starting a session, always print monitor commands:
+**All three parts are MANDATORY:**
+1. `-l` flag (literal) -- sends text character-by-character without interpretation
+2. `sleep 0.3` -- gives the TUI time to receive all characters
+3. **Separate** `Enter` -- must be its own send-keys call, NOT appended to the text
 
-```
-To monitor:
-  tmux -S "$SOCKET" attach -t "$SESSION"
-  tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200
-```
+### WHAT WILL FAIL (never do these):
 
-## Socket convention
+| WRONG approach | Why it fails |
+|---|---|
+| `send-keys 'text' Enter` (no `-l`) | tmux interprets special chars, TUI gets garbage |
+| `send-keys -l 'text' Enter` (Enter in same call) | `-l` makes Enter literal text "Enter", not a keypress |
+| `send-keys -t session C-m` | Many TUIs don't map C-m to submit |
+| `$TM run session 'text'` | tm run sends to shell, not to the TUI's input area |
+| `$TM send session 'text'` | Same problem -- sends to shell, TUI ignores it |
 
-- Use `TMP_CLI_TMUX_SOCKET_DIR` (default `${TMPDIR:-/tmp}/tmp-cli-tmux-sockets`).
-- Default socket path: `"$TMP_CLI_TMUX_SOCKET_DIR/tmp-cli.sock"`.
+### WHAT TO DO IF NO RESPONSE APPEARS:
 
-## Targeting panes and naming
+**Your input was NOT submitted.** Do NOT "wait more". Instead:
+1. Read the pane to see current state
+2. Try sending `Enter` again (the text may still be in the input area)
+3. If input area is empty, re-type with the proven pattern above
 
-- **CRITICAL**: Do NOT assume `:0.0`. Detect `base-index` and `pane-base-index`.
-- Target format: `session:window.pane`.
-- Alternative: Use `session:active` for the currently focused pane.
-- Keep names short; avoid spaces.
-- Inspect: `tmux -S "$SOCKET" list-sessions`, `tmux -S "$SOCKET" list-panes -a`.
+**NEVER choose to "wait longer" if a TUI shows no response after 5 seconds. The submit failed. Act immediately.**
 
-## Finding sessions
+---
 
-- List sessions on your socket: `~/.rulesync/scripts/find-sessions.sh -S "$SOCKET"`.
-- Scan all sockets: `~/.rulesync/scripts/find-sessions.sh --all` (uses `TMP_CLI_TMUX_SOCKET_DIR`).
+## Complete TUI interaction workflow
 
-## Sending input safely
+Full copy-paste recipe for interacting with TUI agents like gemini or opencode.
 
-- Prefer literal sends: `tmux -S "$SOCKET" send-keys -t "$TARGET" -l -- "$cmd"`.
-- Control keys: `tmux -S "$SOCKET" send-keys -t "$TARGET" C-c`.
-
-## Watching output
-
-- Capture recent history: `tmux -S "$SOCKET" capture-pane -p -J -t "$TARGET" -S -200`.
-- Wait for prompts: `~/.rulesync/scripts/wait-for-text.sh -t "$TARGET" -p 'pattern'`.
-- Attaching is OK; detach with `Ctrl+b d`.
-
-## Spawning processes
-
-- For python REPLs, set `PYTHON_BASIC_REPL=1` (non-basic REPL breaks send-keys flows).
-
-## Windows / WSL
-
-- tmux is supported on macOS/Linux. On Windows, use WSL and install tmux inside WSL.
-- This skill is gated to `darwin`/`linux` and requires `tmux` on PATH.
-
-## Orchestrating Coding Agents (Gemini, Claude Code)
-
-tmux excels at running multiple coding agents in parallel:
+### Launch
 
 ```bash
-SOCKET="${TMPDIR:-/tmp}/gemini-army.sock"
+# Create session
+TM=~/.rulesync/scripts/tm.sh && $TM new my-session
 
-# Create multiple sessions
-for i in 1 2 3 4 5; do
-  tmux -S "$SOCKET" new-session -d -s "agent-$i"
-done
+# Launch the TUI app (use tm send -- it just sends keystrokes to shell)
+TM=~/.rulesync/scripts/tm.sh && $TM send my-session 'gemini'
 
-# Launch agents in different workdirs
-tmux -S "$SOCKET" send-keys -t agent-1 "cd /tmp/project1 && gemini --yolo 'Fix bug X'" Enter
-tmux -S "$SOCKET" send-keys -t agent-2 "cd /tmp/project2 && gemini --yolo 'Fix bug Y'" Enter
-
-# Poll for completion (check if prompt returned)
-for sess in agent-1 agent-2; do
-  if tmux -S "$SOCKET" capture-pane -p -t "$sess" -S -3 | grep -q "❯"; then
-    echo "$sess: DONE"
-  else
-    echo "$sess: Running..."
-  fi
-done
-
-# Get full output from completed session
-tmux -S "$SOCKET" capture-pane -p -t agent-1 -S -500
+# Wait for startup, then read to confirm it's ready
+sleep 3 && TM=~/.rulesync/scripts/tm.sh && $TM read my-session
 ```
 
-**Tips:**
-
-- Use separate git worktrees for parallel fixes (no branch conflicts)
-- `pnpm install` first before running gemini in fresh clones
-- Check for shell prompt (`❯` or `$`) to detect completion
-- gemini needs `--yolo` for non-interactive fixes
-
-## Cleanup
-
-- Kill a session: `tmux -S "$SOCKET" kill-session -t "$SESSION"`.
-- Kill all sessions on a socket: `tmux -S "$SOCKET" list-sessions -F '#{session_name}' | xargs -r -n1 tmux -S "$SOCKET" kill-session -t`.
-- Remove everything on the private socket: `tmux -S "$SOCKET" kill-server`.
-
-## Helper: wait-for-text.sh
-
-`~/.rulesync/scripts/wait-for-text.sh` polls a pane for a regex (or fixed string) with a timeout.
+### Send a question (raw tmux -- MUST use this for TUI input)
 
 ```bash
-~/.rulesync/scripts/wait-for-text.sh -t session:0.0 -p 'pattern' [-F] [-T 20] [-i 0.5] [-l 2000]
+# Type + submit (TWO separate send-keys calls, ALWAYS)
+SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/tmp-cli.sock"
+tmux -S "$SOCKET" send-keys -t my-session -l 'What is 2+2?' && sleep 0.3 && tmux -S "$SOCKET" send-keys -t my-session Enter
+
+# Wait for response, then read
+sleep 5 && TM=~/.rulesync/scripts/tm.sh && $TM read my-session
 ```
 
-- `-t`/`--target` pane target (required)
-- `-p`/`--pattern` regex to match (required); add `-F` for fixed string
-- `-T` timeout seconds (integer, default 15)
-- `-i` poll interval seconds (default 0.5)
-- `-l` history lines to search (integer, default 1000)
+### Quit
+
+```bash
+# TUI commands like /quit also need the same two-step pattern
+SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/tmp-cli.sock"
+tmux -S "$SOCKET" send-keys -t my-session -l '/quit' && sleep 0.3 && tmux -S "$SOCKET" send-keys -t my-session Enter
+
+# Confirm exit
+sleep 2 && TM=~/.rulesync/scripts/tm.sh && $TM read my-session
+```
+
+### Cleanup
+
+```bash
+TM=~/.rulesync/scripts/tm.sh && $TM kill my-session
+```
+
+---
+
+## `tm` helper -- for shell commands only
+
+`~/.rulesync/scripts/tm.sh` handles socket, targeting, and prompt-waiting automatically.
+**Use `tm` for shell commands. Use raw tmux for TUI app input.**
+
+**IMPORTANT**: Always set `TM` at the start of EVERY shell command -- it does not persist between calls.
+
+```bash
+TM=~/.rulesync/scripts/tm.sh
+
+$TM new my-session                       # create session in $PWD
+$TM new my-session -c /path/to/dir       # create session in specific dir
+$TM run my-session 'ping -c 3 1.1.1.1'  # send command, wait for prompt, print output
+$TM send my-session 'gemini'             # launch a TUI (then switch to raw tmux for input)
+$TM read my-session                      # read last 200 lines
+$TM read my-session -n 50               # read last 50 lines
+$TM wait my-session 'pattern'            # wait for regex in output
+$TM kill my-session                      # kill session
+$TM list                                 # list all sessions
+```
+
+`tm run` auto-waits for the shell prompt to return (up to 30s), then prints captured output. No `sleep` needed.
+
+### Long-running shell commands (servers, builds, etc.)
+
+```bash
+TM=~/.rulesync/scripts/tm.sh
+$TM new build-1 -c /path/to/project
+$TM send build-1 "npm run build"
+
+# Poll later in a separate shell call:
+TM=~/.rulesync/scripts/tm.sh && $TM read build-1
+```
+
+### Non-interactive gemini (fire-and-forget task delegation)
+
+gemini needs `--yolo` for non-interactive mode. Use `tm send` for this:
+
+```bash
+TM=~/.rulesync/scripts/tm.sh
+$TM send agent-1 "gemini --yolo 'Fix bug X'"
+```
+
+Use separate git worktrees for parallel fixes.
+
+---
+
+## Answering interactive prompts (non-TUI programs)
+
+For simple interactive prompts (not full TUI apps), you can send keystrokes directly:
+
+```bash
+SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/tmp-cli.sock"
+tmux -S "$SOCKET" capture-pane -p -J -t my-session -S -20   # read the prompt
+tmux -S "$SOCKET" send-keys -t my-session Enter              # press Enter (accept default)
+tmux -S "$SOCKET" send-keys -t my-session '2' Enter          # select menu option 2
+tmux -S "$SOCKET" send-keys -t my-session 'y' Enter          # answer yes
+tmux -S "$SOCKET" send-keys -t my-session Up                 # arrow keys / Tab / Escape
+```
+
+---
+
+## Rules
+
+1. **Always re-set `TM=~/.rulesync/scripts/tm.sh`** at the start of each shell command
+2. **Never mix `$TM` with raw tmux** in the same session for the same purpose
+3. **Never hardcode `:0.0` or `:0`** in targets -- use session name only (e.g. `-t my-session`)
+4. **Never use `$SOCKET_DIR` without defining it first** -- use: `SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/tmp-cli.sock"`
+5. **For TUI input: ALWAYS use raw tmux with `-l` flag + separate Enter** (see top of this file)
+6. **Never "wait more" if a TUI shows no response** -- the submit failed, re-send
+
+---
+
+## Raw tmux reference
+
+Use raw tmux when `tm` doesn't fit (e.g. TUI input, multi-window, split panes).
+
+```bash
+SOCKET="${TMPDIR:-/tmp}/tmp-cli-tmux-sockets/my-task.sock"
+mkdir -p "$(dirname "$SOCKET")"
+SESSION="my-task"
+
+tmux -S "$SOCKET" new-session -d -s "$SESSION" -c "$PWD"
+tmux -S "$SOCKET" send-keys -t "$SESSION" -l 'echo hello'
+sleep 0.3
+tmux -S "$SOCKET" send-keys -t "$SESSION" Enter
+sleep 2
+tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION" -S -200
+```
+
+- Literal text: `tmux -S "$SOCKET" send-keys -t "$SESSION" -l -- "$text"`
+- Ctrl+C: `tmux -S "$SOCKET" send-keys -t "$SESSION" C-c`
+- For python REPLs: set `PYTHON_BASIC_REPL=1`
+
+---
+
+## Session management
+
+- List: `TM=~/.rulesync/scripts/tm.sh && $TM list`
+- Find across sockets: `~/.rulesync/scripts/find-sessions.sh --all`
+- Kill one: `TM=~/.rulesync/scripts/tm.sh && $TM kill my-session`
+- Kill all on socket: `tmux -S "$SOCKET" kill-server`

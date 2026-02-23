@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "skills": {
+    "interactive-shell": {
+      "source": "dicklesworthstone/pi_agent_rust",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dicklesworthstone/pi_agent_rust.git",
+      "skillPath": "tests/ext_conformance/artifacts/npm/pi-interactive-shell/SKILL.md",
+      "skillFolderHash": "35186b2f0dbde571ea6bd60ff3f2e8799a3eb0ef",
+      "installedAt": "2026-03-01T19:14:15.507Z",
+      "updatedAt": "2026-03-01T19:29:04.899Z"
+    },
+    "shell-best-practices": {
+      "source": "thebushidocollective/han",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/thebushidocollective/han.git",
+      "skillPath": "plugins/validation/shfmt/skills/shell-best-practices/SKILL.md",
+      "skillFolderHash": "370d6d4e950e435e3f9ae27874b253064b8605c3",
+      "installedAt": "2026-03-01T19:28:24.494Z",
+      "updatedAt": "2026-03-01T19:28:24.494Z"
+    },
+    "shell-expert": {
+      "source": "laurigates/claude-plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/laurigates/claude-plugins.git",
+      "skillPath": "tools-plugin/skills/shell-expert/SKILL.md",
+      "skillFolderHash": "e24a9c957271e63163a34db213c9f25c8acf2412",
+      "installedAt": "2026-03-01T19:35:46.060Z",
+      "updatedAt": "2026-03-01T19:35:46.060Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  }
+}

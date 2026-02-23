@@ -39,9 +39,10 @@ def glob_to_regex(glob_pattern: str) -> str:
     result = ""
     for char in glob_pattern:
         if char == "*":
-            result += r"[^\s/]*"  # Match any chars except whitespace and path sep
+            # Match only common filename characters for wildcards
+            result += r"[a-zA-Z0-9._-]*"
         elif char == "?":
-            result += r"[^\s/]"  # Match single char except whitespace and path sep
+            result += r"[a-zA-Z0-9._-]"
         elif char in r"\.^$+{}[]|()":
             result += "\\" + char
         else:
@@ -53,6 +54,18 @@ def glob_to_regex(glob_pattern: str) -> str:
 # OPERATION PATTERNS - Edit these to customize what operations are blocked
 # ============================================================================
 # {path} will be replaced with the escaped path at runtime
+
+# Boundaries for path matching in commands
+# Matches: start/end of string OR any character that IS NOT a common filename character (alphanumeric, dot, underscore, hyphen)
+# This prevents false positives like ".env" matching ".environment_variables"
+BOUNDARY_PREFIX = r"(?:^|(?<=[^a-zA-Z0-9._-]))"
+BOUNDARY_SUFFIX = r"(?:$|(?=[^a-zA-Z0-9._-]))"
+
+# Stricter boundaries for glob patterns - only match in shell file-reference contexts
+# (after whitespace, path separators, quotes, =, :, or start/end of string)
+# This prevents false positives like ".Config.Env" in jq/JSON expressions matching "*.env"
+GLOB_BOUNDARY_PREFIX = r"(?:^|(?<=\s)|(?<=/)|(?<==)|(?<=:)|(?<=')|(?<=\"))"
+GLOB_BOUNDARY_SUFFIX = r"(?:$|(?=\s)|(?=/)|(?=;)|(?=\|)|(?=&)|(?=\))|(?=')|(?=\"))"
 
 # Operations blocked for READ-ONLY paths (all modifications)
 WRITE_PATTERNS = [
@@ -180,9 +193,9 @@ def check_path_patterns(
                 # Build a regex that matches: operation ... glob_pattern
                 # Extract the command prefix from pattern_template (e.g., '\brm\s+.*' from '\brm\s+.*{path}')
                 cmd_prefix = pattern_template.replace("{path}", "")
-                if cmd_prefix and re.search(
-                    cmd_prefix + glob_regex, command, re.IGNORECASE
-                ):
+                # Use stricter glob boundaries to avoid false positives in nested expressions
+                full_pattern = cmd_prefix + GLOB_BOUNDARY_PREFIX + glob_regex + GLOB_BOUNDARY_SUFFIX
+                if cmd_prefix and re.search(full_pattern, command, re.IGNORECASE):
                     return True, f"Blocked: {operation} operation on {path_type} {path}"
             except re.error:
                 continue
@@ -194,8 +207,13 @@ def check_path_patterns(
 
         for pattern_template, operation in patterns:
             # Check both expanded path (/Users/x/.ssh/) and original tilde form (~/.ssh/)
-            pattern_expanded = pattern_template.replace("{path}", escaped_expanded)
-            pattern_original = pattern_template.replace("{path}", escaped_original)
+            # Apply boundaries to literal matches
+            pattern_expanded = pattern_template.replace(
+                "{path}", f"{BOUNDARY_PREFIX}{escaped_expanded}{BOUNDARY_SUFFIX}"
+            )
+            pattern_original = pattern_template.replace(
+                "{path}", f"{BOUNDARY_PREFIX}{escaped_original}{BOUNDARY_SUFFIX}"
+            )
             try:
                 if re.search(pattern_expanded, command) or re.search(
                     pattern_original, command
@@ -241,7 +259,13 @@ def check_command(command: str, config: Dict[str, Any]) -> Tuple[bool, bool, str
             # Convert glob to regex for command matching
             glob_regex = glob_to_regex(zero_path)
             try:
-                if re.search(glob_regex, command, re.IGNORECASE):
+                # Use stricter glob boundaries to avoid false positives
+                # (e.g., ".Config.Env" in jq expressions matching "*.env")
+                if re.search(
+                    GLOB_BOUNDARY_PREFIX + glob_regex + GLOB_BOUNDARY_SUFFIX,
+                    command,
+                    re.IGNORECASE,
+                ):
                     return (
                         True,
                         False,
@@ -256,8 +280,14 @@ def check_command(command: str, config: Dict[str, Any]) -> Tuple[bool, bool, str
             escaped_original = re.escape(zero_path)
 
             # Check both expanded path (/Users/x/.ssh/) and original tilde form (~/.ssh/)
-            if re.search(escaped_expanded, command) or re.search(
-                escaped_original, command
+            # Apply boundaries to literal matches
+            if (
+                re.search(
+                    f"{BOUNDARY_PREFIX}{escaped_expanded}{BOUNDARY_SUFFIX}", command
+                )
+                or re.search(
+                    f"{BOUNDARY_PREFIX}{escaped_original}{BOUNDARY_SUFFIX}", command
+                )
             ):
                 return (
                     True,

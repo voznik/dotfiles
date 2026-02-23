@@ -101,7 +101,12 @@
       "enabled": true
     },
     "enableAutoUpdate": false,
-    "preferredEditor": "zeditor"
+    "preferredEditor": "zeditor",
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "120d"
+    }
   },
   "ui": {
     "showStatusInTitle": true,
@@ -118,43 +123,14 @@
     },
     "hideBanner": true,
     "useAlternateBuffer": false,
-    "theme": "Dracula"
+    "theme": "Dracula",
+    "loadingPhrases": "off"
   },
   "telemetry": {
     "enabled": false
   },
   "tools": {
-    "allowed": [
-      "Read(~/.claude)",
-      "Read(~/.gemini)",
-      "Read(~/.config)",
-      "Read(~/.ai)",
-      "Bash(jq:*)",
-      "Bash(mise list:*)",
-      "Bash(find:*)",
-      "Bash(git:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(tail:*)",
-      "Bash(head:*)",
-      "Bash(wc:*)",
-      "Bash(tmux:*)",
-      "SaveMemory",
-      "SaveMemoryTool",
-      "save_memory",
-      "ActivateSkill",
-      "activate_skill",
-      "Write(~/.gemini)",
-      "Replace(~/.gemini)"
-    ],
-    "_x_core": [
-      "run_shell_command"
-    ],
-    "exclude": [
-      "run_shell_command(rm)"
-    ],
     "shell": {
-      "command": "SHELL=bash bash -c",
       "showColor": true,
       "enableInteractiveShell": false
     },
@@ -164,7 +140,7 @@
     "allowed": [
       "context7",
       "basic-memory",
-      "github-mcp-server"
+      "mise"
     ]
   },
   "context": {
@@ -212,34 +188,13 @@
       "args": [
         "mcp"
       ],
-      "enabledTools": [
-        "build_context",
-        "read_content",
-        "read_note",
-        "search_notes",
-        "search",
-        "write_note",
-        "edit_note",
-        "recent_activity"
-      ],
-      "env": {},
-      "includeTools": [
-        "build_context",
-        "read_content",
-        "read_note",
-        "search_notes",
-        "search",
-        "write_note",
-        "edit_note",
-        "recent_activity"
-      ]
+      "env": {}
     },
     "mise": {
       "command": "mise",
       "args": [
         "mcp"
-      ],
-      "type": "stdio"
+      ]
     },
     "rulesync-mcp": {
       "type": "stdio",

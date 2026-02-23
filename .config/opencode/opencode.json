@@ -26,8 +26,8 @@
     "edit": "ask",
     "external_directory": {
       "~/.ai/**": "allow",
-      "~/.config/opencode/**": "ask",
-      "~/.rulesync/**": "ask"
+      "~/.config/opencode/**": "allow",
+      "~/.rulesync/**": "allow"
     }
   },
   "mcp": {

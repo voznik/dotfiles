@@ -173,6 +173,6 @@ function cleanup
 end
 
 ## Run fastfetch if session is interactive
-if status --is-interactive && type -q fastfetch
+if status --is-interactive && type -q fastfetch && not set -q TMUX
     fastfetch --config neofetch.jsonc
 end
