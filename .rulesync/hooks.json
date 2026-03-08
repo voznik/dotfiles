@@ -14,8 +14,8 @@
     "preCompact": [
       {
         "type": "command",
-        "description": "Prime bd before context compaction",
-        "command": "bd prime"
+        "description": "Sync bd before context compaction",
+        "command": "$SHELL -c 'bd sync'"
       }
     ],
     "preToolUse": [
@@ -66,11 +66,6 @@
         "description": "Toggle GitHub MCP server on session start",
         "command": "$HOME/.rulesync/hooks/github-mcp-toggle.sh",
         "timeout": 5
-      },
-      {
-        "type": "command",
-        "description": "Prime bd on session start",
-        "command": "$SHELL -c 'bd prime'"
       }
     ],
     "beforeSubmitPrompt": [

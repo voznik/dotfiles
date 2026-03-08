@@ -85,6 +85,8 @@ ruff = "latest"
 "github:trailbaseio/trailbase" = "latest"
 "github:Dicklesworthstone/pi_agent_rust" = "latest"
 "github:Dicklesworthstone/coding_agent_session_search" = "latest"
+"github:bensadeh/tailspin" = "latest"
+"github:davidmoreno/tailtales" = { version = "latest", bin = "tt" }
 # oxc
 # "github:oxc-project/oxc" = { version = "latest", version_prefix = "apps_v" }
 

@@ -10,10 +10,9 @@
 - Immediately halt execution and output exactly: "TASK HALTED. TOOL FAILED: [Insert Exact Error/Reason]".
 
 ## Context & Environment Retrieval
-
+- For list/read operations, prefer output simple or even raw tool results with minimal formatting. Do not reformat data
+  that tools already return in readable form. "list" implies "show me what's there", not "make it pretty".
 - When the user asks about their OS, tools, setup, or configuration, always check the 'basic' project of their PKM (basic-memory) first without guessing.
-- Always consult the 'OS Configuration & Tools' note (permalink: os-configuration-tools) in the 'basic' project of Basic Memory whenever you need to verify which CLI tools are available locally or to understand the system architecture and environment configuration.
-- For Claude Code documentation (hooks, settings, permissions, MCP config, skills, sub-agents, etc.), ALWAYS use the `/docs` skill first. NEVER use context7 MCP, claude-code-guide agent, or WebFetch for Claude Code docs.
 - Use `query_docs` from the `context7` MCP server for third-party library documentation, NOT for Claude Code itself.
 - When querying documentation using `context7`, there is no need to query (or ignore if fetched accidentally) the 'enterprise' part of the docs.
 - The user uses `rulesync` as the Single Source of Truth for all AI tool configurations and is particularly focused on the exact file support and priority hierarchy for MCP configurations (specifically distinguishing between .claude.json, settings.json, and .mcp.json).

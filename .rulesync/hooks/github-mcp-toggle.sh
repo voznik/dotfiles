@@ -1,15 +1,38 @@
 #!/usr/bin/env bash
 # SessionStart hook: enable/disable github-mcp-server based on git context
-# Reads CWD from stdin JSON, checks for git repo with GitHub remotes
-# Uses "disabled" field (rulesync convention) instead of "enabled"
+# Reads CWD from stdin JSON (if available), checks for git repo with GitHub remotes
+# Works for both Claude Code and Gemini CLI
 
 set -euo pipefail
 
-CONFIG="$HOME/.claude.json"
+# Detect which agent is running and set the config file accordingly
+if [ -n "${GEMINI_CLI:-}" ]; then
+	CONFIG="$HOME/.gemini/settings.json"
+elif [ -n "${CLAUDE_ENV_FILE:-}" ]; then
+	CONFIG="$HOME/.claude.json"
+else
+	# Fallback: try to detect by checking which config exists in context
+	CONFIG="$HOME/.claude.json"
+fi
 
-# Read hook input to get cwd
-INPUT=$(cat)
-CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
+# Read hook input to get cwd — non-blocking with 1-second timeout
+CWD=""
+if [ -t 0 ]; then
+	# stdin is a terminal (not piped), skip reading
+	:
+else
+	INPUT=""
+	if IFS= read -r -t 1 LINE 2>/dev/null; then
+		INPUT="$LINE"
+		# Drain any remaining lines (shouldn't be many)
+		while IFS= read -r -t 0.1 MORE 2>/dev/null; do
+			INPUT="$INPUT$MORE"
+		done
+	fi
+	if [ -n "$INPUT" ]; then
+		CWD=$(printf '%s' "$INPUT" | jq -r '.cwd // empty' 2>/dev/null || true)
+	fi
+fi
 [ -z "$CWD" ] && CWD="$(pwd)"
 
 # Determine if GitHub MCP should be enabled

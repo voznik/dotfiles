@@ -13,16 +13,25 @@
     ]
   },
   "hooks": {
-    "enabled": [
-      "BeforeModel",
-      "BeforeTool",
-      "AfterTool"
+    "AfterTool": [
+      {
+        "matcher": "replace|replace|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file_path=$(printf \"%s\" \"$input\" | jq -r .tool_input.file_path); if [ -n \"$file_path\" ] && [ \"$file_path\" != \"null\" ]; then bash -c \"mise format $file_path\"; fi",
+            "timeout": 30000
+          }
+        ]
+      }
     ],
-    "BeforeModel": [
+    "PreCompress": [
       {
         "hooks": [
           {
-            "command": "input=$(cat); printf \"%s\" \"$input\" | $HOME/.rulesync/hooks/skill-eval/skill-eval.sh",
+            "type": "command",
+            "command": "$SHELL -c 'bd sync'",
+            "description": "Sync bd before context compaction",
             "timeout": 5000
           }
         ]
@@ -33,6 +42,7 @@
         "matcher": "run_shell_command",
         "hooks": [
           {
+            "type": "command",
             "command": "input=$(cat); printf \"%s\" \"$input\" | bash -c 'uv run $HOME/.rulesync/hooks/damage-control/bash-tool-damage-control.py'",
             "timeout": 5000
           }
@@ -42,6 +52,7 @@
         "matcher": "replace",
         "hooks": [
           {
+            "type": "command",
             "command": "input=$(cat); printf \"%s\" \"$input\" | bash -c 'uv run $HOME/.rulesync/hooks/damage-control/edit-tool-damage-control.py'",
             "timeout": 5000
           }
@@ -51,6 +62,7 @@
         "matcher": "replace|replace|write_file",
         "hooks": [
           {
+            "type": "command",
             "command": "input=$(cat); printf \"%s\" \"$input\" | $HOME/.rulesync/hooks/prevent-main-edit.sh",
             "timeout": 5000
           }
@@ -60,6 +72,7 @@
         "matcher": "read_file",
         "hooks": [
           {
+            "type": "command",
             "command": "input=$(cat); printf \"%s\" \"$input\" | $HOME/.claude-code-docs/claude-docs-helper.sh hook-check",
             "timeout": 5000
           }
@@ -69,19 +82,58 @@
         "matcher": "write_file",
         "hooks": [
           {
+            "type": "command",
             "command": "input=$(cat); printf \"%s\" \"$input\" | bash -c 'uv run $HOME/.rulesync/hooks/damage-control/write-tool-damage-control.py'",
             "timeout": 5000
           }
         ]
       }
     ],
-    "AfterTool": [
+    "SessionStart": [
       {
-        "matcher": "replace|replace|write_file",
         "hooks": [
           {
-            "command": "input=$(cat); file_path=$(printf \"%s\" \"$input\" | jq -r .tool_input.file_path); if [ -n \"$file_path\" ] && [ \"$file_path\" != \"null\" ]; then bash -c \"mise format $file_path\"; fi",
-            "timeout": 30000
+            "type": "command",
+            "command": "$HOME/.rulesync/hooks/setup.sh",
+            "timeout": 10000,
+            "description": "Run rulesync setup on session start"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.rulesync/hooks/github-mcp-toggle.sh",
+            "timeout": 5000,
+            "description": "Toggle GitHub MCP server on session start"
+          }
+        ]
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.rulesync/hooks/skill-eval/skill-eval.sh",
+            "timeout": 5000,
+            "description": "Evaluate and activate relevant skills before prompt submission"
+          }
+        ]
+      }
+    ],
+    "enabled": [
+      "SessionStart",
+      "PreCompress",
+      "BeforeAgent",
+      "BeforeModel",
+      "BeforeTool",
+      "AfterTool"
+    ],
+    "BeforeModel": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); printf \"%s\" \"$input\" | $HOME/.rulesync/hooks/skill-eval/skill-eval.sh",
+            "timeout": 5000
           }
         ]
       }
@@ -188,13 +240,24 @@
       "args": [
         "mcp"
       ],
-      "env": {}
+      "env": {},
+      "includeTools": [
+        "build_context",
+        "read_content",
+        "read_note",
+        "search_notes",
+        "search",
+        "write_note",
+        "edit_note",
+        "recent_activity"
+      ]
     },
     "mise": {
       "command": "mise",
       "args": [
         "mcp"
-      ]
+      ],
+      "type": "stdio"
     },
     "rulesync-mcp": {
       "type": "stdio",

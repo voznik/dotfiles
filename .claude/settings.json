@@ -8,30 +8,44 @@
     "allow": [
       "Read(~/.claude)",
       "Read(~/.rulesync)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
       "Bash(jq:*)",
+      "Bash(yq:*)",
       "Bash(find:*)",
+      "Bash(fd:*)",
       "Bash(grep:*)",
       "Bash(ls:*)",
+      "Bash(diff:*)",
       "Bash(wc:*)",
-      "Bash(~/.claude-code-docs/claude-docs-helper.sh *)"
+      "Bash(~/.claude-code-docs/claude-docs-helper.sh *)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:schemastore.org)",
+      "WebFetch(domain:www.schemastore.org)",
+      "WebFetch(domain:json.schemastore.org)",
+      "Task(claude-code-guide)",
+      "Bash(sleep ([1-9]|[1-9][0-9]|1[0-1][0-9]|120) && *)",
+      "Bash(tmux list-panes: *)",
+      "Bash(tmux capture-pane: *)",
+      "Bash(tmux send-keys: *)",
+      "mcp__context7",
+      "mcp__basic-memory",
+      "mcp__mise",
+      "mcp__github-mcp-server",
+      "mcp__rulesync-mcp"
     ],
     "deny": [
       "Read(~/.ssh/id*)",
       "Read(~/.env*)",
       "Read(**/credentials)",
       "Read(**/*.env*)",
-      "Bash(apt*)",
+      "Bash(yay*)",
       "Bash(yum*)",
       "Bash(dnf*)",
       "Bash(pacman*)",
       "Bash(brew*)",
-      "Bash(sudo*)",
-      "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:code.claude.com)",
-      "WebFetch(domain:schemastore.org)",
-      "WebFetch(domain:www.schemastore.org)",
-      "WebFetch(domain:json.schemastore.org)",
-      "Task(claude-code-guide)"
+      "Bash(sudo*)"
     ]
   },
   "hooks": {
@@ -52,7 +66,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/bd prime"
+            "command": "$SHELL -c 'bd sync'"
           }
         ]
       }
@@ -120,10 +134,6 @@
             "type": "command",
             "command": "$HOME/.rulesync/hooks/github-mcp-toggle.sh",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "$SHELL -c 'bd prime'"
           }
         ]
       }
@@ -144,5 +154,6 @@
     "type": "command",
     "command": "\"$HOME\"/.claude/scripts/context-bar.sh"
   },
-  "autoUpdates": "disabled"
+  "autoUpdates": "disabled",
+  "model": "opus"
 }

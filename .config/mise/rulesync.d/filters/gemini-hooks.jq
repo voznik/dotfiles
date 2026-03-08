@@ -29,6 +29,7 @@ def process_hook_group($phase):
   map({
     matcher: (.[0].matcher // "" | map_matcher),
     hooks: map({
+      type: "command",
       command: (.command | transform_cmd),
       timeout: (.timeout | to_ms)
     })
@@ -37,10 +38,11 @@ def process_hook_group($phase):
 .[0] as $ssot | .[1] |
 
 .hooks //= {} |
-.hooks.enabled //= ["BeforeModel", "BeforeTool", "AfterTool"] |
+.hooks.enabled //= ["SessionStart", "PreCompress", "BeforeAgent", "BeforeModel", "BeforeTool", "AfterTool"] |
 
 .hooks.BeforeModel = [{
   hooks: ($ssot.hooks.beforeSubmitPrompt // [] | map({
+    type: "command",
     command: (.command | transform_cmd),
     timeout: (.timeout | to_ms)
   }))
@@ -48,4 +50,22 @@ def process_hook_group($phase):
 
 .hooks.BeforeTool = ($ssot.hooks.preToolUse // [] | process_hook_group("pre")) |
 
-.hooks.AfterTool = ($ssot.hooks.postToolUse // [] | process_hook_group("post"))
+.hooks.AfterTool = ($ssot.hooks.postToolUse // [] | process_hook_group("post")) |
+
+# Convert timeout: null → default 5s (5000ms), seconds (<100) → ms, else keep
+def fix_timeout: if . == null then 5000 elif . < 100 then to_ms else . end;
+
+# Fix SessionStart hooks: convert timeouts to ms
+.hooks.SessionStart |= (if . then map(.hooks |= map(
+  .timeout |= fix_timeout
+)) else . end) |
+
+# Fix PreCompress hooks: convert timeouts to ms
+.hooks.PreCompress |= (if . then map(.hooks |= map(
+  .timeout |= fix_timeout
+)) else . end) |
+
+# Fix BeforeAgent hooks: convert timeouts to ms
+.hooks.BeforeAgent |= (if . then map(.hooks |= map(
+  .timeout |= fix_timeout
+)) else . end)

@@ -10,6 +10,8 @@
   email = v.parakonnyi@gmail.com
   username = voznik
   IdentityFile = ~/.ssh/id_rsa
+[beads]
+  role = maintainer
 [core]
   editor = micro
   compression = 9

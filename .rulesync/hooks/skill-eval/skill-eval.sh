@@ -25,7 +25,12 @@ if [[ ! -f "$NODE_SCRIPT" ]]; then
 fi
 
 # Pipe stdin to the Node.js script (suppress stderr noise from nvm/shell init)
-cat | node "$NODE_SCRIPT" 2>/dev/null
+# Use timeout on cat to avoid hanging when no stdin is piped
+INPUT=$(timeout 1 cat 2>/dev/null) || true
+if [ -z "$INPUT" ]; then
+	exit 0
+fi
+printf '%s' "$INPUT" | node "$NODE_SCRIPT" 2>/dev/null
 
 # Always exit 0 to allow the prompt through
 exit 0

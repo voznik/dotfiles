@@ -1,14 +1,46 @@
 {
   "env": "dev",
   "projects": {
-    "basic": "/home/voznik/Documents/PKM/basic",
-    "work": "/home/voznik/workspace/.docs"
+    "basic": {
+      "path": "/home/voznik/Documents/PKM/basic",
+      "mode": "local",
+      "workspace_id": null,
+      "local_sync_path": null,
+      "bisync_initialized": false,
+      "last_sync": null
+    },
+    "work": {
+      "path": "/home/voznik/workspace/.docs",
+      "mode": "local",
+      "workspace_id": null,
+      "local_sync_path": null,
+      "bisync_initialized": false,
+      "last_sync": null
+    },
+    "test-project": {
+      "path": "/home/voznik/Documents/PKM/test-project",
+      "mode": "cloud",
+      "workspace_id": null,
+      "local_sync_path": "/home/voznik/Documents/PKM/test-project",
+      "bisync_initialized": true,
+      "last_sync": "2026-01-29T19:49:34.940582"
+    }
   },
   "default_project": "basic",
-  "default_project_mode": true,
   "log_level": "DEBUG",
   "database_backend": "sqlite",
   "database_url": null,
+  "semantic_search_enabled": true,
+  "semantic_embedding_provider": "fastembed",
+  "semantic_embedding_model": "bge-small-en-v1.5",
+  "semantic_embedding_dimensions": null,
+  "semantic_embedding_batch_size": 64,
+  "semantic_embedding_sync_batch_size": 64,
+  "semantic_embedding_cache_dir": null,
+  "semantic_embedding_threads": null,
+  "semantic_embedding_parallel": null,
+  "semantic_vector_k": 100,
+  "semantic_min_similarity": 0.55,
   "db_pool_size": 10,
   "db_pool_overflow": 20,
   "db_pool_recycle": 180,
@@ -20,6 +52,9 @@
   "sync_max_concurrent_files": 10,
   "kebab_filenames": false,
   "disable_permalinks": false,
+  "write_note_overwrite_default": false,
+  "ensure_frontmatter_on_sync": true,
+  "permalinks_include_project": true,
   "skip_initialization_sync": true,
   "format_on_save": false,
   "formatter_command": null,
@@ -29,12 +64,9 @@
   "cloud_client_id": "client_01KG45TCZKR83Y192S466X84WW",
   "cloud_domain": "https://dreamy-cosmos-19-staging.authkit.app",
   "cloud_host": "http://basic-memory.127.0.0.1.nip.io",
-  "cloud_mode": false,
-  "cloud_projects": {
-    "test-project": {
-      "local_path": "/home/voznik/Documents/PKM/test-project",
-      "last_sync": "2026-01-29T19:49:34.940582",
-      "bisync_initialized": true
-    }
-  }
+  "cloud_promo_opt_out": false,
+  "cloud_promo_first_run_shown": false,
+  "cloud_promo_last_version_shown": null,
+  "cloud_api_key": null,
+  "default_workspace": null
 }
